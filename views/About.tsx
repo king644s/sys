@@ -9,7 +9,7 @@ import { ShieldAlert, Award, Landmark, Eye, Heart, Compass } from 'lucide-react'
 
 export function About() {
   return (
-    <div className="select-none transition-page-enter">
+    <div className="transition-page-enter">
       <Breadcrumbs />
       {/* Hero Header */}
       <section className="max-w-4xl mx-auto px-6 text-center py-12 md:py-20">

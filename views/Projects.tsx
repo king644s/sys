@@ -17,7 +17,7 @@ export function Projects() {
   });
 
   return (
-    <div className="select-none transition-page-enter">
+    <div className="transition-page-enter">
       <Breadcrumbs />
       {/* Header section */}
       <section className="max-w-4xl mx-auto px-6 text-center py-12 md:py-16">

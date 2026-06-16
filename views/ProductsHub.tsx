@@ -182,7 +182,7 @@ export function ProductsHub() {
   const sidebarGroupHoverText = 'group-hover:text-void-dark dark:group-hover:text-cream';
 
   const renderSidebarContent = () => (
-    <div className="flex flex-col gap-6 select-none text-cream animate-page-enter">
+    <div className="flex flex-col gap-6 text-cream animate-page-enter">
       {/* Sidebar Header */}
       <div className="flex items-center justify-between border-b border-border/45 pb-4">
         <div className="flex items-center gap-1.5 md:gap-2">
@@ -400,7 +400,7 @@ export function ProductsHub() {
   );
 
   return (
-    <div className="select-none transition-page-enter min-h-screen bg-void text-cream">
+    <div className="transition-page-enter min-h-screen bg-void text-cream">
       <Breadcrumbs />
       {/* 2-Column Main Section */}
       <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col lg:flex-row gap-8 items-start relative">
@@ -419,7 +419,7 @@ export function ProductsHub() {
 
         {/* MAIN RESULTS AREA */}
         <div className="flex-grow w-full min-w-0">
-          <div className="sticky top-28 z-20 -mx-6 px-6 pt-2 pb-4 mb-8 bg-void/95 backdrop-blur-md border-b border-border/40">
+          <div className="-mx-6 px-6 pt-2 pb-4 mb-8 bg-void/95 backdrop-blur-md border-b border-border/40">
           {/* Header section with rich brand info */}
           <div className="pb-6">
             <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-gold mb-2 block">

@@ -60,7 +60,6 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
     if (product.dimensionVariants && product.dimensionVariants.length > 0) {
       return product.dimensionVariants.map((variant) => ({
         productCode: variant.productCode,
-        watt: variant.wattage,
         outerDiameter: variant.outerDiameter,
         height: variant.height,
         cutOut: variant.cutOut,
@@ -71,7 +70,6 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
       }));
     }
 
-    const specWatt = product.specs['Wattage Options'] || product.specs['Wattage'] || '12W';
     const hasDimensions = product.specs['Dimensions'];
     const height = hasDimensions ? (hasDimensions.match(/H\s*(\d+)mm/i)?.[1] || '98') : '98';
     const outerDia = hasDimensions ? (hasDimensions.match(/Ø\s*(\d+)mm|(\d+)mm/i)?.[1] || '63') : '63';
@@ -79,7 +77,6 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
     return [
       {
         productCode: '',
-        watt: specWatt,
         outerDiameter: outerDia,
         height,
         cutOut: product.specs['Drill Cutout']?.replace(/[^\d]/g, '') || '—',
@@ -144,7 +141,7 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
       ];
 
   return (
-    <div id="product-accordions-specification-panel" className="flex flex-col gap-8 w-full select-none">
+    <div id="product-accordions-specification-panel" className="flex flex-col gap-8 w-full">
       <AccordionSection
         title="Specification"
         isOpen={isOpenSpec}
@@ -164,9 +161,6 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
                       Product Code
                     </th>
                   )}
-                  <th className="py-3 px-4 font-mono text-[10px] text-text-dim uppercase tracking-wider font-bold">
-                    Watt
-                  </th>
                   <th className="py-3 px-4 font-mono text-[10px] text-text-dim uppercase tracking-wider font-bold text-center">
                     Outer Diameter (mm)
                   </th>
@@ -199,7 +193,6 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
                         {row.productCode}
                       </td>
                     )}
-                    <td className="py-3.5 px-4 font-medium text-cream font-mono">{row.watt}</td>
                     <td className="py-3.5 px-4 text-center text-text-dim font-mono">{row.outerDiameter}</td>
                     <td className="py-3.5 px-4 text-center text-text-dim font-mono">{row.height}</td>
                     <td className="py-3.5 px-4 text-center text-text-dim font-mono">{row.cutOut}</td>

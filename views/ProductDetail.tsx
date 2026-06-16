@@ -1,19 +1,36 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLightingStore } from '../store/lightingStore';
 import { PRODUCTS } from '../data';
 import { ROUTES, categoryPath } from '@/lib/routes';
+import { buildProductInquiryMessage, buildWhatsAppUrl } from '@/lib/whatsapp';
+import { getProductWattageDisplay } from '@/utils/productWattage';
 import { ProductCard } from '../components/ui/ProductCard';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
 import { SectionDivider } from '../components/ui/SectionDivider';
-import { Button } from '../components/ui/Button';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { ProductSpecifications } from '../components/ui/ProductSpecifications';
 import { ProductFeatures } from '../components/ui/ProductFeatures';
 import { ProductImageCarousel } from '../components/ui/ProductImageCarousel';
-import { ArrowLeft, CheckCircle2, FileText } from 'lucide-react';
+import { ProductFinish } from '../types';
+import { ArrowLeft, CheckCircle2 } from 'lucide-react';
+
+const DEFAULT_FINISHES: ProductFinish[] = [
+  { id: 'gold', label: 'Precision Sand Gold Accent', swatch: '#C9A96E', images: [] },
+  { id: 'black', label: 'Luxury Anodised Matte Black', swatch: '#1C1C1F', images: [] },
+  { id: 'graphite', label: 'Micro-textured Graphite Grey', swatch: '#4C4D52', images: [] },
+  { id: 'brass', label: 'Solid Machined Brushed Brass', swatch: '#A88D54', images: [] },
+];
+
+function WhatsAppIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={className} fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+    </svg>
+  );
+}
 
 interface ProductDetailProps {
   productSlug: string;
@@ -23,12 +40,17 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
   const { cartEnquiry, addToEnquiry, removeFromEnquiry } = useLightingStore();
 
   const product = PRODUCTS.find(p => p.slug === productSlug);
-  const [selectedFinish, setSelectedFinish] = useState<'graphite' | 'black' | 'gold' | 'brass'>('gold');
+  const finishOptions = product?.finishes ?? DEFAULT_FINISHES;
+  const [selectedFinishId, setSelectedFinishId] = useState(finishOptions[0]?.id ?? 'gold');
   const [showNotification, setShowNotification] = useState(false);
+
+  useEffect(() => {
+    setSelectedFinishId(finishOptions[0]?.id ?? 'gold');
+  }, [productSlug]);
 
   if (!product) {
     return (
-      <div className="text-center select-none">
+      <div className="text-center">
         <h2 className="font-serif text-3xl text-cream">Fixture profile not found</h2>
         <Link
           href={ROUTES.products}
@@ -43,6 +65,16 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
   // Find related products matching the same category
   const relatedProducts = PRODUCTS.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3);
 
+  const activeFinish =
+    finishOptions.find((finish) => finish.id === selectedFinishId) ?? finishOptions[0];
+
+  const displayImages =
+    product.finishes && activeFinish.images.length > 0
+      ? activeFinish.images
+      : product.images;
+
+  const wattageDisplay = getProductWattageDisplay(product);
+
   const isEnquired = cartEnquiry.includes(product.id);
 
   const handleEnquiryToggle = () => {
@@ -55,17 +87,10 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
     }
   };
 
-  const getFinishName = () => {
-    switch (selectedFinish) {
-      case 'graphite': return 'Micro-textured Graphite Grey';
-      case 'black': return 'Luxury Anodised Matte Black';
-      case 'gold': return 'Precision Sand Gold Accent';
-      default: return 'Solid Machined Brushed Brass';
-    }
-  };
+  const whatsAppInquiryUrl = buildWhatsAppUrl(buildProductInquiryMessage(product));
 
   return (
-    <div className="select-none transition-page-enter">
+    <div className="transition-page-enter">
       <Breadcrumbs />
 
       {/* Floating success banner */}
@@ -100,7 +125,11 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
       <section className="max-w-7xl mx-auto px-6 py-4 grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* Left: Interactive Image showcase — sticky while right column scrolls */}
         <div className="lg:col-span-6 lg:sticky lg:top-28 lg:self-start">
-          <ProductImageCarousel images={product.images} productName={product.name} />
+          <ProductImageCarousel
+            key={selectedFinishId}
+            images={displayImages}
+            productName={product.name}
+          />
         </div>
 
         {/* Right: Technical specifications and Add To Quote controls */}
@@ -133,43 +162,33 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
           {/* Luxury physical finish picker */}
           <div>
             <span className="font-mono text-[9px] uppercase tracking-widest text-text-ghost block mb-3">
-              Aluminium Fixture Finish — {getFinishName()}
+              Aluminium Fixture Finish — {activeFinish.label}
             </span>
             <div className="flex gap-3">
-              <button
-                onClick={() => setSelectedFinish('gold')}
-                style={{ backgroundColor: '#C9A96E' }}
-                className={`w-7 h-7 rounded-full cursor-pointer border-2 transition-all duration-300 ${
-                  selectedFinish === 'gold' ? 'border-white scale-110 shadow-[0_0_12px_rgba(201,169,110,0.5)]' : 'border-transparent hover:scale-105'
-                }`}
-                title="Sand Gold Accent"
-              />
-              <button
-                onClick={() => setSelectedFinish('black')}
-                style={{ backgroundColor: '#1C1C1F' }}
-                className={`w-7 h-7 rounded-full cursor-pointer border-2 transition-all duration-300 ${
-                  selectedFinish === 'black' ? 'border-white scale-110 shadow-[0_0_12px_rgba(28,28,31,0.5)]' : 'border-transparent hover:scale-105'
-                }`}
-                title="Matte Black"
-              />
-              <button
-                onClick={() => setSelectedFinish('graphite')}
-                style={{ backgroundColor: '#4C4D52' }}
-                className={`w-7 h-7 rounded-full cursor-pointer border-2 transition-all duration-300 ${
-                  selectedFinish === 'graphite' ? 'border-white scale-110 shadow-[0_0_12px_rgba(76,77,82,0.5)]' : 'border-transparent hover:scale-105'
-                }`}
-                title="Graphite Grey"
-              />
-              <button
-                onClick={() => setSelectedFinish('brass')}
-                style={{ backgroundColor: '#A88D54' }}
-                className={`w-7 h-7 rounded-full cursor-pointer border-2 transition-all duration-300 ${
-                  selectedFinish === 'brass' ? 'border-white scale-110 shadow-[0_0_12px_rgba(168,141,84,0.5)]' : 'border-transparent hover:scale-105'
-                }`}
-                title="Solid Brushed Brass"
-              />
+              {finishOptions.map((finish) => (
+                <button
+                  key={finish.id}
+                  onClick={() => setSelectedFinishId(finish.id)}
+                  style={{ backgroundColor: finish.swatch }}
+                  className={`w-7 h-7 rounded-full cursor-pointer border-2 transition-all duration-300 ${
+                    selectedFinishId === finish.id
+                      ? 'border-white scale-110 shadow-[0_0_12px_rgba(201,169,110,0.5)]'
+                      : 'border-transparent hover:scale-105'
+                  }`}
+                  title={finish.label}
+                />
+              ))}
             </div>
           </div>
+
+          {wattageDisplay && (
+            <div>
+              <span className="font-mono text-[9px] uppercase tracking-widest text-text-ghost block mb-2">
+                Available Wattage
+              </span>
+              <p className="font-mono text-[11px] text-cream tracking-wider">{wattageDisplay}</p>
+            </div>
+          )}
 
           {/* Main call to actions */}
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
@@ -183,14 +202,15 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
             >
               {isEnquired ? 'Remove from Estimate' : 'Add to Estimate Tray'}
             </button>
-            <Button
-              variant="secondary"
-              className="flex-1 font-mono uppercase"
-              href={ROUTES.contact}
+            <a
+              href={whatsAppInquiryUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 px-6 py-3.5 tracking-wider uppercase text-xs font-mono font-medium transition-all duration-300 ease-luxury focus:outline-none focus:ring-1 focus:ring-[#25D366]/50 cursor-pointer rounded-[1px] inline-flex items-center justify-center gap-2 border border-[#25D366]/60 text-white bg-[#25D366] hover:bg-[#22c55e] hover:border-[#22c55e] active:bg-[#1da851]"
             >
-              <FileText className="w-4 h-4 text-gold shrink-0" />
-              <span>Contact sales</span>
-            </Button>
+              <WhatsAppIcon className="w-4 h-4 shrink-0" />
+              <span>Inquire This Product</span>
+            </a>
           </div>
 
           <div className="pt-8">
@@ -201,7 +221,7 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
         </div>
       </section>
 
-      <ProductFeatures images={product.images} productName={product.name} />
+      <ProductFeatures images={displayImages} productName={product.name} />
 
       <SectionDivider label="Related specifications" />
 

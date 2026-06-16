@@ -65,6 +65,30 @@ export function Navbar() {
     return currentView.type === viewType;
   };
 
+  const isNavHighlighted = (
+    viewType: string,
+    dropdownKey?: 'products' | 'customise' | 'about' | 'inspire'
+  ) => isActive(viewType) || (dropdownKey != null && activeDropdown === dropdownKey);
+
+  const navLinkClass = (
+    viewType: string,
+    dropdownKey?: 'products' | 'customise' | 'about' | 'inspire',
+    extra = ''
+  ) =>
+    `font-sans text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 cursor-pointer ${
+      isNavHighlighted(viewType, dropdownKey)
+        ? 'text-cream font-bold'
+        : 'text-text-dim hover:text-gold'
+    } ${extra}`;
+
+  const navLabelClass = (
+    viewType: string,
+    dropdownKey?: 'products' | 'customise' | 'about' | 'inspire'
+  ) =>
+    `relative inline-block pb-1 border-b-2 ${
+      isNavHighlighted(viewType, dropdownKey) ? 'border-gold' : 'border-transparent'
+    }`;
+
   const handleSearchSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (localSearch.trim()) {
@@ -79,7 +103,7 @@ export function Navbar() {
 
   return (
     <header 
-      className="sticky top-0 z-50 bg-surface border-b border-border transition-colors duration-300 select-none"
+      className="sticky top-0 z-50 bg-surface border-b border-border transition-colors duration-300"
       id="elegant-luxury-header"
       onMouseLeave={() => setActiveDropdown(null)}
     >
@@ -91,76 +115,41 @@ export function Navbar() {
           <Link
             href={ROUTES.home}
             onClick={() => setActiveDropdown(null)}
-            className={`font-sans text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 cursor-pointer relative py-2 ${
-              isActive('home')
-                ? 'text-cream font-bold'
-                : 'text-text-dim hover:text-gold'
-            }`}
+            className={navLinkClass('home')}
           >
-            HOME
-            {isActive('home') && (
-              <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-cream" />
-            )}
+            <span className={navLabelClass('home')}>HOME</span>
           </Link>
 
           <Link
             href={ROUTES.products}
             onMouseEnter={() => setActiveDropdown('products')}
-            className={`font-sans text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 cursor-pointer relative py-2 flex items-center gap-1 ${
-              isActive('products') || activeDropdown === 'products'
-                ? 'text-cream font-bold'
-                : 'text-text-dim hover:text-gold'
-            }`}
+            className={navLinkClass('products', 'products')}
           >
-            <span>PRODUCTS</span>
-            {activeDropdown === 'products' && (
-              <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-cream" />
-            )}
+            <span className={navLabelClass('products', 'products')}>PRODUCTS</span>
           </Link>
 
           <Link
             href={ROUTES.smartLights}
             onMouseEnter={() => setActiveDropdown('customise')}
-            className={`font-sans text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 cursor-pointer relative py-2 ${
-              isActive('smart-lights') || activeDropdown === 'customise'
-                ? 'text-cream font-bold'
-                : 'text-text-dim hover:text-gold'
-            }`}
+            className={navLinkClass('smart-lights', 'customise')}
           >
-            CUSTOMISE
-            {(isActive('smart-lights') || activeDropdown === 'customise') && (
-              <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-cream" />
-            )}
+            <span className={navLabelClass('smart-lights', 'customise')}>CUSTOMISE</span>
           </Link>
 
           <Link
             href={ROUTES.about}
             onMouseEnter={() => setActiveDropdown('about')}
-            className={`font-sans text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 cursor-pointer relative py-2 ${
-              isActive('about') || activeDropdown === 'about'
-                ? 'text-cream font-bold'
-                : 'text-text-dim hover:text-gold'
-            }`}
+            className={navLinkClass('about', 'about')}
           >
-            ABOUT
-            {(isActive('about') || activeDropdown === 'about') && (
-              <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-cream" />
-            )}
+            <span className={navLabelClass('about', 'about')}>ABOUT</span>
           </Link>
 
           <Link
             href={ROUTES.projects}
             onMouseEnter={() => setActiveDropdown('inspire')}
-            className={`font-sans text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 cursor-pointer relative py-2 ${
-              isActive('projects') || activeDropdown === 'inspire'
-                ? 'text-cream font-bold'
-                : 'text-text-dim hover:text-gold'
-            }`}
+            className={navLinkClass('projects', 'inspire')}
           >
-            INSPIRE
-            {(isActive('projects') || activeDropdown === 'inspire') && (
-              <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-cream" />
-            )}
+            <span className={navLabelClass('projects', 'inspire')}>INSPIRE</span>
           </Link>
         </nav>
 
@@ -192,7 +181,11 @@ export function Navbar() {
           {/* Contact Us button */}
           <Link
             href={ROUTES.contact}
-            className="hidden md:inline-flex font-mono text-[10px] uppercase tracking-[0.16em] border border-border px-3 md:px-4 py-2 hover:border-gold hover:text-gold text-cream transition-all duration-300 cursor-pointer rounded-[1px] font-bold"
+            className={`hidden md:inline-flex font-mono text-[10px] uppercase tracking-[0.16em] border px-3 md:px-4 py-2 transition-all duration-300 cursor-pointer rounded-[1px] font-bold ${
+              isActive('contact')
+                ? 'border-gold text-gold'
+                : 'border-border hover:border-gold hover:text-gold text-cream'
+            }`}
           >
             Contact Us
           </Link>
@@ -485,27 +478,27 @@ export function Navbar() {
 
           <ul className="flex flex-col gap-4 font-sans text-xs uppercase tracking-[0.16em] text-text-dim font-semibold">
             <li>
-              <Link href={ROUTES.home} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer ${isActive('home') ? 'text-gold' : ''}`}>
+              <Link href={ROUTES.home} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('home') ? 'text-gold border-gold' : 'border-transparent'}`}>
                 home
               </Link>
             </li>
             <li>
-              <Link href={ROUTES.products} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer ${isActive('products') ? 'text-gold' : ''}`}>
+              <Link href={ROUTES.products} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('products') ? 'text-gold border-gold' : 'border-transparent'}`}>
                 architectural products
               </Link>
             </li>
             <li>
-              <Link href={ROUTES.smartLights} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer ${isActive('smart-lights') ? 'text-gold' : ''}`}>
+              <Link href={ROUTES.smartLights} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('smart-lights') ? 'text-gold border-gold' : 'border-transparent'}`}>
                 customise / smart cct
               </Link>
             </li>
             <li>
-              <Link href={ROUTES.projects} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer ${isActive('projects') ? 'text-gold' : ''}`}>
+              <Link href={ROUTES.projects} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('projects') ? 'text-gold border-gold' : 'border-transparent'}`}>
                 inspire gallery
               </Link>
             </li>
             <li>
-              <Link href={ROUTES.about} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer ${isActive('about') ? 'text-gold' : ''}`}>
+              <Link href={ROUTES.about} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('about') ? 'text-gold border-gold' : 'border-transparent'}`}>
                 about workshop
               </Link>
             </li>

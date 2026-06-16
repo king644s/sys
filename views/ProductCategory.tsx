@@ -27,7 +27,7 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
 
   if (!category) {
     return (
-      <div className="text-center select-none">
+      <div className="text-center">
         <h2 className="font-serif text-3xl text-cream">Classification not found</h2>
         <Link
           href={ROUTES.products}
@@ -40,9 +40,9 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
   }
 
   return (
-    <div className="select-none transition-page-enter">
+    <div className="transition-page-enter">
       <Breadcrumbs />
-      <section className="sticky top-28 z-20 bg-void/95 backdrop-blur-md border-b border-border/50">
+      <section className="bg-void/95 backdrop-blur-md border-b border-border/50">
       <div className="max-w-7xl mx-auto px-6 py-10">
         <Link
           href={ROUTES.products}

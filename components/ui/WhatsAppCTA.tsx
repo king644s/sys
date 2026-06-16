@@ -1,5 +1,7 @@
 'use client';
 
+import { buildWhatsAppUrl } from '@/lib/whatsapp';
+
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -16,7 +18,7 @@ function WhatsAppIcon({ className }: { className?: string }) {
 export function WhatsAppCTA() {
   return (
     <a
-      href="https://wa.me/919820004966"
+      href={buildWhatsAppUrl('Hello SYSlight, I would like to inquire about your architectural lighting products.')}
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] text-white px-5 py-3 rounded-full font-sans text-sm font-semibold tracking-wide border border-transparent shadow-[0_4px_20px_rgba(37,211,102,0.35)] hover:bg-[#22c55e] hover:scale-105 active:scale-95 dark:bg-[#128C7E] dark:border-[#25D366]/35 dark:shadow-[0_4px_28px_rgba(37,211,102,0.2),0_0_0_1px_rgba(37,211,102,0.12)] dark:hover:bg-[#0D7C66] transition-all duration-300 group"

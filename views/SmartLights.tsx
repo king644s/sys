@@ -9,7 +9,7 @@ import { Sliders, Sun, ShieldCheck, Zap, Laptop, Command } from 'lucide-react';
 
 export function SmartLights() {
   return (
-    <div className="select-none transition-page-enter">
+    <div className="transition-page-enter">
       <Breadcrumbs />
       {/* Page Header */}
       <section className="max-w-4xl mx-auto px-6 text-center py-12">

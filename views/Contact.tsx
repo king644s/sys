@@ -84,7 +84,7 @@ export function Contact() {
   };
 
   return (
-    <div className="select-none transition-page-enter">
+    <div className="transition-page-enter">
       <Breadcrumbs />
       <section className="max-w-4xl mx-auto px-6 text-center py-8">
         <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold mb-3 block">

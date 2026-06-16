@@ -10,6 +10,13 @@ export interface DimensionVariant {
   cutOut: string;
 }
 
+export interface ProductFinish {
+  id: string;
+  label: string;
+  swatch: string;
+  images: string[];
+}
+
 export interface Product {
   id: string;
   slug: string;
@@ -23,6 +30,7 @@ export interface Product {
   specs: Record<string, string>;
   dimensionVariants?: DimensionVariant[];
   images: string[];
+  finishes?: ProductFinish[];
   isBestseller?: boolean;
 }
 

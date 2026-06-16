@@ -2,6 +2,10 @@ import { Product, Category, Project } from './types';
 import { PRODUCT_IMAGE_URIS } from './utils/productImages';
 import { LATCH_CATEGORY, LATCH_PRODUCTS } from './data/latchSeries';
 import { ANTIGLARE_CATEGORY, ANTIGLARE_PRODUCTS } from './data/antiglareProducts';
+import {
+  NANO_LUMINA_FINISHES,
+  NANO_LUMINA_IMAGES,
+} from './data/nanoLuminaDown';
 
 export const CATEGORIES: Category[] = [
   {
@@ -130,7 +134,8 @@ export const PRODUCTS: Product[] = [
       'Dimensions': 'Ø 75mm x H 90mm',
       'Lifespan': '50,000 Hours (L80B10)'
     },
-    images: PRODUCT_IMAGE_URIS['nano-lumina'],
+    images: NANO_LUMINA_IMAGES,
+    finishes: NANO_LUMINA_FINISHES,
     isBestseller: true
   },
   {

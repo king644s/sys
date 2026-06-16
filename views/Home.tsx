@@ -28,7 +28,7 @@ export function Home() {
         <div className="absolute inset-x-0 bottom-0 h-60 bg-gradient-to-t from-void to-transparent pointer-events-none" />
 
         {/* Content on top */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 text-center select-none flex flex-col items-center">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 text-center flex flex-col items-center">
           <ScrollReveal direction="up" delay={0.2}>
             <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold mb-3.5 block font-bold">
               SYSLight • Systems Creator Innovation
