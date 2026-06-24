@@ -6,9 +6,6 @@ import {
   ChevronLeft,
   ChevronRight,
   ZoomIn,
-  HandHeart,
-  Award,
-  Gem,
   X,
 } from 'lucide-react';
 
@@ -19,12 +16,6 @@ interface ProductImageCarouselProps {
 
 const SLIDE_COUNT = 6;
 const NAV_BUTTON_SIZE = 40;
-
-const TRUST_BADGES = [
-  { icon: HandHeart, label: 'Handcrafted' },
-  { icon: Award, label: 'Premium Materials' },
-  { icon: Gem, label: 'Timeless Elegance' },
-];
 
 export function ProductImageCarousel({ images, productName }: ProductImageCarouselProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -311,18 +302,6 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
             {activeIndex + 1} / {slides.length}
           </span>
         </div>
-      </div>
-
-      {/* Trust badges */}
-      <div className="grid grid-cols-3 gap-2 md:gap-4 border-t border-border/40 pt-5">
-        {TRUST_BADGES.map(({ icon: Icon, label }) => (
-          <div key={label} className="flex flex-col items-center gap-2 text-center">
-            <div className="w-9 h-9 rounded-full border border-border/60 flex items-center justify-center text-gold-muted">
-              <Icon className="w-4 h-4" strokeWidth={1.5} />
-            </div>
-            <span className="font-sans text-[10px] md:text-xs text-text-dim leading-tight">{label}</span>
-          </div>
-        ))}
       </div>
 
       {lightbox}

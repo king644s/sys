@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { CATEGORIES, PRODUCTS } from '../data';
-import { CategoryCard } from '../components/ui/CategoryCard';
 import { ProductCard } from '../components/ui/ProductCard';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
@@ -14,8 +13,6 @@ import {
   ChevronRight, 
   RotateCcw, 
   Award, 
-  Eye, 
-  Boxes,
   Compass
 } from 'lucide-react';
 
@@ -50,9 +47,7 @@ const TAXONOMY = [
 
 export function ProductsHub() {
   // Layout & Filtering State
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
-  const [viewMode, setViewMode] = useState<'categories' | 'fixtures'>('categories');
   
   // Filtering selections
   const [searchQuery, setSearchQuery] = useState('');
@@ -130,13 +125,6 @@ export function ProductsHub() {
     return true;
   });
 
-  // Category view filter (if parent selection limits categories)
-  const filteredCategories = CATEGORIES.filter(cat => {
-    if (selectedParent !== 'ALL' && cat.type !== selectedParent) return false;
-    if (selectedCategory && cat.slug !== selectedCategory) return false;
-    return true;
-  });
-
   // 3. Selection Handlers
   const handleSelectParent = (parent: 'ALL' | 'indoor' | 'outdoor') => {
     setSelectedParent(parent);
@@ -151,8 +139,6 @@ export function ProductsHub() {
     } else {
       setSelectedCategory(slug);
       setSelectedSubcategory(null);
-      // Auto shift to fixtures view so results are visible instantly
-      if (slug) setViewMode('fixtures');
     }
   };
 
@@ -162,7 +148,6 @@ export function ProductsHub() {
     } else {
       setSelectedCategory(catSlug);
       setSelectedSubcategory(subName);
-      setViewMode('fixtures');
     }
   };
 
@@ -172,7 +157,6 @@ export function ProductsHub() {
     setSelectedCategory(null);
     setSelectedSubcategory(null);
     setOnlyBestsellers(false);
-    setViewMode('categories');
   };
 
   const hasActiveFilters = searchQuery !== '' || selectedParent !== 'ALL' || selectedCategory !== null || selectedSubcategory !== null || onlyBestsellers;
@@ -211,10 +195,7 @@ export function ProductsHub() {
         <input
           type="text"
           value={searchQuery}
-          onChange={(e) => {
-            setSearchQuery(e.target.value);
-            if (viewMode === 'categories') setViewMode('fixtures');
-          }}
+          onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search catalog... (e.g. 12W, COB)"
           className="w-full bg-surface-alt border border-border px-3.5 py-2.5 pl-9 font-sans text-xs text-cream placeholder:text-text-ghost focus:border-gold/50 focus:outline-none transition-all rounded-[1px]"
         />
@@ -368,10 +349,7 @@ export function ProductsHub() {
           <input
             type="checkbox"
             checked={onlyBestsellers}
-            onChange={(e) => {
-              setOnlyBestsellers(e.target.checked);
-              if (viewMode === 'categories') setViewMode('fixtures');
-            }}
+            onChange={(e) => setOnlyBestsellers(e.target.checked)}
             className="sr-only"
           />
           <span className={`w-4 h-4 border transition-colors duration-200 flex items-center justify-center rounded-[1px] ${
@@ -405,16 +383,9 @@ export function ProductsHub() {
       {/* 2-Column Main Section */}
       <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col lg:flex-row gap-8 items-start relative">
         
-        {/* DESKTOP SIDEBAR (Collapsible) */}
-        <aside 
-          className={`hidden lg:block shrink-0 transition-all duration-550 ease-out-expo border border-border/40 bg-surface/50 p-6 shadow-sm rounded-[2px] self-start sticky top-28 ${
-            isSidebarOpen 
-              ? 'w-80 opacity-100 translate-x-0' 
-              : 'w-0 opacity-0 -translate-x-12 overflow-hidden border-none p-0'
-          }`}
-          style={{ transitionProperty: 'width, opacity, transform, padding, border' }}
-        >
-          {isSidebarOpen && renderSidebarContent()}
+        {/* DESKTOP SIDEBAR */}
+        <aside className="hidden lg:block shrink-0 w-80 border border-border/40 bg-surface/50 p-6 shadow-sm rounded-[2px] self-start sticky top-28">
+          {renderSidebarContent()}
         </aside>
 
         {/* MAIN RESULTS AREA */}
@@ -435,27 +406,14 @@ export function ProductsHub() {
                 </p>
               </div>
 
-              {/* Layout view controls */}
-              <div className="flex items-center gap-3">
-                {/* Desktop Toggle Sidebar Button */}
-                <button
-                  onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                  className="hidden lg:flex items-center gap-2 bg-surface border border-border px-4 py-2 font-mono text-[9px] uppercase tracking-widest text-text-dim hover:text-gold transition-colors duration-250 cursor-pointer"
-                  title="Toggle specification filter lane"
-                >
-                  <SlidersHorizontal className="w-3.5 h-3.5 text-gold-muted" />
-                  <span>{isSidebarOpen ? 'Hide Filters' : 'Show Filters'}</span>
-                </button>
-
-                {/* Mobile Filter Trigger Button */}
-                <button
-                  onClick={() => setIsMobileFiltersOpen(true)}
-                  className="lg:hidden flex items-center gap-2 bg-gold text-white border border-gold px-4 py-2 font-mono text-[9px] uppercase tracking-widest font-bold transition-all duration-250 cursor-pointer"
-                >
-                  <SlidersHorizontal className="w-3.5 h-3.5" />
-                  <span>Specs ({hasActiveFilters ? 'Active' : 'All'})</span>
-                </button>
-              </div>
+              {/* Mobile Filter Trigger Button */}
+              <button
+                onClick={() => setIsMobileFiltersOpen(true)}
+                className="lg:hidden flex items-center gap-2 bg-gold text-white border border-gold px-4 py-2 font-mono text-[9px] uppercase tracking-widest font-bold transition-all duration-250 cursor-pointer"
+              >
+                <SlidersHorizontal className="w-3.5 h-3.5" />
+                <span>Specs ({hasActiveFilters ? 'Active' : 'All'})</span>
+              </button>
             </div>
           </div>
 
@@ -510,91 +468,34 @@ export function ProductsHub() {
             </div>
           )}
 
-          {/* View Selection Tabs */}
-          <div className="flex justify-start border-b border-border/20">
-            <button
-              onClick={() => setViewMode('categories')}
-              className={`pb-3 px-4 font-mono text-[10px] uppercase tracking-widest transition-all duration-300 relative cursor-pointer ${
-                viewMode === 'categories'
-                  ? 'text-gold font-bold'
-                  : 'text-text-dim hover:text-black dark:hover:text-white'
-              }`}
-            >
-              <div className="flex items-center gap-1.5">
-                <Boxes className="w-3.5 h-3.5" />
-                <span>Classifications ({filteredCategories.length})</span>
-              </div>
-              {viewMode === 'categories' && (
-                <div className="absolute bottom-0 inset-x-0 h-[2px] bg-gold shadow-[0_0_8px_var(--color-gold)] animate-pulse-glow" />
-              )}
-            </button>
-            <button
-              onClick={() => setViewMode('fixtures')}
-              className={`pb-3 px-4 font-mono text-[10px] uppercase tracking-widest transition-all duration-300 relative cursor-pointer ${
-                viewMode === 'fixtures'
-                  ? 'text-gold font-bold'
-                  : 'text-text-dim hover:text-black dark:hover:text-white'
-              }`}
-            >
-              <div className="flex items-center gap-1.5">
-                <Eye className="w-3.5 h-3.5" />
-                <span>Luminaires / Fixtures ({filteredProducts.length})</span>
-              </div>
-              {viewMode === 'fixtures' && (
-                <div className="absolute bottom-0 inset-x-0 h-[2px] bg-gold shadow-[0_0_8px_var(--color-gold)] animate-pulse-glow" />
-              )}
-            </button>
-          </div>
           </div>
 
           {/* CATALOG SELECTION PANELS */}
-          {viewMode === 'categories' ? (
-            /* CATEGORIES VIEW PANELS */
-            filteredCategories.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredCategories.map((category, idx) => (
-                  <div key={category.slug}>
-                    <ScrollReveal direction="up" delay={idx * 0.05}>
-                      <CategoryCard category={category} />
-                    </ScrollReveal>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-20 border border-dashed border-border/60">
-                <span className="font-mono text-xs text-text-dim uppercase tracking-widest">
-                  No specifications matched this parent division.
-                </span>
-              </div>
-            )
+          {filteredProducts.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+              {filteredProducts.map((prod, idx) => (
+                <div key={prod.id}>
+                  <ScrollReveal direction="up" delay={idx * 0.05}>
+                    <ProductCard product={prod} />
+                  </ScrollReveal>
+                </div>
+              ))}
+            </div>
           ) : (
-            /* PRODUCTS VIEW PANELS (FIXTURES LISTED SEPARATELY) */
-            filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-                {filteredProducts.map((prod, idx) => (
-                  <div key={prod.id}>
-                    <ScrollReveal direction="up" delay={idx * 0.05}>
-                      <ProductCard product={prod} />
-                    </ScrollReveal>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-24 border border-dashed border-border/60">
-                <span className="font-mono text-xs text-text-dim uppercase tracking-widest block mb-4">
-                  No matching fixtures found.
-                </span>
-                <p className="font-sans text-xs text-text-dim/80 max-w-sm mx-auto mb-6">
-                  Try adjusting division inputs, removing filters, or clearing searching queries above. Our Mumbai design desk is always active to configure custom specs.
-                </p>
-                <button
-                  onClick={handleResetFilters}
-                  className="bg-gold text-white font-mono text-[9px] uppercase tracking-widest font-bold px-5 py-3 cursor-pointer hover:bg-gold-light duration-300"
-                >
-                  Clear search filters
-                </button>
-              </div>
-            )
+            <div className="text-center py-24 border border-dashed border-border/60">
+              <span className="font-mono text-xs text-text-dim uppercase tracking-widest block mb-4">
+                No matching fixtures found.
+              </span>
+              <p className="font-sans text-xs text-text-dim/80 max-w-sm mx-auto mb-6">
+                Try adjusting division inputs, removing filters, or clearing searching queries above. Our Mumbai design desk is always active to configure custom specs.
+              </p>
+              <button
+                onClick={handleResetFilters}
+                className="bg-gold text-white font-mono text-[9px] uppercase tracking-widest font-bold px-5 py-3 cursor-pointer hover:bg-gold-light duration-300"
+              >
+                Clear search filters
+              </button>
+            </div>
           )}
         </div>
       </div>
@@ -630,7 +531,7 @@ export function ProductsHub() {
                 }}
                 className="w-full py-3 bg-gold text-white font-mono text-[10px] uppercase tracking-widest font-black text-center cursor-pointer"
               >
-                View results ({viewMode === 'categories' ? filteredCategories.length : filteredProducts.length})
+                View results ({filteredProducts.length})
               </button>
             </div>
           </div>

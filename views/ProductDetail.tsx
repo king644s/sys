@@ -6,7 +6,7 @@ import { useLightingStore } from '../store/lightingStore';
 import { PRODUCTS } from '../data';
 import { ROUTES, categoryPath } from '@/lib/routes';
 import { buildProductInquiryMessage, buildWhatsAppUrl } from '@/lib/whatsapp';
-import { getProductWattageDisplay } from '@/utils/productWattage';
+import { getProductWattageOptions } from '@/utils/productWattage';
 import { ProductCard } from '../components/ui/ProductCard';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
 import { SectionDivider } from '../components/ui/SectionDivider';
@@ -73,7 +73,7 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
       ? activeFinish.images
       : product.images;
 
-  const wattageDisplay = getProductWattageDisplay(product);
+  const wattageOptions = getProductWattageOptions(product);
 
   const isEnquired = cartEnquiry.includes(product.id);
 
@@ -146,9 +146,37 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
                 Vendor Code: {product.vendorCode}
               </p>
             )}
-            <p className="font-mono text-[11px] text-gold/80 italic tracking-wider">
-              {product.shortSpec}
-            </p>
+
+            <div className="mt-4 rounded-[2px] border border-gold/35 bg-gold/5 p-4 flex flex-col gap-3 shadow-[inset_0_1px_0_rgba(201,169,110,0.12)]">
+              <div className="flex flex-wrap gap-2">
+                {product.shortSpec.split('•').map((spec, index) => (
+                  <span
+                    key={index}
+                    className="inline-flex items-center px-3 py-1.5 bg-void/40 border border-gold/40 font-mono text-xs md:text-sm text-gold font-semibold tracking-wide rounded-[1px]"
+                  >
+                    {spec.trim()}
+                  </span>
+                ))}
+              </div>
+
+              {wattageOptions.length > 0 && (
+                <div className="flex flex-col gap-2.5 pt-3 border-t border-gold/20">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold font-bold">
+                    Available Wattage
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {wattageOptions.map((wattage) => (
+                      <span
+                        key={wattage}
+                        className="inline-flex items-center px-3.5 py-2 bg-cream/10 border border-cream/25 font-mono text-sm md:text-base text-cream font-bold tracking-wider rounded-[1px]"
+                      >
+                        {wattage}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="h-[1px] bg-border/50" />
@@ -180,15 +208,6 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
               ))}
             </div>
           </div>
-
-          {wattageDisplay && (
-            <div>
-              <span className="font-mono text-[9px] uppercase tracking-widest text-text-ghost block mb-2">
-                Available Wattage
-              </span>
-              <p className="font-mono text-[11px] text-cream tracking-wider">{wattageDisplay}</p>
-            </div>
-          )}
 
           {/* Main call to actions */}
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
