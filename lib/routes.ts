@@ -11,14 +11,16 @@ export const ROUTES = {
 
 export const CATEGORY_SLUGS = {
   cobSpotlight: 'cob-spotlight',
+  surface: 'surface',
   magneticTrack: 'magnetic-track',
-  deepDownlight: 'deep-downlight',
-  sysprofiles: 'sysprofiles',
-  zoomLight: 'zoom-light',
+  downlightPanel: 'downlight-panel',
+  profileLight: 'profile-light',
+  ledStrip: 'led-strip',
+  decorative: 'decorative',
   gardenLight: 'garden-light',
   wallLight: 'wall-light',
   floodLight: 'flood-light',
-  surfaceDownlight: 'surface-downlight',
+  surfaceDownlight: 'surface',
   tracklight: 'tracklight',
   gateLight: 'gate-light',
 } as const;

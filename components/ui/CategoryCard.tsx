@@ -20,12 +20,12 @@ export function CategoryCard({ category }: CategoryCardProps) {
         return 'spotlight';
       case 'magnetic-track':
         return 'track';
-      case 'deep-downlight':
+      case 'downlight-panel':
         return 'deep';
-      case 'sysprofiles':
+      case 'profile-light':
         return 'linear';
-      case 'zoom-light':
-        return 'zoom';
+      case 'surface':
+        return 'spotlight';
       default:
         return 'bollard';
     }

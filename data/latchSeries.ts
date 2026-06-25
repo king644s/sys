@@ -1,16 +1,9 @@
-import { Category, Product } from '../types';
+import { Product } from '../types';
 import { PRODUCT_IMAGE_URIS } from '../utils/productImages';
 
-export const LATCH_CATEGORY: Category = {
-  slug: 'latch-series',
-  name: 'Latch Series',
-  count: 5,
-  description:
-    'Front removable downlights with precision latch mechanisms. Slim COB, step COB, rimless, and moveable optic variants engineered for rapid maintenance access.',
-  image: 'https://images.unsplash.com/photo-1517999144091-3d9dca6d1e43?q=80&w=600&auto=format&fit=crop',
-  has3D: true,
-  type: 'indoor',
-};
+const LATCH_SECTION = 'Front Removable Spotlight';
+const LATCH_SERIES = 'Latch';
+const LATCH_SKU = 'SL-FR';
 
 export const LATCH_PRODUCTS: Product[] = [
   {
@@ -18,8 +11,12 @@ export const LATCH_PRODUCTS: Product[] = [
     slug: 'snap',
     name: 'Snap',
     vendorCode: 'SPL-172',
-    category: 'latch-series',
-    subcategory: 'Snap',
+    category: 'cob-spotlight',
+    family: 'cob-spotlight',
+    seriesName: LATCH_SERIES,
+    section: LATCH_SECTION,
+    skuPrefix: LATCH_SKU,
+    subcategory: LATCH_SECTION,
     shortSpec: '8W • Slim COB • Variable Angle • Warm White • Zigbee',
     description:
       'Front removable slim COB downlight with variable angle optics. The Snap features a precision latch mechanism for tool-free front access, making maintenance effortless in ceiling installations. Engineered with a slim profile and adjustable beam for accent and general lighting applications.',
@@ -54,8 +51,12 @@ export const LATCH_PRODUCTS: Product[] = [
     slug: 'clasp',
     name: 'Clasp',
     vendorCode: 'SPL-228',
-    category: 'latch-series',
-    subcategory: 'Clasp',
+    category: 'cob-spotlight',
+    family: 'cob-spotlight',
+    seriesName: LATCH_SERIES,
+    section: LATCH_SECTION,
+    skuPrefix: LATCH_SKU,
+    subcategory: LATCH_SECTION,
     shortSpec: '12W / 18W • Front Removable COB • 3-in-1 CCT • Dual Driver',
     description:
       'Front removable COB downlight available in 12W and 18W configurations. The Clasp series offers 3-in-1 colour temperature switching with both Zigbee and traditional driver compatibility. White + white finish for seamless ceiling integration.',
@@ -100,8 +101,12 @@ export const LATCH_PRODUCTS: Product[] = [
     slug: 'hinge',
     name: 'Hinge',
     vendorCode: 'SPL-230',
-    category: 'latch-series',
-    subcategory: 'Hinge',
+    category: 'cob-spotlight',
+    family: 'cob-spotlight',
+    seriesName: LATCH_SERIES,
+    section: LATCH_SECTION,
+    skuPrefix: LATCH_SKU,
+    subcategory: LATCH_SECTION,
     shortSpec: '12W • Rimless COB • Antiglare • 3-in-1 CCT • Dual Driver',
     description:
       'Front removable rimless COB downlight with integrated antiglare optics. The Hinge combines a sleek rimless aesthetic with white and dark chrome finish accents. Features 3-in-1 CCT and dual driver support for flexible lighting control.',
@@ -136,8 +141,12 @@ export const LATCH_PRODUCTS: Product[] = [
     slug: 'open',
     name: 'Open',
     vendorCode: 'SPL-242',
-    category: 'latch-series',
-    subcategory: 'Open',
+    category: 'cob-spotlight',
+    family: 'cob-spotlight',
+    seriesName: LATCH_SERIES,
+    section: LATCH_SECTION,
+    skuPrefix: LATCH_SKU,
+    subcategory: LATCH_SECTION,
     shortSpec: '6W / 12W / 15W • Step COB • Warm / Neutral White',
     description:
       'Front removable step COB downlight available across 6W, 12W, and 15W wattages. The Open series features a distinctive step-down optic design for controlled light distribution. Select models support Zigbee smart control with warm or neutral white CCT options.',
@@ -193,8 +202,12 @@ export const LATCH_PRODUCTS: Product[] = [
     slug: 'click',
     name: 'Click',
     vendorCode: 'SPL-252',
-    category: 'latch-series',
-    subcategory: 'Click',
+    category: 'cob-spotlight',
+    family: 'cob-spotlight',
+    seriesName: LATCH_SERIES,
+    section: LATCH_SECTION,
+    skuPrefix: LATCH_SKU,
+    subcategory: LATCH_SECTION,
     shortSpec: '12W / 18W • Moveable COB • 3-in-1 CCT • Dual Driver',
     description:
       'Front removable moveable COB downlight with adjustable optic positioning. The Click series enables beam direction adjustment after installation, ideal for retail and gallery applications. Available in 12W and 18W with 3-in-1 CCT and dual driver compatibility.',

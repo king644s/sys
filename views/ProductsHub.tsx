@@ -1,7 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { CATEGORIES, PRODUCTS } from '../data';
+import { CATALOG_FAMILIES } from '../data/productCatalog';
 import { ProductCard } from '../components/ui/ProductCard';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
@@ -13,124 +15,114 @@ import {
   ChevronRight, 
   RotateCcw, 
   Award, 
-  Compass
+  Compass,
+  Check
 } from 'lucide-react';
 
-// Structured parent, category, and subcategory layout mappings
-const TAXONOMY = [
-  {
-    type: 'indoor' as const,
-    name: 'Indoor Architectural',
-    categories: [
-      { slug: 'cob-spotlight', name: 'COB Spotlight', subcategories: ['Twin Adjustable Spot'] },
-      { slug: 'magnetic-track', name: 'Magnetic Track Light', subcategories: ['Low Voltage 48V Rails'] },
-      { slug: 'deep-downlight', name: 'Deep Downlight', subcategories: ['Low UGR Deep Cutoff'] },
-      { slug: 'sysprofiles', name: 'SYSProfiles', subcategories: ['Trimless Linear'] },
-      { slug: 'zoom-light', name: 'Zoom Light', subcategories: ['Continuous Focus'] },
-      { slug: 'surface-downlight', name: 'Surface Downlight', subcategories: ['Cylindrical Body'] },
-      { slug: 'tracklight', name: 'Tracklight', subcategories: ['Studio Spotlights'] },
-      { slug: 'latch-series', name: 'Latch Series', subcategories: ['Snap', 'Clasp', 'Hinge', 'Open', 'Click'] },
-      { slug: 'antiglare', name: 'Antiglare', subcategories: ['Antiglare Downlight'] }
-    ]
-  },
-  {
-    type: 'outdoor' as const,
-    name: 'Outdoor pathways & landscape',
-    categories: [
-      { slug: 'flood-light', name: 'Flood Light', subcategories: ['Asymmetric Wall Wash'] },
-      { slug: 'garden-light', name: 'Garden Light', subcategories: ['Pathways Core Spike'] },
-      { slug: 'wall-light', name: 'Outdoor Wall Light', subcategories: ['Bi-Directional Sconce'] },
-      { slug: 'gate-light', name: 'Gate Light', subcategories: ['Pillar Mount Cap'] }
-    ]
-  }
-];
+const FILTER_CATALOG = CATALOG_FAMILIES.filter((family) => family.slug !== 'decorative').map((family) => ({
+  slug: family.slug,
+  name: family.name,
+  subcategories: family.entries.map((entry) => entry.section),
+}));
+
+const INITIAL_OPEN_CATEGORIES = FILTER_CATALOG.map((c) => c.slug).reduce<Record<string, boolean>>((acc, slug) => {
+  acc[slug] = false;
+  return acc;
+}, {});
+
+function isIndoorProduct(categorySlug: string) {
+  return CATEGORIES.find((c) => c.slug === categorySlug)?.type === 'indoor';
+}
 
 export function ProductsHub() {
-  // Layout & Filtering State
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
-  
-  // Filtering selections
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedParent, setSelectedParent] = useState<'ALL' | 'indoor' | 'outdoor'>('ALL');
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
-  const [onlyBestsellers, setOnlyBestsellers] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(() => searchParams.get('search') ?? '');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(() => searchParams.get('category'));
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(() => searchParams.get('section'));
+  const [onlyBestsellers, setOnlyBestsellers] = useState(() => searchParams.get('bestsellers') === '1');
+  const hasMountedRef = useRef(false);
 
-  // Accordion state for taxonomy groups
-  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>(() => {
-    // Open all by default to list everything as requested
-    return {
-      'cob-spotlight': true,
-      'magnetic-track': true,
-      'deep-downlight': true,
-      'sysprofiles': true,
-      'zoom-light': true,
-      'surface-downlight': true,
-      'tracklight': true,
-      'latch-series': true,
-      'antiglare': true,
-      'flood-light': true,
-      'garden-light': true,
-      'wall-light': true,
-      'gate-light': true
-    };
-  });
+  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>(INITIAL_OPEN_CATEGORIES);
+
+  useEffect(() => {
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true;
+      return;
+    }
+
+    const params = new URLSearchParams();
+
+    if (searchQuery) params.set('search', searchQuery);
+
+    if (selectedCategory) params.set('category', selectedCategory);
+
+    if (selectedSubcategory) params.set('section', selectedSubcategory);
+
+    if (onlyBestsellers) params.set('bestsellers', '1');
+
+    const nextQuery = params.toString();
+    const currentQuery = window.location.search.replace(/^\?/, '');
+    if (nextQuery !== currentQuery) {
+      router.replace(nextQuery ? `${pathname}?${nextQuery}` : pathname, { scroll: false });
+    }
+  }, [
+    searchQuery,
+    selectedCategory,
+    selectedSubcategory,
+    onlyBestsellers,
+    pathname,
+    router,
+  ]);
 
   const toggleCategoryAccordion = (slug: string) => {
     setOpenCategories(prev => ({ ...prev, [slug]: !prev[slug] }));
   };
 
-  // 1. Dynamic Counts Calculator
-  const getProductCount = (categorySlug: string) => {
-    return PRODUCTS.filter(p => p.category === categorySlug).length;
+  const getProductFamily = (categorySlug: string) => {
+    return PRODUCTS.filter(p => (p.family ?? p.category) === categorySlug).length;
   };
 
-  const getSubcategoryCount = (categorySlug: string, subName: string) => {
-    return PRODUCTS.filter(p => p.category === categorySlug && p.subcategory === subName).length;
+  const getSectionCount = (familySlug: string, sectionName: string) => {
+    return PRODUCTS.filter(
+      p => (p.family ?? p.category) === familySlug && (p.section ?? p.subcategory) === sectionName,
+    ).length;
   };
 
-  const getParentTypeCount = (type: 'indoor' | 'outdoor') => {
-    return PRODUCTS.filter(p => {
-      const parentCat = CATEGORIES.find(c => c.slug === p.category);
-      return parentCat?.type === type;
-    }).length;
+  const getIndoorProductCount = () => {
+    return PRODUCTS.filter((p) => isIndoorProduct(p.family ?? p.category)).length;
   };
 
-  // 2. Filter Execution
   const filteredProducts = PRODUCTS.filter(prod => {
-    // Search filter
+    if (!isIndoorProduct(prod.family ?? prod.category)) return false;
+
     if (searchQuery) {
       const s = searchQuery.toLowerCase();
       const matchName = prod.name.toLowerCase().includes(s);
+      const matchSeries = prod.seriesName?.toLowerCase().includes(s);
+      const matchSection = prod.section?.toLowerCase().includes(s);
+      const matchSku = prod.skuPrefix?.toLowerCase().includes(s);
       const matchSpec = prod.shortSpec.toLowerCase().includes(s);
       const matchDesc = prod.description.toLowerCase().includes(s);
-      if (!matchName && !matchSpec && !matchDesc) return false;
+      if (!matchName && !matchSeries && !matchSection && !matchSku && !matchSpec && !matchDesc) return false;
     }
 
-    // Parent Section filter
-    if (selectedParent !== 'ALL') {
-      const parentCat = CATEGORIES.find(c => c.slug === prod.category);
-      if (!parentCat || parentCat.type !== selectedParent) return false;
+    if (selectedCategory) {
+      const prodFamily = prod.family ?? prod.category;
+      if (prodFamily !== selectedCategory) return false;
     }
 
-    // Category filter
-    if (selectedCategory && prod.category !== selectedCategory) return false;
+    if (selectedSubcategory) {
+      const prodSection = prod.section ?? prod.subcategory;
+      if (prodSection !== selectedSubcategory) return false;
+    }
 
-    // Subcategory filter
-    if (selectedSubcategory && prod.subcategory !== selectedSubcategory) return false;
-
-    // Bestseller filter
     if (onlyBestsellers && !prod.isBestseller) return false;
 
     return true;
   });
-
-  // 3. Selection Handlers
-  const handleSelectParent = (parent: 'ALL' | 'indoor' | 'outdoor') => {
-    setSelectedParent(parent);
-    setSelectedCategory(null);
-    setSelectedSubcategory(null);
-  };
 
   const handleSelectCategory = (slug: string | null) => {
     if (selectedCategory === slug) {
@@ -144,6 +136,7 @@ export function ProductsHub() {
 
   const handleSelectSubcategory = (catSlug: string, subName: string) => {
     if (selectedCategory === catSlug && selectedSubcategory === subName) {
+      setSelectedCategory(null);
       setSelectedSubcategory(null);
     } else {
       setSelectedCategory(catSlug);
@@ -153,21 +146,26 @@ export function ProductsHub() {
 
   const handleResetFilters = () => {
     setSearchQuery('');
-    setSelectedParent('ALL');
     setSelectedCategory(null);
     setSelectedSubcategory(null);
     setOnlyBestsellers(false);
   };
 
-  const hasActiveFilters = searchQuery !== '' || selectedParent !== 'ALL' || selectedCategory !== null || selectedSubcategory !== null || onlyBestsellers;
+  const hasActiveFilters = searchQuery !== '' || selectedCategory !== null || selectedSubcategory !== null || onlyBestsellers;
 
-  // Sidebar Filter Panel Component (Shared between desktop rail and mobile overlay overlay)
   const sidebarHoverText = 'hover:text-void-dark dark:hover:text-cream';
   const sidebarGroupHoverText = 'group-hover:text-void-dark dark:group-hover:text-cream';
 
+  const getCategoryDisplayName = (slug: string) => {
+    return (
+      CATALOG_FAMILIES.find(f => f.slug === slug)?.name ??
+      CATEGORIES.find(c => c.slug === slug)?.name ??
+      slug.replace(/-/g, ' ')
+    );
+  };
+
   const renderSidebarContent = () => (
     <div className="flex flex-col gap-6 text-cream animate-page-enter">
-      {/* Sidebar Header */}
       <div className="flex items-center justify-between border-b border-border/45 pb-4">
         <div className="flex items-center gap-1.5 md:gap-2">
           <SlidersHorizontal className="w-4 h-4 text-gold-muted" />
@@ -187,7 +185,6 @@ export function ProductsHub() {
         )}
       </div>
 
-      {/* Free Text Search Filter */}
       <div className="relative">
         <span className="absolute inset-y-0 left-3 flex items-center pr-3 pointer-events-none">
           <Search className="w-3.5 h-3.5 text-text-ghost" />
@@ -196,7 +193,7 @@ export function ProductsHub() {
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search catalog... (e.g. 12W, COB)"
+          placeholder="Search catalog... (e.g. Latch, SL-FR)"
           className="w-full bg-surface-alt border border-border px-3.5 py-2.5 pl-9 font-sans text-xs text-cream placeholder:text-text-ghost focus:border-gold/50 focus:outline-none transition-all rounded-[1px]"
         />
         {searchQuery && (
@@ -209,138 +206,105 @@ export function ProductsHub() {
         )}
       </div>
 
-      {/* Division Selector (Indoor / Outdoor Spectrum) */}
-      <div className="flex flex-col gap-2">
-        <span className="font-mono text-[9px] text-text-ghost uppercase tracking-widest block mb-1">
-          Architectural Division
-        </span>
-        <div className="grid grid-cols-3 gap-1 p-0.5 bg-surface-alt border border-border/40 rounded-[2px]">
-          <button
-            onClick={() => handleSelectParent('ALL')}
-            className={`py-1.5 font-mono text-[9px] uppercase tracking-wider text-center cursor-pointer ${
-              selectedParent === 'ALL'
-                ? 'bg-gold text-white font-bold'
-                : `text-text-dim ${sidebarHoverText} hover:bg-gold/5`
-            }`}
-          >
-            ALL
-          </button>
-          <button
-            onClick={() => handleSelectParent('indoor')}
-            className={`py-1.5 font-mono text-[9px] uppercase tracking-wider text-center cursor-pointer ${
-              selectedParent === 'indoor'
-                ? 'bg-gold text-white font-bold'
-                : `text-text-dim ${sidebarHoverText} hover:bg-gold/5`
-            }`}
-          >
-            INDOOR
-          </button>
-          <button
-            onClick={() => handleSelectParent('outdoor')}
-            className={`py-1.5 font-mono text-[9px] uppercase tracking-wider text-center cursor-pointer ${
-              selectedParent === 'outdoor'
-                ? 'bg-gold text-white font-bold'
-                : `text-text-dim ${sidebarHoverText} hover:bg-gold/5`
-            }`}
-          >
-            OUTDOOR
-          </button>
-        </div>
-      </div>
-
-      {/* Complete taxonomy tree listing each category & subcategory */}
       <div className="flex flex-col gap-4">
         <span className="font-mono text-[9px] text-text-ghost uppercase tracking-widest block border-b border-border/20 pb-1.5">
-          Classifications & Subcategories
+          Series &amp; Sections
         </span>
 
-        {TAXONOMY.map(group => {
-          // If a division is focused, skip rendering other group
-          if (selectedParent !== 'ALL' && selectedParent !== group.type) return null;
+        <div className="flex flex-col gap-3">
+            <span className="font-mono text-[8px] text-gold-muted uppercase tracking-[0.25em] font-bold">
+              Indoor Architectural ({getIndoorProductCount()} fixtures)
+            </span>
 
-          return (
-            <div key={group.type} className="flex flex-col gap-3">
-              <span className="font-mono text-[8px] text-gold-muted uppercase tracking-[0.25em] font-bold">
-                {group.name} ({getParentTypeCount(group.type)} fixtures)
-              </span>
+            <div className="flex flex-col gap-1.5 pl-1.5 border-l border-border/30">
+              {FILTER_CATALOG.map(cat => {
+                const isExpanded = !!openCategories[cat.slug];
+                const matchCount = getProductFamily(cat.slug);
+                const catalogFamily = CATALOG_FAMILIES.find(f => f.slug === cat.slug);
 
-              <div className="flex flex-col gap-1.5 pl-1.5 border-l border-border/30">
-                {group.categories.map(cat => {
-                  const isCatSelected = selectedCategory === cat.slug;
-                  const isExpanded = !!openCategories[cat.slug];
-                  const matchCount = getProductCount(cat.slug);
+                return (
+                  <div key={cat.slug} className="flex flex-col gap-1">
+                    <div className="flex items-center justify-between group/row">
+                      <button
+                        onClick={() => toggleCategoryAccordion(cat.slug)}
+                        className={`flex-1 text-left font-serif text-[13px] tracking-wide transition-colors duration-200 cursor-pointer flex items-center gap-1.5 pr-2 ${
+                          isExpanded 
+                            ? 'text-gold font-bold' 
+                            : `text-text-dim ${sidebarHoverText}`
+                        }`}
+                      >
+                        <span className={`w-1 h-3 bg-gold/50 rounded-[1px] transform transition-transform duration-300 ${isExpanded ? 'scale-y-120 bg-gold' : 'scale-y-0'}`} />
+                        <span>{cat.name}</span>
+                        <span className="font-mono text-[8px] text-text-ghost/85 font-normal ml-0.5">
+                          ({matchCount})
+                        </span>
+                      </button>
 
-                  return (
-                    <div key={cat.slug} className="flex flex-col gap-1">
-                      {/* Category row toggle */}
-                      <div className="flex items-center justify-between group/row">
-                        <button
-                          onClick={() => handleSelectCategory(cat.slug)}
-                          className={`flex-1 text-left font-serif text-[13px] tracking-wide transition-colors duration-200 cursor-pointer flex items-center gap-1.5 pr-2 ${
-                            isCatSelected 
-                              ? 'text-gold font-bold' 
-                              : `text-text-dim ${sidebarHoverText}`
+                      <button
+                        onClick={() => toggleCategoryAccordion(cat.slug)}
+                        className={`p-1 text-text-ghost ${sidebarHoverText} transition-colors block cursor-pointer`}
+                        title="Toggle sections"
+                      >
+                        <ChevronRight
+                          className={`w-3.5 h-3.5 transition-transform duration-300 ease-out ${
+                            isExpanded ? 'rotate-90' : 'rotate-0'
                           }`}
-                        >
-                          <span className={`w-1 h-3 bg-gold/50 rounded-[1px] transform transition-transform duration-300 ${isCatSelected ? 'scale-y-120 bg-gold' : 'scale-y-0'}`} />
-                          <span>{cat.name}</span>
-                          <span className="font-mono text-[8px] text-text-ghost/85 font-normal ml-0.5">
-                            ({matchCount})
-                          </span>
-                        </button>
+                        />
+                      </button>
+                    </div>
 
-                        <button
-                          onClick={() => toggleCategoryAccordion(cat.slug)}
-                          className={`p-1 text-text-ghost ${sidebarHoverText} transition-colors block cursor-pointer`}
-                          title="Toggle subcategories view"
-                        >
-                          {isExpanded ? (
-                            <ChevronDown className="w-3.5 h-3.5" />
-                          ) : (
-                            <ChevronRight className="w-3.5 h-3.5" />
-                          )}
-                        </button>
-                      </div>
-
-                      {/* Nested subcategories */}
-                      {isExpanded && cat.subcategories.length > 0 && (
-                        <div className="flex flex-col gap-1 pl-4 mb-2 mt-0.5 border-l border-gold-muted/20">
+                    <div
+                      className={`grid transition-all duration-300 ease-out ${
+                        isExpanded ? 'grid-rows-[1fr] opacity-100 mt-0.5 mb-2' : 'grid-rows-[0fr] opacity-0 mt-0 mb-0'
+                      }`}
+                    >
+                      <div className="overflow-hidden">
+                        <div className="flex flex-col gap-1 pl-4 border-l border-gold-muted/20">
                           {cat.subcategories.map(sub => {
                             const isSubSelected = selectedSubcategory === sub;
-                            const subCount = getSubcategoryCount(cat.slug, sub);
+                            const subCount = getSectionCount(cat.slug, sub);
+                            const entry = catalogFamily?.entries.find(e => e.section === sub);
 
                             return (
                               <button
                                 key={sub}
                                 onClick={() => handleSelectSubcategory(cat.slug, sub)}
-                                className={`text-left font-sans text-[11px] py-1 transition-colors duration-200 cursor-pointer flex items-center justify-between ${
+                                className={`text-left font-sans text-[11px] py-1 transition-colors duration-200 cursor-pointer flex items-center justify-between gap-2 ${
                                   isSubSelected
                                     ? 'text-gold font-semibold'
                                     : `text-text-dim/80 ${sidebarHoverText}`
                                 }`}
                               >
-                                <span className="flex items-center gap-1.5">
-                                  <span className={`w-1 h-1 rounded-full ${isSubSelected ? 'bg-gold animate-pulse-glow scale-125' : 'bg-transparent'}`} />
-                                  <span>{sub}</span>
+                                <span className="flex items-center gap-1.5 min-w-0">
+                                  <span
+                                    className={`w-3.5 h-3.5 border rounded-[1px] shrink-0 flex items-center justify-center transition-colors ${
+                                      isSubSelected
+                                        ? 'bg-gold border-gold text-white'
+                                        : 'border-border/60 bg-surface-alt text-transparent'
+                                    }`}
+                                  >
+                                    <Check className="w-2.5 h-2.5" />
+                                  </span>
+                                  <span className="truncate">
+                                    {entry ? `${entry.seriesName} — ${sub}` : sub}
+                                  </span>
                                 </span>
-                                <span className="font-mono text-[8px] text-text-ghost/60">
+                                <span className="font-mono text-[8px] text-text-ghost/60 shrink-0">
                                   [{subCount}]
                                 </span>
                               </button>
                             );
                           })}
                         </div>
-                      )}
+                      </div>
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
             </div>
-          );
-        })}
+          </div>
       </div>
 
-      {/* Filter Checkbox features */}
       <div className="flex flex-col gap-2 pt-2 border-t border-border/40">
         <span className="font-mono text-[9px] text-text-ghost uppercase tracking-widest block mb-1">
           Special Classifications
@@ -365,7 +329,6 @@ export function ProductsHub() {
         </label>
       </div>
 
-      {/* Quick informational note */}
       <div className="border border-border/40 p-3.5 bg-surface-alt/40 mt-2">
         <div className="flex gap-2 items-start">
           <Compass className="w-4 h-4 text-gold-muted shrink-0 mt-0.5" />
@@ -380,18 +343,14 @@ export function ProductsHub() {
   return (
     <div className="transition-page-enter min-h-screen bg-void text-cream">
       <Breadcrumbs />
-      {/* 2-Column Main Section */}
       <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col lg:flex-row gap-8 items-start relative">
         
-        {/* DESKTOP SIDEBAR */}
         <aside className="hidden lg:block shrink-0 w-80 border border-border/40 bg-surface/50 p-6 shadow-sm rounded-[2px] self-start sticky top-28">
           {renderSidebarContent()}
         </aside>
 
-        {/* MAIN RESULTS AREA */}
-        <div className="flex-grow w-full min-w-0">
+        <div className="grow w-full min-w-0">
           <div className="-mx-6 px-6 pt-2 pb-4 mb-8 bg-void/95 backdrop-blur-md border-b border-border/40">
-          {/* Header section with rich brand info */}
           <div className="pb-6">
             <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-gold mb-2 block">
               02 / COMPREHENSIVE ARCHITECTURAL CATALOG
@@ -406,7 +365,6 @@ export function ProductsHub() {
                 </p>
               </div>
 
-              {/* Mobile Filter Trigger Button */}
               <button
                 onClick={() => setIsMobileFiltersOpen(true)}
                 className="lg:hidden flex items-center gap-2 bg-gold text-white border border-gold px-4 py-2 font-mono text-[9px] uppercase tracking-widest font-bold transition-all duration-250 cursor-pointer"
@@ -417,37 +375,29 @@ export function ProductsHub() {
             </div>
           </div>
 
-          {/* Active Filter Tags Row */}
           {hasActiveFilters && (
             <div className="flex flex-wrap items-center gap-2 mb-6 p-3 bg-surface-alt border border-border/40 rounded-[2px] animate-page-enter">
               <span className="font-mono text-[8px] text-text-ghost uppercase tracking-wider mr-1">
                 Active Indices:
               </span>
               
-              {selectedParent !== 'ALL' && (
-                <span className="inline-flex items-center gap-1.5 bg-void border border-border/70 px-2.5 py-1 font-mono text-[9px] text-gold rounded-[2px]">
-                  <span>DIVISION: {selectedParent.toUpperCase()}</span>
-                  <button onClick={() => setSelectedParent('ALL')} className="hover:text-black dark:hover:text-white cursor-pointer"><X className="w-3 h-3" /></button>
-                </span>
-              )}
-
               {selectedCategory && (
                 <span className="inline-flex items-center gap-1.5 bg-void border border-border/70 px-2.5 py-1 font-mono text-[9px] text-gold rounded-[2px]">
-                  <span>CATEGORY: {selectedCategory.replace('-', ' ').toUpperCase()}</span>
+                  <span>CATEGORY: {getCategoryDisplayName(selectedCategory).toUpperCase()}</span>
                   <button onClick={() => handleSelectCategory(null)} className="hover:text-black dark:hover:text-white cursor-pointer"><X className="w-3 h-3" /></button>
                 </span>
               )}
 
               {selectedSubcategory && (
-                <span className="inline-flex items-center gap-1.5 bg-void border border-gold/40 px-2.5 py-1 font-mono text-[9px] text-cream bg-gold/5 rounded-[2px]">
-                  <span>SUB: {selectedSubcategory.toUpperCase()}</span>
+                <span className="inline-flex items-center gap-1.5 border border-gold/40 px-2.5 py-1 font-mono text-[9px] text-cream bg-gold/5 rounded-[2px]">
+                  <span>SECTION: {selectedSubcategory.toUpperCase()}</span>
                   <button onClick={() => setSelectedSubcategory(null)} className="hover:text-gold cursor-pointer"><X className="w-3 h-3" /></button>
                 </span>
               )}
 
               {searchQuery && (
                 <span className="inline-flex items-center gap-1.5 bg-void border border-border/70 px-2.5 py-1 font-mono text-[9px] text-gold rounded-[2px]">
-                  <span>KEYWORD: "{searchQuery}"</span>
+                  <span>KEYWORD: &quot;{searchQuery}&quot;</span>
                   <button onClick={() => setSearchQuery('')} className="hover:text-black dark:hover:text-white cursor-pointer"><X className="w-3 h-3" /></button>
                 </span>
               )}
@@ -470,7 +420,6 @@ export function ProductsHub() {
 
           </div>
 
-          {/* CATALOG SELECTION PANELS */}
           {filteredProducts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
               {filteredProducts.map((prod, idx) => (
@@ -500,15 +449,12 @@ export function ProductsHub() {
         </div>
       </div>
 
-      {/* MOBILE FULL-SCREEN SLIDEOUT FILTERS DRAWER */}
       {isMobileFiltersOpen && (
         <div className="fixed inset-0 z-50 lg:hidden" id="mobile-filter-drawer">
-          {/* Backdrop */}
           <div 
             className="fixed inset-0 bg-void/80 backdrop-blur-sm"
             onClick={() => setIsMobileFiltersOpen(false)}
           />
-          {/* Slider Drawer */}
           <div className="fixed inset-y-0 left-0 w-full max-w-xs bg-void border-r border-border p-6 shadow-2xl flex flex-col h-full overflow-y-auto">
             <div className="flex items-center justify-between mb-4 pb-2 border-b border-border/40">
               <span className="font-mono text-[11px] uppercase tracking-widest text-gold font-bold">LUMINAIRE FILTERS</span>
@@ -538,7 +484,6 @@ export function ProductsHub() {
         </div>
       )}
 
-      {/* Auxiliary standards & info bar */}
       <section className="max-w-7xl mx-auto px-6 mt-16 pb-12 pt-12 border-t border-border/30">
         <ScrollReveal direction="up">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

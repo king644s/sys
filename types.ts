@@ -23,6 +23,14 @@ export interface Product {
   name: string;
   category: string;
   subcategory?: string;
+  /** Catalog family slug — used for product listing filters */
+  family?: string;
+  /** Series name from final naming list (e.g. Latch, Veil, Twin) */
+  seriesName?: string;
+  /** Section / subsection from final naming list (e.g. Front Removable Spotlight) */
+  section?: string;
+  /** SKU prefix from final naming list (e.g. SL-FR, DP-ND) */
+  skuPrefix?: string;
   vendorCode?: string;
   shortSpec: string;
   description: string;

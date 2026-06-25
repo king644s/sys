@@ -1,15 +1,9 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { useLightingStore } from '../store/lightingStore';
-import { PRODUCTS } from '../data';
-import { Mail, Phone, MapPin, CheckCircle2, Upload, Trash2, FileText, Send, Building } from 'lucide-react';
-import { Button } from '../components/ui/Button';
+import { Mail, Phone, MapPin, CheckCircle2, Upload, Trash2, FileText, Send } from 'lucide-react';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 export function Contact() {
-  const { cartEnquiry, removeFromEnquiry } = useLightingStore();
-  const enquiredProducts = PRODUCTS.filter(p => cartEnquiry.includes(p.id));
-
   // Forms states
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -100,7 +94,7 @@ export function Contact() {
 
       <section className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-16">
         
-        {/* Left Side: Contact metadata + Current estimate sheet items list */}
+        {/* Left Side: Contact metadata */}
         <div className="lg:col-span-5 flex flex-col gap-8">
           
           {/* Mumbai HQ Location card */}
@@ -132,43 +126,20 @@ export function Contact() {
             </div>
           </div>
 
-          {/* Current quote enquiry tray listing */}
+          {/* Consultation readiness card */}
           <div className="bg-surface-alt border border-border p-8 rounded-[1px]">
-            <div className="flex justify-between items-baseline mb-4">
-              <h3 className="font-serif text-lg font-bold text-cream">Your Request Tray</h3>
-              <span className="font-mono text-[9px] text-gold">{enquiredProducts.length} FIXTURES</span>
+            <h3 className="font-serif text-lg font-bold text-cream mb-4">Project Brief Checklist</h3>
+            <div className="border border-dashed border-border p-6 text-left flex flex-col gap-2.5">
+              <p className="font-sans text-xs text-text-dim leading-relaxed">
+                Share your project details directly in the form and our team will prepare a complete recommendation.
+              </p>
+              <ul className="font-sans text-[11px] text-text-dim leading-relaxed list-disc pl-4">
+                <li>Required fixture type and quantity range</li>
+                <li>Preferred beam angle or lighting effect</li>
+                <li>Control protocol (DALI, phase-cut, Casambi)</li>
+                <li>Drawings or reference files (optional)</li>
+              </ul>
             </div>
-
-            {enquiredProducts.length > 0 ? (
-              <div className="flex flex-col gap-3 max-h-[240px] overflow-y-auto pr-2">
-                {enquiredProducts.map((p) => (
-                  <div key={p.id} className="flex justify-between items-center bg-void border border-border p-3 rounded-[1px]">
-                    <div className="flex flex-col min-w-0">
-                      <span className="font-sans text-xs font-semibold text-cream truncate">{p.name}</span>
-                      <span className="font-mono text-[8px] text-gold-muted leading-tight">{p.shortSpec}</span>
-                    </div>
-                    <button
-                      onClick={() => removeFromEnquiry(p.id)}
-                      className="text-text-ghost hover:text-red-400 p-1 transition-colors cursor-pointer"
-                      title="Remove product"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                ))}
-                <p className="font-sans text-[10px] text-text-dim text-center mt-3 border-t border-border/40 pt-3">
-                  This selection will automatically append to your consultation message.
-                </p>
-              </div>
-            ) : (
-              <div className="border border-dashed border-border p-6 text-center flex flex-col items-center gap-2">
-                <FileText className="w-6 h-6 text-text-ghost" />
-                <span className="font-sans text-xs text-text-dim">Your tray is currently empty.</span>
-                <span className="font-sans text-[10px] text-text-ghost leading-normal">
-                  Browse collections and add fixtures via the "Add to Estimate" buttons.
-                </span>
-              </div>
-            )}
           </div>
         </div>
 

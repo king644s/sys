@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { useLightingStore } from '../store/lightingStore';
 import { PRODUCTS } from '../data';
 import { ROUTES, categoryPath } from '@/lib/routes';
 import { buildProductInquiryMessage, buildWhatsAppUrl } from '@/lib/whatsapp';
@@ -15,13 +14,11 @@ import { ProductSpecifications } from '../components/ui/ProductSpecifications';
 import { ProductFeatures } from '../components/ui/ProductFeatures';
 import { ProductImageCarousel } from '../components/ui/ProductImageCarousel';
 import { ProductFinish } from '../types';
-import { ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 const DEFAULT_FINISHES: ProductFinish[] = [
-  { id: 'gold', label: 'Precision Sand Gold Accent', swatch: '#C9A96E', images: [] },
-  { id: 'black', label: 'Luxury Anodised Matte Black', swatch: '#1C1C1F', images: [] },
-  { id: 'graphite', label: 'Micro-textured Graphite Grey', swatch: '#4C4D52', images: [] },
-  { id: 'brass', label: 'Solid Machined Brushed Brass', swatch: '#A88D54', images: [] },
+  { id: 'white', label: 'White', swatch: '#F4F4F5', images: [] },
+  { id: 'black', label: 'Black', swatch: '#1C1C1F', images: [] },
 ];
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -37,15 +34,12 @@ interface ProductDetailProps {
 }
 
 export function ProductDetail({ productSlug }: ProductDetailProps) {
-  const { cartEnquiry, addToEnquiry, removeFromEnquiry } = useLightingStore();
-
   const product = PRODUCTS.find(p => p.slug === productSlug);
-  const finishOptions = product?.finishes ?? DEFAULT_FINISHES;
-  const [selectedFinishId, setSelectedFinishId] = useState(finishOptions[0]?.id ?? 'gold');
-  const [showNotification, setShowNotification] = useState(false);
+  const finishOptions = DEFAULT_FINISHES;
+  const [selectedFinishId, setSelectedFinishId] = useState(finishOptions[0]?.id ?? 'white');
 
   useEffect(() => {
-    setSelectedFinishId(finishOptions[0]?.id ?? 'gold');
+    setSelectedFinishId(finishOptions[0]?.id ?? 'white');
   }, [productSlug]);
 
   if (!product) {
@@ -63,46 +57,22 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
   }
 
   // Find related products matching the same category
-  const relatedProducts = PRODUCTS.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3);
+  const relatedProducts = PRODUCTS.filter(
+    p => (p.family ?? p.category) === (product.family ?? product.category) && p.id !== product.id,
+  ).slice(0, 3);
 
   const activeFinish =
     finishOptions.find((finish) => finish.id === selectedFinishId) ?? finishOptions[0];
 
-  const displayImages =
-    product.finishes && activeFinish.images.length > 0
-      ? activeFinish.images
-      : product.images;
+  const displayImages = product.images;
 
   const wattageOptions = getProductWattageOptions(product);
-
-  const isEnquired = cartEnquiry.includes(product.id);
-
-  const handleEnquiryToggle = () => {
-    if (isEnquired) {
-      removeFromEnquiry(product.id);
-    } else {
-      addToEnquiry(product.id);
-      setShowNotification(true);
-      setTimeout(() => setShowNotification(false), 3000);
-    }
-  };
 
   const whatsAppInquiryUrl = buildWhatsAppUrl(buildProductInquiryMessage(product));
 
   return (
     <div className="transition-page-enter">
       <Breadcrumbs />
-
-      {/* Floating success banner */}
-      {showNotification && (
-        <div className="fixed top-24 right-6 z-50 bg-surface border border-gold p-4 shadow-2xl flex items-center gap-3 animate-page-enter">
-          <CheckCircle2 className="w-5 h-5 text-gold" style={{ filter: 'drop-shadow(0 0 5px rgba(201,169,110,0.4))' }} />
-          <div className="flex flex-col">
-            <span className="font-sans text-xs font-semibold text-cream">Added to estimate list</span>
-            <span className="font-mono text-[9px] text-text-dim">Request specs & CAD on checkout</span>
-          </div>
-        </div>
-      )}
 
       {/* Back button container */}
       <section className="max-w-7xl mx-auto px-6 py-4">
@@ -136,61 +106,44 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
         <div className="lg:col-span-6 flex flex-col gap-6">
           <div>
             <span className="font-mono text-[9px] uppercase tracking-widest text-gold font-bold">
-              {product.category === 'latch-series' ? 'Latch Series — Front Removable' : 'Precision Architectural Series'}
+              {product.seriesName && product.section
+                ? `${product.seriesName} — ${product.section}`
+                : 'Precision Architectural Series'}
             </span>
             <h1 className="font-serif text-3xl md:text-5xl text-cream tracking-tight mt-1 mb-2 font-light">
               {product.name}
             </h1>
-            {product.vendorCode && (
-              <p className="font-mono text-[10px] text-text-ghost uppercase tracking-widest mb-1">
-                Vendor Code: {product.vendorCode}
-              </p>
-            )}
-
-            <div className="mt-4 rounded-[2px] border border-gold/35 bg-gold/5 p-4 flex flex-col gap-3 shadow-[inset_0_1px_0_rgba(201,169,110,0.12)]">
-              <div className="flex flex-wrap gap-2">
-                {product.shortSpec.split('•').map((spec, index) => (
-                  <span
-                    key={index}
-                    className="inline-flex items-center px-3 py-1.5 bg-void/40 border border-gold/40 font-mono text-xs md:text-sm text-gold font-semibold tracking-wide rounded-[1px]"
-                  >
-                    {spec.trim()}
-                  </span>
-                ))}
-              </div>
-
-              {wattageOptions.length > 0 && (
-                <div className="flex flex-col gap-2.5 pt-3 border-t border-gold/20">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold font-bold">
+            {wattageOptions.length > 0 && (
+              <div className="mt-3 rounded-md bg-gold/5 px-3 py-2.5">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-text-ghost">
                     Available Wattage
                   </span>
-                  <div className="flex flex-wrap gap-2">
-                    {wattageOptions.map((wattage) => (
-                      <span
-                        key={wattage}
-                        className="inline-flex items-center px-3.5 py-2 bg-cream/10 border border-cream/25 font-mono text-sm md:text-base text-cream font-bold tracking-wider rounded-[1px]"
-                      >
-                        {wattage}
-                      </span>
-                    ))}
-                  </div>
+                  {wattageOptions.map((wattage) => (
+                    <span
+                      key={wattage}
+                      className="inline-flex items-center px-2.5 py-1 bg-void/30 font-mono text-[11px] md:text-xs text-gold/95 font-medium tracking-wide rounded-md"
+                    >
+                      {wattage}
+                    </span>
+                  ))}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
 
-          <div className="h-[1px] bg-border/50" />
+          <div className="h-px bg-border/50" />
 
           <p className="font-sans text-xs md:text-sm text-cream leading-relaxed font-light">
             {product.description}
           </p>
 
-          <div className="h-[1px] bg-border/50" />
+          <div className="h-px bg-border/50" />
 
           {/* Luxury physical finish picker */}
           <div>
             <span className="font-mono text-[9px] uppercase tracking-widest text-text-ghost block mb-3">
-              Aluminium Fixture Finish — {activeFinish.label}
+              Colour Option — {activeFinish.label}
             </span>
             <div className="flex gap-3">
               {finishOptions.map((finish) => (
@@ -209,23 +162,13 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
             </div>
           </div>
 
-          {/* Main call to actions */}
-          <div className="flex flex-col sm:flex-row gap-4 mt-4">
-            <button
-              onClick={handleEnquiryToggle}
-              className={`flex-1 py-4 uppercase text-xs font-mono tracking-widest transition-all duration-300 border cursor-pointer ${
-                isEnquired
-                  ? 'bg-transparent border-red-500/50 text-red-400 hover:bg-red-500/5'
-                  : 'bg-gold text-white dark:text-void-dark border-gold hover:bg-gold-light hover:border-gold-light font-bold hover:shadow-[0_0_30px_rgba(201,169,110,0.2)]'
-              }`}
-            >
-              {isEnquired ? 'Remove from Estimate' : 'Add to Estimate Tray'}
-            </button>
+          {/* Main call to action */}
+          <div className="mt-4">
             <a
               href={whatsAppInquiryUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 px-6 py-3.5 tracking-wider uppercase text-xs font-mono font-medium transition-all duration-300 ease-luxury focus:outline-none focus:ring-1 focus:ring-[#25D366]/50 cursor-pointer rounded-[1px] inline-flex items-center justify-center gap-2 border border-[#25D366]/60 text-white bg-[#25D366] hover:bg-[#22c55e] hover:border-[#22c55e] active:bg-[#1da851]"
+              className="w-full px-6 py-3.5 tracking-wider uppercase text-xs font-mono font-medium transition-all duration-300 ease-luxury focus:outline-none focus:ring-1 focus:ring-[#25D366]/50 cursor-pointer rounded-[1px] inline-flex items-center justify-center gap-2 border border-[#25D366]/60 text-white bg-[#25D366] hover:bg-[#22c55e] hover:border-[#22c55e] active:bg-[#1da851]"
             >
               <WhatsAppIcon className="w-4 h-4 shrink-0" />
               <span>Inquire This Product</span>

@@ -59,13 +59,12 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
   const getDimensionsRows = () => {
     if (product.dimensionVariants && product.dimensionVariants.length > 0) {
       return product.dimensionVariants.map((variant) => ({
-        productCode: variant.productCode,
+        wattage: variant.wattage,
         outerDiameter: variant.outerDiameter,
         height: variant.height,
         cutOut: variant.cutOut,
         fixtureColor: variant.fixtureColor,
         cct: variant.cct,
-        driverSupport: variant.driverSupport,
         cost: variant.cost,
       }));
     }
@@ -76,13 +75,12 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
 
     return [
       {
-        productCode: '',
+        wattage: '',
         outerDiameter: outerDia,
         height,
         cutOut: product.specs['Drill Cutout']?.replace(/[^\d]/g, '') || '—',
         fixtureColor: '',
         cct: '',
-        driverSupport: '',
         cost: undefined,
       },
     ];
@@ -105,7 +103,6 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
         { label: 'Type', value: getTechSpecValue('Type', '—') },
         { label: 'Classification', value: getTechSpecValue('Classification', '—') },
         { label: 'CCT Options', value: getTechSpecValue('CCT Options', '—') },
-        { label: 'Driver Support', value: getTechSpecValue('Driver Support', '—') },
         { label: 'Fixture Color', value: getTechSpecValue('Fixture Color', '—') },
         { label: 'Product Codes', value: getTechSpecValue('Product Codes', '—') },
         { label: 'Additional Features', value: getTechSpecValue('Additional Features', '—') },
@@ -158,7 +155,7 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
                 <tr className="bg-surface-alt border-b border-border">
                   {hasVariants && (
                     <th className="py-3 px-4 font-mono text-[10px] text-text-dim uppercase tracking-wider font-bold">
-                      Product Code
+                      Wattage
                     </th>
                   )}
                   <th className="py-3 px-4 font-mono text-[10px] text-text-dim uppercase tracking-wider font-bold text-center">
@@ -170,16 +167,6 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
                   <th className="py-3 px-4 font-mono text-[10px] text-text-dim uppercase tracking-wider font-bold text-center">
                     Cut Out (mm)
                   </th>
-                  {hasVariants && (
-                    <>
-                      <th className="py-3 px-4 font-mono text-[10px] text-text-dim uppercase tracking-wider font-bold text-center">
-                        CCT
-                      </th>
-                      <th className="py-3 px-4 font-mono text-[10px] text-text-dim uppercase tracking-wider font-bold text-center">
-                        Driver
-                      </th>
-                    </>
-                  )}
                 </tr>
               </thead>
               <tbody>
@@ -190,20 +177,12 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
                   >
                     {hasVariants && (
                       <td className="py-3.5 px-4 font-medium text-gold font-mono text-[10px]">
-                        {row.productCode}
+                        {row.wattage}
                       </td>
                     )}
                     <td className="py-3.5 px-4 text-center text-text-dim font-mono">{row.outerDiameter}</td>
                     <td className="py-3.5 px-4 text-center text-text-dim font-mono">{row.height}</td>
                     <td className="py-3.5 px-4 text-center text-text-dim font-mono">{row.cutOut}</td>
-                    {hasVariants && (
-                      <>
-                        <td className="py-3.5 px-4 text-center text-text-dim font-mono text-[10px]">{row.cct}</td>
-                        <td className="py-3.5 px-4 text-center text-text-dim font-mono text-[10px]">
-                          {row.driverSupport}
-                        </td>
-                      </>
-                    )}
                   </tr>
                 ))}
               </tbody>

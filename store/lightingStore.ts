@@ -7,9 +7,6 @@ interface LightingState {
   setPreset: (preset: 'relax' | 'focus' | 'daylight') => void;
   selectedCategorySlug: string | null;
   setSelectedCategory: (slug: string | null) => void;
-  cartEnquiry: string[]; // List of product IDs added for quote requests
-  addToEnquiry: (id: string) => void;
-  removeFromEnquiry: (id: string) => void;
 }
 
 export const useLightingStore = create<LightingState>((set) => ({
@@ -31,11 +28,4 @@ export const useLightingStore = create<LightingState>((set) => ({
   }),
   selectedCategorySlug: null,
   setSelectedCategory: (slug) => set({ selectedCategorySlug: slug }),
-  cartEnquiry: [],
-  addToEnquiry: (id) => set((state) => ({
-    cartEnquiry: state.cartEnquiry.includes(id) ? state.cartEnquiry : [...state.cartEnquiry, id]
-  })),
-  removeFromEnquiry: (id) => set((state) => ({
-    cartEnquiry: state.cartEnquiry.filter(pId => pId !== id)
-  }))
 }));

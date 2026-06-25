@@ -14,10 +14,12 @@ interface ProductCategoryProps {
 
 export function ProductCategory({ categorySlug }: ProductCategoryProps) {
   const category = CATEGORIES.find((cat) => cat.slug === categorySlug);
-  const matchedProducts = PRODUCTS.filter((prod) => prod.category === categorySlug);
+  const matchedProducts = PRODUCTS.filter(
+    (prod) => (prod.family ?? prod.category) === categorySlug || prod.category === categorySlug,
+  );
 
   const subcategoryGroups = matchedProducts.reduce<Record<string, typeof matchedProducts>>((groups, product) => {
-    const key = product.subcategory || 'General';
+    const key = product.section ?? product.subcategory ?? 'General';
     if (!groups[key]) groups[key] = [];
     groups[key].push(product);
     return groups;
@@ -84,7 +86,7 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
                 <div key={subcategory}>
                   <div className="border-b border-border/40 pb-4 mb-8">
                     <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-gold-muted block mb-1">
-                      Subcategory
+                      Section
                     </span>
                     <h2 className="font-serif text-2xl md:text-3xl text-cream font-light tracking-tight">
                       {subcategory}

@@ -94,26 +94,20 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href={categoryPath(CATEGORY_SLUGS.deepDownlight)} className={getLinkClass('product-category', CATEGORY_SLUGS.deepDownlight)}>
-                  {isActive('product-category', CATEGORY_SLUGS.deepDownlight) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
-                  Deep Recessed Downlights
+                <Link href={categoryPath(CATEGORY_SLUGS.downlightPanel)} className={getLinkClass('product-category', CATEGORY_SLUGS.downlightPanel)}>
+                  {isActive('product-category', CATEGORY_SLUGS.downlightPanel) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
+                  Downlight &amp; Panel Light
                 </Link>
               </li>
               <li>
-                <Link href={categoryPath(CATEGORY_SLUGS.sysprofiles)} className={getLinkClass('product-category', CATEGORY_SLUGS.sysprofiles)}>
-                  {isActive('product-category', CATEGORY_SLUGS.sysprofiles) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
-                  Trimless Linear Extrusions
+                <Link href={categoryPath(CATEGORY_SLUGS.profileLight)} className={getLinkClass('product-category', CATEGORY_SLUGS.profileLight)}>
+                  {isActive('product-category', CATEGORY_SLUGS.profileLight) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
+                  Profile Light
                 </Link>
               </li>
               <li>
-                <Link href={categoryPath(CATEGORY_SLUGS.zoomLight)} className={getLinkClass('product-category', CATEGORY_SLUGS.zoomLight)}>
-                  {isActive('product-category', CATEGORY_SLUGS.zoomLight) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
-                  Continuous Optical Focus
-                </Link>
-              </li>
-              <li>
-                <Link href={categoryPath(CATEGORY_SLUGS.surfaceDownlight)} className={getLinkClass('product-category', CATEGORY_SLUGS.surfaceDownlight)}>
-                  {isActive('product-category', CATEGORY_SLUGS.surfaceDownlight) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
+                <Link href={categoryPath(CATEGORY_SLUGS.surface)} className={getLinkClass('product-category', CATEGORY_SLUGS.surface)}>
+                  {isActive('product-category', CATEGORY_SLUGS.surface) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
                   Surface Downlights
                 </Link>
               </li>

@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useNavigation } from '@/hooks/useNavigation';
 import { ROUTES, CATEGORY_SLUGS, categoryPath } from '@/lib/routes';
-import { useLightingStore } from '@/store/lightingStore';
 import Logo from '../common/Logo';
 import { 
   Menu, 
@@ -23,7 +22,6 @@ import {
 export function Navbar() {
   const { currentView } = useNavigation();
   const router = useRouter();
-  const cartEnquiry = useLightingStore((state) => state.cartEnquiry);
 
   // States
   const [isOpen, setIsOpen] = useState(false); // Mobile menu toggle
@@ -277,11 +275,14 @@ export function Navbar() {
                     <Link href={categoryPath(CATEGORY_SLUGS.magneticTrack)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
                       Magnetic Track Light
                     </Link>
-                    <Link href={categoryPath(CATEGORY_SLUGS.deepDownlight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Deep Recessed Downlight
+                    <Link href={categoryPath(CATEGORY_SLUGS.downlightPanel)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
+                      Downlight &amp; Panel Light
                     </Link>
-                    <Link href={categoryPath(CATEGORY_SLUGS.sysprofiles)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Trimless Linear Extrusions
+                    <Link href={categoryPath(CATEGORY_SLUGS.profileLight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
+                      Profile Light
+                    </Link>
+                    <Link href={categoryPath(CATEGORY_SLUGS.surface)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
+                      Surface Downlights
                     </Link>
                   </div>
 
@@ -304,8 +305,8 @@ export function Navbar() {
                     <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-text-ghost mb-1">
                       Custom Adjustables
                     </span>
-                    <Link href={categoryPath(CATEGORY_SLUGS.zoomLight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Continuous Optical Focus
+                    <Link href={categoryPath(CATEGORY_SLUGS.tracklight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
+                      Track Light
                     </Link>
                     <Link href={ROUTES.products} onClick={() => setActiveDropdown(null)} className={`${dropdownLinkClassMedium} flex items-center gap-1.5`}>
                       <span>Explore Catalog</span>

@@ -44,7 +44,9 @@ export function ProductCard({ product }: ProductCardProps) {
 
       <div className="p-5 flex flex-col flex-1 border-t border-border/50">
         <span className="font-mono text-[8px] uppercase tracking-widest text-gold-muted mb-1.5">
-          {product.subcategory || product.category.replace(/-/g, ' ')}
+          {product.skuPrefix
+            ? `${product.skuPrefix} · ${product.section ?? product.subcategory ?? product.category.replace(/-/g, ' ')}`
+            : product.subcategory || product.category.replace(/-/g, ' ')}
         </span>
 
         <h3 className="font-serif text-lg text-cream group-hover:text-gold transition-colors duration-300 mb-2 font-semibold">
