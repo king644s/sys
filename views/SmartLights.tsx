@@ -4,7 +4,9 @@ import { KelvinOrb } from '../components/3d/KelvinOrb';
 import { KelvinSlider } from '../components/ui/KelvinSlider';
 import { SectionDivider } from '../components/ui/SectionDivider';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
+import { TripleImageCompare } from '../components/ui/TripleImageCompare';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
+import { LIGHTING_COMPARISONS } from '../data/lightingComparisons';
 import { Sliders, Sun, ShieldCheck, Zap, Laptop, Command } from 'lucide-react';
 
 export function SmartLights() {
@@ -91,6 +93,29 @@ export function SmartLights() {
               By pairing warm 2200K phosphor chips and cool 6500K chips under a single micro-lens grid, color outputs remain perfectly uniform even during dynamic change adjustments.
             </p>
           </div>
+        </ScrollReveal>
+      </section>
+
+      {/* Before / After lighting comparison */}
+      <section className="max-w-7xl mx-auto px-6 py-12 w-full">
+        <ScrollReveal direction="up">
+          <div className="flex flex-col gap-4 text-center mb-8">
+            <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-gold">
+              atmospheric transformation
+            </span>
+            <h2 className="font-serif text-3xl md:text-4xl text-cream tracking-tight font-light">
+              Before <span className="italic text-gold">/</span> After
+            </h2>
+            <p className="font-sans text-xs md:text-sm text-text-dim max-w-lg mx-auto leading-relaxed">
+              Drag each handle to reveal a different space — all three scenarios in one view.
+            </p>
+          </div>
+
+          <TripleImageCompare images={[...LIGHTING_COMPARISONS]} />
+
+          <p className="font-sans text-[11px] md:text-xs text-text-ghost max-w-2xl mx-auto mt-6 leading-relaxed text-center">
+            Tunable white LED systems preserve architectural lines, wall finishes, and window placement — transforming only the perceived warmth, depth, and ambience of the space.
+          </p>
         </ScrollReveal>
       </section>
 

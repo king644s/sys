@@ -10,6 +10,7 @@ export function KelvinOrb() {
   const orbMaterialRef = useRef<THREE.MeshBasicMaterial | null>(null);
   const glowMaterialRef = useRef<THREE.MeshBasicMaterial | null>(null);
   const pointLightRef = useRef<THREE.PointLight | null>(null);
+  const ringMaterialRefs = useRef<THREE.MeshBasicMaterial[]>([]);
 
   // Helper to map Kelvin scale to a real color representation
   const getKelvinColor = (temp: number): THREE.Color => {
@@ -44,13 +45,23 @@ export function KelvinOrb() {
     if (pointLightRef.current) {
       pointLightRef.current.color.copy(color);
     }
+    ringMaterialRefs.current.forEach((mat) => mat.color.copy(color));
   }, [kelvin]);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    const container = containerRef.current;
+    if (!container) return;
 
-    const width = containerRef.current.clientWidth || 500;
-    const height = containerRef.current.clientHeight || 500;
+    // Clear stale canvases from HMR / StrictMode double-mount
+    container.replaceChildren();
+
+    const getSize = () => {
+      const width = container.clientWidth || 500;
+      const height = container.clientHeight || 500;
+      return { width, height };
+    };
+
+    const { width, height } = getSize();
 
     // 1. Scene
     const scene = new THREE.Scene();
@@ -62,9 +73,12 @@ export function KelvinOrb() {
 
     // 3. Renderer
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
-    renderer.setSize(width, height);
+    renderer.setSize(width, height, false);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    containerRef.current.appendChild(renderer.domElement);
+    renderer.domElement.style.width = '100%';
+    renderer.domElement.style.height = '100%';
+    renderer.domElement.style.display = 'block';
+    container.appendChild(renderer.domElement);
 
     const initialColor = getKelvinColor(kelvin);
 
@@ -104,22 +118,22 @@ export function KelvinOrb() {
     // Ring 1 (Inner loop)
     const ring1Geo = new THREE.RingGeometry(0.6, 0.61, 64);
     const ringMat1 = new THREE.MeshBasicMaterial({
-      color: 0x2E2E36,
+      color: initialColor.clone(),
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.4
+      opacity: 0.55
     });
     const ring1 = new THREE.Mesh(ring1Geo, ringMat1);
     ring1.rotation.x = Math.PI / 4;
     ringsGroup.add(ring1);
 
-    // Ring 2 (Middle, brass-accented segment dots)
+    // Ring 2 (Middle accent loop)
     const ring2Geo = new THREE.RingGeometry(0.8, 0.815, 64);
     const ringMat2 = new THREE.MeshBasicMaterial({
-      color: 0xC9A96E, // Gold
+      color: initialColor.clone(),
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.6
+      opacity: 0.75
     });
     const ring2 = new THREE.Mesh(ring2Geo, ringMat2);
     ring2.rotation.y = -Math.PI / 6;
@@ -128,10 +142,10 @@ export function KelvinOrb() {
     // Ring 3 (Outer fine loop)
     const ring3Geo = new THREE.RingGeometry(1.05, 1.058, 64);
     const ringMat3 = new THREE.MeshBasicMaterial({
-      color: 0x222228,
+      color: initialColor.clone(),
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.25
+      opacity: 0.35
     });
     const ring3 = new THREE.Mesh(ring3Geo, ringMat3);
     ring3.rotation.x = -Math.PI / 3;
@@ -139,6 +153,7 @@ export function KelvinOrb() {
     ringsGroup.add(ring3);
 
     scene.add(ringsGroup);
+    ringMaterialRefs.current = [ringMat1, ringMat2, ringMat3];
 
     // 7. Animation cycle
     let animationFrameId: number;
@@ -177,22 +192,21 @@ export function KelvinOrb() {
     animate();
 
     const handleResize = () => {
-      if (!containerRef.current) return;
-      const w = containerRef.current.clientWidth;
-      const h = containerRef.current.clientHeight;
+      const { width: w, height: h } = getSize();
+      if (w === 0 || h === 0) return;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
+      renderer.setSize(w, h, false);
     };
-    window.addEventListener('resize', handleResize);
+
+    const resizeObserver = new ResizeObserver(handleResize);
+    resizeObserver.observe(container);
+    handleResize();
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', handleResize);
-      if (containerRef.current && renderer.domElement) {
-        containerRef.current.removeChild(renderer.domElement);
-      }
-      
+      resizeObserver.disconnect();
+
       ring1Geo.dispose();
       ringMat1.dispose();
       ring2Geo.dispose();
@@ -204,6 +218,17 @@ export function KelvinOrb() {
       glowGeo.dispose();
       glowMat.dispose();
       renderer.dispose();
+      renderer.forceContextLoss();
+
+      orbMaterialRef.current = null;
+      glowMaterialRef.current = null;
+      pointLightRef.current = null;
+      ringMaterialRefs.current = [];
+
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
+      }
+      container.replaceChildren();
     };
   }, []);
 
@@ -218,7 +243,7 @@ export function KelvinOrb() {
       <div 
         ref={containerRef} 
         id="kelvin-webgl-orb" 
-        className="w-full h-full min-h-[400px] max-w-[560px] max-h-[560px]" 
+        className="w-full h-full min-h-[400px] max-w-[560px] max-h-[560px] rounded-[2px] bg-surface-alt dark:bg-transparent" 
       />
 
       {/* Decorative Aura Overlay */}

@@ -18,10 +18,7 @@ export function CustomCollaborationCTA() {
         <p className="font-sans text-xs md:text-sm text-text-dim max-w-lg mx-auto mt-6 leading-relaxed">
           Send us your schematic layouts, DWG CAD parameters, or lighting specifications. Our project layout engineers will draft a complete recommendation set and price quote.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
-          <Button variant="primary" href={ROUTES.contact}>
-            Aquire Product Estimate
-          </Button>
+        <div className="flex justify-center mt-12">
           <Button variant="secondary" href={ROUTES.products}>
             Browse Complete Catalog
           </Button>

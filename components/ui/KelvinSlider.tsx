@@ -1,19 +1,16 @@
 'use client';
 
 import React from 'react';
-import { useLightingStore } from '../../store/lightingStore';
+import { getKelvinProfileLabel, useLightingStore } from '../../store/lightingStore';
+
+const presetButtonBase =
+  'py-2 px-3 tracking-wider font-sans text-[10px] uppercase transition-all duration-300 border border-border text-text-dim hover:text-cream hover:border-border-mid';
 
 export function KelvinSlider() {
   const { kelvin, setKelvin, activePreset, setPreset } = useLightingStore();
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKelvin(Number(e.target.value));
-  };
-
-  const currentLabel = () => {
-    if (kelvin <= 3000) return 'Warm Amber Sunset';
-    if (kelvin <= 4500) return 'Neutral Architectural Studio';
-    return 'Cool Sky Daylight';
   };
 
   return (
@@ -24,8 +21,8 @@ export function KelvinSlider() {
           <span className="font-mono text-[9px] uppercase tracking-widest text-text-ghost">
             Active Profile
           </span>
-          <span className="font-sans text-md font-medium text-white ring-offset-void">
-            {currentLabel()}
+          <span className="font-sans text-md font-medium text-cream">
+            {getKelvinProfileLabel(kelvin)}
           </span>
         </div>
         <div className="flex items-baseline gap-1 bg-surface-alt border border-border px-3 py-1.5">
@@ -73,30 +70,30 @@ export function KelvinSlider() {
       <div className="grid grid-cols-3 gap-2 mt-2">
         <button
           onClick={() => setPreset('relax')}
-          className={`py-2 px-3 tracking-wider font-sans text-[10px] uppercase transition-all duration-300 border ${
-            activePreset === 'relax' 
-              ? 'bg-gold/10 border-gold text-gold' 
-              : 'border-border text-text-dim hover:text-white hover:border-border-mid'
+          className={`${presetButtonBase} ${
+            activePreset === 'relax'
+              ? 'bg-gold/10 border-gold text-gold hover:text-gold'
+              : ''
           }`}
         >
           Relax (2700K)
         </button>
         <button
           onClick={() => setPreset('focus')}
-          className={`py-2 px-3 tracking-wider font-sans text-[10px] uppercase transition-all duration-300 border ${
-            activePreset === 'focus' 
-              ? 'bg-cream/5 border-cream/50 text-cream' 
-              : 'border-border text-text-dim hover:text-white hover:border-border-mid'
+          className={`${presetButtonBase} ${
+            activePreset === 'focus'
+              ? 'bg-cream/5 border-cream/50 text-cream hover:text-cream'
+              : ''
           }`}
         >
           Studio (4000K)
         </button>
         <button
           onClick={() => setPreset('daylight')}
-          className={`py-2 px-3 tracking-wider font-sans text-[10px] uppercase transition-all duration-300 border ${
-            activePreset === 'daylight' 
-              ? 'bg-[#2D68C4]/10 border-[#2D68C4]/40 text-[#2D68C4]' 
-              : 'border-border text-text-dim hover:text-white hover:border-border-mid'
+          className={`${presetButtonBase} ${
+            activePreset === 'daylight'
+              ? 'bg-[#2D68C4]/10 border-[#2D68C4]/40 text-[#2D68C4] hover:text-[#2D68C4]'
+              : ''
           }`}
         >
           Daylight (6500K)
