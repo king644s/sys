@@ -1,11 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { PRODUCTS } from '../data';
 import { ROUTES, categoryPath } from '@/lib/routes';
 import { buildProductInquiryMessage, buildWhatsAppUrl } from '@/lib/whatsapp';
 import { getProductWattageOptions } from '@/utils/productWattage';
+import {
+  getProductDetailWattOptions,
+  getProductImagesForWatt,
+  getProductFeatureImages,
+} from '@/utils/productAssets';
 import { ProductCard } from '../components/ui/ProductCard';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
 import { SectionDivider } from '../components/ui/SectionDivider';
@@ -37,10 +42,26 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
   const product = PRODUCTS.find(p => p.slug === productSlug);
   const finishOptions = DEFAULT_FINISHES;
   const [selectedFinishId, setSelectedFinishId] = useState(finishOptions[0]?.id ?? 'white');
+  const [selectedWattage, setSelectedWattage] = useState<string | null>(null);
 
   useEffect(() => {
     setSelectedFinishId(finishOptions[0]?.id ?? 'white');
-  }, [productSlug]);
+    const options = product ? getProductDetailWattOptions(product) : [];
+    setSelectedWattage(options.length > 0 ? options[0] : null);
+  }, [productSlug, product]);
+
+  const displayImages = useMemo(
+    () => (product ? getProductImagesForWatt(product, selectedWattage) : []),
+    [product, selectedWattage],
+  );
+
+  const featureImages = useMemo(
+    () => (product ? getProductFeatureImages(product, selectedWattage) : []),
+    [product, selectedWattage],
+  );
+
+  const wattImageOptions = product ? getProductDetailWattOptions(product) : [];
+  const fallbackWattOptions = product ? getProductWattageOptions(product) : [];
 
   if (!product) {
     return (
@@ -56,7 +77,6 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
     );
   }
 
-  // Find related products matching the same category
   const relatedProducts = PRODUCTS.filter(
     p => (p.family ?? p.category) === (product.family ?? product.category) && p.id !== product.id,
   ).slice(0, 3);
@@ -64,9 +84,8 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
   const activeFinish =
     finishOptions.find((finish) => finish.id === selectedFinishId) ?? finishOptions[0];
 
-  const displayImages = product.images;
-
-  const wattageOptions = getProductWattageOptions(product);
+  const showWattSelector = wattImageOptions.length > 1;
+  const displayOnlyWattages = !showWattSelector ? fallbackWattOptions : [];
 
   const whatsAppInquiryUrl = buildWhatsAppUrl(buildProductInquiryMessage(product));
 
@@ -74,7 +93,6 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
     <div className="transition-page-enter">
       <Breadcrumbs />
 
-      {/* Back button container */}
       <section className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
           <Link
@@ -91,18 +109,15 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
         </div>
       </section>
 
-      {/* 2-Column Product Detail Layout */}
       <section className="max-w-7xl mx-auto px-6 py-4 grid grid-cols-1 lg:grid-cols-12 gap-12">
-        {/* Left: Interactive Image showcase — sticky while right column scrolls */}
         <div className="lg:col-span-6 lg:sticky lg:top-28 lg:self-start">
           <ProductImageCarousel
-            key={selectedFinishId}
+            key={`${selectedWattage ?? 'default'}-${selectedFinishId}`}
             images={displayImages}
             productName={product.name}
           />
         </div>
 
-        {/* Right: Technical specifications and Add To Quote controls */}
         <div className="lg:col-span-6 flex flex-col gap-6">
           <div>
             <span className="font-mono text-[9px] uppercase tracking-widest text-gold font-bold">
@@ -113,13 +128,38 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
             <h1 className="font-serif text-3xl md:text-5xl text-cream tracking-tight mt-1 mb-2 font-light">
               {product.name}
             </h1>
-            {wattageOptions.length > 0 && (
+
+            {showWattSelector && (
+              <div className="mt-3 rounded-md bg-gold/5 px-3 py-2.5">
+                <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-text-ghost block mb-2">
+                  Select Wattage
+                </span>
+                <div className="flex flex-wrap items-center gap-2">
+                  {wattImageOptions.map((wattage) => (
+                    <button
+                      key={wattage}
+                      type="button"
+                      onClick={() => setSelectedWattage(wattage)}
+                      className={`inline-flex items-center px-2.5 py-1 font-mono text-[11px] md:text-xs font-medium tracking-wide rounded-md cursor-pointer transition-all duration-300 ${
+                        selectedWattage === wattage
+                          ? 'bg-gold text-void border border-gold shadow-[0_0_12px_rgba(201,169,110,0.35)]'
+                          : 'bg-void/30 text-gold/95 border border-border hover:border-gold/50'
+                      }`}
+                    >
+                      {wattage}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {displayOnlyWattages.length > 0 && (
               <div className="mt-3 rounded-md bg-gold/5 px-3 py-2.5">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-text-ghost">
                     Available Wattage
                   </span>
-                  {wattageOptions.map((wattage) => (
+                  {displayOnlyWattages.map((wattage) => (
                     <span
                       key={wattage}
                       className="inline-flex items-center px-2.5 py-1 bg-void/30 font-mono text-[11px] md:text-xs text-gold/95 font-medium tracking-wide rounded-md"
@@ -140,7 +180,6 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
 
           <div className="h-px bg-border/50" />
 
-          {/* Luxury physical finish picker */}
           <div>
             <span className="font-mono text-[9px] uppercase tracking-widest text-text-ghost block mb-3">
               Colour Option — {activeFinish.label}
@@ -162,7 +201,6 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
             </div>
           </div>
 
-          {/* Main call to action */}
           <div className="mt-4">
             <a
               href={whatsAppInquiryUrl}
@@ -183,11 +221,10 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
         </div>
       </section>
 
-      <ProductFeatures images={displayImages} productName={product.name} />
+      <ProductFeatures images={featureImages} productName={product.name} />
 
       <SectionDivider label="Related specifications" />
 
-      {/* Related Products Series list */}
       <section className="max-w-7xl mx-auto px-6 py-10 mb-12">
         <h2 className="font-serif text-2xl md:text-4xl text-cream font-light tracking-tight mb-10">
           More from this <span className="italic font-serif text-gold font-normal">Classification</span>

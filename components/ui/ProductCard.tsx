@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { Product } from '../../types';
 import { productPath } from '@/lib/routes';
+import { getProductListingImage } from '@/utils/productAssets';
+import { ProgressiveImage } from './ProgressiveImage';
 import { ArrowUpRight } from 'lucide-react';
 
 interface ProductCardProps {
@@ -11,6 +13,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const href = productPath(product.slug);
+  const listingImage = getProductListingImage(product);
 
   return (
     <Link
@@ -20,11 +23,11 @@ export function ProductCard({ product }: ProductCardProps) {
     >
       <div className="relative aspect-square w-full bg-gradient-to-b from-surface-alt to-void overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center p-6">
-          <img
-            src={product.images[0]}
+          <ProgressiveImage
+            thumbnailSrc={listingImage.thumbnail}
+            fullSrc={listingImage.full}
             alt={product.name}
             loading="lazy"
-            referrerPolicy="no-referrer"
             className="max-h-full max-w-full h-auto w-auto object-contain object-center opacity-100 group-hover:scale-105 transition-transform duration-700 ease-out-expo"
           />
         </div>

@@ -8,31 +8,25 @@ import {
   ZoomIn,
   X,
 } from 'lucide-react';
+import { ProductImagePair } from '@/utils/productAssets';
+import { ProgressiveImage } from './ProgressiveImage';
 
 interface ProductImageCarouselProps {
-  images: string[];
+  images: ProductImagePair[];
   productName: string;
 }
 
-const SLIDE_COUNT = 6;
 const NAV_BUTTON_SIZE = 40;
 
 export function ProductImageCarousel({ images, productName }: ProductImageCarouselProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
 
   const slides = useMemo(() => {
-    const source = images.filter(Boolean);
+    const source = images.filter((img) => img.thumbnail || img.full);
     if (source.length === 0) {
-      return [{ src: '' }];
+      return [{ thumbnail: '', full: '' }];
     }
-
-    if (source.length > 1) {
-      return source.map((src) => ({ src }));
-    }
-
-    return Array.from({ length: SLIDE_COUNT }, () => ({
-      src: source[0],
-    }));
+    return source;
   }, [images]);
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -41,8 +35,12 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
   const [hoverSide, setHoverSide] = useState<'left' | 'right' | null>(null);
   const [isMounted, setIsMounted] = useState(false);
 
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [images]);
+
   const canNavigate = slides.length > 1;
-  const canEnlarge = Boolean(slides[activeIndex]?.src);
+  const canEnlarge = Boolean(slides[activeIndex]?.full || slides[activeIndex]?.thumbnail);
 
   const goPrev = useCallback(() => {
     setActiveIndex((prev) => (prev - 1 + slides.length) % slides.length);
@@ -53,7 +51,7 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
   }, [slides.length]);
 
   const openZoom = useCallback(() => {
-    if (slides[activeIndex]?.src) {
+    if (slides[activeIndex]?.full || slides[activeIndex]?.thumbnail) {
       setIsZoomOpen(true);
     }
   }, [activeIndex, slides]);
@@ -182,13 +180,12 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
               {activeIndex + 1} / {slides.length}
             </span>
 
-            <img
-              src={activeSlide.src}
+            <ProgressiveImage
+              thumbnailSrc={activeSlide.thumbnail}
+              fullSrc={activeSlide.full}
               alt={`${productName} — enlarged`}
-              referrerPolicy="no-referrer"
+              loading="eager"
               className="max-h-[85vh] max-w-[min(90vw,1200px)] object-contain select-none"
-              onClick={(e) => e.stopPropagation()}
-              draggable={false}
             />
           </div>,
           document.body,
@@ -197,9 +194,7 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
 
   return (
     <div className="flex flex-col gap-5 w-full">
-      {/* Thumbnails + main viewer */}
       <div className="flex gap-3 md:gap-4">
-        {/* Vertical thumbnail strip */}
         <div className="flex flex-col gap-2 md:gap-2.5 shrink-0">
           {slides.map((slide, index) => (
             <button
@@ -213,17 +208,16 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
               }`}
               aria-label={`View image ${index + 1}`}
             >
-              <img
-                src={slide.src}
+              <ProgressiveImage
+                thumbnailSrc={slide.thumbnail}
+                fullSrc={slide.full}
                 alt={`${productName} thumbnail ${index + 1}`}
-                referrerPolicy="no-referrer"
                 className="w-full h-full object-contain object-center"
               />
             </button>
           ))}
         </div>
 
-        {/* Main carousel viewport */}
         <div
           ref={viewportRef}
           onMouseMove={handleViewportMouseMove}
@@ -237,16 +231,15 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
             className="absolute inset-0 flex items-center justify-center p-6 md:p-10 cursor-zoom-in disabled:cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-inset"
             aria-label={`Enlarge ${productName} image`}
           >
-            <img
-              src={activeSlide.src}
+            <ProgressiveImage
+              thumbnailSrc={activeSlide.thumbnail}
+              fullSrc={activeSlide.full}
               alt={productName}
-              referrerPolicy="no-referrer"
-              draggable={false}
+              loading="eager"
               className="max-h-full max-w-full h-auto w-auto object-contain object-center transition-transform duration-700 ease-out-expo group-hover:scale-[1.02] pointer-events-none"
             />
           </button>
 
-          {/* Previous — left half, follows cursor */}
           {canNavigate && (
             <button
               type="button"
@@ -264,7 +257,6 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
             </button>
           )}
 
-          {/* Next — right half, follows cursor */}
           {canNavigate && (
             <button
               type="button"
@@ -282,7 +274,6 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
             </button>
           )}
 
-          {/* Enlarge button */}
           <button
             type="button"
             onClick={(e) => {
@@ -297,7 +288,6 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
             <ZoomIn className="w-4 h-4" />
           </button>
 
-          {/* Slide indicator */}
           <span className="absolute bottom-3 left-3 z-20 font-mono text-[9px] uppercase tracking-widest text-text-ghost bg-surface/80 border border-border/60 px-2 py-1 rounded-[1px] backdrop-blur-sm pointer-events-none">
             {activeIndex + 1} / {slides.length}
           </span>

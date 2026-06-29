@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 import { ScrollReveal } from './ScrollReveal';
+import { ProgressiveImage } from './ProgressiveImage';
 
 const FEATURE_COPY = [
   {
@@ -20,6 +21,12 @@ const FEATURE_COPY = [
       'Built from enduring materials that age beautifully, radiating comfort for years to come.',
   },
 ];
+
+function thumbnailForFullSrc(fullSrc: string): string {
+  if (!fullSrc) return fullSrc;
+  if (fullSrc.includes('-thumbnail')) return fullSrc;
+  return fullSrc.replace(/\.png$/i, '-thumbnail.png');
+}
 
 interface ProductFeaturesProps {
   images: string[];
@@ -47,28 +54,33 @@ export function ProductFeatures({ images, productName }: ProductFeaturesProps) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
-          {FEATURE_COPY.map((feature, index) => (
-            <div key={feature.title} className="flex flex-col gap-5">
-              <div className="aspect-[4/5] overflow-hidden rounded-[4px] border border-border/60 bg-surface-alt">
-                <img
-                  src={featureImages[index]}
-                  alt={`${productName} — ${feature.title}`}
-                  loading="lazy"
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-contain object-center p-4 transition-transform duration-700 ease-out-expo hover:scale-105"
-                />
-              </div>
+          {FEATURE_COPY.map((feature, index) => {
+            const fullSrc = featureImages[index];
+            const thumbnailSrc = thumbnailForFullSrc(fullSrc);
 
-              <div className="flex flex-col gap-2.5">
-                <h3 className="font-sans text-base md:text-lg text-cream font-semibold tracking-tight">
-                  {feature.title}
-                </h3>
-                <p className="font-sans text-sm text-text-dim leading-relaxed">
-                  {feature.description}
-                </p>
+            return (
+              <div key={feature.title} className="flex flex-col gap-5">
+                <div className="aspect-[4/5] overflow-hidden rounded-[4px] border border-border/60 bg-surface-alt">
+                  <ProgressiveImage
+                    thumbnailSrc={thumbnailSrc}
+                    fullSrc={fullSrc}
+                    alt={`${productName} — ${feature.title}`}
+                    loading="lazy"
+                    className="w-full h-full object-contain object-center p-4 transition-transform duration-700 ease-out-expo hover:scale-105"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-2.5">
+                  <h3 className="font-sans text-base md:text-lg text-cream font-semibold tracking-tight">
+                    {feature.title}
+                  </h3>
+                  <p className="font-sans text-sm text-text-dim leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </ScrollReveal>
     </section>

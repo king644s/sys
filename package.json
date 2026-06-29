@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "generate:assets": "node scripts/generate-product-assets.mjs",
+    "build": "npm run generate:assets && next build",
     "start": "next start",
     "lint": "eslint"
   },
