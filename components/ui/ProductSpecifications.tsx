@@ -88,28 +88,89 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
 
   const getTechSpecValue = (key: string, defaultValue: string) => {
     const specs = product.specs || {};
-    const foundKey = Object.keys(specs).find(
-      (k) => k.toLowerCase() === key.toLowerCase() || k.toLowerCase().includes(key.toLowerCase())
-    );
+    const foundKey = Object.keys(specs).find((k) => k.toLowerCase() === key.toLowerCase());
     return foundKey ? specs[foundKey] : defaultValue;
+  };
+
+  const formatSpecValue = (label: string, value: string) => {
+    if (!value || value === '—') return value;
+
+    if (label === 'Lumen Efficiency') {
+      return value.replace(/lm\/w/gi, 'LM/W');
+    }
+
+    if (label === 'Product Codes') {
+      return value.toUpperCase();
+    }
+
+    if (label === 'CCT') {
+      return value
+        .split('/')
+        .map((part) => part.trim())
+        .filter(Boolean)
+        .map((part) => (/^\d+k$/i.test(part) ? part.toUpperCase() : part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()))
+        .join(' / ');
+    }
+
+    const preserveBrandCase = (word: string) => {
+      if (word.toLowerCase() === 'syslight') return 'SYSlight';
+      return null;
+    };
+
+    const formatSegment = (segment: string) => {
+      if (segment.includes('/')) {
+        return segment
+          .split('/')
+          .map((part) => {
+            const trimmed = part.trim();
+            if (/^\d+k$/i.test(trimmed)) return trimmed.toUpperCase();
+            const brand = preserveBrandCase(trimmed);
+            if (brand) return brand;
+            return trimmed.charAt(0).toUpperCase() + trimmed.slice(1).toLowerCase();
+          })
+          .join('/');
+      }
+
+      return segment
+        .split(' ')
+        .map((word, index) => {
+          const brand = preserveBrandCase(word);
+          if (brand) return brand;
+          const lower = word.toLowerCase();
+          if (/^\d/.test(word)) return word;
+          if (lower === 'lm/w') return 'LM/W';
+          if (index === 0) return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+          return lower;
+        })
+        .join(' ');
+    };
+
+    return value.split(' / ').map(formatSegment).join(' / ');
   };
 
   const dimensionRows = getDimensionsRows();
   const hasVariants = product.dimensionVariants && product.dimensionVariants.length > 0;
 
+  const commonTechSpecs = [
+    { label: 'LED', value: getTechSpecValue('LED', 'Cree / Bridgelux / Tyanshine') },
+    { label: 'Driver', value: getTechSpecValue('Driver', 'SYSlight / Philips / Osram') },
+    { label: 'CRI', value: getTechSpecValue('CRI', '80 & above') },
+    { label: 'Lumen Efficiency', value: getTechSpecValue('Lumen Efficiency', '100 - 120 LM/W') },
+    { label: 'Material', value: getTechSpecValue('Material', 'Aluminum die casting') },
+  ];
+
   const techSpecs = hasVariants
     ? [
-        { label: 'Vendor Code', value: product.vendorCode || '—' },
-        { label: 'Type', value: getTechSpecValue('Type', '—') },
         { label: 'Classification', value: getTechSpecValue('Classification', '—') },
-        { label: 'CCT Options', value: getTechSpecValue('CCT Options', '—') },
-        { label: 'Fixture Color', value: getTechSpecValue('Fixture Color', '—') },
+        { label: 'CCT', value: getTechSpecValue('CCT Options', '—') },
+        { label: 'Reflector Color', value: getTechSpecValue('Fixture Color', '—') },
         { label: 'Product Codes', value: getTechSpecValue('Product Codes', '—') },
         { label: 'Additional Features', value: getTechSpecValue('Additional Features', '—') },
-      ].filter((spec) => spec.value !== '—')
+      ]
+        .filter((spec) => spec.value !== '—')
+        .concat(commonTechSpecs)
     : [
-        { label: 'LED', value: getTechSpecValue('LED', 'CREE / BRIDGELUX') },
-        { label: 'Driver', value: getTechSpecValue('Driver', 'PHILIPS / FULHAM / OSRAM') },
+        ...commonTechSpecs,
         {
           label: 'Colour Temp',
           value: getTechSpecValue(
@@ -117,8 +178,7 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
             getTechSpecValue('CCT', '2700K / 3000K / 3500K / 4000K / 5000K / 6500K')
           ),
         },
-        { label: 'Optics', value: getTechSpecValue('Optics', 'HERCULUX') },
-        { label: 'Lumen Efficiency', value: getTechSpecValue('Lumen Efficiency', '120–140 LM/W') },
+        { label: 'Optics', value: getTechSpecValue('Optics', 'Herculux') },
         {
           label: 'Ring Colour',
           value: getTechSpecValue(
@@ -126,7 +186,6 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
             'White / Mat Black / Gold / Rose Gold / Chrome / Silver / Pearl Shining Black'
           ),
         },
-        { label: 'CRI', value: getTechSpecValue('CRI', '80 / 90') },
         { label: 'Heatsink Colour', value: getTechSpecValue('Heatsink Colour', 'Grey') },
         {
           label: 'Beam Angle',
@@ -214,7 +273,9 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
                     <td className="py-3.5 px-5 font-mono text-[10px] text-text-dim uppercase tracking-wider font-bold w-[35%] md:w-[30%]">
                       {spec.label}
                     </td>
-                    <td className="py-3.5 px-5 text-cream font-medium">{spec.value}</td>
+                    <td className="py-3.5 px-5 text-cream font-medium normal-case">
+                      {formatSpecValue(spec.label, spec.value)}
+                    </td>
                   </tr>
                 ))}
               </tbody>

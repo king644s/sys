@@ -37,7 +37,14 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
 
   useEffect(() => {
     setActiveIndex(0);
+    setIsZoomOpen(false);
   }, [images]);
+
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
 
   const canNavigate = slides.length > 1;
   const canEnlarge = Boolean(slides[activeIndex]?.full || slides[activeIndex]?.thumbnail);
@@ -201,7 +208,7 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
               key={index}
               type="button"
               onClick={() => setActiveIndex(index)}
-              className={`w-14 h-14 md:w-16 md:h-16 border rounded-[2px] overflow-hidden cursor-pointer transition-all duration-300 p-1.5 bg-surface-alt ${
+              className={`w-14 h-14 md:w-16 md:h-16 border rounded-[2px] overflow-hidden cursor-pointer transition-all duration-300 p-1.5 bg-gold/5 dark:bg-surface-alt ${
                 activeIndex === index
                   ? 'border-gold shadow-[0_0_0_1px_var(--color-gold)]'
                   : 'border-border hover:border-border-mid'
@@ -222,7 +229,7 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
           ref={viewportRef}
           onMouseMove={handleViewportMouseMove}
           onMouseLeave={handleViewportMouseLeave}
-          className="group relative flex-1 aspect-square border border-border rounded-[2px] overflow-hidden bg-surface-alt"
+          className="group relative flex-1 aspect-square border border-border rounded-[2px] overflow-hidden bg-gold/5 dark:bg-surface-alt"
         >
           <button
             type="button"

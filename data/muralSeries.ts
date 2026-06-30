@@ -32,7 +32,7 @@ export const MURAL_PRODUCTS: Product[] = [
         wattage: '9W',
         fixtureColor: 'WH/BK',
         cost: 375,
-        cct: '',
+        cct: '3K/4K/5K/6K/Tuneable',
         driverSupport: '',
         outerDiameter: '40',
         height: '90',

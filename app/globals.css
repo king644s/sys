@@ -1,5 +1,107 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Fira+Code:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
+
+/* ─── Azo Sans (local) ──────────────────────────────────────────────── */
+@font-face {
+  font-family: "Azo Sans";
+  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Thin.otf") format("opentype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Azo Sans";
+  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Thin_Italic.otf") format("opentype");
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Azo Sans";
+  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Azo Sans";
+  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Light_Italic.otf") format("opentype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Azo Sans";
+  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Azo Sans";
+  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Italic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Azo Sans";
+  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Azo Sans";
+  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Medium_Italic.otf") format("opentype");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Azo Sans";
+  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Azo Sans";
+  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Bold_Italic.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Azo Sans";
+  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Black.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Azo Sans";
+  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Black_Italic.otf") format("opentype");
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Azo Sans Uber";
+  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Uber_Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Enra Sans Variable (local) ────────────────────────────────────── */
+@font-face {
+  font-family: "Enra Sans";
+  src: url("/Fonts Enra Sans/fonts/fonnts.com-Enra_Sans_Variable.otf") format("opentype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -57,6 +159,22 @@
   --ease-luxury: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* ─── Font Theme: Azo (local fonts) ─────────────────────────────────── */
+[data-font="azo"],
+[data-font="azo"] * {
+  --font-serif: "Enra Sans", "Azo Sans", sans-serif;
+  --font-sans: "Azo Sans", sans-serif;
+  --font-mono: "Azo Sans", monospace;
+}
+
+/* ─── Font Theme: Editorial (suggested) ─────────────────────────────── */
+[data-font="editorial"],
+[data-font="editorial"] * {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Raleway", sans-serif;
+  --font-mono: "Fira Code", monospace;
 }
 
 @layer base {

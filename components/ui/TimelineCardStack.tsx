@@ -13,6 +13,8 @@ export function TimelineCardStack() {
 
   useGSAP(
     () => {
+      const triggers: ScrollTrigger[] = [];
+
       const cards = gsap.utils.toArray<HTMLElement>(
         '.tl-stack-card',
         containerRef.current!,
@@ -24,21 +26,23 @@ export function TimelineCardStack() {
         trigger: cards[cards.length - 1],
         start: 'center center',
       });
+      triggers.push(lastCardST);
 
-      // Pin the section header (lives above this component in About.tsx).
-      // Uses document.getElementById intentionally — it's outside this component's scope.
-      // Pins from when the header's top slides below the navbar (top-28 = 112px) until the
-      // last card arrives, at which point everything unpins and the header scrolls away.
+      // Anchor pins the section header (lives above this component in About.tsx).
+      // Uses document.getElementById intentionally — it's outside this component's scope,
+      // so we track and kill this trigger explicitly on cleanup.
       const header = document.getElementById('tl-journey-header');
       if (header) {
-        ScrollTrigger.create({
-          trigger: header,
-          start: 'top top+=112',
-          end: () => lastCardST.start,
-          pin: true,
-          pinSpacing: false,
-          pinType: 'transform',
-        });
+        triggers.push(
+          ScrollTrigger.create({
+            trigger: header,
+            start: 'top top+=112',
+            end: () => lastCardST.start,
+            pin: true,
+            pinSpacing: false,
+            pinType: 'transform',
+          }),
+        );
       }
 
       const isLast = (index: number) => index === cards.length - 1;
@@ -57,21 +61,27 @@ export function TimelineCardStack() {
           ease: 'none',
         });
 
-        ScrollTrigger.create({
-          trigger: card,
-          start: 'center center',
-          // Unpin each card the moment the last card's center reaches the viewport center
-          end: () => lastCardST.start,
-          pin: true,
-          pinSpacing: false,
-          // IMPORTANT: use transform-based pinning — the About page root has a
-          // CSS animation (transition-page-enter) that leaves a transform on the
-          // element, making position:fixed children mis-positioned.
-          pinType: 'transform',
-          animation: scaleDown,
-          toggleActions: 'restart none none reverse',
-        });
+        triggers.push(
+          ScrollTrigger.create({
+            trigger: card,
+            start: 'center center',
+            // Unpin each card the moment the last card's center reaches the viewport center
+            end: () => lastCardST.start,
+            pin: true,
+            pinSpacing: false,
+            // IMPORTANT: use transform-based pinning — the About page root has a
+            // CSS animation (transition-page-enter) that leaves a transform on the
+            // element, making position:fixed children mis-positioned.
+            pinType: 'transform',
+            animation: scaleDown,
+            toggleActions: 'restart none none reverse',
+          }),
+        );
       });
+
+      return () => {
+        triggers.forEach((trigger) => trigger.kill());
+      };
     },
     { scope: containerRef },
   );

@@ -32,7 +32,7 @@ export const BLADE_PRODUCTS: Product[] = [
         wattage: '12–15W',
         fixtureColor: 'WH/BK',
         cost: 490,
-        cct: '',
+        cct: '3K/4K/5K/6K/Tuneable',
         driverSupport: '',
         outerDiameter: '81',
         height: '30',

@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { Product } from '../../types';
 import { productPath } from '@/lib/routes';
 import { getProductListingImage } from '@/utils/productAssets';
+import { getProductCodeDisplay } from '@/utils/productCodes';
+import { getProductWattageDisplay } from '@/utils/productWattage';
 import { ProgressiveImage } from './ProgressiveImage';
 import { ArrowUpRight } from 'lucide-react';
 
@@ -14,6 +16,8 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const href = productPath(product.slug);
   const listingImage = getProductListingImage(product);
+  const productCodes = getProductCodeDisplay(product);
+  const wattage = getProductWattageDisplay(product);
 
   return (
     <Link
@@ -46,19 +50,21 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
 
       <div className="p-5 flex flex-col flex-1 border-t border-border/50">
-        <span className="font-mono text-[8px] uppercase tracking-widest text-gold-muted mb-1.5">
-          {product.skuPrefix
-            ? `${product.skuPrefix} · ${product.section ?? product.subcategory ?? product.category.replace(/-/g, ' ')}`
-            : product.subcategory || product.category.replace(/-/g, ' ')}
-        </span>
+        {productCodes && (
+          <span className="font-mono text-[8px] uppercase tracking-widest text-gold-muted mb-1.5">
+            {productCodes}
+          </span>
+        )}
 
         <h3 className="font-serif text-lg text-cream group-hover:text-gold transition-colors duration-300 mb-2 font-semibold">
           {product.name}
         </h3>
 
-        <p className="font-sans text-xs text-text-dim leading-relaxed mb-4 flex-1">
-          {product.shortSpec}
-        </p>
+        {wattage && (
+          <p className="font-sans text-xs text-text-dim leading-relaxed mb-4 flex-1">
+            {wattage}
+          </p>
+        )}
 
         <span className="mt-auto self-start text-[9px] font-mono uppercase tracking-[0.18em] text-cream group-hover:text-gold group-hover:translate-x-1 duration-300 inline-flex items-center gap-1">
           <span>Examine Fixture</span>

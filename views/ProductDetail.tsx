@@ -5,6 +5,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { PRODUCTS } from '../data';
 import { ROUTES, categoryPath } from '@/lib/routes';
 import { buildProductInquiryMessage, buildWhatsAppUrl } from '@/lib/whatsapp';
+import { getProductCodeDisplay } from '@/utils/productCodes';
 import { getProductWattageOptions } from '@/utils/productWattage';
 import {
   getProductDetailWattOptions,
@@ -87,6 +88,7 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
   const showWattSelector = wattImageOptions.length > 1;
   const displayOnlyWattages = !showWattSelector ? fallbackWattOptions : [];
 
+  const catalogId = getProductCodeDisplay(product);
   const whatsAppInquiryUrl = buildWhatsAppUrl(buildProductInquiryMessage(product));
 
   return (
@@ -103,9 +105,11 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
             <span>back to series</span>
           </Link>
 
-          <span className="font-mono text-[9px] text-text-ghost uppercase tracking-widest hidden md:inline">
-            Catalog ID: SYS-{product.id.toUpperCase()}
-          </span>
+          {catalogId && (
+            <span className="font-mono text-[9px] text-text-ghost uppercase tracking-widest hidden md:inline">
+              Product Code: {catalogId}
+            </span>
+          )}
         </div>
       </section>
 
@@ -130,44 +134,40 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
             </h1>
 
             {showWattSelector && (
-              <div className="mt-3 rounded-md bg-gold/5 px-3 py-2.5">
-                <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-text-ghost block mb-2">
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-text-ghost">
                   Select Wattage
                 </span>
-                <div className="flex flex-wrap items-center gap-2">
-                  {wattImageOptions.map((wattage) => (
-                    <button
-                      key={wattage}
-                      type="button"
-                      onClick={() => setSelectedWattage(wattage)}
-                      className={`inline-flex items-center px-2.5 py-1 font-mono text-[11px] md:text-xs font-medium tracking-wide rounded-md cursor-pointer transition-all duration-300 ${
-                        selectedWattage === wattage
-                          ? 'bg-gold text-void border border-gold shadow-[0_0_12px_rgba(201,169,110,0.35)]'
-                          : 'bg-void/30 text-gold/95 border border-border hover:border-gold/50'
-                      }`}
-                    >
-                      {wattage}
-                    </button>
-                  ))}
-                </div>
+                {wattImageOptions.map((wattage) => (
+                  <button
+                    key={wattage}
+                    type="button"
+                    onClick={() => setSelectedWattage(wattage)}
+                    className={`inline-flex items-center px-2.5 py-1 font-mono text-[11px] md:text-xs font-medium tracking-wide rounded-md cursor-pointer transition-colors duration-300 ${
+                      selectedWattage === wattage
+                        ? 'bg-void/30 text-cream underline underline-offset-4 decoration-gold/80'
+                        : 'bg-void/30 text-gold/70 hover:text-gold/95'
+                    }`}
+                  >
+                    {wattage}
+                  </button>
+                ))}
               </div>
             )}
 
             {displayOnlyWattages.length > 0 && (
-              <div className="mt-3 rounded-md bg-gold/5 px-3 py-2.5">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-text-ghost">
-                    Available Wattage
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-text-ghost">
+                  Available Wattage
+                </span>
+                {displayOnlyWattages.map((wattage) => (
+                  <span
+                    key={wattage}
+                    className="inline-flex items-center px-2.5 py-1 bg-void/30 font-mono text-[11px] md:text-xs text-gold/95 font-medium tracking-wide rounded-md"
+                  >
+                    {wattage}
                   </span>
-                  {displayOnlyWattages.map((wattage) => (
-                    <span
-                      key={wattage}
-                      className="inline-flex items-center px-2.5 py-1 bg-void/30 font-mono text-[11px] md:text-xs text-gold/95 font-medium tracking-wide rounded-md"
-                    >
-                      {wattage}
-                    </span>
-                  ))}
-                </div>
+                ))}
               </div>
             )}
           </div>

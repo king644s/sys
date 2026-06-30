@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect, useRef, FormEvent } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useNavigation } from '@/hooks/useNavigation';
@@ -10,14 +10,58 @@ import {
   Menu, 
   X, 
   Search, 
-  User, 
-  Heart, 
-  ShoppingBag, 
   Sun, 
   Moon, 
   ChevronDown, 
-  ArrowRight 
+  ArrowRight,
+  Type,
 } from 'lucide-react';
+
+type FontTheme = 'default' | 'azo' | 'editorial';
+
+interface FontOption {
+  id: FontTheme;
+  label: string;
+  description: string;
+  sample: string;
+  stacks: { sans: string; serif: string; mono: string };
+}
+
+const FONT_OPTIONS: FontOption[] = [
+  {
+    id: 'default',
+    label: 'Default',
+    description: 'DM Sans · Cormorant Garamond · Space Mono',
+    sample: 'Aa',
+    stacks: {
+      sans: '"DM Sans", sans-serif',
+      serif: '"Cormorant Garamond", Georgia, serif',
+      mono: '"Space Mono", monospace',
+    },
+  },
+  {
+    id: 'azo',
+    label: 'Azo',
+    description: 'Azo Sans · Enra Sans Variable',
+    sample: 'Aa',
+    stacks: {
+      sans: '"Azo Sans", sans-serif',
+      serif: '"Enra Sans", "Azo Sans", sans-serif',
+      mono: '"Azo Sans", monospace',
+    },
+  },
+  {
+    id: 'editorial',
+    label: 'Editorial',
+    description: 'Raleway · Playfair Display · Fira Code',
+    sample: 'Aa',
+    stacks: {
+      sans: '"Raleway", sans-serif',
+      serif: '"Playfair Display", Georgia, serif',
+      mono: '"Fira Code", monospace',
+    },
+  },
+];
 
 export function Navbar() {
   const { currentView } = useNavigation();
@@ -32,6 +76,11 @@ export function Navbar() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [isThemeReady, setIsThemeReady] = useState(false);
 
+  // Font theme
+  const [fontTheme, setFontTheme] = useState<FontTheme>('default');
+  const [isFontMenuOpen, setIsFontMenuOpen] = useState(false);
+  const fontMenuRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const saved = localStorage.getItem('syflight-theme');
     const initial =
@@ -42,6 +91,12 @@ export function Navbar() {
           : 'light';
     setTheme(initial);
     setIsThemeReady(true);
+
+    const savedFont = localStorage.getItem('syflight-font') as FontTheme | null;
+    if (savedFont && ['default', 'azo', 'editorial'].includes(savedFont)) {
+      setFontTheme(savedFont);
+      applyFontTheme(savedFont);
+    }
   }, []);
 
   useEffect(() => {
@@ -55,6 +110,74 @@ export function Navbar() {
     }
     localStorage.setItem('syflight-theme', theme);
   }, [theme, isThemeReady]);
+
+  // Close font menu on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (fontMenuRef.current && !fontMenuRef.current.contains(e.target as Node)) {
+        setIsFontMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  function applyFontTheme(f: FontTheme) {
+    const root = document.documentElement;
+
+    // Remove any previously injected font theme style tag
+    document.getElementById('syflight-font-theme')?.remove();
+
+    if (f === 'default') {
+      root.removeAttribute('data-font');
+      return;
+    }
+
+    const option = FONT_OPTIONS.find((o) => o.id === f);
+    if (!option) return;
+
+    root.setAttribute('data-font', f);
+
+    // Inject a <style> tag into <head> — it appears last in the cascade so it
+    // wins over Tailwind's @layer theme variables regardless of specificity.
+    // html[data-font] has specificity [0,1,1] which beats :root [0,1,0].
+    const style = document.createElement('style');
+    style.id = 'syflight-font-theme';
+    style.textContent = `
+      html[data-font="${f}"] {
+        --font-sans: ${option.stacks.sans};
+        --font-serif: ${option.stacks.serif};
+        --font-mono: ${option.stacks.mono};
+        --default-font-family: ${option.stacks.sans};
+        --default-mono-font-family: ${option.stacks.mono};
+        font-family: ${option.stacks.sans};
+      }
+      html[data-font="${f}"] body,
+      html[data-font="${f}"] *:not(.font-serif):not(.font-mono) {
+        font-family: ${option.stacks.sans};
+      }
+      html[data-font="${f}"] .font-serif,
+      html[data-font="${f}"] [class*="font-serif"] {
+        font-family: ${option.stacks.serif} !important;
+      }
+      html[data-font="${f}"] .font-mono,
+      html[data-font="${f}"] [class*="font-mono"] {
+        font-family: ${option.stacks.mono} !important;
+      }
+      html[data-font="${f}"] .font-sans,
+      html[data-font="${f}"] [class*="font-sans"] {
+        font-family: ${option.stacks.sans} !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function handleFontChange(f: FontTheme) {
+    setFontTheme(f);
+    applyFontTheme(f);
+    localStorage.setItem('syflight-font', f);
+    setIsFontMenuOpen(false);
+  }
 
   const isActive = (viewType: string) => {
     if (viewType === 'products') {
@@ -175,6 +298,65 @@ export function Navbar() {
               <Sun className="w-4.5 h-4.5 text-gold stroke-[1.5] animate-pulse-glow" />
             )}
           </button>
+
+          {/* Font Theme Switcher */}
+          <div ref={fontMenuRef} className="relative">
+            <button
+              onClick={() => setIsFontMenuOpen(!isFontMenuOpen)}
+              className={`p-1.5 transition-colors cursor-pointer rounded-full hover:bg-surface-alt ${
+                fontTheme !== 'default' ? 'text-gold' : 'text-text-dim hover:text-gold'
+              }`}
+              title="Switch font theme"
+            >
+              <Type className="w-4 h-4 stroke-[1.5]" />
+            </button>
+
+            {isFontMenuOpen && (
+              <div className="absolute right-0 top-full mt-2 w-64 bg-surface border border-border shadow-xl z-60 animate-fade-in rounded-[2px] overflow-hidden">
+                <div className="px-4 pt-3 pb-2 border-b border-border">
+                  <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-text-ghost">
+                    Typography Theme
+                  </span>
+                </div>
+                {FONT_OPTIONS.map((opt) => (
+                  <button
+                    key={opt.id}
+                    onClick={() => handleFontChange(opt.id)}
+                    className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors cursor-pointer ${
+                      fontTheme === opt.id
+                        ? 'bg-surface-alt'
+                        : 'hover:bg-surface-alt'
+                    }`}
+                  >
+                    <span
+                      className={`shrink-0 w-9 h-9 flex items-center justify-center border text-sm font-bold rounded-[1px] transition-colors ${
+                        fontTheme === opt.id
+                          ? 'border-gold text-gold'
+                          : 'border-border text-text-dim'
+                      }`}
+                      style={{
+                        fontFamily: opt.stacks.serif,
+                        fontStyle: 'italic',
+                      }}
+                    >
+                      {opt.sample}
+                    </span>
+                    <div className="flex flex-col min-w-0">
+                      <span className={`font-sans text-xs font-semibold leading-tight ${fontTheme === opt.id ? 'text-cream' : 'text-text-dim'}`}>
+                        {opt.label}
+                        {fontTheme === opt.id && (
+                          <span className="ml-1.5 font-mono text-[8px] uppercase tracking-[0.14em] text-gold">active</span>
+                        )}
+                      </span>
+                      <span className="font-mono text-[9px] text-text-ghost leading-tight truncate mt-0.5">
+                        {opt.description}
+                      </span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* Contact Us button */}
           <Link
