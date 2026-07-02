@@ -4,13 +4,15 @@ import { ReactNode, useEffect, useRef, useState } from 'react';
 
 interface ScrollRevealProps {
   children: ReactNode;
+  className?: string;
   delay?: number; // in seconds
   direction?: 'up' | 'down' | 'left' | 'right' | 'fade';
   duration?: number; // in seconds
 }
 
 export function ScrollReveal({ 
-  children, 
+  children,
+  className = '',
   delay = 0, 
   direction = 'up',
   duration = 0.8
@@ -63,7 +65,7 @@ export function ScrollReveal({
   return (
     <div
       ref={domRef}
-      className={`transition-all ease-luxury`}
+      className={`transition-all ease-luxury ${className}`}
       style={{
         transitionDuration: `${duration}s`,
         transitionDelay: `${delay}s`,

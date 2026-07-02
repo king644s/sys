@@ -1,6 +1,6 @@
 export const LIGHTING_COMPARISONS = [
   {
-    src: '/toggle/Toggle-1.webp',
+    src: '/toggle/toogle-1.webp',
     label: 'Residential Lounge',
     alt: 'Residential lounge with tunable white lighting',
   },
@@ -10,7 +10,7 @@ export const LIGHTING_COMPARISONS = [
     alt: 'Hospitality suite with tunable white lighting',
   },
   {
-    src: '/toggle/toogle-3.webp',
+    src: '/toggle/toggle-3.webp',
     label: 'Executive Workspace',
     alt: 'Executive workspace with tunable white lighting',
   },

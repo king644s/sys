@@ -16,6 +16,36 @@ interface TripleImageCompareProps {
 
 const MIN_GAP = 10;
 const DEFAULT_DIVIDERS: [number, number] = [33, 66];
+const PRESETS = {
+  first: [82, 92],
+  second: [8, 92],
+  third: [8, 18],
+} as const satisfies Record<string, [number, number]>;
+
+type ComparePreset = keyof typeof PRESETS;
+const DIVIDER_MOTION_CLASS =
+  'transition-[left] duration-700 ease-luxury motion-reduce:transition-none';
+const CLIP_MOTION_CLASS =
+  'transition-[clip-path] duration-700 ease-luxury motion-reduce:transition-none';
+const LABEL_MOTION_CLASS =
+  'transition-[left,max-width] duration-700 ease-luxury motion-reduce:transition-none';
+const PRIMARY_BUTTON_CLASS =
+  'inline-flex items-center justify-center rounded-[2px] border border-gold-muted bg-gold px-4 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-cream transition-all duration-300 hover:bg-gold-light hover:border-gold-light';
+const RESET_BUTTON_CLASS =
+  'inline-flex items-center gap-2 rounded-[2px] border border-border bg-surface px-3 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-text-dim transition-all duration-300 hover:border-border-mid hover:text-cream disabled:cursor-default disabled:opacity-40 disabled:hover:border-border disabled:hover:text-text-dim';
+
+function getActivePreset(dividers: [number, number]): ComparePreset | null {
+  if (dividers[0] === PRESETS.first[0] && dividers[1] === PRESETS.first[1]) return 'first';
+  if (dividers[0] === PRESETS.second[0] && dividers[1] === PRESETS.second[1]) return 'second';
+  if (dividers[0] === PRESETS.third[0] && dividers[1] === PRESETS.third[1]) return 'third';
+  return null;
+}
+
+function primaryButtonClass(isActive: boolean) {
+  return isActive
+    ? `${PRIMARY_BUTTON_CLASS} bg-gold-light border-gold-light`
+    : PRIMARY_BUTTON_CLASS;
+}
 
 function clampDividers(next: [number, number]): [number, number] {
   const [a, b] = next;
@@ -26,13 +56,19 @@ function clampDividers(next: [number, number]): [number, number] {
 
 export function TripleImageCompare({ images, className = '' }: TripleImageCompareProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [dividers, setDividers] = useState<[number, number]>(DEFAULT_DIVIDERS);
+  const [dividers, setDividers] = useState<[number, number]>([...DEFAULT_DIVIDERS]);
+  const [isDragging, setIsDragging] = useState(false);
   const positions = [dividers[0], dividers[1], 100] as const;
+  const activePreset = getActivePreset(dividers);
   const isDefault =
     dividers[0] === DEFAULT_DIVIDERS[0] && dividers[1] === DEFAULT_DIVIDERS[1];
+  const shouldAnimateDividers = !isDragging;
 
-  const resetDividers = () => setDividers(DEFAULT_DIVIDERS);
+  const applyPreset = (preset: ComparePreset) => {
+    setDividers([...PRESETS[preset]]);
+  };
 
+  const resetDividers = () => setDividers([...DEFAULT_DIVIDERS]);
   const updateFromClientX = useCallback((index: number, clientX: number) => {
     const container = containerRef.current;
     if (!container) return;
@@ -51,6 +87,7 @@ export function TripleImageCompare({ images, className = '' }: TripleImageCompar
     event.preventDefault();
     const handle = event.currentTarget;
     handle.setPointerCapture(event.pointerId);
+    setIsDragging(true);
 
     const onMove = (moveEvent: PointerEvent) => {
       updateFromClientX(index, moveEvent.clientX);
@@ -60,6 +97,7 @@ export function TripleImageCompare({ images, className = '' }: TripleImageCompar
       handle.releasePointerCapture(event.pointerId);
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerup', onUp);
+      setIsDragging(false);
     };
 
     window.addEventListener('pointermove', onMove);
@@ -78,12 +116,42 @@ export function TripleImageCompare({ images, className = '' }: TripleImageCompar
 
   return (
     <div className={`flex flex-col gap-3 ${className}`}>
-      <div className="flex justify-end">
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => applyPreset('first')}
+            className={primaryButtonClass(activePreset === 'first')}
+            aria-pressed={activePreset === 'first'}
+            aria-label={`Show ${images[0].label} full width`}
+          >
+            button 1
+          </button>
+          <button
+            type="button"
+            onClick={() => applyPreset('second')}
+            className={primaryButtonClass(activePreset === 'second')}
+            aria-pressed={activePreset === 'second'}
+            aria-label={`Show ${images[1].label} full width`}
+          >
+            button 2
+          </button>
+          <button
+            type="button"
+            onClick={() => applyPreset('third')}
+            className={primaryButtonClass(activePreset === 'third')}
+            aria-pressed={activePreset === 'third'}
+            aria-label={`Show ${images[2].label} full width`}
+          >
+            button 3
+          </button>
+        </div>
+
         <button
           type="button"
           onClick={resetDividers}
           disabled={isDefault}
-          className="inline-flex items-center gap-2 border border-border px-3 py-2 font-mono text-[9px] uppercase tracking-[0.2em] text-text-dim transition-all duration-300 hover:border-border-mid hover:text-cream disabled:cursor-default disabled:opacity-40 disabled:hover:border-border disabled:hover:text-text-dim"
+          className={RESET_BUTTON_CLASS}
           aria-label="Reset image divider positions"
         >
           <RotateCcw className="h-3.5 w-3.5" strokeWidth={1.5} />
@@ -103,7 +171,7 @@ export function TripleImageCompare({ images, className = '' }: TripleImageCompar
         return (
           <div
             key={image.src}
-            className="absolute inset-0"
+            className={`absolute inset-0 ${shouldAnimateDividers ? CLIP_MOTION_CLASS : ''}`}
             style={{ clipPath: `inset(0 ${100 - right}% 0 ${left}%)` }}
             aria-hidden="true"
           >
@@ -127,7 +195,7 @@ export function TripleImageCompare({ images, className = '' }: TripleImageCompar
         return (
           <span
             key={`label-${image.label}`}
-            className="pointer-events-none absolute top-3 z-[1] rounded-[1px] bg-void/75 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.2em] text-cream backdrop-blur-sm"
+            className={`pointer-events-none absolute top-3 z-[1] rounded-[1px] bg-void/75 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.2em] text-cream backdrop-blur-sm ${shouldAnimateDividers ? LABEL_MOTION_CLASS : ''}`}
             style={{ left: `calc(${left}% + 8px)`, maxWidth: `calc(${width}% - 16px)` }}
           >
             {image.label}
@@ -137,7 +205,11 @@ export function TripleImageCompare({ images, className = '' }: TripleImageCompar
 
       {/* Two dividers between three full-width segments */}
       {dividers.map((pos, index) => (
-        <div key={`handle-${index}`} className="absolute inset-y-0 z-[2]" style={{ left: `${pos}%` }}>
+        <div
+          key={`handle-${index}`}
+          className={`absolute inset-y-0 z-[2] ${shouldAnimateDividers ? DIVIDER_MOTION_CLASS : ''}`}
+          style={{ left: `${pos}%` }}
+        >
           <div
             className="pointer-events-none absolute inset-y-0 -left-px w-px bg-cream/90 shadow-[0_0_12px_rgba(0,0,0,0.35)]"
             aria-hidden="true"

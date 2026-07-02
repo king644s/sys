@@ -5,6 +5,8 @@ import { KelvinSlider } from '../components/ui/KelvinSlider';
 import { SectionDivider } from '../components/ui/SectionDivider';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
 import { TripleImageCompare } from '../components/ui/TripleImageCompare';
+import { ControlModesShowcase } from '../components/ui/ControlModesShowcase';
+import { SmartSolutionsShowcase } from '../components/ui/SmartSolutionsShowcase';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { LIGHTING_COMPARISONS } from '../data/lightingComparisons';
 import { Sliders, Sun, ShieldCheck, Zap, Laptop, Command } from 'lucide-react';
@@ -65,35 +67,41 @@ export function SmartLights() {
 
       {/* Feature showcase grid */}
       <section className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-        <ScrollReveal direction="up" delay={0.1}>
-          <div className="border border-border p-8 bg-surface">
-            <Zap className="w-8 h-8 text-gold mb-5" />
-            <h3 className="font-serif text-xl font-bold text-cream mb-2">Ripple-Free Zero Flicker Dimming</h3>
-            <p className="font-sans text-xs text-text-dim leading-relaxed">
-              Standard commercial LEDs flicker during dimmed cycles, creating optic strain and migraine triggers. SYSLight uses high-frequency ripple-free digital drivers for perfect eye protection.
-            </p>
+        <div className="h-full">
+          <div className="border border-border p-8 bg-surface h-full">
+            <ScrollReveal direction="up" delay={0.1}>
+              <Zap className="w-8 h-8 text-gold mb-5" />
+              <h3 className="font-serif text-xl font-bold text-cream mb-2">Ripple-Free Zero Flicker Dimming</h3>
+              <p className="font-sans text-xs text-text-dim leading-relaxed">
+                Standard commercial LEDs flicker during dimmed cycles, creating optic strain and migraine triggers. SYSLight uses high-frequency ripple-free digital drivers for perfect eye protection.
+              </p>
+            </ScrollReveal>
           </div>
-        </ScrollReveal>
+        </div>
 
-        <ScrollReveal direction="up" delay={0.2}>
-          <div className="border border-border p-8 bg-surface">
-            <Laptop className="w-8 h-8 text-gold mb-5" />
-            <h3 className="font-serif text-xl font-bold text-cream mb-2">DALI / Casambi Adaptors</h3>
-            <p className="font-sans text-xs text-text-dim leading-relaxed">
-              Fully compatible with high-end bus structures including DALI-2, 0-10V, Casambi Bluetooth mesh networks, Control4, Crestron, and standard voice-activated smart links.
-            </p>
+        <div className="h-full">
+          <div className="border border-border p-8 bg-surface h-full">
+            <ScrollReveal direction="up" delay={0.2}>
+              <Laptop className="w-8 h-8 text-gold mb-5" />
+              <h3 className="font-serif text-xl font-bold text-cream mb-2">DALI / Casambi Adaptors</h3>
+              <p className="font-sans text-xs text-text-dim leading-relaxed">
+                Fully compatible with high-end bus structures including DALI-2, 0-10V, Casambi Bluetooth mesh networks, Control4, Crestron, and standard voice-activated smart links.
+              </p>
+            </ScrollReveal>
           </div>
-        </ScrollReveal>
+        </div>
 
-        <ScrollReveal direction="up" delay={0.3}>
-          <div className="border border-border p-8 bg-surface">
-            <Sun className="w-8 h-8 text-gold mb-5" />
-            <h3 className="font-serif text-xl font-bold text-cream mb-2">Dual-Chip Optical Mixing</h3>
-            <p className="font-sans text-xs text-text-dim leading-relaxed">
-              By pairing warm 2200K phosphor chips and cool 6500K chips under a single micro-lens grid, color outputs remain perfectly uniform even during dynamic change adjustments.
-            </p>
+        <div className="h-full">
+          <div className="border border-border p-8 bg-surface h-full">
+            <ScrollReveal direction="up" delay={0.3}>
+              <Sun className="w-8 h-8 text-gold mb-5" />
+              <h3 className="font-serif text-xl font-bold text-cream mb-2">Dual-Chip Optical Mixing</h3>
+              <p className="font-sans text-xs text-text-dim leading-relaxed">
+                By pairing warm 2200K phosphor chips and cool 6500K chips under a single micro-lens grid, color outputs remain perfectly uniform even during dynamic change adjustments.
+              </p>
+            </ScrollReveal>
           </div>
-        </ScrollReveal>
+        </div>
       </section>
 
       {/* Before / After lighting comparison */}
@@ -118,6 +126,9 @@ export function SmartLights() {
           </p>
         </ScrollReveal>
       </section>
+
+      <ControlModesShowcase />
+      <SmartSolutionsShowcase />
 
       {/* Smart lighting deployment explanation */}
       <section className="max-w-5xl mx-auto px-6 py-16 border-t border-border mt-12 text-center">
