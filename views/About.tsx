@@ -6,11 +6,12 @@ import { Button } from '../components/ui/Button';
 import { ROUTES } from '@/lib/routes';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { TimelineCardStack } from '../components/ui/TimelineCardStack';
-import { ShieldAlert, Award, Landmark, Eye, Heart, Compass } from 'lucide-react';
+import { ShieldAlert, Award, Landmark } from 'lucide-react';
 
 export function About() {
   return (
-    <div className="transition-page-enter">
+    <>
+      <div className="transition-page-enter">
       <Breadcrumbs />
       {/* Hero Header */}
       <section className="max-w-4xl mx-auto px-6 text-center py-12 md:py-20">
@@ -102,31 +103,10 @@ export function About() {
       </section>
 
       <SectionDivider label="Our Journey" />
-
-      {/* Journey: sticky header + GSAP card stack in one scroll context */}
-      <div className="relative">
-
-        {/* Header pinned by GSAP (see TimelineCardStack) — releases when last card arrives */}
-        <div id="tl-journey-header" className="relative z-20 bg-void">
-          <div className="max-w-7xl mx-auto px-6 py-10 md:py-14 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-            <div>
-              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold block mb-3">
-                30 years in the making
-              </span>
-              <h2 className="font-serif text-3xl md:text-5xl font-light text-cream tracking-tight leading-tight">
-                A Legacy Built<br />
-                <span className="italic font-serif text-gold font-normal">Through Precision.</span>
-              </h2>
-            </div>
-            <p className="font-sans text-xs text-text-dim max-w-xs leading-relaxed hidden md:block">
-              Scroll to trace every milestone — from our first circuit board to the smart lighting revolution.
-            </p>
-          </div>
-        </div>
-
-        <TimelineCardStack />
-
       </div>
+
+      {/* Outside transition-page-enter — CSS transform on that wrapper breaks GSAP pin */}
+      <TimelineCardStack />
 
       <SectionDivider label="Our Quality Control Laboratories" />
 
@@ -218,6 +198,6 @@ export function About() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
