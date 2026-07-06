@@ -17,10 +17,10 @@ interface AccordionSectionProps {
 
 function AccordionSection({ title, isOpen, onToggle, children }: AccordionSectionProps) {
   return (
-    <div className="border border-border rounded-[4px] bg-surface-alt/20">
+    <div className="border border-border rounded-lg bg-surface-alt/20">
       <button
         onClick={onToggle}
-        className={`w-full flex items-center gap-3.5 px-6 py-4.5 text-left bg-surface-alt/70 hover:bg-surface-alt/90 text-cream transition-colors duration-300 focus:outline-none cursor-pointer ${
+        className={`w-full flex items-center gap-3.5 px-6 py-4 text-left bg-surface-alt/70 hover:bg-surface-alt/90 text-cream transition-colors duration-300 focus:outline-none cursor-pointer ${
           isOpen ? 'border-b border-border/40' : ''
         }`}
         aria-expanded={isOpen}
@@ -40,7 +40,7 @@ function AccordionSection({ title, isOpen, onToggle, children }: AccordionSectio
       >
         <div className="overflow-hidden">
           <div
-            className={`p-6 bg-void flex flex-col gap-4 transition-opacity duration-500 ease-out-expo ${
+            className={`p-card-lg bg-void flex flex-col gap-4 transition-opacity duration-500 ease-out-expo ${
               isOpen ? 'opacity-100' : 'opacity-0'
             }`}
           >
@@ -213,17 +213,17 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
               <thead>
                 <tr className="bg-surface-alt border-b border-border">
                   {hasVariants && (
-                    <th className="py-3 px-4 font-mono text-[10px] text-text-dim uppercase tracking-wider font-bold">
+                    <th className="py-3 px-4 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold">
                       Wattage
                     </th>
                   )}
-                  <th className="py-3 px-4 font-mono text-[10px] text-text-dim uppercase tracking-wider font-bold text-center">
+                  <th className="py-3 px-4 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold text-center">
                     Outer Diameter (mm)
                   </th>
-                  <th className="py-3 px-4 font-mono text-[10px] text-text-dim uppercase tracking-wider font-bold text-center">
+                  <th className="py-3 px-4 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold text-center">
                     Height (mm)
                   </th>
-                  <th className="py-3 px-4 font-mono text-[10px] text-text-dim uppercase tracking-wider font-bold text-center">
+                  <th className="py-3 px-4 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold text-center">
                     Cut Out (mm)
                   </th>
                 </tr>
@@ -235,7 +235,7 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
                     className="border-b border-border/30 last:border-0 hover:bg-surface-alt/20 transition-colors"
                   >
                     {hasVariants && (
-                      <td className="py-3.5 px-4 font-medium text-gold font-mono text-[10px]">
+                      <td className="py-3.5 px-4 font-medium text-gold font-mono text-xs">
                         {row.wattage}
                       </td>
                     )}
@@ -255,7 +255,7 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
         isOpen={isOpenTech}
         onToggle={() => setIsOpenTech((prev) => !prev)}
       >
-        <div className="border border-border/85 rounded-[6px] overflow-hidden shadow-sm">
+        <div className="border border-border/85 rounded-xl overflow-hidden shadow-sm">
           <div className="bg-gold-muted px-4 py-3 border-b border-border-mid/50">
             <h4 className="font-mono text-[11px] font-bold tracking-wider text-white uppercase">
               Technical Specifications
@@ -270,7 +270,7 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
                     key={index}
                     className="border-b border-border/30 last:border-0 hover:bg-surface-alt/20 transition-colors"
                   >
-                    <td className="py-3.5 px-5 font-mono text-[10px] text-text-dim uppercase tracking-wider font-bold w-[35%] md:w-[30%]">
+                    <td className="py-3.5 px-5 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold w-[35%] md:w-[30%]">
                       {spec.label}
                     </td>
                     <td className="py-3.5 px-5 text-cream font-medium normal-case">

@@ -8,7 +8,7 @@ export function CustomCollaborationCTA() {
   return (
     <section className="max-w-5xl mx-auto px-6 py-24 text-center">
       <ScrollReveal direction="up">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold mb-4 block">
+        <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-4 block">
           Start a custom collaboration
         </span>
         <h2 className="font-serif text-4xl md:text-6xl text-cream font-light tracking-tight max-w-4xl mx-auto leading-tight">

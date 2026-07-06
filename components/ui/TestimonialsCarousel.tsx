@@ -115,7 +115,7 @@ export function TestimonialsCarousel({
     >
       <div className="relative mb-16">
         <div className="text-center md:pr-20">
-          <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-gold">testimonials</span>
+          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold">testimonials</span>
           <h2 className="font-serif text-3xl md:text-5xl font-light text-cream tracking-tight mt-2">
             Praised by <span className="italic font-serif text-gold">Design Leaders</span>
           </h2>
@@ -126,7 +126,7 @@ export function TestimonialsCarousel({
             <button
               type="button"
               onClick={goPrev}
-              className="w-8 h-8 flex items-center justify-center border border-border/60 text-text-dim hover:border-gold/60 hover:text-gold transition-colors duration-300 rounded-[1px]"
+              className="w-11 h-11 flex items-center justify-center border border-border/60 text-text-dim hover:border-gold/60 hover:text-gold transition-colors duration-300 rounded-sm focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 cursor-pointer"
               aria-label="Previous testimonial"
             >
               <ChevronLeft className="w-3.5 h-3.5" strokeWidth={1.25} />
@@ -134,7 +134,7 @@ export function TestimonialsCarousel({
             <button
               type="button"
               onClick={goNext}
-              className="w-8 h-8 flex items-center justify-center border border-border/60 text-text-dim hover:border-gold/60 hover:text-gold transition-colors duration-300 rounded-[1px]"
+              className="w-11 h-11 flex items-center justify-center border border-border/60 text-text-dim hover:border-gold/60 hover:text-gold transition-colors duration-300 rounded-sm focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 cursor-pointer"
               aria-label="Next testimonial"
             >
               <ChevronRight className="w-3.5 h-3.5" strokeWidth={1.25} />
@@ -155,14 +155,14 @@ export function TestimonialsCarousel({
               className="shrink-0 px-4 flex"
               style={{ width: slideWidth || `${100 / visibleCount}%` }}
             >
-              <div className="flex-1 bg-surface border border-border p-8 rounded-[1px] flex flex-col">
-                <p className="font-sans text-xs text-text-dim leading-relaxed italic flex-1">
+              <div className="flex-1 bg-surface border border-border p-8 rounded-sm flex flex-col">
+                <p className="font-sans text-sm text-text-dim leading-relaxed italic flex-1">
                   &ldquo;{collab.quote}&rdquo;
                 </p>
 
                 <div className="mt-8 border-t border-border/40 pt-5 shrink-0">
                   <span className="font-sans text-sm font-semibold text-cream">{collab.author}</span>
-                  <span className="block font-mono text-[9px] uppercase tracking-wider text-gold mt-1">
+                  <span className="block font-mono text-[11px] uppercase tracking-[0.15em] text-gold mt-1">
                     {collab.firm}
                   </span>
                 </div>

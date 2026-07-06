@@ -14,20 +14,20 @@ export function KelvinOrb() {
 
   // Helper to map Kelvin scale to a real color representation
   const getKelvinColor = (temp: number): THREE.Color => {
-    // Linear interpolate between warm (2700K) -> neutral (4000K) -> cool (6500K)
+    // Linear interpolate between warm (3000K) -> neutral (4000K) -> cool (6000K)
     const color = new THREE.Color();
 
     if (temp <= 4000) {
-      // Interpolate between 2700K (#FF9E3D) and 4000K (#FFF9F2)
-      const ratio = (temp - 2700) / (4000 - 2700);
-      const warm = new THREE.Color('#FF9225');
-      const neutral = new THREE.Color('#FAFAF8');
-      color.lerpColors(warm, neutral, ratio);
+      // Interpolate between 3000K (#FFF9D8) and 4000K (#F9F7F8)
+      const ratio = Math.max(0, Math.min(1, (temp - 3000) / (4000 - 3000)));
+      const warm = new THREE.Color('#FFF9D8');
+      const natural = new THREE.Color('#F9F7F8');
+      color.lerpColors(warm, natural, ratio);
     } else {
-      // Interpolate between 4000K (#FAFAF8) and 6500K (#A6CEFF)
-      const ratio = (temp - 4000) / (6500 - 4000);
-      const neutral = new THREE.Color('#FAFAF8');
-      const cool = new THREE.Color('#9ECEFF');
+      // Interpolate between 4000K (#F9F7F8) and 6000K (#F4FDFF)
+      const ratio = Math.max(0, Math.min(1, (temp - 4000) / (6000 - 4000)));
+      const neutral = new THREE.Color('#F9F7F8');
+      const cool = new THREE.Color('#F4FDFF');
       color.lerpColors(neutral, cool, ratio);
     }
     return color;
@@ -98,7 +98,7 @@ export function KelvinOrb() {
     const glowMat = new THREE.MeshBasicMaterial({
       color: initialColor,
       transparent: true,
-      opacity: 0.35,
+      opacity: 0.60,
       blending: THREE.AdditiveBlending,
       side: THREE.BackSide
     });
@@ -107,7 +107,7 @@ export function KelvinOrb() {
     glowMaterialRef.current = glowMat;
 
     // 5. Point Light inside the sphere reflecting on surrounding geometry if any
-    const pointLight = new THREE.PointLight(initialColor, 3, 10);
+    const pointLight = new THREE.PointLight(initialColor, 4.5, 10);
     pointLight.position.set(0, 0, 0);
     scene.add(pointLight);
     pointLightRef.current = pointLight;
@@ -164,7 +164,7 @@ export function KelvinOrb() {
       time += 0.01;
 
       // Pulse core point light intensity elegantly
-      const pulseIntensity = Math.sin(time * 1.5) * 0.45 + 2.5;
+      const pulseIntensity = Math.sin(time * 1.5) * 1.25 + 4.25;
       if (pointLightRef.current) {
         pointLightRef.current.intensity = pulseIntensity;
       }
@@ -232,25 +232,29 @@ export function KelvinOrb() {
     };
   }, []);
 
+  const color = getKelvinColor(kelvin);
+  const colorHex = `#${color.getHexString()}`;
+
   return (
     <div 
-      className="relative w-full h-full flex items-center justify-center"
+      className="relative w-full h-full min-h-[420px] max-w-[560px] max-h-[560px] flex items-center justify-center rounded-xl bg-[#09080F] border border-[#201F33]/60 shadow-2xl transition-all duration-500 overflow-hidden"
       style={{
-        boxShadow: `0 0 100px ${getKelvinColor(kelvin).getStyle()}22`
+        boxShadow: `0 0 100px 15px ${colorHex}38, inset 0 0 60px ${colorHex}22`
       }}
     >
       {/* 3D WebGL Area */}
       <div 
         ref={containerRef} 
         id="kelvin-webgl-orb" 
-        className="w-full h-full min-h-[400px] max-w-[560px] max-h-[560px] rounded-[2px] bg-surface-alt dark:bg-transparent" 
+        className="w-full h-full min-h-[400px] max-w-[560px] max-h-[560px] rounded-[2px] bg-transparent" 
       />
 
       {/* Decorative Aura Overlay */}
       <div 
-        className="absolute inset-0 pointer-events-none rounded-full blur-3xl opacity-20 transform scale-75 transition-colors duration-500"
+        className="absolute -inset-10 pointer-events-none rounded-full blur-3xl opacity-40 transform scale-90 transition-all duration-500"
         style={{
-          backgroundColor: getKelvinColor(kelvin).getStyle()
+          backgroundColor: colorHex,
+          boxShadow: `0 0 200px 50px ${colorHex}44`
         }}
       />
     </div>

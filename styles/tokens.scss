@@ -1,0 +1,131 @@
+// SYSLight Design Tokens — SCSS Variables
+// Established July 2026
+
+// ─── Colors ────────────────────────────────────────────────────────
+$color-void:          #010101;  // Canvas background
+$color-void-dark:     #000000;  // Pure black
+$color-surface:       #0D0C15;  // Nav header, resting card bg
+$color-surface-alt:   #141321;  // Elevated card, filter trays
+$color-surface-high:  #1C1B2C;  // Dropdowns, modals
+$color-cream:         #E5E5E6;  // Primary readable text
+$color-text-dim:      #9B99BB;  // Secondary text
+$color-text-ghost:    #7D7B9B;  // Decorative only
+$color-gold:          #6A67CC;  // Core accent
+$color-gold-light:    #8F8DF0;  // Hover state
+$color-gold-muted:    #413F8C;  // Pressed or subtle backdrop
+$color-border:        #201F33;  // Standard divider
+$color-border-mid:    #2E2D4A;  // Middle separator
+$color-border-high:   #3C3A5E;  // High focus outlines
+
+// ─── Typography Sizes ──────────────────────────────────────────────
+$text-display-xxl:    96px;     // 6.0rem
+$text-display-xl:     72px;     // 4.5rem
+$text-display-lg:     60px;     // 3.75rem
+$text-h1:             48px;     // 3.0rem
+$text-h2:             40px;     // 2.5rem
+$text-h2-sm:          28px;     // 1.75rem
+$text-h3:             20px;     // 1.25rem
+$text-h4:             18px;     // 1.125rem
+$text-body-lg:        16px;     // 1.0rem
+$text-body-md:        14px;     // 0.875rem
+$text-body-sm:        13px;     // 0.8125rem
+$text-caption:        12px;     // 0.75rem
+$text-label-ui:       11px;     // 0.6875rem (absolute floor)
+
+// ─── Spacing Grid (8px Base) ──────────────────────────────────────
+$space-1:             4px;
+$space-2:             8px;
+$space-3:             12px;
+$space-4:             16px;
+$space-5:             20px;
+$space-6:             24px;
+$space-8:             32px;
+$space-12:            48px;
+$space-16:            64px;
+$space-20:            80px;
+$space-28:            112px;
+
+// ─── Corner Radius ─────────────────────────────────────────────────
+$radius-none:         0px;
+$radius-sm:           1px;      // Buttons, cards, and default technical items
+$radius-md:           2px;      // Breadcrumbs, input fields
+$radius-lg:           4px;
+$radius-xl:           8px;
+$radius-2xl:          16px;     // Showcase panels
+$radius-full:         9999px;   // Pills, badges
+
+// ─── Elevation / Shadows ───────────────────────────────────────────
+$shadow-none:         none;
+$shadow-subtle:       0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+$shadow-card:         0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+$shadow-hover:        0 12px 30px -10px rgba(77, 74, 157, 0.18);
+$shadow-lifted:       0 20px 48px -12px rgba(77, 74, 157, 0.28);
+$shadow-glow:         0 0 45px rgba(106, 103, 204, 0.15);
+
+// ─── Opacity ───────────────────────────────────────────────────────
+$opacity-hover-img:   0.70;
+$opacity-active-img:  0.95;
+$opacity-overlay:     0.85;
+$opacity-disabled:    0.50;
+$opacity-muted:       0.60;
+$opacity-ghost:       0.40;
+
+// ─── Transition & Animation ────────────────────────────────────────
+$duration-fast:       200ms;
+$duration-standard:   300ms;
+$duration-medium:     500ms;
+$duration-luxury:     700ms;
+$ease-luxury:         cubic-bezier(0.25, 0.46, 0.45, 0.94);
+$ease-out-expo:       cubic-bezier(0.16, 1, 0.3, 1);
+
+// ─── Icon Sizes ────────────────────────────────────────────────────
+$icon-xs:             12px;
+$icon-sm:             14px;
+$icon-md:             16px;
+$icon-lg:             18px;
+$icon-xl:             20px;
+$icon-2xl:            24px;
+$icon-3xl:            32px;
+$icon-hero:           40px;
+
+// ─── Breakpoints & Container Widths ──────────────────────────────
+$breakpoint-sm:       640px;
+$breakpoint-md:       768px;
+$breakpoint-lg:       1024px;
+$breakpoint-xl:       1280px;
+$breakpoint-2xl:      1536px;
+
+$container-max:       1280px;   // max-w-7xl
+$container-wide:      1152px;   // max-w-6xl
+$container-default:   1024px;   // max-w-5xl
+$container-narrow:    896px;    // max-w-4xl
+$container-text:      672px;    // max-w-2xl
+$container-reading:   576px;    // max-w-xl
+
+// ─── Component Sizes ───────────────────────────────────────────────
+$btn-height-sm:       36px;
+$btn-height-md:       44px;
+$btn-height-lg:       48px;
+$btn-height-xl:       56px;
+
+$input-height-sm:     36px;
+$input-height-md:     44px;
+$input-height-lg:     52px;
+
+$table-row-compact:   36px;
+$table-row-default:   44px;
+$table-row-relaxed:   52px;
+
+$card-padding-xs:     12px;
+$card-padding-sm:     16px;
+$card-padding-md:     20px;
+$card-padding-lg:     24px;
+$card-padding-xl:     32px;
+$card-padding-2xl:    40px;
+
+$section-padding-xs:  32px;     // py-8
+$section-padding-sm:  48px;     // py-12
+$section-padding-md:  64px;     // py-16
+$section-padding-lg:  80px;     // py-20
+$section-padding-xl:  96px;     // py-24
+$section-padding-2xl: 112px;    // py-28

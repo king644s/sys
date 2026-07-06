@@ -81,13 +81,13 @@ export function Contact() {
     <div className="transition-page-enter">
       <Breadcrumbs />
       <section className="max-w-4xl mx-auto px-6 text-center py-8">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold mb-3 block">
+        <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-3 block">
           05 / secure consultation
         </span>
         <h1 className="font-serif text-4xl md:text-6xl text-cream font-light tracking-tight">
           Request Quotation <span className="italic font-serif text-gold font-normal">& Layouts</span>
         </h1>
-        <p className="font-sans text-xs md:text-sm text-text-dim max-w-xl mx-auto mt-5 leading-relaxed">
+        <p className="font-sans text-sm text-text-dim max-w-xl mx-auto mt-5 leading-relaxed">
           Need a layout spec sheet, custom photometrics, or sample mockups? Send us your project bounds or DWG vectors. Our layout experts will assemble a complete specification index.
         </p>
       </section>
@@ -98,28 +98,28 @@ export function Contact() {
         <div className="lg:col-span-5 flex flex-col gap-8">
           
           {/* Mumbai HQ Location card */}
-          <div className="bg-surface border border-border p-8 rounded-[1px] flex flex-col gap-6">
+          <div className="bg-surface border border-border p-8 rounded-sm flex flex-col gap-6">
             <h3 className="font-serif text-xl font-bold text-cream">Mumbai Headquarters</h3>
             
-            <div className="flex flex-col gap-4 font-sans text-xs text-text-dim leading-relaxed">
+            <div className="flex flex-col gap-4 font-sans text-sm text-text-dim leading-relaxed">
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-gold shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-cream block font-mono text-[10px] tracking-wider uppercase mb-1">FACTORY & STUDIO</strong>
+                  <strong className="text-cream block font-mono text-[11px] tracking-[0.15em] uppercase mb-1">FACTORY & STUDIO</strong>
                   <span>Systems Creator, Mumbai, Maharashtra, India.</span>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Phone className="w-5 h-5 text-gold shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-cream block font-mono text-[10px] tracking-wider uppercase mb-1">DIRECT TELEPHONE</strong>
+                  <strong className="text-cream block font-mono text-[11px] tracking-[0.15em] uppercase mb-1">DIRECT TELEPHONE</strong>
                   <span>+91 98200 04966</span>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Mail className="w-5 h-5 text-gold shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-cream block font-mono text-[10px] tracking-wider uppercase mb-1">EMAIL DIRECTORY</strong>
+                  <strong className="text-cream block font-mono text-[11px] tracking-[0.15em] uppercase mb-1">EMAIL DIRECTORY</strong>
                   <span>info@syslight.in</span>
                 </div>
               </div>
@@ -127,10 +127,10 @@ export function Contact() {
           </div>
 
           {/* Consultation readiness card */}
-          <div className="bg-surface-alt border border-border p-8 rounded-[1px]">
+          <div className="bg-surface-alt border border-border p-8 rounded-sm">
             <h3 className="font-serif text-lg font-bold text-cream mb-4">Project Brief Checklist</h3>
             <div className="border border-dashed border-border p-6 text-left flex flex-col gap-2.5">
-              <p className="font-sans text-xs text-text-dim leading-relaxed">
+              <p className="font-sans text-sm text-text-dim leading-relaxed">
                 Share your project details directly in the form and our team will prepare a complete recommendation.
               </p>
               <ul className="font-sans text-[11px] text-text-dim leading-relaxed list-disc pl-4">
@@ -144,12 +144,12 @@ export function Contact() {
         </div>
 
         {/* Right Side: High-fidelity request form */}
-        <div className="lg:col-span-7 bg-surface border border-border p-8 md:p-10 rounded-[1px]" id="contact-submission-panel">
+        <div className="lg:col-span-7 bg-surface border border-border p-8 md:p-10 rounded-sm" id="contact-submission-panel">
           {isSubmitted ? (
             <div className="text-center py-12 flex flex-col items-center gap-4">
               <CheckCircle2 className="w-16 h-16 text-gold animate-pulse-glow mb-2" />
               <h2 className="font-serif text-3xl text-cream font-medium">Transmission Successful</h2>
-              <p className="font-sans text-xs text-text-dim max-w-md leading-relaxed mt-1">
+              <p className="font-sans text-sm text-text-dim max-w-md leading-relaxed mt-1">
                 Your layout request has been recorded under reference code <strong className="text-gold font-mono">SYS-REQ-#{Math.floor(Math.random() * 90000) + 10000}</strong>. Our custom calibration desk in Mumbai will connect within 24 hours.
               </p>
               <button
@@ -162,69 +162,75 @@ export function Contact() {
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-6">
               <div className="border-b border-border/50 pb-4">
-                <span className="font-mono text-[9px] uppercase tracking-widest text-gold-muted block">FORM SECURE</span>
+                <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-gold-muted block">FORM SECURE</span>
                 <h3 className="font-serif text-2xl font-bold text-cream">Consultation & Estimates</h3>
               </div>
 
               {/* Grid block for inputs */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="name-input" className="font-mono text-[9px] uppercase tracking-widest text-text-dim font-bold">
+                  <label htmlFor="name-input" className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim font-bold">
                     Lead Architect Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     id="name-input"
                     type="text"
                     required
+                    aria-required="true"
+                    aria-describedby={errors.name ? "name-error" : undefined}
                     value={name}
                     onChange={(e) => { setName(e.target.value); if (errors.name) setErrors(prev => ({ ...prev, name: '' })); }}
                     placeholder="e.g. Ketan Bhadra"
-                    className="bg-void border border-border focus:border-gold/50 text-cream rounded-[1px] px-4 py-3 placeholder:text-text-ghost text-xs focus:outline-none transition-all"
+                    className="bg-void border border-border focus:border-gold/50 text-cream rounded-sm px-4 py-3 placeholder:text-text-ghost text-sm focus:outline-none transition-all focus-visible:ring-2 focus-visible:ring-gold"
                   />
-                  {errors.name && <span className="font-mono text-[9px] text-red-400 uppercase">{errors.name}</span>}
+                  {errors.name && <span id="name-error" role="alert" className="font-mono text-xs text-red-400 uppercase">{errors.name}</span>}
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="email-input" className="font-mono text-[9px] uppercase tracking-widest text-text-dim font-bold">
+                  <label htmlFor="email-input" className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim font-bold">
                     Professional Email <span className="text-red-500">*</span>
                   </label>
                   <input
                     id="email-input"
                     type="email"
                     required
+                    aria-required="true"
+                    aria-describedby={errors.email ? "email-error" : undefined}
                     value={email}
                     onChange={(e) => { setEmail(e.target.value); if (errors.email) setErrors(prev => ({ ...prev, email: '' })); }}
                     placeholder="architect@firm.in"
-                    className="bg-void border border-border focus:border-gold/50 text-cream rounded-[1px] px-4 py-3 placeholder:text-text-ghost text-xs focus:outline-none transition-all"
+                    className="bg-void border border-border focus:border-gold/50 text-cream rounded-sm px-4 py-3 placeholder:text-text-ghost text-sm focus:outline-none transition-all focus-visible:ring-2 focus-visible:ring-gold"
                   />
-                  {errors.email && <span className="font-mono text-[9px] text-red-400 uppercase">{errors.email}</span>}
+                  {errors.email && <span id="email-error" role="alert" className="font-mono text-xs text-red-400 uppercase">{errors.email}</span>}
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="firm-input" className="font-mono text-[9px] uppercase tracking-widest text-text-dim font-bold">
+                  <label htmlFor="firm-input" className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim font-bold">
                     Architectural Firm / Guild <span className="text-red-500">*</span>
                   </label>
                   <input
                     id="firm-input"
                     type="text"
                     required
+                    aria-required="true"
+                    aria-describedby={errors.firm ? "firm-error" : undefined}
                     value={firmName}
                     onChange={(e) => { setFirmName(e.target.value); if (errors.firm) setErrors(prev => ({ ...prev, firm: '' })); }}
                     placeholder="e.g. Systems Designs India"
-                    className="bg-void border border-border focus:border-gold/50 text-cream rounded-[1px] px-4 py-3 placeholder:text-text-ghost text-xs focus:outline-none transition-all"
+                    className="bg-void border border-border focus:border-gold/50 text-cream rounded-sm px-4 py-3 placeholder:text-text-ghost text-sm focus:outline-none transition-all focus-visible:ring-2 focus-visible:ring-gold"
                   />
-                  {errors.firm && <span className="font-mono text-[9px] text-red-400 uppercase">{errors.firm}</span>}
+                  {errors.firm && <span id="firm-error" role="alert" className="font-mono text-xs text-red-400 uppercase">{errors.firm}</span>}
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="location-select" className="font-mono text-[9px] uppercase tracking-widest text-text-dim font-bold">
+                  <label htmlFor="location-select" className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim font-bold">
                     Project City Location
                   </label>
                   <select
                     id="location-select"
                     value={projectCity}
                     onChange={(e) => setProjectCity(e.target.value)}
-                    className="bg-void border border-border focus:border-gold/50 text-cream rounded-[1px] px-4 py-3 text-xs focus:outline-none cursor-pointer"
+                    className="bg-void border border-border focus:border-gold/50 text-cream rounded-sm px-4 py-3 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
                   >
                     <option value="Mumbai">Mumbai, MH</option>
                     <option value="Pune">Pune, MH</option>
@@ -238,24 +244,26 @@ export function Contact() {
 
               {/* Message box */}
               <div className="flex flex-col gap-1.5">
-                <label htmlFor="message-input" className="font-mono text-[9px] uppercase tracking-widest text-text-dim font-bold">
+                <label htmlFor="message-input" className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim font-bold">
                   Schedule / Requirement Synopsis <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   id="message-input"
                   required
-                  rows={4}
+                  rows={5}
+                  aria-required="true"
+                  aria-describedby={errors.message ? "message-error" : undefined}
                   value={message}
                   onChange={(e) => { setMessage(e.target.value); if (errors.message) setErrors(prev => ({ ...prev, message: '' })); }}
                   placeholder="Tell us about the project design, spacing details, required dimming adapters (DALI/Phase-cut) etc..."
-                  className="bg-void border border-border focus:border-gold/50 text-cream rounded-[1px] px-4 py-3 placeholder:text-text-ghost text-xs focus:outline-none transition-all resize-none"
+                  className="bg-void border border-border focus:border-gold/50 text-cream rounded-sm px-4 py-3 placeholder:text-text-ghost text-sm focus:outline-none transition-all resize-none focus-visible:ring-2 focus-visible:ring-gold"
                 />
-                {errors.message && <span className="font-mono text-[9px] text-red-400 uppercase">{errors.message}</span>}
+                {errors.message && <span id="message-error" role="alert" className="font-mono text-xs text-red-400 uppercase">{errors.message}</span>}
               </div>
 
               {/* High fidelity Drag-and-Drop file attachment dropzone */}
               <div className="flex flex-col gap-2">
-                <span className="font-mono text-[9px] uppercase tracking-widest text-text-dim font-bold">
+                <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim font-bold">
                   Attach Design CAD / DWG / Layout PDF
                 </span>
                 
@@ -264,9 +272,9 @@ export function Contact() {
                   onDragLeave={handleDragLeave}
                   onDrop={handleDrop}
                   onClick={triggerFileBrowser}
-                  className={`border border-dashed p-6 text-center cursor-pointer transition-all duration-300 rounded-[1px] flex flex-col items-center gap-2 ${
+                  className={`border border-dashed p-6 text-center cursor-pointer transition-all duration-300 rounded-sm flex flex-col items-center gap-2 ${
                     isDragging 
-                      ? 'border-gold bg-gold/5 scale-[0.99] shadow-[0_0_15px_rgba(201,169,110,0.1)]' 
+                      ? 'border-gold bg-gold/5 scale-[0.99] shadow-glow-sm' 
                       : 'border-border-mid hover:border-gold/60 bg-void'
                   }`}
                   id="dwg-dropzone"
@@ -283,7 +291,7 @@ export function Contact() {
                   <span className="font-sans text-xs text-cream">
                     Drag and drop file here, or <span className="text-gold hover:underline">browse computer</span>
                   </span>
-                  <span className="font-mono text-[8px] text-text-ghost uppercase tracking-widest">
+                  <span className="font-mono text-[11px] text-text-ghost uppercase tracking-[0.15em]">
                     MAX 25MB • DWG, DXF, PDF, IMAGES ACCEPTABLE
                   </span>
                 </div>
@@ -296,7 +304,7 @@ export function Contact() {
                         <div className="flex items-center gap-2 text-cream truncate max-w-xs">
                           <FileText className="w-4 h-4 text-gold shrink-0" />
                           <span className="truncate">{f.name}</span>
-                          <span className="text-text-ghost text-[9px] font-mono shrink-0">({(f.size/1024/1024).toFixed(2)} MB)</span>
+                          <span className="text-text-ghost text-[11px] font-mono shrink-0">({(f.size/1024/1024).toFixed(2)} MB)</span>
                         </div>
                         <button
                           type="button"
@@ -315,7 +323,7 @@ export function Contact() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gold hover:bg-gold-light text-void-dark font-bold font-mono text-[11px] uppercase tracking-widest py-4 transition-all duration-300 h-12 flex items-center justify-center gap-2 cursor-pointer shadow-[0_4px_24px_rgba(201,169,110,0.12)] hover:-translate-y-0.5"
+                className="w-full bg-gold hover:bg-gold-light text-void-dark font-bold font-mono text-[11px] uppercase tracking-widest py-4 transition-all duration-300 h-12 flex items-center justify-center gap-2 cursor-pointer shadow-card hover:-translate-y-0.5"
               >
                 {isSubmitting ? (
                   <div className="w-5 h-5 rounded-full border-2 border-void-dark border-t-transparent animate-spin" />
@@ -328,13 +336,30 @@ export function Contact() {
               </button>
               
               <div className="flex justify-center items-center gap-2 opacity-50 mt-1">
-                <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-text-ghost">
+                <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-ghost">
                   🛡️ secure 256-bit automated encryption layer
                 </span>
               </div>
             </form>
           )}
         </div>
+      </section>
+
+      {/* Edge-to-edge Google Map Section */}
+      <section className="w-full mt-12 border-t border-border/40 overflow-hidden relative group/map">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3768.7812477660514!2d72.82943207580763!3d19.16105044929586!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b716a4d6563f%3A0xcf32cb22acb35582!2sSYSlight%20by%20Systems%20Creator!5e0!3m2!1sen!2sin!4v1783199938675!5m2!1sen!2sin"
+          width="100%"
+          height="450"
+          style={{ border: 0 }}
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="strict-origin-when-cross-origin"
+          className="w-full h-[450px] block border-none dark:invert-[0.9] dark:hue-rotate-[190deg] dark:opacity-95"
+        />
+        {/* Visual brand overlay borders */}
+        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent pointer-events-none" />
       </section>
     </div>
   );

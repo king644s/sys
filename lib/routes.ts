@@ -4,7 +4,7 @@ export const ROUTES = {
   home: '/',
   about: '/about',
   products: '/products',
-  smartLights: '/smart-lights',
+  smartLiving: '/smart-living',
   projects: '/projects',
   contact: '/contact',
 } as const;
@@ -39,7 +39,7 @@ export type PageView =
   | { type: 'products' }
   | { type: 'product-category'; categorySlug: string }
   | { type: 'product-detail'; productSlug: string }
-  | { type: 'smart-lights' }
+  | { type: 'smart-living' }
   | { type: 'projects' }
   | { type: 'contact' };
 
@@ -60,8 +60,8 @@ export function viewToPath(view: PageView): string {
       }
       return `/products/${view.productSlug}`;
     }
-    case 'smart-lights':
-      return '/smart-lights';
+    case 'smart-living':
+      return '/smart-living';
     case 'projects':
       return '/projects';
     case 'contact':
@@ -77,7 +77,7 @@ export function pathToView(pathname: string): PageView {
   if (path === '/') return { type: 'home' };
   if (path === '/about') return { type: 'about' };
   if (path === '/products') return { type: 'products' };
-  if (path === '/smart-lights') return { type: 'smart-lights' };
+  if (path === '/smart-living') return { type: 'smart-living' };
   if (path === '/projects') return { type: 'projects' };
   if (path === '/contact') return { type: 'contact' };
 

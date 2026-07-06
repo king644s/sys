@@ -77,10 +77,10 @@ export function Breadcrumbs() {
       break;
     }
 
-    case 'smart-lights':
+    case 'smart-living':
       crumbs.push({
-        label: 'Customise / Smart CCT',
-        href: ROUTES.smartLights,
+        label: 'Smart Living / Smart CCT',
+        href: ROUTES.smartLiving,
         isLast: true,
       });
       break;
@@ -112,7 +112,7 @@ export function Breadcrumbs() {
         className="bg-surface/90 backdrop-blur-md dark:bg-transparent dark:backdrop-blur-none rounded-[2px] transition-colors duration-300 py-4 px-5"
       >
         <nav aria-label="breadcrumb" className="w-full">
-          <ol className="flex flex-wrap items-center gap-1.5 md:gap-2.5 font-mono text-[10px] md:text-[11px] uppercase tracking-wider text-text-dim">
+          <ol className="flex flex-wrap items-center gap-1.5 md:gap-2.5 font-mono text-xs uppercase tracking-wider text-text-dim">
             {crumbs.map((crumb, index) => {
               const isFirst = index === 0;
               return (
@@ -121,7 +121,7 @@ export function Breadcrumbs() {
                     <ChevronRight className="w-3.5 h-3.5 text-text-ghost/60 shrink-0" />
                   )}
                   {crumb.isLast ? (
-                    <span className="font-semibold text-gold">
+                    <span className="font-semibold text-gold" aria-current="page">
                       {crumb.label}
                     </span>
                   ) : (

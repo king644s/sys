@@ -118,7 +118,7 @@ export function TimelineCardStack() {
         <div ref={headerRef} className="relative z-20 shrink-0 bg-void">
           <div className="max-w-7xl mx-auto px-6 py-10 md:py-14 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
-              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold block mb-3">
+              <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold block mb-3">
                 30 years in the making
               </span>
               <h2 className="font-serif text-3xl md:text-5xl font-light text-cream tracking-tight leading-tight">
@@ -126,7 +126,7 @@ export function TimelineCardStack() {
                 <span className="italic font-serif text-gold font-normal">Through Precision.</span>
               </h2>
             </div>
-            <p className="font-sans text-xs text-text-dim max-w-xs leading-relaxed hidden md:block">
+            <p className="font-sans text-sm text-text-dim max-w-xs leading-relaxed hidden md:block">
               Scroll to trace every milestone — from our first circuit board to the smart lighting revolution.
             </p>
           </div>
@@ -145,7 +145,7 @@ export function TimelineCardStack() {
               <div className="max-w-7xl mx-auto px-6 md:px-16 py-12 md:py-16 w-full h-full grid grid-cols-1 md:grid-cols-[220px_1fr] gap-8 md:gap-16 items-center">
 
                 <div className="flex flex-col gap-3">
-                  <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-gold">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold">
                     {entry.period}
                   </span>
                   <span
@@ -162,12 +162,12 @@ export function TimelineCardStack() {
                     <h3 className="font-serif text-2xl md:text-[2.2rem] font-light text-cream tracking-tight leading-tight">
                       {entry.title}
                     </h3>
-                    <span className="font-sans text-xs text-gold-light block mt-1.5 tracking-wide">
+                    <span className="font-sans text-[13px] text-gold-light block mt-1.5 tracking-wide">
                       {entry.subtitle}
                     </span>
                   </div>
 
-                  <p className="font-sans text-xs md:text-sm text-text-dim leading-relaxed max-w-2xl">
+                  <p className="font-sans text-sm text-text-dim leading-relaxed max-w-2xl">
                     {entry.description}
                   </p>
 
@@ -175,7 +175,7 @@ export function TimelineCardStack() {
                     <span className="font-serif text-3xl md:text-4xl text-gold font-light leading-none">
                       {entry.metric}
                     </span>
-                    <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-text-ghost">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim">
                       {entry.metricLabel}
                     </span>
                   </div>

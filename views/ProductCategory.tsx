@@ -48,7 +48,7 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
       <div className="max-w-7xl mx-auto px-6 py-10">
         <Link
           href={ROUTES.products}
-          className="font-mono text-[10px] uppercase tracking-widest text-text-dim hover:text-cream flex items-center gap-2 mb-8 cursor-pointer"
+          className="font-mono text-xs uppercase tracking-[0.15em] text-text-dim hover:text-cream flex items-center gap-2 mb-8 cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4 text-gold-muted" />
           <span>all classifications</span>
@@ -56,20 +56,20 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
 
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
           <div>
-            <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-gold mb-1.5 block">
+            <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-1.5 block">
               {category.type === 'outdoor' ? 'Outdoor Architectural Spectrum' : 'Indoor Architectural Spectrum'}
             </span>
             <h1 className="font-serif text-4xl md:text-5xl font-light text-cream tracking-tight">
               {category.name} <span className="italic font-serif text-gold font-normal">series</span>
             </h1>
-            <p className="font-sans text-xs md:text-sm text-text-dim max-w-xl mt-4 leading-relaxed">
+            <p className="font-sans text-sm text-text-dim max-w-xl mt-4 leading-relaxed">
               {category.description}
             </p>
           </div>
 
           <div className="flex items-center gap-2 bg-surface text-text-dim border border-border px-4 py-2.5">
             <SlidersHorizontal className="w-4 h-4 text-gold-muted" />
-            <span className="font-mono text-[10px] uppercase tracking-widest">
+            <span className="font-mono text-xs uppercase tracking-[0.15em]">
               Showing {matchedProducts.length} specifications
             </span>
           </div>
@@ -85,7 +85,7 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
               {Object.entries(subcategoryGroups).map(([subcategory, products], groupIdx) => (
                 <div key={subcategory}>
                   <div className="border-b border-border/40 pb-4 mb-8">
-                    <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-gold-muted block mb-1">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold-muted block mb-1">
                       Section
                     </span>
                     <h2 className="font-serif text-2xl md:text-3xl text-cream font-light tracking-tight">
@@ -117,15 +117,15 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
           )
         ) : (
           <div className="text-center py-20 border border-dashed border-border">
-            <span className="font-mono text-xs text-text-dim uppercase tracking-widest block mb-4">
+            <span className="font-mono text-sm text-text-dim uppercase tracking-widest block mb-4">
               Fixture list update in progress.
             </span>
-            <p className="font-sans text-xs text-text-dim/70 max-w-sm mx-auto">
+            <p className="font-sans text-sm text-text-dim/70 max-w-sm mx-auto">
               Our Mumbai testing crew is currently finalizing technical certification logs for this series. Please request details from our design desk directly.
             </p>
             <Link
               href={ROUTES.contact}
-              className="mt-6 bg-gold text-void-dark font-bold font-mono text-[10px] uppercase tracking-widest px-6 py-3.5 inline-block"
+              className="mt-6 bg-gold text-void-dark font-bold font-mono text-xs uppercase tracking-[0.15em] px-6 py-3.5 inline-block"
             >
               Contact design desk
             </Link>

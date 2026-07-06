@@ -183,7 +183,7 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
               </>
             )}
 
-            <span className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-widest text-text-dim bg-surface/80 border border-border/60 px-3 py-1.5 rounded-[1px] backdrop-blur-sm pointer-events-none z-10">
+            <span className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim bg-surface/80 border border-border/60 px-3 py-1.5 rounded-[1px] backdrop-blur-sm pointer-events-none z-10">
               {activeIndex + 1} / {slides.length}
             </span>
 
@@ -255,7 +255,7 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
                 goPrev();
               }}
               style={getButtonStyle('left')}
-              className={`absolute z-10 w-9 h-9 md:w-10 md:h-10 rounded-full bg-surface/95 border border-border flex items-center justify-center text-cream transition-opacity duration-200 hover:border-gold hover:text-gold cursor-pointer shadow-lg backdrop-blur-sm ${
+              className={`absolute z-10 w-9 h-9 md:w-10 md:h-10 rounded-full bg-surface/95 border border-border flex items-center justify-center text-cream transition-opacity duration-200 hover:border-gold hover:text-gold cursor-pointer shadow-lg backdrop-blur-sm focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 before:absolute before:-inset-2 before:content-[''] ${
                 hoverSide === 'left' && cursorPos ? 'opacity-100' : 'opacity-0 pointer-events-none'
               }`}
               aria-label="Previous image"
@@ -272,7 +272,7 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
                 goNext();
               }}
               style={getButtonStyle('right')}
-              className={`absolute z-10 w-9 h-9 md:w-10 md:h-10 rounded-full bg-surface/95 border border-border flex items-center justify-center text-cream transition-opacity duration-200 hover:border-gold hover:text-gold cursor-pointer shadow-lg backdrop-blur-sm ${
+              className={`absolute z-10 w-9 h-9 md:w-10 md:h-10 rounded-full bg-surface/95 border border-border flex items-center justify-center text-cream transition-opacity duration-200 hover:border-gold hover:text-gold cursor-pointer shadow-lg backdrop-blur-sm focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 before:absolute before:-inset-2 before:content-[''] ${
                 hoverSide === 'right' && cursorPos ? 'opacity-100' : 'opacity-0 pointer-events-none'
               }`}
               aria-label="Next image"
@@ -288,14 +288,14 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
               openZoom();
             }}
             disabled={!canEnlarge}
-            className="absolute bottom-3 right-3 z-20 w-9 h-9 md:w-10 md:h-10 rounded-full bg-surface/95 border border-border flex items-center justify-center text-cream hover:border-gold hover:text-gold transition-colors duration-300 cursor-pointer shadow-lg backdrop-blur-sm disabled:opacity-40 disabled:cursor-not-allowed"
+            className="absolute bottom-3 right-3 z-20 w-9 h-9 md:w-10 md:h-10 rounded-full bg-surface/95 border border-border flex items-center justify-center text-cream hover:border-gold hover:text-gold transition-colors duration-300 cursor-pointer shadow-lg backdrop-blur-sm disabled:opacity-40 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 before:absolute before:-inset-2 before:content-['']"
             aria-label="Enlarge image"
             title="Enlarge image"
           >
             <ZoomIn className="w-4 h-4" />
           </button>
 
-          <span className="absolute bottom-3 left-3 z-20 font-mono text-[9px] uppercase tracking-widest text-text-ghost bg-surface/80 border border-border/60 px-2 py-1 rounded-[1px] backdrop-blur-sm pointer-events-none">
+          <span className="absolute bottom-3 left-3 z-20 font-mono text-[11px] uppercase tracking-[0.15em] text-text-ghost bg-surface/80 border border-border/60 px-2 py-1 rounded-[1px] backdrop-blur-sm pointer-events-none">
             {activeIndex + 1} / {slides.length}
           </span>
         </div>

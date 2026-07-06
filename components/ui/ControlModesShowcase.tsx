@@ -14,7 +14,7 @@ export function ControlModesShowcase() {
           <ScrollReveal direction="left" className="h-full">
             <div className="flex flex-col justify-between gap-10 lg:min-h-0 h-full">
               <div className="flex flex-col gap-6">
-                <span className="inline-flex items-center gap-3 w-fit border border-white/15 rounded-full px-4 py-2 font-mono text-[9px] uppercase tracking-[0.22em]">
+                <span className="inline-flex items-center gap-3 w-fit border border-white/15 rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.22em]">
                   <span className="text-gold-light font-semibold">04</span>
                   <span className="text-white/50">Compatible with all modes of control</span>
                 </span>
@@ -102,7 +102,7 @@ export function ControlModesShowcase() {
                         <h3 className="font-serif text-xl font-semibold text-white group-hover:text-gold-light transition-colors duration-300">
                           {mode.title}
                         </h3>
-                        <p className="font-sans text-[12px] text-white/50 leading-relaxed">
+                        <p className="font-sans text-sm text-white/50 leading-relaxed">
                           {mode.description}
                         </p>
                       </div>

@@ -69,7 +69,7 @@ export function Navbar() {
 
   // States
   const [isOpen, setIsOpen] = useState(false); // Mobile menu toggle
-  const [activeDropdown, setActiveDropdown] = useState<'products' | 'customise' | 'about' | 'inspire' | null>(null);
+  const [activeDropdown, setActiveDropdown] = useState<'products' | 'smart-living' | 'about' | 'inspire' | null>(null);
   const [localSearch, setLocalSearch] = useState('');
   
   // Default to light on server + first client render to avoid hydration mismatch.
@@ -188,12 +188,12 @@ export function Navbar() {
 
   const isNavHighlighted = (
     viewType: string,
-    dropdownKey?: 'products' | 'customise' | 'about' | 'inspire'
+    dropdownKey?: 'products' | 'smart-living' | 'about' | 'inspire'
   ) => isActive(viewType) || (dropdownKey != null && activeDropdown === dropdownKey);
 
   const navLinkClass = (
     viewType: string,
-    dropdownKey?: 'products' | 'customise' | 'about' | 'inspire',
+    dropdownKey?: 'products' | 'smart-living' | 'about' | 'inspire',
     extra = ''
   ) =>
     `font-sans text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 cursor-pointer ${
@@ -204,7 +204,7 @@ export function Navbar() {
 
   const navLabelClass = (
     viewType: string,
-    dropdownKey?: 'products' | 'customise' | 'about' | 'inspire'
+    dropdownKey?: 'products' | 'smart-living' | 'about' | 'inspire'
   ) =>
     `relative inline-block pb-1 border-b-2 ${
       isNavHighlighted(viewType, dropdownKey) ? 'border-gold' : 'border-transparent'
@@ -230,7 +230,7 @@ export function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 h-28 md:h-28 flex items-center justify-between relative">
         
-        {/* Left Side: Navigation Links (HOME, PRODUCTS, CUSTOMISE, ABOUT, INSPIRE) */}
+        {/* Left Side: Navigation Links (HOME, PRODUCTS, SMART LIVING, ABOUT, INSPIRE) */}
         <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
           
           <Link
@@ -250,11 +250,11 @@ export function Navbar() {
           </Link>
 
           <Link
-            href={ROUTES.smartLights}
-            onMouseEnter={() => setActiveDropdown('customise')}
-            className={navLinkClass('smart-lights', 'customise')}
+            href={ROUTES.smartLiving}
+            onMouseEnter={() => setActiveDropdown('smart-living')}
+            className={navLinkClass('smart-living', 'smart-living')}
           >
-            <span className={navLabelClass('smart-lights', 'customise')}>CUSTOMISE</span>
+            <span className={navLabelClass('smart-living', 'smart-living')}>SMART LIVING</span>
           </Link>
 
           <Link
@@ -289,8 +289,9 @@ export function Navbar() {
           {/* Theme Switcher Toggle (Luxury sun/moon representation) */}
           <button
             onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-            className="p-1.5 text-text-dim hover:text-gold transition-colors cursor-pointer rounded-full hover:bg-surface-alt"
+            className="w-11 h-11 flex items-center justify-center text-text-dim hover:text-gold transition-colors cursor-pointer rounded-full hover:bg-surface-alt focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
             title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
           >
             {theme === 'light' ? (
               <Moon className="w-4.5 h-4.5 stroke-[1.5]" />
@@ -303,10 +304,12 @@ export function Navbar() {
           <div ref={fontMenuRef} className="relative">
             <button
               onClick={() => setIsFontMenuOpen(!isFontMenuOpen)}
-              className={`p-1.5 transition-colors cursor-pointer rounded-full hover:bg-surface-alt ${
+              className={`w-11 h-11 flex items-center justify-center transition-colors cursor-pointer rounded-full hover:bg-surface-alt focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
                 fontTheme !== 'default' ? 'text-gold' : 'text-text-dim hover:text-gold'
               }`}
               title="Switch font theme"
+              aria-label="Switch typography theme"
+              aria-expanded={isFontMenuOpen}
             >
               <Type className="w-4 h-4 stroke-[1.5]" />
             </button>
@@ -314,7 +317,7 @@ export function Navbar() {
             {isFontMenuOpen && (
               <div className="absolute right-0 top-full mt-2 w-64 bg-surface border border-border shadow-xl z-60 animate-fade-in rounded-[2px] overflow-hidden">
                 <div className="px-4 pt-3 pb-2 border-b border-border">
-                  <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-text-ghost">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim">
                     Typography Theme
                   </span>
                 </div>
@@ -329,7 +332,7 @@ export function Navbar() {
                     }`}
                   >
                     <span
-                      className={`shrink-0 w-9 h-9 flex items-center justify-center border text-sm font-bold rounded-[1px] transition-colors ${
+                      className={`shrink-0 w-9 h-9 flex items-center justify-center border text-sm font-bold rounded-sm transition-colors ${
                         fontTheme === opt.id
                           ? 'border-gold text-gold'
                           : 'border-border text-text-dim'
@@ -345,10 +348,10 @@ export function Navbar() {
                       <span className={`font-sans text-xs font-semibold leading-tight ${fontTheme === opt.id ? 'text-cream' : 'text-text-dim'}`}>
                         {opt.label}
                         {fontTheme === opt.id && (
-                          <span className="ml-1.5 font-mono text-[8px] uppercase tracking-[0.14em] text-gold">active</span>
+                          <span className="ml-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-gold">active</span>
                         )}
                       </span>
-                      <span className="font-mono text-[9px] text-text-ghost leading-tight truncate mt-0.5">
+                      <span className="font-mono text-[11px] text-text-dim leading-tight truncate mt-0.5">
                         {opt.description}
                       </span>
                     </div>
@@ -361,7 +364,7 @@ export function Navbar() {
           {/* Contact Us button */}
           <Link
             href={ROUTES.contact}
-            className={`hidden md:inline-flex font-mono text-[10px] uppercase tracking-[0.16em] border px-3 md:px-4 py-2 transition-all duration-300 cursor-pointer rounded-[1px] font-bold ${
+            className={`hidden md:inline-flex font-mono text-[11px] uppercase tracking-[0.15em] border px-3 md:px-4 py-2 transition-all duration-300 cursor-pointer rounded-sm font-bold ${
               isActive('contact')
                 ? 'border-gold text-gold'
                 : 'border-border hover:border-gold hover:text-gold text-cream'
@@ -374,7 +377,7 @@ export function Navbar() {
           <a
             href="#"
             onClick={(e) => e.preventDefault()}
-            className="hidden sm:inline-flex font-mono text-[10px] uppercase tracking-[0.16em] bg-cream hover:bg-gold hover:text-void text-surface px-3 md:px-4 py-2 transition-all duration-300 font-bold rounded-[1px]"
+            className="hidden sm:inline-flex font-mono text-[11px] uppercase tracking-[0.15em] bg-cream hover:bg-gold hover:text-void text-surface px-3 md:px-4 py-2 transition-all duration-300 font-bold rounded-sm"
           >
             Download Brochure
           </a>
@@ -448,7 +451,7 @@ export function Navbar() {
               {activeDropdown === 'products' && (
                 <>
                   <div className="flex flex-col gap-2.5">
-                    <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-text-ghost mb-1">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
                       Indoor Core
                     </span>
                     <Link href={categoryPath(CATEGORY_SLUGS.cobSpotlight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
@@ -469,7 +472,7 @@ export function Navbar() {
                   </div>
 
                   <div className="flex flex-col gap-2.5 border-l border-border/60 pl-6">
-                    <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-text-ghost mb-1">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
                       Outdoor Spectrum
                     </span>
                     <Link href={categoryPath(CATEGORY_SLUGS.gardenLight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
@@ -484,7 +487,7 @@ export function Navbar() {
                   </div>
 
                   <div className="flex flex-col gap-2.5 border-l border-border/60 pl-6">
-                    <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-text-ghost mb-1">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
                       Custom Adjustables
                     </span>
                     <Link href={categoryPath(CATEGORY_SLUGS.tracklight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
@@ -498,34 +501,34 @@ export function Navbar() {
                 </>
               )}
 
-              {activeDropdown === 'customise' && (
+              {activeDropdown === 'smart-living' && (
                 <>
                   <div className="flex flex-col gap-2.5">
-                    <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-text-ghost mb-1">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
                       Tuning Controls
                     </span>
-                    <Link href={ROUTES.smartLights} onClick={() => setActiveDropdown(null)} className={dropdownLinkClassMedium}>
+                    <Link href={ROUTES.smartLiving} onClick={() => setActiveDropdown(null)} className={dropdownLinkClassMedium}>
                       Kelvin Slider Core
                     </Link>
-                    <Link href={ROUTES.smartLights} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
+                    <Link href={ROUTES.smartLiving} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
                       Dim-to-Warm Emitter
                     </Link>
                   </div>
 
                   <div className="flex flex-col gap-2.5 border-l border-border/60 pl-6">
-                    <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-text-ghost mb-1">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
                       Protocols
                     </span>
-                    <Link href={ROUTES.smartLights} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
+                    <Link href={ROUTES.smartLiving} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
                       Casambi Bluetooth Setup
                     </Link>
-                    <Link href={ROUTES.smartLights} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
+                    <Link href={ROUTES.smartLiving} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
                       DALI Integration
                     </Link>
                   </div>
 
                   <div className="flex flex-col gap-2.5 border-l border-border/60 pl-6">
-                    <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-text-ghost mb-1">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
                       Custom Finishes
                     </span>
                     <Link href={ROUTES.contact} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
@@ -538,7 +541,7 @@ export function Navbar() {
               {activeDropdown === 'inspire' && (
                 <>
                   <div className="flex flex-col gap-2.5">
-                    <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-text-ghost mb-1">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
                       Residential Projects
                     </span>
                     <Link href={ROUTES.projects} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
@@ -550,7 +553,7 @@ export function Navbar() {
                   </div>
 
                   <div className="flex flex-col gap-2.5 border-l border-border/60 pl-6">
-                    <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-text-ghost mb-1">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
                       Commercial Showcase
                     </span>
                     <Link href={ROUTES.projects} onClick={() => setActiveDropdown(null)} className={`${dropdownLinkClassMedium} hover:underline`}>
@@ -562,7 +565,7 @@ export function Navbar() {
                   </div>
 
                   <div className="flex flex-col gap-2.5 border-l border-border/60 pl-6">
-                    <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-text-ghost mb-1">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
                       Calculation Maps
                     </span>
                     <Link href={ROUTES.contact} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
@@ -580,7 +583,7 @@ export function Navbar() {
 
             <div className="col-span-5 flex gap-4">
               <Link
-                href={ROUTES.smartLights}
+                href={ROUTES.smartLiving}
                 onClick={() => setActiveDropdown(null)}
                 className="relative flex-1 aspect-[1.12/1] bg-[#121214] border border-border/35 overflow-hidden cursor-pointer group block"
               >
@@ -604,7 +607,7 @@ export function Navbar() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent pointer-events-none" />
                 <div className="absolute bottom-4 left-4 z-10">
                   <span className="font-serif text-[15px] italic text-[#f3f4f6] tracking-wide font-light">
-                    Customise
+                    Smart Living
                   </span>
                 </div>
               </Link>
@@ -646,7 +649,7 @@ export function Navbar() {
       {isOpen && (
         <div className="lg:hidden absolute inset-x-0 top-full bg-surface border-b border-border flex flex-col p-6 gap-6 z-50 shadow-2xl animate-page-enter">
           <div className="flex flex-col gap-2 relative">
-            <span className="font-mono text-[8px] tracking-[0.2em] text-text-ghost uppercase mb-1">Specifications search</span>
+            <span className="font-mono text-[11px] tracking-[0.15em] text-text-dim uppercase mb-1">Specifications search</span>
             <form onSubmit={handleSearchSubmit} className="relative">
               <Search className="absolute left-3 top-2.5 w-4 h-4 text-text-ghost" />
               <input
@@ -654,7 +657,7 @@ export function Navbar() {
                 value={localSearch}
                 onChange={(e) => setLocalSearch(e.target.value)}
                 placeholder="Search catalog... (e.g. 12W, recessed)"
-                className="w-full bg-surface-alt border border-border px-3.5 py-2 pl-10 text-xs text-cream placeholder-text-text-ghost rounded-[1px] focus:outline-none focus:border-gold/60"
+                className="w-full bg-surface-alt border border-border px-3.5 py-2 pl-10 text-xs text-cream placeholder-text-text-ghost rounded-sm focus:outline-none focus:border-gold/60"
               />
             </form>
           </div>
@@ -671,8 +674,8 @@ export function Navbar() {
               </Link>
             </li>
             <li>
-              <Link href={ROUTES.smartLights} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('smart-lights') ? 'text-gold border-gold' : 'border-transparent'}`}>
-                customise / smart cct
+              <Link href={ROUTES.smartLiving} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('smart-living') ? 'text-gold border-gold' : 'border-transparent'}`}>
+                smart living / smart cct
               </Link>
             </li>
             <li>
@@ -691,14 +694,14 @@ export function Navbar() {
             <Link
               href={ROUTES.contact}
               onClick={() => setIsOpen(false)}
-              className="text-center w-full py-3 text-xs font-mono uppercase bg-cream text-surface tracking-[0.16em] font-bold rounded-[1px] cursor-pointer block"
+              className="text-center w-full py-3 text-xs font-mono uppercase bg-cream text-surface tracking-[0.16em] font-bold rounded-sm cursor-pointer block"
             >
               Contact Us
             </Link>
             <a
               href="#"
               onClick={(e) => { e.preventDefault(); setIsOpen(false); }}
-              className="text-center w-full py-3 text-xs font-mono uppercase border border-border text-cream tracking-[0.16em] font-bold rounded-[1px] block cursor-pointer"
+              className="text-center w-full py-3 text-xs font-mono uppercase border border-border text-cream tracking-[0.16em] font-bold rounded-sm block cursor-pointer"
             >
               Download Brochure
             </a>

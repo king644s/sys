@@ -18,14 +18,14 @@ export function SmartLights() {
       {/* Page Header */}
       <section className="max-w-4xl mx-auto px-6 text-center py-12">
         <ScrollReveal direction="up">
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold mb-3 block">
+          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-3 block">
             03 / Dynamic Spectrum
           </span>
           <h1 className="font-serif text-4xl md:text-6xl text-cream font-light tracking-tight leading-tight">
             Next-Gen Smart <br />
             <span className="italic font-serif text-gold font-normal">Thermal Tunings.</span>
           </h1>
-          <p className="font-sans text-xs md:text-sm text-text-dim max-w-xl mx-auto mt-6 leading-relaxed">
+          <p className="font-sans text-sm text-text-dim max-w-xl mx-auto mt-6 leading-relaxed">
             Unleash biological lighting synchronization directly in critical residential, hospitality, and display centers. Command precise color warmth settings dynamically.
           </p>
         </ScrollReveal>
@@ -42,13 +42,13 @@ export function SmartLights() {
         <div className="lg:col-span-6 flex flex-col gap-8">
           <ScrollReveal direction="right">
             <div className="flex flex-col gap-4">
-              <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-gold">
+              <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold">
                 tunable white spectrum simulator
               </span>
-              <h2 className="font-serif text-3xl md:text-4xl text-cream tracking-tight font-light font-semibold">
+              <h2 className="font-serif text-3xl md:text-4xl text-cream tracking-tight font-light">
                 Absolute Temperature Control
               </h2>
-              <p className="font-sans text-xs leading-relaxed text-text-dim max-w-lg">
+              <p className="font-sans text-sm leading-relaxed text-text-dim max-w-lg">
                 Drag the specialized color spectrum track tool below to interactively test how our LED emitters translate thermal inputs in real-time. Feel the shift from cozy golden embers to medical task daylight.
               </p>
             </div>
@@ -56,7 +56,7 @@ export function SmartLights() {
 
           {/* Slider trigger */}
           <ScrollReveal direction="right" delay={0.15}>
-            <div className="bg-surface border border-border p-8 rounded-[2px]">
+            <div className="bg-surface border border-border p-8 rounded-md">
               <KelvinSlider />
             </div>
           </ScrollReveal>
@@ -72,7 +72,7 @@ export function SmartLights() {
             <ScrollReveal direction="up" delay={0.1}>
               <Zap className="w-8 h-8 text-gold mb-5" />
               <h3 className="font-serif text-xl font-bold text-cream mb-2">Ripple-Free Zero Flicker Dimming</h3>
-              <p className="font-sans text-xs text-text-dim leading-relaxed">
+              <p className="font-sans text-sm text-text-dim leading-relaxed">
                 Standard commercial LEDs flicker during dimmed cycles, creating optic strain and migraine triggers. SYSLight uses high-frequency ripple-free digital drivers for perfect eye protection.
               </p>
             </ScrollReveal>
@@ -84,7 +84,7 @@ export function SmartLights() {
             <ScrollReveal direction="up" delay={0.2}>
               <Laptop className="w-8 h-8 text-gold mb-5" />
               <h3 className="font-serif text-xl font-bold text-cream mb-2">DALI / Casambi Adaptors</h3>
-              <p className="font-sans text-xs text-text-dim leading-relaxed">
+              <p className="font-sans text-sm text-text-dim leading-relaxed">
                 Fully compatible with high-end bus structures including DALI-2, 0-10V, Casambi Bluetooth mesh networks, Control4, Crestron, and standard voice-activated smart links.
               </p>
             </ScrollReveal>
@@ -96,7 +96,7 @@ export function SmartLights() {
             <ScrollReveal direction="up" delay={0.3}>
               <Sun className="w-8 h-8 text-gold mb-5" />
               <h3 className="font-serif text-xl font-bold text-cream mb-2">Dual-Chip Optical Mixing</h3>
-              <p className="font-sans text-xs text-text-dim leading-relaxed">
+              <p className="font-sans text-sm text-text-dim leading-relaxed">
                 By pairing warm 2200K phosphor chips and cool 6500K chips under a single micro-lens grid, color outputs remain perfectly uniform even during dynamic change adjustments.
               </p>
             </ScrollReveal>
@@ -108,13 +108,13 @@ export function SmartLights() {
       <section className="max-w-7xl mx-auto px-6 py-12 w-full">
         <ScrollReveal direction="up">
           <div className="flex flex-col gap-4 text-center mb-8">
-            <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-gold">
+            <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold">
               atmospheric transformation
             </span>
             <h2 className="font-serif text-3xl md:text-4xl text-cream tracking-tight font-light">
               Before <span className="italic text-gold">/</span> After
             </h2>
-            <p className="font-sans text-xs md:text-sm text-text-dim max-w-lg mx-auto leading-relaxed">
+            <p className="font-sans text-sm text-text-dim max-w-lg mx-auto leading-relaxed">
               Drag each handle to reveal a different space — all three scenarios in one view.
             </p>
           </div>
@@ -137,7 +137,7 @@ export function SmartLights() {
           <h2 className="font-serif text-2xl md:text-4xl text-cream font-light tracking-tight">
             Integrated Custom Smart Layouts
           </h2>
-          <p className="font-sans text-xs md:text-sm text-text-dim max-w-xl mx-auto mt-4 leading-relaxed">
+          <p className="font-sans text-sm text-text-dim max-w-xl mx-auto mt-4 leading-relaxed">
             Our Mumbai calibration laboratories custom program DALI drivers to work seamlessly with native building automation protocols. Contact our technical team during pre-wiring to select appropriate drivers.
           </p>
         </ScrollReveal>

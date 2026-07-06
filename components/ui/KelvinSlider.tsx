@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import { getKelvinProfileLabel, useLightingStore } from '../../store/lightingStore';
+import { getKelvinProfileLabel, useLightingStore, getKelvinHexColor } from '../../store/lightingStore';
 
 const presetButtonBase =
-  'py-2 px-3 tracking-wider font-sans text-[10px] uppercase transition-all duration-300 border border-border text-text-dim hover:text-cream hover:border-border-mid';
+  'py-2 px-3 tracking-[0.15em] font-mono text-[11px] uppercase transition-all duration-300 border border-border text-text-dim hover:text-cream hover:border-border-mid';
 
 export function KelvinSlider() {
   const { kelvin, setKelvin, activePreset, setPreset } = useLightingStore();
@@ -13,12 +13,14 @@ export function KelvinSlider() {
     setKelvin(Number(e.target.value));
   };
 
+  const dynamicColor = getKelvinHexColor(kelvin);
+
   return (
     <div className="w-full max-w-xl mx-auto flex flex-col gap-6" id="kelvin-slider-panel">
       {/* Current Selection Indicators */}
       <div className="flex justify-between items-end">
         <div className="flex flex-col">
-          <span className="font-mono text-[9px] uppercase tracking-widest text-text-ghost">
+          <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim">
             Active Profile
           </span>
           <span className="font-sans text-md font-medium text-cream">
@@ -35,68 +37,80 @@ export function KelvinSlider() {
       <div className="relative group py-2">
         <input
           type="range"
-          min="2700"
-          max="6500"
+          min="3000"
+          max="6000"
           step="50"
           value={kelvin}
           onChange={handleSliderChange}
-          className="w-full h-1.5 rounded-full appearance-none cursor-pointer focus:outline-none focus:ring-1 focus:ring-gold/30 bg-transparent"
+          className="w-full h-1.5 rounded-full appearance-none cursor-pointer focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:outline-none bg-transparent"
           style={{
-            background: 'linear-gradient(to right, #FF9225 0%, #FAFAF8 40%, #A6CEFF 100%)'
+            background: 'linear-gradient(to right, #FFF9D8 0%, #F9F7F8 33.3%, #F4FDFF 100%)'
           }}
           aria-label="Color Temperature Kelvin Slider"
         />
         
         {/* Underlay glow tracks */}
         <div 
-          className="absolute inset-0 -z-10 h-1.5 top-1/2 -translate-y-1/2 rounded-full blur-md opacity-35 transition-colors duration-300"
+          className="absolute inset-0 -z-10 h-1.5 top-1/2 -translate-y-1/2 rounded-full blur-md opacity-50 transition-colors duration-300"
           style={{
-            background: kelvin < 4000 
-              ? 'rgba(255,146,37,0.4)' 
-              : kelvin < 5500 
-                ? 'rgba(250,250,248,0.3)' 
-                : 'rgba(158,206,255,0.4)'
+            backgroundColor: dynamicColor,
+            boxShadow: `0 0 15px 4px ${dynamicColor}88`
           }}
         />
       </div>
 
       {/* Human Labels */}
       <div className="flex justify-between text-[11px] font-mono uppercase tracking-widest text-text-dim">
-        <span>Warm Relax (2700K)</span>
-        <span>Cool Daylight (6500K)</span>
+        <span>Warm White (3000K)</span>
+        <span>Cool White (6000K)</span>
       </div>
 
       {/* Multi-mood Preset Toggles */}
       <div className="grid grid-cols-3 gap-2 mt-2">
         <button
-          onClick={() => setPreset('relax')}
-          className={`${presetButtonBase} ${
-            activePreset === 'relax'
-              ? 'bg-gold/10 border-gold text-gold hover:text-gold'
-              : ''
-          }`}
+          onClick={() => setPreset('warm')}
+          className={`${presetButtonBase} focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2`}
+          style={
+            activePreset === 'warm'
+              ? {
+                  backgroundColor: 'var(--active-warm-bg)',
+                  borderColor: 'var(--active-warm-border)',
+                  color: 'var(--active-warm-text)',
+                }
+              : {}
+          }
         >
-          Relax (2700K)
+          Warm White (3000K)
         </button>
         <button
-          onClick={() => setPreset('focus')}
-          className={`${presetButtonBase} ${
-            activePreset === 'focus'
-              ? 'bg-cream/5 border-cream/50 text-cream hover:text-cream'
-              : ''
-          }`}
+          onClick={() => setPreset('natural')}
+          className={`${presetButtonBase} focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2`}
+          style={
+            activePreset === 'natural'
+              ? {
+                  backgroundColor: 'var(--active-natural-bg)',
+                  borderColor: 'var(--active-natural-border)',
+                  color: 'var(--active-natural-text)',
+                }
+              : {}
+          }
         >
-          Studio (4000K)
+          Natural White (4000K)
         </button>
         <button
-          onClick={() => setPreset('daylight')}
-          className={`${presetButtonBase} ${
-            activePreset === 'daylight'
-              ? 'bg-[#2D68C4]/10 border-[#2D68C4]/40 text-[#2D68C4] hover:text-[#2D68C4]'
-              : ''
-          }`}
+          onClick={() => setPreset('cool')}
+          className={`${presetButtonBase} focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2`}
+          style={
+            activePreset === 'cool'
+              ? {
+                  backgroundColor: 'var(--active-cool-bg)',
+                  borderColor: 'var(--active-cool-border)',
+                  color: 'var(--active-cool-text)',
+                }
+              : {}
+          }
         >
-          Daylight (6500K)
+          Cool White (6000K)
         </button>
       </div>
     </div>

@@ -22,13 +22,13 @@ export function Projects() {
       {/* Header section */}
       <section className="max-w-4xl mx-auto px-6 text-center py-12 md:py-16">
         <ScrollReveal direction="up">
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold mb-3 block">
+          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-3 block">
             04 / architectural showcase
           </span>
           <h1 className="font-serif text-4xl md:text-6xl text-cream font-light tracking-tight leading-tight">
             Sculpted <span className="italic font-serif text-gold font-normal">Completed Spaces.</span>
           </h1>
-          <p className="font-sans text-xs md:text-sm text-text-dim max-w-xl mx-auto mt-5 leading-relaxed">
+          <p className="font-sans text-sm text-text-dim max-w-xl mx-auto mt-5 leading-relaxed">
             Witness how our lighting classifications sculpt atmospheres across India. From waterfront private residences to BKC consulate office lounges and hotel sanctuaries.
           </p>
         </ScrollReveal>
@@ -42,9 +42,9 @@ export function Projects() {
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
-                className={`px-5 py-2 font-mono text-[9px] uppercase tracking-widest transition-all duration-300 cursor-pointer ${
+                className={`px-5 py-2 font-mono text-[11px] uppercase tracking-[0.15em] transition-all duration-300 cursor-pointer ${
                   activeFilter === filter
-                    ? 'bg-gold text-void-dark font-bold shadow-[0_0_15px_rgba(201,169,110,0.15)]'
+                    ? 'bg-gold text-void-dark font-bold shadow-glow-sm'
                     : 'text-text-dim hover:text-cream'
                 }`}
               >
@@ -63,7 +63,7 @@ export function Projects() {
               <div key={project.slug}>
                 <ScrollReveal direction="up" delay={idx * 0.08}>
                   <div 
-                    className="group relative h-[400px] bg-void overflow-hidden border border-border hover:border-gold/50 hover:shadow-[0_12px_30px_-10px_rgba(201,169,110,0.18)] hover:-translate-y-1 transition-all duration-500 rounded-[2px]"
+                    className="group relative h-[400px] bg-void overflow-hidden border border-border hover:border-gold/50 hover:shadow-hover hover:-translate-y-1 transition-all duration-500 rounded-md"
                     id={`project-card-${project.slug}`}
                   >
                     <img
@@ -78,7 +78,7 @@ export function Projects() {
                     <div className="absolute inset-0 bg-gradient-to-t from-void via-void/40 to-transparent" />
 
                     {/* Top quick badges */}
-                    <div className="absolute top-6 left-6 bg-surface/90 border border-border px-3 py-1 text-[8px] font-mono uppercase tracking-widest text-gold-muted">
+                    <div className="absolute top-6 left-6 bg-surface/90 border border-border px-3 py-1 font-mono text-[11px] uppercase tracking-[0.15em] text-gold-muted">
                       {project.category}
                     </div>
 
@@ -87,7 +87,7 @@ export function Projects() {
                       <h3 className="font-serif text-xl font-bold text-cream mb-1 group-hover:text-gold transition-colors duration-300">
                         {project.name}
                       </h3>
-                      <p className="font-sans text-xs text-text-dim flex items-center gap-1.5 mt-2">
+                      <p className="font-sans text-sm text-text-dim flex items-center gap-1.5 mt-2">
                         <MapPin className="w-3.5 h-3.5 text-gold-muted" />
                         <span>{project.location}</span>
                       </p>
@@ -113,7 +113,7 @@ export function Projects() {
           <h2 className="font-serif text-2xl md:text-3xl font-light text-cream tracking-tight">
             Feature your Next Project Showcased
           </h2>
-          <p className="font-sans text-xs text-text-dim max-w-md mx-auto mt-4 leading-relaxed">
+          <p className="font-sans text-sm text-text-dim max-w-md mx-auto mt-4 leading-relaxed">
             We partner with architectural houses, publishing pristine reference case sheets and high-resolution professional footage profiles.
           </p>
         </ScrollReveal>

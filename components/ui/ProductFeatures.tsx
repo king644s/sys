@@ -44,7 +44,7 @@ export function ProductFeatures({ images, productName }: ProductFeaturesProps) {
     <section className="max-w-7xl mx-auto px-6 py-16 md:py-20 border-t border-border/40">
       <ScrollReveal direction="up">
         <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
-          <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-gold font-bold block mb-3">
+          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold font-bold block mb-3">
             The Glow of Thoughtful Living
           </span>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-cream font-light tracking-tight leading-tight">

@@ -50,7 +50,7 @@ export function ProductFAQ() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           {/* Left: Section header */}
           <div className="lg:col-span-4 flex flex-col gap-4">
-            <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-gold font-bold">
+            <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold font-bold">
               Support &amp; Guidance
             </span>
             <h2 className="font-serif text-3xl md:text-4xl text-cream font-light tracking-tight leading-tight">

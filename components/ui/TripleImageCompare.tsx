@@ -30,9 +30,9 @@ const CLIP_MOTION_CLASS =
 const LABEL_MOTION_CLASS =
   'transition-[left,max-width] duration-700 ease-luxury motion-reduce:transition-none';
 const PRIMARY_BUTTON_CLASS =
-  'inline-flex items-center justify-center rounded-[2px] border border-gold-muted bg-gold px-4 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-cream transition-all duration-300 hover:bg-gold-light hover:border-gold-light';
+  'inline-flex items-center justify-center rounded-sm border border-gold-muted bg-gold px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-cream transition-all duration-300 hover:bg-gold-light hover:border-gold-light';
 const RESET_BUTTON_CLASS =
-  'inline-flex items-center gap-2 rounded-[2px] border border-border bg-surface px-3 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-text-dim transition-all duration-300 hover:border-border-mid hover:text-cream disabled:cursor-default disabled:opacity-40 disabled:hover:border-border disabled:hover:text-text-dim';
+  'inline-flex items-center gap-2 rounded-sm border border-border bg-surface px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-text-dim transition-all duration-300 hover:border-border-mid hover:text-cream disabled:cursor-default disabled:opacity-40 disabled:hover:border-border disabled:hover:text-text-dim';
 
 function getActivePreset(dividers: [number, number]): ComparePreset | null {
   if (dividers[0] === PRESETS.first[0] && dividers[1] === PRESETS.first[1]) return 'first';
@@ -195,7 +195,7 @@ export function TripleImageCompare({ images, className = '' }: TripleImageCompar
         return (
           <span
             key={`label-${image.label}`}
-            className={`pointer-events-none absolute top-3 z-[1] rounded-[1px] bg-void/75 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.2em] text-cream backdrop-blur-sm ${shouldAnimateDividers ? LABEL_MOTION_CLASS : ''}`}
+            className={`pointer-events-none absolute top-3 z-[1] rounded-sm bg-void/75 px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.15em] text-cream backdrop-blur-sm ${shouldAnimateDividers ? LABEL_MOTION_CLASS : ''}`}
             style={{ left: `calc(${left}% + 8px)`, maxWidth: `calc(${width}% - 16px)` }}
           >
             {image.label}
@@ -222,7 +222,7 @@ export function TripleImageCompare({ images, className = '' }: TripleImageCompar
             aria-valuenow={Math.round(pos)}
             tabIndex={0}
             onPointerDown={startDrag(index)}
-            className="absolute top-1/2 left-0 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-ew-resize items-center justify-center rounded-full border border-border bg-surface shadow-[0_4px_20px_rgba(0,0,0,0.2)]"
+            className="absolute top-1/2 left-0 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-ew-resize items-center justify-center rounded-full border border-border bg-surface shadow-[0_4px_20px_rgba(0,0,0,0.2)] focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:outline-none"
           >
             <MoveHorizontal className="h-4 w-4 text-gold" strokeWidth={1.5} />
           </div>

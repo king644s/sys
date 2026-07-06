@@ -30,7 +30,7 @@ export function Home() {
         {/* Content on top */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 text-center flex flex-col items-center">
           <ScrollReveal direction="up" delay={0.2}>
-            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold mb-3.5 block font-bold">
+            <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-3.5 block font-bold">
               SYSLight • Systems Creator Innovation
             </span>
           </ScrollReveal>
@@ -43,7 +43,7 @@ export function Home() {
           </ScrollReveal>
 
           <ScrollReveal direction="up" delay={0.6}>
-            <p className="font-sans text-xs md:text-sm text-text-dim max-w-lg mx-auto mt-6 tracking-wide leading-relaxed">
+            <p className="font-sans text-sm text-text-dim max-w-lg mx-auto mt-6 tracking-wide leading-relaxed">
               Premium Indian-made architectural LED luminaires designed to outperform Western luxury benchmarks. Honed for architects and interior spaces.
             </p>
           </ScrollReveal>
@@ -53,7 +53,7 @@ export function Home() {
               <Button variant="primary" href={ROUTES.products}>
                 Explore Collections
               </Button>
-              <Button variant="secondary" href={ROUTES.smartLights}>
+              <Button variant="secondary" href={ROUTES.smartLiving}>
                 Interactive CCT Demo
               </Button>
             </div>
@@ -62,7 +62,7 @@ export function Home() {
 
         {/* Scroll cues */}
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 opacity-50">
-          <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-text-dim">
+          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-text-dim">
             scroll down
           </span>
           <div className="w-[1px] h-10 bg-gradient-to-b from-gold/50 to-transparent animate-pulse-glow" />
@@ -79,7 +79,7 @@ export function Home() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
           <ScrollReveal direction="left">
             <div>
-              <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-gold mb-2 block">
+              <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-2 block">
                 01 / Portfolio
               </span>
               <h2 className="font-serif text-3xl md:text-5xl font-light text-cream tracking-tight">
@@ -89,7 +89,7 @@ export function Home() {
           </ScrollReveal>
 
           <ScrollReveal direction="right">
-            <p className="font-sans text-xs text-text-dim max-w-sm leading-relaxed">
+            <p className="font-sans text-sm text-text-dim max-w-sm leading-relaxed">
               Precision engineered fixtures meticulously categorized to serve diverse structural tasks, spotlight controls, and wall wash configurations.
             </p>
           </ScrollReveal>
@@ -133,7 +133,7 @@ export function Home() {
           </ScrollReveal>
 
           <ScrollReveal direction="up" delay={0.3}>
-            <cite className="font-mono text-[10px] uppercase tracking-[0.25em] text-gold mt-6 block not-italic">
+            <cite className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mt-6 block not-italic">
               — Systems Creator, Founder of SYSLight
             </cite>
           </ScrollReveal>
@@ -143,7 +143,7 @@ export function Home() {
             <ScrollReveal direction="up" delay={0.1}>
               <div className="flex flex-col items-center">
                 <span className="font-serif text-3xl font-bold text-gold">30+</span>
-                <span className="font-mono text-[9px] uppercase tracking-widest text-text-dim mt-2">
+                <span className="font-mono text-[11px] uppercase tracking-widest text-text-dim mt-2">
                   Years Engineering
                 </span>
               </div>
@@ -151,7 +151,7 @@ export function Home() {
             <ScrollReveal direction="up" delay={0.2}>
               <div className="flex flex-col items-center">
                 <span className="font-serif text-3xl font-bold text-gold">CRI 92+</span>
-                <span className="font-mono text-[9px] uppercase tracking-widest text-text-dim mt-2">
+                <span className="font-mono text-[11px] uppercase tracking-widest text-text-dim mt-2">
                   True Colour Rendering
                 </span>
               </div>
@@ -159,7 +159,7 @@ export function Home() {
             <ScrollReveal direction="up" delay={0.3}>
               <div className="flex flex-col items-center">
                 <span className="font-serif text-3xl font-bold text-gold">100%</span>
-                <span className="font-mono text-[9px] uppercase tracking-widest text-text-dim mt-2">
+                <span className="font-mono text-[11px] uppercase tracking-widest text-text-dim mt-2">
                   Manufactured in India
                 </span>
               </div>
@@ -172,37 +172,37 @@ export function Home() {
 
       {/* 5. Smart CCT Color Temperature Highlight Banner */}
       <section className="max-w-7xl mx-auto px-6 py-12">
-        <div className="bg-surface-alt border border-border rounded-[2px] p-8 md:p-14 overflow-hidden relative grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        <div className="bg-surface-alt border border-border rounded-md p-8 md:p-14 overflow-hidden relative grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
           {/* Decorative side spotlight background glow */}
           <div className="absolute right-0 top-0 w-80 h-80 rounded-full blur-[100px] bg-gold/5 opacity-25 pointer-events-none" />
 
           <div className="md:col-span-7 flex flex-col gap-6 z-10">
-            <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-gold">
+            <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold">
               next-gen smart technology
             </span>
             <h2 className="font-serif text-3xl md:text-5xl font-light tracking-tight text-cream leading-tight">
               Color Temperature <span className="italic font-serif text-gold">Transitions</span>
             </h2>
-            <p className="font-sans text-xs md:text-sm text-text-dim leading-relaxed max-w-xl">
+            <p className="font-sans text-sm text-text-dim leading-relaxed max-w-xl">
               From stimulating crisp white focus light (6500K) to deep relaxing sunset glows (2700K). Command ambient feelings with absolute thermal efficiency and zero ripple dimming.
             </p>
 
             <div className="grid grid-cols-3 gap-4 border-y border-border/50 py-5 my-2 max-w-lg">
               <div className="flex gap-2.5 items-center">
                 <Sliders className="w-4 h-4 text-gold shrink-0" />
-                <span className="font-sans text-[11px] text-cream uppercase">smooth slide</span>
+                <span className="font-mono text-[11px] text-cream uppercase">smooth slide</span>
               </div>
               <div className="flex gap-2.5 items-center">
                 <Sparkles className="w-4 h-4 text-gold shrink-0" />
-                <span className="font-sans text-[11px] text-cream uppercase">zero flicker</span>
+                <span className="font-mono text-[11px] text-cream uppercase">zero flicker</span>
               </div>
               <div className="flex gap-2.5 items-center">
                 <Layers className="w-4 h-4 text-gold shrink-0" />
-                <span className="font-sans text-[11px] text-cream uppercase">presets</span>
+                <span className="font-mono text-[11px] text-cream uppercase">presets</span>
               </div>
             </div>
 
-            <Button variant="primary" className="self-start mt-2" href={ROUTES.smartLights}>
+            <Button variant="primary" className="self-start mt-2" href={ROUTES.smartLiving}>
               Command Spectrum Orb
             </Button>
           </div>
@@ -212,9 +212,9 @@ export function Home() {
               <div className="absolute inset-2 rounded-full border border-border-mid/30 animate-pulse-glow" style={{ boxShadow: '0 0 30px rgba(201,169,110,0.1)' }} />
               <div className="flex flex-col items-center">
                 <span className="font-serif text-4xl text-cream font-semibold">2700K</span>
-                <span className="font-sans text-gold text-[9px] uppercase tracking-widest mt-1">To</span>
+                <span className="font-mono text-[11px] text-gold uppercase tracking-widest mt-1">To</span>
                 <span className="font-serif text-4xl text-cream font-semibold mt-1">6500K</span>
-                <span className="font-mono text-text-dim text-[8px] uppercase tracking-[0.2em] mt-3">Smart Control</span>
+                <span className="font-mono text-text-dim text-[11px] uppercase tracking-[0.2em] mt-3">Smart Control</span>
               </div>
             </div>
             {/* Visual halo backing */}
@@ -230,7 +230,7 @@ export function Home() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
           <ScrollReveal direction="left">
             <div>
-              <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-gold mb-2 block">
+              <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-2 block">
                 02 / Spotlights
               </span>
               <h2 className="font-serif text-3xl md:text-5xl font-light text-cream tracking-tight">
@@ -240,7 +240,7 @@ export function Home() {
           </ScrollReveal>
 
           <ScrollReveal direction="right">
-            <p className="font-sans text-xs text-text-dim max-w-sm leading-relaxed">
+            <p className="font-sans text-sm text-text-dim max-w-sm leading-relaxed">
               Bestselling architectural selections admired by designers for absolute optic clarity, precise geometric cutoffs, and durable brass housings.
             </p>
           </ScrollReveal>
@@ -264,7 +264,7 @@ export function Home() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
           <ScrollReveal direction="left">
             <div>
-              <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-gold mb-2 block">
+              <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-2 block">
                 03 / Spaces
               </span>
               <h2 className="font-serif text-3xl md:text-5xl font-light text-cream tracking-tight">
@@ -274,7 +274,7 @@ export function Home() {
           </ScrollReveal>
 
           <ScrollReveal direction="right">
-            <p className="font-sans text-xs text-text-dim max-w-sm leading-relaxed">
+            <p className="font-sans text-sm text-text-dim max-w-sm leading-relaxed">
               Witness how our fixtures shape luxury residential cliff villas, high-density hotel lobbies, and global consulates alike across India.
             </p>
           </ScrollReveal>
@@ -287,7 +287,7 @@ export function Home() {
               <ScrollReveal direction="up" delay={idx * 0.1}>
                 <Link
                   href={ROUTES.projects}
-                  className="group relative h-[380px] bg-void overflow-hidden border border-border hover:border-gold/50 hover:shadow-[0_12px_30px_-10px_rgba(201,169,110,0.18)] hover:-translate-y-1 transition-all duration-500 rounded-[2px] cursor-pointer block"
+                  className="group relative h-[380px] bg-void overflow-hidden border border-border hover:border-gold/50 hover:shadow-hover hover:-translate-y-1 transition-all duration-500 rounded-md cursor-pointer block"
                 >
                   <img
                     src={project.image}
@@ -302,7 +302,7 @@ export function Home() {
 
                   {/* Info Overlay */}
                   <div className="absolute bottom-0 inset-x-0 p-6 flex flex-col justify-end">
-                    <span className="font-mono text-[9px] text-gold tracking-[0.2em] uppercase mb-1">
+                    <span className="font-mono text-[11px] text-gold tracking-[0.2em] uppercase mb-1">
                       {project.category}
                     </span>
                     <h3 className="font-serif text-xl font-bold text-cream mb-1 group-hover:text-gold transition-colors duration-300">

@@ -50,9 +50,9 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href={ROUTES.smartLights} className={getLinkClass('smart-lights')}>
-                  {isActive('smart-lights') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 animate-pulse-glow" />}
-                  Customise & Smart CCT
+                <Link href={ROUTES.smartLiving} className={getLinkClass('smart-living')}>
+                  {isActive('smart-living') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 animate-pulse-glow" />}
+                  Smart Living & Smart CCT
                 </Link>
               </li>
               <li>
@@ -158,8 +158,8 @@ export function Footer() {
             </h4>
             <ul className="flex flex-col gap-3 font-sans">
               <li>
-                <Link href={ROUTES.smartLights} className={getLinkClass('smart-lights')}>
-                  {isActive('smart-lights') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
+                <Link href={ROUTES.smartLiving} className={getLinkClass('smart-living')}>
+                  {isActive('smart-living') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
                   Kelvin Slider Core
                 </Link>
               </li>
@@ -179,7 +179,7 @@ export function Footer() {
                 <a
                   href="#"
                   onClick={(e) => e.preventDefault()}
-                  className="inline-flex items-center justify-center gap-2 bg-gold hover:bg-gold-light text-white font-mono text-[10px] uppercase tracking-widest px-4 py-3 rounded-[1px] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 shadow-md font-semibold cursor-pointer w-full"
+                  className="inline-flex items-center justify-center gap-2 bg-gold hover:bg-gold-light text-white font-mono text-[11px] uppercase tracking-[0.15em] px-4 py-3 rounded-[1px] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 shadow-md font-bold cursor-pointer w-full focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
                 >
                   <Download className="w-3.5 h-3.5" />
                   Download Brochure

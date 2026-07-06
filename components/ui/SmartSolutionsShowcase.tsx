@@ -14,7 +14,7 @@ export function SmartSolutionsShowcase() {
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 md:mb-12">
           <ScrollReveal direction="left">
             <div className="flex flex-col gap-6">
-              <span className="inline-flex items-center gap-3 w-fit border border-border rounded-full px-4 py-2 font-mono text-[9px] uppercase tracking-[0.22em]">
+              <span className="inline-flex items-center gap-3 w-fit border border-border rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.15em]">
                 <span className="text-gold font-semibold">05</span>
                 <span className="text-text-dim">Compare our solutions</span>
               </span>
@@ -29,7 +29,7 @@ export function SmartSolutionsShowcase() {
           <ScrollReveal direction="right">
             <Link
               href={ROUTES.products}
-              className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold flex items-center gap-2 hover:text-gold-light transition-colors group shrink-0"
+              className="font-mono text-[11px] uppercase tracking-[0.15em] text-gold flex items-center gap-2 hover:text-gold-light transition-colors group shrink-0"
             >
               <span>View All Products</span>
               <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform duration-300" />
@@ -71,7 +71,7 @@ export function SmartSolutionsShowcase() {
                         <h3 className="font-serif text-[15px] sm:text-base font-semibold text-white leading-snug group-hover:text-gold-light transition-colors duration-300">
                           {solution.title}
                         </h3>
-                        <p className="font-sans text-[10px] sm:text-[11px] text-white/55 leading-snug">
+                        <p className="font-sans text-[11px] text-white/55 leading-snug">
                           {solution.subtitle}
                         </p>
                       </div>

@@ -99,14 +99,14 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
         <div className="flex justify-between items-center">
           <Link
             href={categoryPath(product.category)}
-            className="font-mono text-[10px] uppercase tracking-widest text-text-dim hover:text-cream flex items-center gap-2 cursor-pointer"
+            className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim hover:text-cream flex items-center gap-2 cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4 text-gold-muted" />
             <span>back to series</span>
           </Link>
 
           {catalogId && (
-            <span className="font-mono text-[9px] text-text-ghost uppercase tracking-widest hidden md:inline">
+            <span className="font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] hidden md:inline">
               Product Code: {catalogId}
             </span>
           )}
@@ -124,7 +124,7 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
 
         <div className="lg:col-span-6 flex flex-col gap-6">
           <div>
-            <span className="font-mono text-[9px] uppercase tracking-widest text-gold font-bold">
+            <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-gold font-bold">
               {product.seriesName && product.section
                 ? `${product.seriesName} — ${product.section}`
                 : 'Precision Architectural Series'}
@@ -135,7 +135,7 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
 
             {showWattSelector && (
               <div className="mt-3 flex flex-wrap items-center gap-2">
-                <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-text-ghost">
+                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-text-dim">
                   Select Wattage
                 </span>
                 {wattImageOptions.map((wattage) => (
@@ -157,7 +157,7 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
 
             {displayOnlyWattages.length > 0 && (
               <div className="mt-3 flex flex-wrap items-center gap-2">
-                <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-text-ghost">
+                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-text-dim">
                   Available Wattage
                 </span>
                 {displayOnlyWattages.map((wattage) => (
@@ -174,14 +174,14 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
 
           <div className="h-px bg-border/50" />
 
-          <p className="font-sans text-xs md:text-sm text-cream leading-relaxed font-light">
+          <p className="font-sans text-sm text-cream leading-relaxed font-light">
             {product.description}
           </p>
 
           <div className="h-px bg-border/50" />
 
           <div>
-            <span className="font-mono text-[9px] uppercase tracking-widest text-text-ghost block mb-3">
+            <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim block mb-3">
               Colour Option — {activeFinish.label}
             </span>
             <div className="flex gap-3">
@@ -190,12 +190,13 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
                   key={finish.id}
                   onClick={() => setSelectedFinishId(finish.id)}
                   style={{ backgroundColor: finish.swatch }}
-                  className={`w-7 h-7 rounded-full cursor-pointer border-2 transition-all duration-300 ${
+                  className={`relative w-7 h-7 rounded-full cursor-pointer border-2 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:outline-none before:absolute before:-inset-2 before:content-[''] ${
                     selectedFinishId === finish.id
-                      ? 'border-white scale-110 shadow-[0_0_12px_rgba(201,169,110,0.5)]'
+                      ? 'border-white scale-110 shadow-glow-sm'
                       : 'border-transparent hover:scale-105'
                   }`}
                   title={finish.label}
+                  aria-label={`Select color option ${finish.label}`}
                 />
               ))}
             </div>
@@ -206,7 +207,7 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
               href={whatsAppInquiryUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full px-6 py-3.5 tracking-wider uppercase text-xs font-mono font-medium transition-all duration-300 ease-luxury focus:outline-none focus:ring-1 focus:ring-[#25D366]/50 cursor-pointer rounded-[1px] inline-flex items-center justify-center gap-2 border border-[#25D366]/60 text-white bg-[#25D366] hover:bg-[#22c55e] hover:border-[#22c55e] active:bg-[#1da851]"
+              className="w-full px-6 py-3.5 tracking-wider uppercase text-xs font-mono font-medium transition-all duration-300 ease-luxury focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 focus-visible:outline-none cursor-pointer rounded-sm inline-flex items-center justify-center gap-2 border border-[#25D366]/60 text-white bg-[#25D366] hover:bg-[#22c55e] hover:border-[#22c55e] active:bg-[#1da851]"
             >
               <WhatsAppIcon className="w-4 h-4 shrink-0" />
               <span>Inquire This Product</span>

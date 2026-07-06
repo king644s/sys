@@ -24,7 +24,7 @@ export function BeforeAfterCompare({
 
   return (
     <div
-      className={`relative w-full aspect-video overflow-hidden border border-border rounded-[2px] bg-surface select-none ${className}`}
+      className={`relative w-full aspect-video overflow-hidden border border-border rounded-md bg-surface select-none focus-within:ring-2 focus-within:ring-gold focus-within:ring-offset-2 ${className}`}
       style={{ '--pos': `${position}%` } as React.CSSProperties}
     >
       {/* After — full tunable lighting */}
@@ -69,10 +69,10 @@ export function BeforeAfterCompare({
       </div>
 
       {/* Labels */}
-      <span className="pointer-events-none absolute top-3 left-3 z-[1] rounded-[1px] bg-void/75 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.2em] text-cream backdrop-blur-sm">
+      <span className="pointer-events-none absolute top-3 left-3 z-[1] rounded-[1px] bg-void/75 px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.15em] text-cream backdrop-blur-sm">
         {beforeLabel}
       </span>
-      <span className="pointer-events-none absolute top-3 right-3 z-[1] rounded-[1px] bg-void/75 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.2em] text-cream backdrop-blur-sm">
+      <span className="pointer-events-none absolute top-3 right-3 z-[1] rounded-[1px] bg-void/75 px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.15em] text-cream backdrop-blur-sm">
         {afterLabel}
       </span>
 

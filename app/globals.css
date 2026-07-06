@@ -106,35 +106,184 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
+  /* ─── Colors ──────────────────────────────────────────────────────── */
   --color-void: #FFFFFF;
-  --color-void-dark: #010101;
+  --color-void-dark: #F5F5F7;
   --color-surface: #FFFFFF;
   --color-surface-alt: #F5F5F7;
-  --color-border: #E5E5E6;
-  --color-border-mid: #CCCCCC;
+  --color-surface-high: #EBEBEF;
+  --color-cream: #010101;
+  --color-text-dim: #4B4B5E;
+  --color-text-ghost: #767589;
+  --color-white: #FFFFFF;
   --color-gold: #4D4A9D;
   --color-gold-light: #6C69C1;
   --color-gold-muted: #333175;
-  --color-cream: #010101;
-  --color-text-dim: #4B4B5E;
-  --color-text-ghost: #8E8D9F;
-  --color-white: #FFFFFF;
+  --color-gold-dark: #2A2862;
+  --color-border: #E5E5E6;
+  --color-border-mid: #CCCCCC;
+  --color-border-high: #B0AFCC;
+
+  /* ─── Active Preset Buttons (Light Mode) ────────────────────────── */
+  --active-warm-bg: rgba(92, 77, 46, 0.08);
+  --active-warm-border: #A99775;
+  --active-warm-text: #5C4D2E;
+
+  /* Natural White Preset Active Styles */
+  --active-natural-bg: rgba(75, 75, 94, 0.08);
+  --active-natural-border: #767589;
+  --active-natural-text: #4B4B5E;
+
+  /* Cool White Preset Active Styles */
+  --active-cool-bg: rgba(31, 74, 94, 0.08);
+  --active-cool-border: #8FB6C5;
+  --active-cool-text: #1F4A5E;
+
+  /* ─── Spacing Grid ────────────────────────────────────────────────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-28: 112px;
+
+  /* ─── Corner Radii ────────────────────────────────────────────────── */
+  --radius-none: 0px;
+  --radius-sm: 1px;
+  --radius-md: 2px;
+  --radius-lg: 4px;
+  --radius-xl: 8px;
+  --radius-2xl: 16px;
+  --radius-full: 9999px;
+
+  /* ─── Elevation Shadows ───────────────────────────────────────────── */
+  --shadow-none: none;
+  --shadow-subtle: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-card: 0 4px 16px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-hover: 0 12px 30px -10px rgba(77,74,157,0.18);
+  --shadow-lifted: 0 20px 48px -12px rgba(77,74,157,0.28);
+  --shadow-glow: 0 0 45px rgba(106,103,204,0.15);
+
+  /* ─── Typography Scales ───────────────────────────────────────────── */
+  --text-display-xxl: 6rem;
+  --text-display-xl: 4.5rem;
+  --text-display-lg: 3.75rem;
+  --text-h1: 3rem;
+  --text-h2: 2.5rem;
+  --text-h2-sm: 1.75rem;
+  --text-h3: 1.25rem;
+  --text-h4: 1.125rem;
+  --text-body-lg: 1.125rem;
+  --text-body-md: 0.875rem;
+  --text-body-sm: 0.8125rem;
+  --text-caption: 0.75rem;
+  --text-label-ui: 0.6875rem;
+
+  /* ─── Opacity ─────────────────────────────────────────────────────── */
+  --opacity-hover-img: 0.70;
+  --opacity-active-img: 0.95;
+  --opacity-overlay: 0.85;
+  --opacity-disabled: 0.50;
+  --opacity-muted: 0.60;
+  --opacity-ghost: 0.40;
+
+  /* ─── Transitions & Ease ──────────────────────────────────────────── */
+  --duration-fast: 200ms;
+  --duration-standard: 300ms;
+  --duration-medium: 500ms;
+  --duration-luxury: 700ms;
+  --ease-luxury: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ─── Icon Sizes ──────────────────────────────────────────────────── */
+  --icon-xs: 12px;
+  --icon-sm: 14px;
+  --icon-md: 16px;
+  --icon-lg: 18px;
+  --icon-xl: 20px;
+  --icon-2xl: 24px;
+  --icon-3xl: 32px;
+  --icon-hero: 40px;
+
+  /* ─── Containers ──────────────────────────────────────────────────── */
+  --container-max: 1280px;
+  --container-wide: 1152px;
+  --container-default: 1024px;
+  --container-narrow: 896px;
+  --container-text: 672px;
+  --container-reading: 576px;
+
+  /* ─── Button Sizes ────────────────────────────────────────────────── */
+  --btn-height-sm: 36px;
+  --btn-height-md: 44px;
+  --btn-height-lg: 48px;
+  --btn-height-xl: 56px;
+
+  /* ─── Input Sizes ─────────────────────────────────────────────────── */
+  --input-height-sm: 36px;
+  --input-height-md: 44px;
+  --input-height-lg: 52px;
+
+  /* ─── Table Sizes ─────────────────────────────────────────────────── */
+  --table-row-compact: 36px;
+  --table-row-default: 44px;
+  --table-row-relaxed: 52px;
+
+  /* ─── Card Sizes ──────────────────────────────────────────────────── */
+  --card-padding-xs: 12px;
+  --card-padding-sm: 16px;
+  --card-padding-md: 20px;
+  --card-padding-lg: 24px;
+  --card-padding-xl: 32px;
+  --card-padding-2xl: 40px;
+
+  /* ─── Section Padding ─────────────────────────────────────────────── */
+  --section-padding-xs: 32px;
+  --section-padding-sm: 48px;
+  --section-padding-md: 64px;
+  --section-padding-lg: 80px;
+  --section-padding-xl: 96px;
+  --section-padding-2xl: 112px;
 }
 
 .dark {
+  /* ─── Colors ──────────────────────────────────────────────────────── */
   --color-void: #010101;
-  --color-void-dark: #010101;
+  --color-void-dark: #000000;
   --color-surface: #0D0C15;
   --color-surface-alt: #141321;
-  --color-border: #201F33;
-  --color-border-mid: #2E2D4A;
+  --color-surface-high: #1C1B2C;
+  --color-cream: #E5E5E6;
+  --color-text-dim: #9B99BB;
+  --color-text-ghost: #7D7B9B;
+  --color-white: #FFFFFF;
   --color-gold: #6A67CC;
   --color-gold-light: #8F8DF0;
   --color-gold-muted: #413F8C;
-  --color-cream: #E5E5E6;
-  --color-text-dim: #9B99BB;
-  --color-text-ghost: #5D5B7C;
-  --color-white: #FFFFFF;
+  --color-gold-dark: #3A389F;
+  --color-border: #201F33;
+  --color-border-mid: #2E2D4A;
+  --color-border-high: #3C3A5E;
+
+  /* ─── Active Preset Buttons (Dark Mode) ─────────────────────────── */
+  --active-warm-bg: rgba(255, 249, 216, 0.1);
+  --active-warm-border: #FFF9D8;
+  --active-warm-text: #FFF9D8;
+
+  /* Natural White Preset Active Styles */
+  --active-natural-bg: rgba(249, 247, 248, 0.1);
+  --active-natural-border: #F9F7F8;
+  --active-natural-text: #F9F7F8;
+
+  /* Cool White Preset Active Styles */
+  --active-cool-bg: rgba(244, 253, 255, 0.1);
+  --active-cool-border: #F4FDFF;
+  --active-cool-text: #F4FDFF;
 }
 
 @theme {
@@ -142,11 +291,14 @@
   --color-void-dark: var(--color-void-dark);
   --color-surface: var(--color-surface);
   --color-surface-alt: var(--color-surface-alt);
+  --color-surface-high: var(--color-surface-high);
   --color-border: var(--color-border);
   --color-border-mid: var(--color-border-mid);
+  --color-border-high: var(--color-border-high);
   --color-gold: var(--color-gold);
   --color-gold-light: var(--color-gold-light);
   --color-gold-muted: var(--color-gold-muted);
+  --color-gold-dark: var(--color-gold-dark);
   --color-cream: var(--color-cream);
   --color-text-dim: var(--color-text-dim);
   --color-text-ghost: var(--color-text-ghost);
@@ -156,9 +308,81 @@
   --font-sans: "DM Sans", sans-serif;
   --font-mono: "Space Mono", monospace;
 
-  --ease-luxury: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  /* Custom Spacings mapped to base system */
+  --spacing-1: var(--space-1);
+  --spacing-2: var(--space-2);
+  --spacing-3: var(--space-3);
+  --spacing-4: var(--space-4);
+  --spacing-5: var(--space-5);
+  --spacing-6: var(--space-6);
+  --spacing-8: var(--space-8);
+  --spacing-12: var(--space-12);
+  --spacing-16: var(--space-16);
+  --spacing-20: var(--space-20);
+  --spacing-28: var(--space-28);
+
+  /* Card and section layout specifics */
+  --spacing-card-xs: var(--card-padding-xs);
+  --spacing-card-sm: var(--card-padding-sm);
+  --spacing-card-md: var(--card-padding-md);
+  --spacing-card-lg: var(--card-padding-lg);
+  --spacing-card-xl: var(--card-padding-xl);
+  --spacing-card-xxl: var(--card-padding-2xl);
+
+  --spacing-section-xs: var(--section-padding-xs);
+  --spacing-section-sm: var(--section-padding-sm);
+  --spacing-section-md: var(--section-padding-md);
+  --spacing-section-lg: var(--section-padding-lg);
+  --spacing-section-xl: var(--section-padding-xl);
+  --spacing-section-xxl: var(--section-padding-2xl);
+
+  /* Border Radii */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+
+  /* Elevation Shadows */
+  --shadow-subtle: var(--shadow-subtle);
+  --shadow-card: var(--shadow-card);
+  --shadow-hover: var(--shadow-hover);
+  --shadow-lifted: var(--shadow-lifted);
+  --shadow-glow: var(--shadow-glow);
+
+  /* Anim & Transitions */
+  --ease-luxury: var(--ease-luxury);
+  --ease-out-expo: var(--ease-out-expo);
+  --duration-luxury: var(--duration-luxury);
+  --duration-fast: var(--duration-fast);
+  --duration-standard: var(--duration-standard);
+  --duration-medium: var(--duration-medium);
+
+  /* Icon sizes */
+  --width-icon-xs: var(--icon-xs);
+  --width-icon-sm: var(--icon-sm);
+  --width-icon-md: var(--icon-md);
+  --width-icon-lg: var(--icon-lg);
+  --width-icon-xl: var(--icon-xl);
+  --width-icon-2xl: var(--icon-2xl);
+  --width-icon-3xl: var(--icon-3xl);
+  --width-icon-hero: var(--icon-hero);
+  
+  --height-icon-xs: var(--icon-xs);
+  --height-icon-sm: var(--icon-sm);
+  --height-icon-md: var(--icon-md);
+  --height-icon-lg: var(--icon-lg);
+  --height-icon-xl: var(--icon-xl);
+  --height-icon-2xl: var(--icon-2xl);
+  --height-icon-3xl: var(--icon-3xl);
+  --height-icon-hero: var(--icon-hero);
+
+  /* Breakpoints */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-xxl: 1536px;
 }
 
 /* ─── Font Theme: Azo (local fonts) ─────────────────────────────────── */

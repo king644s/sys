@@ -28,7 +28,7 @@ npm start
 | `/products` | Products hub |
 | `/products/[category]` | Category listing |
 | `/products/[category]/[product]` | Product detail |
-| `/smart-lights` | Smart CCT demo |
+| `/smart-living` | Smart Living (CCT demo) |
 | `/projects` | Projects gallery |
 | `/contact` | Contact |
 
