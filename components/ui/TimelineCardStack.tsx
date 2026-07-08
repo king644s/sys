@@ -119,15 +119,15 @@ export function TimelineCardStack() {
           <div className="max-w-7xl mx-auto px-6 py-10 md:py-14 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
               <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold block mb-3">
-                30 years in the making
+                Our Journey
               </span>
               <h2 className="font-serif text-3xl md:text-5xl font-light text-cream tracking-tight leading-tight">
-                A Legacy Built<br />
-                <span className="italic font-serif text-gold font-normal">Through Precision.</span>
+                Milestones That<br />
+                <span className="italic font-serif text-gold font-normal">Shape the Brand.</span>
               </h2>
             </div>
             <p className="font-sans text-sm text-text-dim max-w-xs leading-relaxed hidden md:block">
-              Scroll to trace every milestone — from our first circuit board to the smart lighting revolution.
+              Scroll through the moments that matter to architects and designers — from 1991 to today.
             </p>
           </div>
         </div>
