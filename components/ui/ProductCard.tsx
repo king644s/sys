@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Product } from '../../types';
 import { productPath } from '@/lib/routes';
-import { getProductListingImage } from '@/utils/productAssets';
+import { getProductListingImage, getProductImageZoomClass } from '@/utils/productAssets';
 import { getProductCodeDisplay } from '@/utils/productCodes';
 import { getProductWattageDisplay } from '@/utils/productWattage';
 import { ProgressiveImage } from './ProgressiveImage';
@@ -18,6 +18,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const listingImage = getProductListingImage(product);
   const productCodes = getProductCodeDisplay(product);
   const wattage = getProductWattageDisplay(product);
+  const imageZoomClass = getProductImageZoomClass(product, 'card');
 
   return (
     <Link
@@ -32,7 +33,7 @@ export function ProductCard({ product }: ProductCardProps) {
             fullSrc={listingImage.full}
             alt={product.name}
             loading="lazy"
-            className="max-h-full max-w-full h-auto w-auto object-contain object-center opacity-100 group-hover:scale-105 transition-transform duration-700 ease-out-expo"
+            className={`max-h-full max-w-full h-auto w-auto object-contain object-center opacity-100 transition-transform duration-700 ease-out-expo ${imageZoomClass}`}
           />
         </div>
 

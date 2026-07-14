@@ -14,11 +14,21 @@ import { ProgressiveImage } from './ProgressiveImage';
 interface ProductImageCarouselProps {
   images: ProductImagePair[];
   productName: string;
+  /** Tailwind scale classes for main/thumbnail images (defaults to 60% zoom). */
+  imageZoomClass?: string;
+  thumbnailZoomClass?: string;
 }
 
 const NAV_BUTTON_SIZE = 40;
+const DEFAULT_IMAGE_ZOOM = 'scale-[1.6] group-hover:scale-[1.632]';
+const DEFAULT_THUMBNAIL_ZOOM = 'scale-[1.6]';
 
-export function ProductImageCarousel({ images, productName }: ProductImageCarouselProps) {
+export function ProductImageCarousel({
+  images,
+  productName,
+  imageZoomClass = DEFAULT_IMAGE_ZOOM,
+  thumbnailZoomClass = DEFAULT_THUMBNAIL_ZOOM,
+}: ProductImageCarouselProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
 
   const slides = useMemo(() => {
@@ -219,7 +229,7 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
                 thumbnailSrc={slide.thumbnail}
                 fullSrc={slide.full}
                 alt={`${productName} thumbnail ${index + 1}`}
-                className="w-full h-full object-contain object-center"
+                className={`w-full h-full object-contain object-center ${thumbnailZoomClass}`}
               />
             </button>
           ))}
@@ -243,7 +253,7 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
               fullSrc={activeSlide.full}
               alt={productName}
               loading="eager"
-              className="max-h-full max-w-full h-auto w-auto object-contain object-center transition-transform duration-700 ease-out-expo group-hover:scale-[1.02] pointer-events-none"
+              className={`max-h-full max-w-full h-auto w-auto object-contain object-center transition-transform duration-700 ease-out-expo pointer-events-none ${imageZoomClass}`}
             />
           </button>
 

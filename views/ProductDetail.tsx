@@ -11,6 +11,7 @@ import {
   getProductDetailWattOptions,
   getProductImagesForWatt,
   getProductFeatureImages,
+  getProductImageZoomClass,
 } from '@/utils/productAssets';
 import { ProductCard } from '../components/ui/ProductCard';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
@@ -90,6 +91,9 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
 
   const catalogId = getProductCodeDisplay(product);
   const whatsAppInquiryUrl = buildWhatsAppUrl(buildProductInquiryMessage(product));
+  const carouselZoomClass = getProductImageZoomClass(product, 'carousel');
+  const thumbnailZoomClass = getProductImageZoomClass(product, 'thumbnail');
+  const featureZoomClass = getProductImageZoomClass(product, 'feature');
 
   return (
     <div className="transition-page-enter">
@@ -119,6 +123,8 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
             key={`${selectedWattage ?? 'default'}-${selectedFinishId}`}
             images={displayImages}
             productName={product.name}
+            imageZoomClass={carouselZoomClass}
+            thumbnailZoomClass={thumbnailZoomClass}
           />
         </div>
 
@@ -222,7 +228,11 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
         </div>
       </section>
 
-      <ProductFeatures images={featureImages} productName={product.name} />
+      <ProductFeatures
+        images={featureImages}
+        productName={product.name}
+        imageZoomClass={featureZoomClass}
+      />
 
       <SectionDivider label="Related specifications" />
 

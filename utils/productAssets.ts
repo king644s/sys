@@ -63,3 +63,44 @@ export function getProductFeatureImages(product: Product, wattage: string | null
   const pairs = getProductImagesForWatt(product, wattage);
   return pairs.map((p) => p.full);
 }
+
+/** Section-specific product image zoom. Default is 60%. */
+type ZoomVariant = 'card' | 'carousel' | 'thumbnail' | 'feature';
+
+const PRODUCT_IMAGE_ZOOM_CLASSES: Record<string, Record<ZoomVariant, string>> = {
+  'Dual Spotlight': {
+    card: 'scale-[1.3] group-hover:scale-[1.365]',
+    carousel: 'scale-[1.3] group-hover:scale-[1.326]',
+    thumbnail: 'scale-[1.3]',
+    feature: 'scale-[1.3] hover:scale-[1.365]',
+  },
+  'Commercial / High Wattage': {
+    card: 'scale-[1.4] group-hover:scale-[1.47]',
+    carousel: 'scale-[1.4] group-hover:scale-[1.428]',
+    thumbnail: 'scale-[1.4]',
+    feature: 'scale-[1.4] hover:scale-[1.47]',
+  },
+};
+
+const DEFAULT_PRODUCT_IMAGE_ZOOM_CLASSES: Record<ZoomVariant, string> = {
+  card: 'scale-[1.6] group-hover:scale-[1.68]',
+  carousel: 'scale-[1.6] group-hover:scale-[1.632]',
+  thumbnail: 'scale-[1.6]',
+  feature: 'scale-[1.6] hover:scale-[1.68]',
+};
+
+function getProductSectionKey(product: Product): string {
+  return product.section ?? product.subcategory ?? product.specs?.Classification ?? '';
+}
+
+/** Default 60%; Dual Spotlight 30%; Commercial / High Wattage 40%. */
+export function getProductImageZoomClass(
+  product: Product,
+  variant: ZoomVariant,
+): string {
+  const section = getProductSectionKey(product);
+  return (
+    PRODUCT_IMAGE_ZOOM_CLASSES[section]?.[variant] ??
+    DEFAULT_PRODUCT_IMAGE_ZOOM_CLASSES[variant]
+  );
+}

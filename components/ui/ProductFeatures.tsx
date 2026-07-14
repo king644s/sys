@@ -31,9 +31,17 @@ function thumbnailForFullSrc(fullSrc: string): string {
 interface ProductFeaturesProps {
   images: string[];
   productName: string;
+  /** Tailwind scale classes for feature images (defaults to 60% zoom). */
+  imageZoomClass?: string;
 }
 
-export function ProductFeatures({ images, productName }: ProductFeaturesProps) {
+const DEFAULT_FEATURE_ZOOM = 'scale-[1.6] hover:scale-[1.68]';
+
+export function ProductFeatures({
+  images,
+  productName,
+  imageZoomClass = DEFAULT_FEATURE_ZOOM,
+}: ProductFeaturesProps) {
   const featureImages = useMemo(() => {
     const source = images.filter(Boolean);
     const fallback = source[0] || '';
@@ -66,7 +74,7 @@ export function ProductFeatures({ images, productName }: ProductFeaturesProps) {
                     fullSrc={fullSrc}
                     alt={`${productName} — ${feature.title}`}
                     loading="lazy"
-                    className="w-full h-full object-contain object-center p-4 transition-transform duration-700 ease-out-expo hover:scale-105"
+                    className={`w-full h-full object-contain object-center p-4 transition-transform duration-700 ease-out-expo ${imageZoomClass}`}
                   />
                 </div>
 

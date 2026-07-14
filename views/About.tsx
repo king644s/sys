@@ -170,7 +170,7 @@ export function About() {
         <SectionDivider label="Our Journey" />
       </div>
 
-      {/* Block 4 — Timeline (outside transition wrapper so GSAP pin works) */}
+      {/* Block 4 — Timeline (outside transition wrapper so sticky stack works) */}
       <TimelineCardStack />
 
       <div className="transition-page-enter">
