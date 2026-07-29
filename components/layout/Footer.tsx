@@ -106,6 +106,12 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href={categoryPath(CATEGORY_SLUGS.hangingProfileLight)} className={getLinkClass('product-category', CATEGORY_SLUGS.hangingProfileLight)}>
+                  {isActive('product-category', CATEGORY_SLUGS.hangingProfileLight) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
+                  Hanging Profile Light
+                </Link>
+              </li>
+              <li>
                 <Link href={categoryPath(CATEGORY_SLUGS.surface)} className={getLinkClass('product-category', CATEGORY_SLUGS.surface)}>
                   {isActive('product-category', CATEGORY_SLUGS.surface) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
                   Surface Downlights

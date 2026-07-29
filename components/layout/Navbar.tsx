@@ -466,6 +466,9 @@ export function Navbar() {
                     <Link href={categoryPath(CATEGORY_SLUGS.profileLight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
                       Profile Light
                     </Link>
+                    <Link href={categoryPath(CATEGORY_SLUGS.hangingProfileLight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
+                      Hanging Profile Light
+                    </Link>
                     <Link href={categoryPath(CATEGORY_SLUGS.surface)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
                       Surface Downlights
                     </Link>

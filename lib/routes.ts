@@ -15,6 +15,7 @@ export const CATEGORY_SLUGS = {
   magneticTrack: 'magnetic-track',
   downlightPanel: 'downlight-panel',
   profileLight: 'profile-light',
+  hangingProfileLight: 'hanging-profile-light',
   ledStrip: 'led-strip',
   decorative: 'decorative',
   gardenLight: 'garden-light',

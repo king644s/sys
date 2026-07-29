@@ -23,6 +23,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
       case 'downlight-panel':
         return 'deep';
       case 'profile-light':
+      case 'hanging-profile-light':
         return 'linear';
       case 'surface':
         return 'spotlight';

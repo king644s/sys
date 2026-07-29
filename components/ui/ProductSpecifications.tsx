@@ -2,6 +2,12 @@
 
 import { useState, ReactNode } from 'react';
 import { Product } from '../../types';
+import {
+  getHangingProfileBodyFinishLabel,
+  getHangingProfileSizeOptions,
+  getHangingProfileWattageOptions,
+  isHangingProfileProduct,
+} from '../../utils/hangingProfileProduct';
 import { ChevronDown } from 'lucide-react';
 
 interface ProductSpecificationsProps {
@@ -53,10 +59,76 @@ function AccordionSection({ title, isOpen, onToggle, children }: AccordionSectio
 }
 
 export function ProductSpecifications({ product }: ProductSpecificationsProps) {
+  const isHangingProfile = isHangingProfileProduct(product);
   const [isOpenSpec, setIsOpenSpec] = useState(false);
-  const [isOpenTech, setIsOpenTech] = useState(false);
+  const [isOpenTech, setIsOpenTech] = useState(isHangingProfile);
 
   const getDimensionsRows = () => {
+    if (isHangingProfile) {
+      const sizeOptions = getHangingProfileSizeOptions(product);
+      const wattageOptions = getHangingProfileWattageOptions(product);
+      const profileHeight =
+        product.dimensionVariants?.[0]?.height ||
+        product.specs['Profile Size']?.match(/(\d+)\s*mm/i)?.[1] ||
+        '—';
+
+      const variantRows = (product.dimensionVariants ?? []).map((variant) => ({
+        wattage: variant.wattage,
+        outerDiameter: variant.outerDiameter === 'Custom' ? 'Tailor Made' : `${variant.outerDiameter}mm`,
+        height: variant.height,
+        cutOut: '—',
+        fixtureColor: '',
+        cct: '',
+        cost: undefined,
+      }));
+
+      const variantSizes = new Set(
+        variantRows.map((row) => row.outerDiameter.replace(/mm$/, '')),
+      );
+      const variantWattages = new Set(variantRows.map((row) => row.wattage));
+
+      const extraSizeRows = sizeOptions
+        .filter((size) => {
+          const numeric = size.match(/^(\d+)mm$/)?.[1];
+          if (numeric && variantSizes.has(numeric)) return false;
+          return !variantRows.some((row) => row.outerDiameter === size);
+        })
+        .map((size) => ({
+          wattage: '—',
+          outerDiameter: size,
+          height: profileHeight,
+          cutOut: '—',
+          fixtureColor: '',
+          cct: '',
+          cost: undefined,
+        }));
+
+      const extraWattageRows = wattageOptions
+        .filter((wattage) => !variantWattages.has(wattage))
+        .map((wattage) => ({
+          wattage,
+          outerDiameter: '—',
+          height: profileHeight,
+          cutOut: '—',
+          fixtureColor: '',
+          cct: '',
+          cost: undefined,
+        }));
+
+      const combined = [...variantRows, ...extraSizeRows, ...extraWattageRows];
+      if (combined.length > 0) return combined;
+
+      return sizeOptions.map((size) => ({
+        wattage: '—',
+        outerDiameter: size,
+        height: profileHeight,
+        cutOut: '—',
+        fixtureColor: '',
+        cct: '',
+        cost: undefined,
+      }));
+    }
+
     if (product.dimensionVariants && product.dimensionVariants.length > 0) {
       return product.dimensionVariants.map((variant) => ({
         wattage: variant.wattage,
@@ -148,8 +220,16 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
     return value.split(' / ').map(formatSegment).join(' / ');
   };
 
+  const formatTechSpecDisplay = (label: string, value: string) => {
+    if (!value || value === '—') return value;
+    if (isHangingProfile) return value.toUpperCase();
+    return formatSpecValue(label, value);
+  };
+
   const dimensionRows = getDimensionsRows();
-  const hasVariants = product.dimensionVariants && product.dimensionVariants.length > 0;
+  const hasVariants = isHangingProfile
+    ? dimensionRows.length > 0
+    : product.dimensionVariants && product.dimensionVariants.length > 0;
 
   const commonTechSpecs = [
     { label: 'LED', value: getTechSpecValue('LED', 'Cree / Bridgelux / Tyanshine') },
@@ -159,7 +239,32 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
     { label: 'Material', value: getTechSpecValue('Material', 'Aluminum die casting') },
   ];
 
-  const techSpecs = hasVariants
+  const hangingTechSpecs = [
+    { label: 'Type', value: getTechSpecValue('Type', '—') },
+    { label: 'Material', value: getTechSpecValue('Material', '—') },
+    { label: 'Diffuser', value: getTechSpecValue('Diffuser', '—') },
+    { label: 'Body Finish', value: getHangingProfileBodyFinishLabel(product) },
+    { label: 'Profile Size', value: getTechSpecValue('Profile Size', '—') },
+    { label: 'Mounting', value: getTechSpecValue('Mounting', '—') },
+    {
+      label: 'Size',
+      value: getTechSpecValue('Size', getTechSpecValue('Dia Size', '—')),
+    },
+    {
+      label: 'Wattage',
+      value: getTechSpecValue('Wattage', getTechSpecValue('Wattage Options', '—')),
+    },
+    { label: 'CCT', value: getTechSpecValue('CCT Options', '—') },
+    { label: 'Corner Radius', value: getTechSpecValue('Corner Radius', '—') },
+    { label: 'Product Codes', value: getTechSpecValue('Product Codes', '—') },
+    { label: 'Additional Features', value: getTechSpecValue('Additional Features', '—') },
+    { label: 'LED', value: getTechSpecValue('LED', '—') },
+    { label: 'Driver', value: getTechSpecValue('Driver', '—') },
+  ].filter((spec) => spec.value !== '—');
+
+  const techSpecs = isHangingProfile
+    ? hangingTechSpecs
+    : hasVariants
     ? [
         { label: 'Classification', value: getTechSpecValue('Classification', '—') },
         { label: 'CCT', value: getTechSpecValue('CCT Options', '—') },
@@ -198,57 +303,61 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
 
   return (
     <div id="product-accordions-specification-panel" className="flex flex-col gap-8 w-full">
-      <AccordionSection
-        title="Specification"
-        isOpen={isOpenSpec}
-        onToggle={() => setIsOpenSpec((prev) => !prev)}
-      >
-        <div className="border border-border/85 rounded-[6px] overflow-hidden shadow-sm">
-          <div className="bg-gold-muted px-4 py-3 border-b border-border-mid/50">
-            <h4 className="font-mono text-[11px] font-bold tracking-wider text-white uppercase">Dimensions</h4>
-          </div>
+      {!isHangingProfile && (
+        <AccordionSection
+          title="Specification"
+          isOpen={isOpenSpec}
+          onToggle={() => setIsOpenSpec((prev) => !prev)}
+        >
+          <div className="border border-border/85 rounded-[6px] overflow-hidden shadow-sm">
+            <div className="bg-gold-muted px-4 py-3 border-b border-border-mid/50">
+              <h4 className="font-mono text-[11px] font-bold tracking-wider text-white uppercase">
+                Dimensions
+              </h4>
+            </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs font-sans">
-              <thead>
-                <tr className="bg-surface-alt border-b border-border">
-                  {hasVariants && (
-                    <th className="py-3 px-4 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold">
-                      Wattage
-                    </th>
-                  )}
-                  <th className="py-3 px-4 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold text-center">
-                    Outer Diameter (mm)
-                  </th>
-                  <th className="py-3 px-4 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold text-center">
-                    Height (mm)
-                  </th>
-                  <th className="py-3 px-4 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold text-center">
-                    Cut Out (mm)
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {dimensionRows.map((row, index) => (
-                  <tr
-                    key={index}
-                    className="border-b border-border/30 last:border-0 hover:bg-surface-alt/20 transition-colors"
-                  >
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs font-sans">
+                <thead>
+                  <tr className="bg-surface-alt border-b border-border">
                     {hasVariants && (
-                      <td className="py-3.5 px-4 font-medium text-gold font-mono text-xs">
-                        {row.wattage}
-                      </td>
+                      <th className="py-3 px-4 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold">
+                        Wattage
+                      </th>
                     )}
-                    <td className="py-3.5 px-4 text-center text-text-dim font-mono">{row.outerDiameter}</td>
-                    <td className="py-3.5 px-4 text-center text-text-dim font-mono">{row.height}</td>
-                    <td className="py-3.5 px-4 text-center text-text-dim font-mono">{row.cutOut}</td>
+                    <th className="py-3 px-4 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold text-center">
+                      Outer Diameter (mm)
+                    </th>
+                    <th className="py-3 px-4 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold text-center">
+                      Height (mm)
+                    </th>
+                    <th className="py-3 px-4 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold text-center">
+                      Cut Out (mm)
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {dimensionRows.map((row, index) => (
+                    <tr
+                      key={index}
+                      className="border-b border-border/30 last:border-0 hover:bg-surface-alt/20 transition-colors"
+                    >
+                      {hasVariants && (
+                        <td className="py-3.5 px-4 font-medium text-gold font-mono text-xs">
+                          {row.wattage}
+                        </td>
+                      )}
+                      <td className="py-3.5 px-4 text-center text-text-dim font-mono">{row.outerDiameter}</td>
+                      <td className="py-3.5 px-4 text-center text-text-dim font-mono">{row.height}</td>
+                      <td className="py-3.5 px-4 text-center text-text-dim font-mono">{row.cutOut}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      </AccordionSection>
+        </AccordionSection>
+      )}
 
       <AccordionSection
         title="Technical Specification"
@@ -273,8 +382,12 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
                     <td className="py-3.5 px-5 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold w-[35%] md:w-[30%]">
                       {spec.label}
                     </td>
-                    <td className="py-3.5 px-5 text-cream font-medium normal-case">
-                      {formatSpecValue(spec.label, spec.value)}
+                    <td
+                      className={`py-3.5 px-5 text-cream font-medium ${
+                        isHangingProfile ? 'uppercase tracking-wide' : 'normal-case'
+                      }`}
+                    >
+                      {formatTechSpecDisplay(spec.label, spec.value)}
                     </td>
                   </tr>
                 ))}

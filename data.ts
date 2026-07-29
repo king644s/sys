@@ -19,6 +19,7 @@ import { FLEX_PRODUCTS } from './data/flexSeries';
 import { BLADE_PRODUCTS } from './data/bladeSeries';
 import { MURAL_PRODUCTS } from './data/muralSeries';
 import { DRAPE_PRODUCTS } from './data/drapeSeries';
+import { HANGING_PROFILE_PRODUCTS } from './data/hangingProfileSeries';
 
 export const CATEGORIES: Category[] = [
   {
@@ -73,6 +74,15 @@ export const CATEGORIES: Category[] = [
     description: 'Linear architectural extrusions that fuse light into structure.',
     image: 'https://images.unsplash.com/photo-1558211583-0457b22a64c0?q=80&w=600&auto=format&fit=crop',
     has3D: true,
+    type: 'indoor'
+  },
+  {
+    slug: 'hanging-profile-light',
+    name: 'Hanging Profile Light',
+    count: 14,
+    description: 'Pendant and surface-mounted profile luminaires — donuts, rings, arcs, and tailor-made geometries.',
+    image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600&auto=format&fit=crop',
+    has3D: false,
     type: 'indoor'
   },
   {
@@ -153,6 +163,7 @@ export const PRODUCTS = [
   ...BLADE_PRODUCTS,
   ...MURAL_PRODUCTS,
   ...DRAPE_PRODUCTS,
+  ...HANGING_PROFILE_PRODUCTS,
 ];
 
 export const PROJECTS: Project[] = [

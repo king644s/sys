@@ -87,6 +87,14 @@ export const CATALOG_FAMILIES: CatalogFamily[] = [
     ],
   },
   {
+    slug: 'hanging-profile-light',
+    name: 'Hanging Profile Light',
+    type: 'indoor',
+    entries: [
+      { section: 'Hanging Profile Lights', seriesName: 'Hanging', skuPrefix: 'SL-HL' },
+    ],
+  },
+  {
     slug: 'led-strip',
     name: 'LED Strip',
     type: 'indoor',

@@ -8,6 +8,14 @@ import { buildProductInquiryMessage, buildWhatsAppUrl } from '@/lib/whatsapp';
 import { getProductCodeDisplay } from '@/utils/productCodes';
 import { getProductWattageOptions } from '@/utils/productWattage';
 import {
+  formatHangingProfileSizeDisplay,
+  formatHangingProfileWattageDisplay,
+  getHangingProfileFinishes,
+  getHangingProfileSizeOptions,
+  getHangingProfileWattageOptions,
+  isHangingProfileProduct,
+} from '@/utils/hangingProfileProduct';
+import {
   getProductDetailWattOptions,
   getProductImagesForWatt,
   getProductFeatureImages,
@@ -42,15 +50,19 @@ interface ProductDetailProps {
 
 export function ProductDetail({ productSlug }: ProductDetailProps) {
   const product = PRODUCTS.find(p => p.slug === productSlug);
-  const finishOptions = DEFAULT_FINISHES;
+  const isHangingProfile = product ? isHangingProfileProduct(product) : false;
+  const finishOptions = isHangingProfile && product ? getHangingProfileFinishes(product) : DEFAULT_FINISHES;
   const [selectedFinishId, setSelectedFinishId] = useState(finishOptions[0]?.id ?? 'white');
   const [selectedWattage, setSelectedWattage] = useState<string | null>(null);
 
   useEffect(() => {
-    setSelectedFinishId(finishOptions[0]?.id ?? 'white');
-    const options = product ? getProductDetailWattOptions(product) : [];
-    setSelectedWattage(options.length > 0 ? options[0] : null);
-  }, [productSlug, product]);
+    const options = isHangingProfile && product
+      ? getHangingProfileFinishes(product)
+      : DEFAULT_FINISHES;
+    setSelectedFinishId(options[0]?.id ?? 'white');
+    const wattOptions = product ? getProductDetailWattOptions(product) : [];
+    setSelectedWattage(wattOptions.length > 0 ? wattOptions[0] : null);
+  }, [productSlug, product, isHangingProfile]);
 
   const displayImages = useMemo(
     () => (product ? getProductImagesForWatt(product, selectedWattage) : []),
@@ -87,7 +99,15 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
     finishOptions.find((finish) => finish.id === selectedFinishId) ?? finishOptions[0];
 
   const showWattSelector = wattImageOptions.length > 1;
-  const displayOnlyWattages = !showWattSelector ? fallbackWattOptions : [];
+  const hangingWattages = isHangingProfile && product ? getHangingProfileWattageOptions(product) : [];
+  const hangingWattageDisplay = isHangingProfile ? formatHangingProfileWattageDisplay(hangingWattages) : null;
+  const hangingSizes = isHangingProfile && product ? getHangingProfileSizeOptions(product) : [];
+  const hangingSizeDisplay = isHangingProfile ? formatHangingProfileSizeDisplay(hangingSizes) : null;
+  const displayOnlyWattages = isHangingProfile
+    ? []
+    : !showWattSelector
+      ? fallbackWattOptions
+      : [];
 
   const catalogId = getProductCodeDisplay(product);
   const whatsAppInquiryUrl = buildWhatsAppUrl(buildProductInquiryMessage(product));
@@ -140,8 +160,8 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
             </h1>
 
             {showWattSelector && (
-              <div className="mt-3 flex flex-wrap items-center gap-2">
-                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-text-dim">
+              <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1">
+                <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim leading-none">
                   Select Wattage
                 </span>
                 {wattImageOptions.map((wattage) => (
@@ -149,7 +169,7 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
                     key={wattage}
                     type="button"
                     onClick={() => setSelectedWattage(wattage)}
-                    className={`inline-flex items-center px-2.5 py-1 font-mono text-[11px] md:text-xs font-medium tracking-wide rounded-md cursor-pointer transition-colors duration-300 ${
+                    className={`inline-flex items-center px-2.5 py-1 font-mono text-[11px] font-medium tracking-wide rounded-md leading-none cursor-pointer transition-colors duration-300 ${
                       selectedWattage === wattage
                         ? 'bg-void/30 text-cream underline underline-offset-4 decoration-gold/80'
                         : 'bg-void/30 text-gold/70 hover:text-gold/95'
@@ -161,19 +181,39 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
               </div>
             )}
 
-            {displayOnlyWattages.length > 0 && (
-              <div className="mt-3 flex flex-wrap items-center gap-2">
-                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-text-dim">
-                  Available Wattage
-                </span>
-                {displayOnlyWattages.map((wattage) => (
-                  <span
-                    key={wattage}
-                    className="inline-flex items-center px-2.5 py-1 bg-void/30 font-mono text-[11px] md:text-xs text-gold/95 font-medium tracking-wide rounded-md"
-                  >
-                    {wattage}
-                  </span>
-                ))}
+            {(displayOnlyWattages.length > 0 || hangingWattageDisplay || hangingSizeDisplay) && (
+              <div className="mt-4 flex flex-col gap-3 rounded-md border border-border/60 bg-surface-alt/40 px-4 py-3.5">
+                {hangingWattageDisplay && (
+                  <p className="font-mono text-xs md:text-sm tracking-[0.12em] leading-normal whitespace-nowrap">
+                    <span className="uppercase text-cream/80 font-semibold">Available Wattage</span>
+                    <span className="text-text-dim mx-2">—</span>
+                    <span className="text-gold font-semibold normal-case tracking-wide">{hangingWattageDisplay}</span>
+                  </p>
+                )}
+
+                {hangingSizeDisplay && (
+                  <p className="font-mono text-xs md:text-sm tracking-[0.12em] leading-normal whitespace-nowrap">
+                    <span className="uppercase text-cream/80 font-semibold">Available Size</span>
+                    <span className="text-text-dim mx-2">—</span>
+                    <span className="text-gold font-semibold normal-case tracking-wide">{hangingSizeDisplay}</span>
+                  </p>
+                )}
+
+                {!hangingWattageDisplay && displayOnlyWattages.length > 0 && (
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                    <span className="font-mono text-xs uppercase tracking-[0.12em] text-cream/80 font-semibold leading-normal">
+                      Available Wattage
+                    </span>
+                    {displayOnlyWattages.map((wattage) => (
+                      <span
+                        key={wattage}
+                        className="inline-flex items-center px-2.5 py-1 bg-void/30 font-mono text-xs text-gold font-semibold tracking-wide rounded-md leading-normal"
+                      >
+                        {wattage}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -188,7 +228,7 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
 
           <div>
             <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim block mb-3">
-              Colour Option — {activeFinish.label}
+              {isHangingProfile ? 'Body Finish' : 'Colour Option'} — {activeFinish.label}
             </span>
             <div className="flex gap-3">
               {finishOptions.map((finish) => (
@@ -202,7 +242,7 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
                       : 'border-transparent hover:scale-105'
                   }`}
                   title={finish.label}
-                  aria-label={`Select color option ${finish.label}`}
+                  aria-label={`Select ${isHangingProfile ? 'body finish' : 'color'} option ${finish.label}`}
                 />
               ))}
             </div>
