@@ -22,6 +22,7 @@ import {
 const FILTER_CATALOG = CATALOG_FAMILIES.filter((family) => family.slug !== 'decorative').map((family) => ({
   slug: family.slug,
   name: family.name,
+  flat: family.flat ?? false,
   subcategories: family.entries.map((entry) => entry.section),
 }));
 
@@ -218,9 +219,37 @@ export function ProductsHub() {
 
             <div className="flex flex-col gap-1.5 pl-1.5 border-l border-border/30">
               {FILTER_CATALOG.map(cat => {
-                const isExpanded = !!openCategories[cat.slug];
                 const matchCount = getProductFamily(cat.slug);
                 const catalogFamily = CATALOG_FAMILIES.find(f => f.slug === cat.slug);
+
+                if (cat.flat) {
+                  const isSelected = selectedCategory === cat.slug;
+                  return (
+                    <div key={cat.slug} className="flex flex-col gap-1">
+                      <div className="flex items-center justify-between group/row">
+                        <button
+                          onClick={() => handleSelectCategory(cat.slug)}
+                          className={`flex-1 text-left font-serif text-sm tracking-wide transition-colors duration-200 cursor-pointer flex items-center gap-1.5 pr-2 ${
+                            isSelected
+                              ? 'text-gold font-bold'
+                              : `text-text-dim ${sidebarHoverText}`
+                          }`}
+                        >
+                          <span className={`w-1 h-3 bg-gold/50 rounded-sm transform transition-transform duration-300 ${isSelected ? 'scale-y-120 bg-gold' : 'scale-y-0'}`} />
+                          <span>{cat.name}</span>
+                          <span className="font-mono text-xs text-text-ghost/85 font-normal ml-0.5">
+                            ({matchCount})
+                          </span>
+                        </button>
+                        <span className="p-1 shrink-0 invisible pointer-events-none" aria-hidden="true">
+                          <ChevronRight className="w-3.5 h-3.5" />
+                        </span>
+                      </div>
+                    </div>
+                  );
+                }
+
+                const isExpanded = !!openCategories[cat.slug];
 
                 return (
                   <div key={cat.slug} className="flex flex-col gap-1">
@@ -421,10 +450,10 @@ export function ProductsHub() {
           </div>
 
           {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 items-stretch md:grid-cols-2 xl:grid-cols-3 gap-8">
               {filteredProducts.map((prod, idx) => (
-                <div key={prod.id}>
-                  <ScrollReveal direction="up" delay={idx * 0.05}>
+                <div key={prod.id} className="h-full">
+                  <ScrollReveal direction="up" delay={idx * 0.05} className="h-full">
                     <ProductCard product={prod} />
                   </ScrollReveal>
                 </div>

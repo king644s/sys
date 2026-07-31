@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { CATEGORIES, PRODUCTS } from '../data';
+import { getCatalogFamily } from '../data/productCatalog';
 import { ROUTES } from '@/lib/routes';
 import { ProductCard } from '../components/ui/ProductCard';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
@@ -25,7 +26,10 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
     return groups;
   }, {});
 
-  const hasSubcategories = Object.keys(subcategoryGroups).length > 1 || matchedProducts.some((p) => p.subcategory);
+  const catalogFamily = getCatalogFamily(categorySlug);
+  const hasSubcategories =
+    !catalogFamily?.flat &&
+    (Object.keys(subcategoryGroups).length > 1 || matchedProducts.some((p) => p.subcategory));
 
   if (!category) {
     return (
@@ -92,10 +96,10 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
                       {subcategory}
                     </h2>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 items-stretch md:grid-cols-3 gap-8">
                     {products.map((prod, idx) => (
-                      <div key={prod.id}>
-                        <ScrollReveal direction="up" delay={(groupIdx * 3 + idx) * 0.08}>
+                      <div key={prod.id} className="h-full">
+                        <ScrollReveal direction="up" delay={(groupIdx * 3 + idx) * 0.08} className="h-full">
                           <ProductCard product={prod} />
                         </ScrollReveal>
                       </div>
@@ -105,10 +109,10 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 items-stretch md:grid-cols-3 gap-8">
               {matchedProducts.map((prod, idx) => (
-                <div key={prod.id}>
-                  <ScrollReveal direction="up" delay={idx * 0.08}>
+                <div key={prod.id} className="h-full">
+                  <ScrollReveal direction="up" delay={idx * 0.08} className="h-full">
                     <ProductCard product={prod} />
                   </ScrollReveal>
                 </div>

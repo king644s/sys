@@ -8,6 +8,8 @@ export interface CatalogFamily {
   slug: string;
   name: string;
   type: 'indoor' | 'outdoor';
+  /** Category has no section sub-filters — the family itself is the leaf. */
+  flat?: boolean;
   entries: CatalogEntry[];
 }
 
@@ -90,9 +92,8 @@ export const CATALOG_FAMILIES: CatalogFamily[] = [
     slug: 'hanging-profile-light',
     name: 'Hanging Profile Light',
     type: 'indoor',
-    entries: [
-      { section: 'Hanging Profile Lights', seriesName: 'Hanging', skuPrefix: 'SL-HL' },
-    ],
+    flat: true,
+    entries: [],
   },
   {
     slug: 'led-strip',

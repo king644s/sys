@@ -23,7 +23,7 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={href}
-      className="group flex flex-col bg-surface border border-border hover:border-gold/50 hover:shadow-hover hover:-translate-y-1 transition-all duration-500 rounded-md overflow-hidden"
+      className="group flex h-full flex-col bg-surface border border-border hover:border-gold/50 hover:shadow-hover hover:-translate-y-1 transition-all duration-500 rounded-md overflow-hidden"
       id={`product-card-${product.id}`}
     >
       <div className="relative aspect-square w-full bg-gradient-to-b from-surface-alt to-void overflow-hidden">
@@ -50,22 +50,18 @@ export function ProductCard({ product }: ProductCardProps) {
         )}
       </div>
 
-      <div className="p-card-md flex flex-col flex-1 border-t border-border/50">
-        {productCodes && (
-          <span className="font-mono text-xs uppercase tracking-[0.15em] text-gold-muted mb-1.5">
-            {productCodes}
-          </span>
-        )}
+      <div className="p-card-md flex flex-1 flex-col border-t border-border/50">
+        <span className="mb-1.5 min-h-[1.125rem] font-mono text-xs uppercase tracking-[0.15em] text-gold-muted line-clamp-1">
+          {productCodes || '\u00A0'}
+        </span>
 
-        <h3 className="font-serif text-2xl text-cream group-hover:text-gold transition-colors duration-300 mb-2 font-semibold">
+        <h3 className="mb-2 min-h-[4rem] font-serif text-2xl font-semibold text-cream line-clamp-2 group-hover:text-gold transition-colors duration-300">
           {product.name}
         </h3>
 
-        {wattage && (
-          <p className="font-sans text-sm text-text-dim leading-relaxed mb-4 flex-1">
-            {wattage}
-          </p>
-        )}
+        <p className="mb-4 min-h-[2.75rem] flex-1 font-sans text-sm leading-relaxed text-text-dim line-clamp-2">
+          {wattage || '\u00A0'}
+        </p>
 
         <span className="mt-auto self-start text-xs font-mono uppercase tracking-[0.15em] text-cream group-hover:text-gold group-hover:translate-x-1 duration-300 inline-flex items-center gap-1">
           <span>Examine Fixture</span>

@@ -33,48 +33,15 @@ function hangingProduct(
 
 export const HANGING_PROFILE_PRODUCTS: Product[] = [
   hangingProduct({
-    id: 'hl-hanging-profile',
-    slug: 'hanging-profile-light',
-    name: 'Hanging Profile Light',
-    vendorCode: 'SL-HL-HP',
-    shortSpec: '18W–140W • 50×65mm Profile • Surface/Pendant • Custom Sizes',
-    description:
-      'Architectural hanging profile luminaire with aluminium/CRCA body, opal micro-prism diffuser, and driver-in-canopy design. Available in standard lengths from 300mm to 1500mm with fully customized sizing on request.',
-    specs: {
-      Type: 'Hanging Profile Light',
-      Material: 'Aluminium / CRCA',
-      Diffuser: 'Opal PC Micro Prism PMMA Body',
-      Finish: FINISH,
-      'Profile Size': '50mm (W) × 65mm (H) — driver in canopy',
-      'CCT Options': CCT_FULL,
-      Mounting: 'Surface / Pendant',
-      Size: '300mm / 450mm / 600mm / 900mm / 1200mm / 1500mm / Customized Sizes',
-      Wattage: '18W / 30W / 36W / 72W / 108W / 140W / Customized',
-      LED: 'Bridgelux',
-      Driver: DRIVER_FULL,
-      'Additional Features': DIMMABLE_NOTE,
-      'Product Codes': 'SL-HL-HP-18 / SL-HL-HP-30 / SL-HL-HP-36 / SL-HL-HP-72 / SL-HL-HP-108 / SL-HL-HP-140',
-    },
-    dimensionVariants: [
-      { productCode: 'SL-HL-HP-18', wattage: '18W', fixtureColor: FINISH, cct: CCT_FULL, driverSupport: DRIVER_FULL, outerDiameter: '300', height: '65', cutOut: '-' },
-      { productCode: 'SL-HL-HP-30', wattage: '30W', fixtureColor: FINISH, cct: CCT_FULL, driverSupport: DRIVER_FULL, outerDiameter: '450', height: '65', cutOut: '-' },
-      { productCode: 'SL-HL-HP-36', wattage: '36W', fixtureColor: FINISH, cct: CCT_FULL, driverSupport: DRIVER_FULL, outerDiameter: '600', height: '65', cutOut: '-' },
-      { productCode: 'SL-HL-HP-72', wattage: '72W', fixtureColor: FINISH, cct: CCT_FULL, driverSupport: DRIVER_FULL, outerDiameter: '900', height: '65', cutOut: '-' },
-      { productCode: 'SL-HL-HP-108', wattage: '108W', fixtureColor: FINISH, cct: CCT_FULL, driverSupport: DRIVER_FULL, outerDiameter: '1200', height: '65', cutOut: '-' },
-      { productCode: 'SL-HL-HP-140', wattage: '140W', fixtureColor: FINISH, cct: CCT_FULL, driverSupport: DRIVER_FULL, outerDiameter: '1500', height: '65', cutOut: '-' },
-    ],
-    isBestseller: false,
-  }),
-  hangingProduct({
     id: 'hl-donut-light',
     slug: 'led-donut-light',
     name: 'LED Donut Light',
     vendorCode: 'SL-HL-DN',
-    shortSpec: '18W–140W • Donut / Drum • 65mm Profile • Surface/Pendant',
+    shortSpec: '18W–140W • Donut • 65mm Profile • Surface/Pendant',
     description:
-      'Circular LED donut and drum hanging light with aluminium/CRCA construction and opal micro-prism diffuser. Driver housed in canopy for a clean suspended aesthetic across residential and commercial spaces.',
+      'Circular LED donut hanging light with aluminium/CRCA construction and opal micro-prism diffuser. Driver housed in canopy for a clean suspended aesthetic across residential and commercial spaces.',
     specs: {
-      Type: 'LED Donut Light / LED Drum Light',
+      Type: 'LED Donut Light',
       Material: 'Aluminium / CRCA',
       Diffuser: 'Opal PC Micro Prism PMMA Body',
       Finish: FINISH,
@@ -97,6 +64,37 @@ export const HANGING_PROFILE_PRODUCTS: Product[] = [
     isBestseller: false,
   }),
   hangingProduct({
+    id: 'hl-drum-light',
+    slug: 'led-drum-light',
+    name: 'LED Drum Light',
+    vendorCode: 'SL-HL-DM',
+    shortSpec: '18W–140W • Drum • 65mm Profile • Surface/Pendant',
+    description:
+      'Circular LED drum hanging light with aluminium/CRCA construction and opal micro-prism diffuser. Deep drum profile with driver housed in canopy for bold suspended accent lighting.',
+    specs: {
+      Type: 'LED Drum Light',
+      Material: 'Aluminium / CRCA',
+      Diffuser: 'Opal PC Micro Prism PMMA Body',
+      Finish: FINISH,
+      'Profile Size': '65mm (H) — driver in canopy',
+      'CCT Options': CCT_FULL,
+      Mounting: 'Surface / Pendant',
+      Size: '300mm / 450mm / 600mm / 900mm / 1200mm / 1500mm / Customized Sizes',
+      Wattage: '18W / 30W / 36W / 72W / 108W / 140W / Customized',
+      LED: 'Bridgelux',
+      Driver: DRIVER_FULL,
+      'Additional Features': DIMMABLE_NOTE,
+      'Product Codes': 'SL-HL-DM-18 / SL-HL-DM-30 / SL-HL-DM-36 / SL-HL-DM-72 / SL-HL-DM-108 / SL-HL-DM-140',
+    },
+    dimensionVariants: [
+      { productCode: 'SL-HL-DM-18', wattage: '18W', fixtureColor: FINISH, cct: CCT_FULL, driverSupport: DRIVER_FULL, outerDiameter: '300', height: '65', cutOut: '-' },
+      { productCode: 'SL-HL-DM-36', wattage: '36W', fixtureColor: FINISH, cct: CCT_FULL, driverSupport: DRIVER_FULL, outerDiameter: '600', height: '65', cutOut: '-' },
+      { productCode: 'SL-HL-DM-72', wattage: '72W', fixtureColor: FINISH, cct: CCT_FULL, driverSupport: DRIVER_FULL, outerDiameter: '900', height: '65', cutOut: '-' },
+      { productCode: 'SL-HL-DM-108', wattage: '108W', fixtureColor: FINISH, cct: CCT_FULL, driverSupport: DRIVER_FULL, outerDiameter: '1200', height: '65', cutOut: '-' },
+    ],
+    isBestseller: false,
+  }),
+  hangingProduct({
     id: 'hl-hexa-drum',
     slug: 'led-hexa-drum-light',
     name: 'LED Hexa Drum Light',
@@ -105,7 +103,7 @@ export const HANGING_PROFILE_PRODUCTS: Product[] = [
     description:
       'Hexagonal drum hanging luminaire built from T6-6063 aluminium profile with opal micro-prism diffuser. Multiple profile cross-sections available with optional honeycomb configuration on request.',
     specs: {
-      Type: 'LED Hexa Drum Light / LED Hexadonut Light',
+      Type: 'LED Hexa Drum Light',
       Material: 'Aluminum Profile (T6-6063)',
       Diffuser: 'Opal PC Micro Prism PMMA Body',
       Finish: FINISH,
@@ -163,7 +161,7 @@ export const HANGING_PROFILE_PRODUCTS: Product[] = [
     description:
       'Square and rectangular hanging profile luminaire with aluminium/CRCA body and 65mm height profile. Driver integrated in canopy for clean ceiling presentation.',
     specs: {
-      Type: 'LED Rec/Square Light / LED Square Donut Light',
+      Type: 'LED Rec/Square Light',
       Material: 'Aluminum / CRCA',
       Diffuser: 'Opal PC Micro Prism PMMA',
       Finish: FINISH,
@@ -219,9 +217,9 @@ export const HANGING_PROFILE_PRODUCTS: Product[] = [
     vendorCode: 'SL-HL-TR',
     shortSpec: '18W–108W • Triangular • 65mm Profile • Surface/Pendant',
     description:
-      'Triangular hanging profile luminaire with aluminium/CRCA construction and opal micro-prism diffuser. Available as triangle or triangle drum configuration.',
+      'Triangular hanging profile luminaire with aluminium/CRCA construction and opal micro-prism diffuser. Geometric accent lighting for lobbies, retail, and hospitality spaces.',
     specs: {
-      Type: 'LED Triangle Light / LED Triangle Drum Light',
+      Type: 'LED Triangle Light',
       Material: 'Aluminum / CRCA',
       Diffuser: 'Opal PC Micro Prism PMMA',
       Finish: FINISH,
@@ -278,9 +276,9 @@ export const HANGING_PROFILE_PRODUCTS: Product[] = [
     vendorCode: 'SL-HL-TB',
     shortSpec: '9W/Foot • Bended Triangle • T6 Aluminium • Tailor Made Arms',
     description:
-      'Bended triangular hanging profile luminaire with T6-6063 aluminium extrusion. Arm sizes are tailor-made for custom architectural geometries and fan-style layouts.',
+      'Bended triangular hanging profile luminaire with T6-6063 aluminium extrusion. Arm sizes are tailor-made for custom architectural geometries.',
     specs: {
-      Type: 'LED Triangle Bended Light / LED Fan Light',
+      Type: 'LED Triangle Bended Light',
       Material: 'Aluminum Profile (T6-6063)',
       Diffuser: 'Opal PC Micro Prism PC Extruded',
       Finish: FINISH,
