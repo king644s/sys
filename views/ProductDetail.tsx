@@ -148,7 +148,7 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
           />
         </div>
 
-        <div className="lg:col-span-6 flex flex-col gap-6">
+        <div className="lg:col-span-6 flex min-w-0 flex-col gap-6">
           <div>
             <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-gold font-bold">
               {product.seriesName && product.section
@@ -182,21 +182,27 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
             )}
 
             {(displayOnlyWattages.length > 0 || hangingWattageDisplay || hangingSizeDisplay) && (
-              <div className="mt-4 flex flex-col gap-3 rounded-md border border-border/60 bg-surface-alt/40 px-4 py-3.5">
+              <div className="mt-4 flex min-w-0 flex-col gap-3 rounded-md border border-border/60 bg-surface-alt/40 px-4 py-3.5">
                 {hangingWattageDisplay && (
-                  <p className="font-mono text-xs md:text-sm tracking-[0.12em] leading-normal whitespace-nowrap">
-                    <span className="uppercase text-cream/80 font-semibold">Available Wattage</span>
-                    <span className="text-text-dim mx-2">—</span>
-                    <span className="text-gold font-semibold normal-case tracking-wide">{hangingWattageDisplay}</span>
-                  </p>
+                  <div className="min-w-0">
+                    <span className="mb-1 block font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-cream/80">
+                      Available Wattage
+                    </span>
+                    <span className="font-mono text-xs font-semibold normal-case leading-relaxed tracking-wide text-gold wrap-break-word md:text-sm">
+                      {hangingWattageDisplay}
+                    </span>
+                  </div>
                 )}
 
                 {hangingSizeDisplay && (
-                  <p className="font-mono text-xs md:text-sm tracking-[0.12em] leading-normal whitespace-nowrap">
-                    <span className="uppercase text-cream/80 font-semibold">Available Size</span>
-                    <span className="text-text-dim mx-2">—</span>
-                    <span className="text-gold font-semibold normal-case tracking-wide">{hangingSizeDisplay}</span>
-                  </p>
+                  <div className="min-w-0">
+                    <span className="mb-1 block font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-cream/80">
+                      Available Size
+                    </span>
+                    <span className="font-mono text-xs font-semibold normal-case leading-relaxed tracking-wide text-gold wrap-break-word md:text-sm">
+                      {hangingSizeDisplay}
+                    </span>
+                  </div>
                 )}
 
                 {!hangingWattageDisplay && displayOnlyWattages.length > 0 && (

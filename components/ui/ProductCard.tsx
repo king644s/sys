@@ -51,9 +51,11 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
 
       <div className="p-card-md flex flex-1 flex-col border-t border-border/50">
-        <span className="mb-1.5 min-h-[1.125rem] font-mono text-xs uppercase tracking-[0.15em] text-gold-muted line-clamp-1">
-          {productCodes || '\u00A0'}
-        </span>
+        {productCodes && (
+          <span className="mb-1.5 min-h-[1.125rem] font-mono text-xs uppercase tracking-[0.15em] text-gold-muted line-clamp-1">
+            {productCodes}
+          </span>
+        )}
 
         <h3 className="mb-2 min-h-[4rem] font-serif text-2xl font-semibold text-cream line-clamp-2 group-hover:text-gold transition-colors duration-300">
           {product.name}

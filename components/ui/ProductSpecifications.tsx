@@ -256,7 +256,6 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
     },
     { label: 'CCT', value: getTechSpecValue('CCT Options', '—') },
     { label: 'Corner Radius', value: getTechSpecValue('Corner Radius', '—') },
-    { label: 'Product Codes', value: getTechSpecValue('Product Codes', '—') },
     { label: 'Additional Features', value: getTechSpecValue('Additional Features', '—') },
     { label: 'LED', value: getTechSpecValue('LED', '—') },
     { label: 'Driver', value: getTechSpecValue('Driver', '—') },

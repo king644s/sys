@@ -1,4 +1,5 @@
 import { Product } from '../types';
+import { isHangingProfileProduct } from './hangingProfileProduct';
 
 /** Strip trailing wattage/numeric suffix (e.g. SL-GN-CT-08 → SL-GN-CT). */
 function stripProductCodeSuffix(code: string): string {
@@ -10,6 +11,8 @@ function uniqueBaseCodes(codes: string[]): string[] {
 }
 
 export function getProductCodeDisplay(product: Product): string | null {
+  if (isHangingProfileProduct(product)) return null;
+
   if (product.dimensionVariants?.length) {
     const codes = uniqueBaseCodes(
       product.dimensionVariants.map((variant) => variant.productCode).filter(Boolean),

@@ -80,8 +80,8 @@ export const CATEGORIES: Category[] = [
     slug: 'hanging-profile-light',
     name: 'Hanging Profile Light',
     count: 14,
-    description: 'Pendant and surface-mounted profile luminaires — donuts, rings, arcs, and tailor-made geometries.',
-    image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600&auto=format&fit=crop',
+    description: 'Pendant and surface-mounted profile luminaires — circular donuts, rings, arcs, and tailor-made geometries.',
+    image: '/assets/hanging-profile-lights/circular-donut.png',
     has3D: false,
     type: 'indoor'
   },
