@@ -31,7 +31,7 @@ export function Breadcrumbs() {
   switch (currentView.type) {
     case 'about':
       crumbs.push({
-        label: 'About Workshop',
+        label: 'About Us',
         href: ROUTES.about,
         isLast: true,
       });
@@ -39,7 +39,7 @@ export function Breadcrumbs() {
 
     case 'products':
       crumbs.push({
-        label: 'Architectural Products',
+        label: 'Products',
         href: ROUTES.products,
         isLast: true,
       });
@@ -47,7 +47,7 @@ export function Breadcrumbs() {
 
     case 'product-category':
       crumbs.push({
-        label: 'Architectural Products',
+        label: 'Products',
         href: ROUTES.products,
       });
       crumbs.push({
@@ -60,7 +60,7 @@ export function Breadcrumbs() {
     case 'product-detail': {
       const product = PRODUCTS.find((p) => p.slug === currentView.productSlug);
       crumbs.push({
-        label: 'Architectural Products',
+        label: 'Products',
         href: ROUTES.products,
       });
       if (product) {
@@ -77,10 +77,18 @@ export function Breadcrumbs() {
       break;
     }
 
-    case 'smart-living':
+    case 'smart-lights':
       crumbs.push({
-        label: 'Smart Living / Smart CCT',
-        href: ROUTES.smartLiving,
+        label: 'Smart Lights / Smart CCT',
+        href: ROUTES.smartLights,
+        isLast: true,
+      });
+      break;
+
+    case 'home-automation':
+      crumbs.push({
+        label: 'Home Automation',
+        href: ROUTES.homeAutomation,
         isLast: true,
       });
       break;

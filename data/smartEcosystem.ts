@@ -136,12 +136,12 @@ export const SMART_SOLUTIONS: SmartSolution[] = [
   },
   {
     id: 'lighting',
-    title: 'Smart Living',
+    title: 'Smart Lights',
     subtitle: 'Tunable CCT & Dimming',
     image:
       'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=600&auto=format&fit=crop',
     icon: Sun,
-    href: ROUTES.smartLiving,
+    href: ROUTES.smartLights,
   },
   {
     id: 'sensors',

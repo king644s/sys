@@ -50,9 +50,9 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href={ROUTES.smartLiving} className={getLinkClass('smart-living')}>
-                  {isActive('smart-living') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 animate-pulse-glow" />}
-                  Smart Living & Smart CCT
+                <Link href={ROUTES.smartLights} className={getLinkClass('smart-lights')}>
+                  {isActive('smart-lights') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 animate-pulse-glow" />}
+                  Smart Lights & Smart CCT
                 </Link>
               </li>
               <li>
@@ -64,7 +64,7 @@ export function Footer() {
               <li>
                 <Link href={ROUTES.about} className={getLinkClass('about')}>
                   {isActive('about') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 animate-pulse-glow" />}
-                  About Workshop
+                  About Us
                 </Link>
               </li>
               <li>
@@ -164,8 +164,8 @@ export function Footer() {
             </h4>
             <ul className="flex flex-col gap-3 font-sans">
               <li>
-                <Link href={ROUTES.smartLiving} className={getLinkClass('smart-living')}>
-                  {isActive('smart-living') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
+                <Link href={ROUTES.smartLights} className={getLinkClass('smart-lights')}>
+                  {isActive('smart-lights') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
                   Kelvin Slider Core
                 </Link>
               </li>

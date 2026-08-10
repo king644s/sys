@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { CATEGORIES, PRODUCTS } from '@/data';
 import { ProductCategory } from '@/views/ProductCategory';
 import { ProductDetail } from '@/views/ProductDetail';
@@ -24,5 +25,9 @@ export default async function Page({ params }: PageProps) {
     return <ProductDetail productSlug={product.slug} />;
   }
 
-  return <ProductCategory categorySlug={categorySlug} />;
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-void" />}>
+      <ProductCategory categorySlug={categorySlug} />
+    </Suspense>
+  );
 }

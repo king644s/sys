@@ -2,9 +2,10 @@ import { CATEGORIES, PRODUCTS } from '@/data';
 
 export const ROUTES = {
   home: '/',
-  about: '/about',
+  about: '/about-us',
   products: '/products',
-  smartLiving: '/smart-living',
+  smartLights: '/smart-lights',
+  homeAutomation: '/home-automation',
   projects: '/projects',
   contact: '/contact',
 } as const;
@@ -40,7 +41,8 @@ export type PageView =
   | { type: 'products' }
   | { type: 'product-category'; categorySlug: string }
   | { type: 'product-detail'; productSlug: string }
-  | { type: 'smart-living' }
+  | { type: 'smart-lights' }
+  | { type: 'home-automation' }
   | { type: 'projects' }
   | { type: 'contact' };
 
@@ -49,7 +51,7 @@ export function viewToPath(view: PageView): string {
     case 'home':
       return '/';
     case 'about':
-      return '/about';
+      return '/about-us';
     case 'products':
       return '/products';
     case 'product-category':
@@ -61,8 +63,10 @@ export function viewToPath(view: PageView): string {
       }
       return `/products/${view.productSlug}`;
     }
-    case 'smart-living':
-      return '/smart-living';
+    case 'smart-lights':
+      return '/smart-lights';
+    case 'home-automation':
+      return '/home-automation';
     case 'projects':
       return '/projects';
     case 'contact':
@@ -76,9 +80,10 @@ export function pathToView(pathname: string): PageView {
   const path = pathname.replace(/\/+$/, '') || '/';
 
   if (path === '/') return { type: 'home' };
-  if (path === '/about') return { type: 'about' };
+  if (path === '/about-us') return { type: 'about' };
   if (path === '/products') return { type: 'products' };
-  if (path === '/smart-living') return { type: 'smart-living' };
+  if (path === '/smart-lights') return { type: 'smart-lights' };
+  if (path === '/home-automation') return { type: 'home-automation' };
   if (path === '/projects') return { type: 'projects' };
   if (path === '/contact') return { type: 'contact' };
 

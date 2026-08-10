@@ -69,7 +69,7 @@ export function Navbar() {
 
   // States
   const [isOpen, setIsOpen] = useState(false); // Mobile menu toggle
-  const [activeDropdown, setActiveDropdown] = useState<'products' | 'smart-living' | 'about' | 'inspire' | null>(null);
+  const [activeDropdown, setActiveDropdown] = useState<'products' | 'smart-lights' | 'about' | null>(null);
   const [localSearch, setLocalSearch] = useState('');
   
   // Default to light on server + first client render to avoid hydration mismatch.
@@ -188,12 +188,12 @@ export function Navbar() {
 
   const isNavHighlighted = (
     viewType: string,
-    dropdownKey?: 'products' | 'smart-living' | 'about' | 'inspire'
+    dropdownKey?: 'products' | 'smart-lights' | 'about'
   ) => isActive(viewType) || (dropdownKey != null && activeDropdown === dropdownKey);
 
   const navLinkClass = (
     viewType: string,
-    dropdownKey?: 'products' | 'smart-living' | 'about' | 'inspire',
+    dropdownKey?: 'products' | 'smart-lights' | 'about',
     extra = ''
   ) =>
     `font-sans text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 cursor-pointer ${
@@ -204,7 +204,7 @@ export function Navbar() {
 
   const navLabelClass = (
     viewType: string,
-    dropdownKey?: 'products' | 'smart-living' | 'about' | 'inspire'
+    dropdownKey?: 'products' | 'smart-lights' | 'about'
   ) =>
     `relative inline-block pb-1 border-b-2 ${
       isNavHighlighted(viewType, dropdownKey) ? 'border-gold' : 'border-transparent'
@@ -230,16 +230,8 @@ export function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 h-28 md:h-28 flex items-center justify-between relative">
         
-        {/* Left Side: Navigation Links (HOME, PRODUCTS, SMART LIVING, ABOUT, INSPIRE) */}
+        {/* Left Side: Navigation Links (PRODUCTS, SMART LIGHTS, HOME AUTOMATION, ABOUT US) */}
         <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
-          
-          <Link
-            href={ROUTES.home}
-            onClick={() => setActiveDropdown(null)}
-            className={navLinkClass('home')}
-          >
-            <span className={navLabelClass('home')}>HOME</span>
-          </Link>
 
           <Link
             href={ROUTES.products}
@@ -250,11 +242,20 @@ export function Navbar() {
           </Link>
 
           <Link
-            href={ROUTES.smartLiving}
-            onMouseEnter={() => setActiveDropdown('smart-living')}
-            className={navLinkClass('smart-living', 'smart-living')}
+            href={ROUTES.smartLights}
+            onMouseEnter={() => setActiveDropdown('smart-lights')}
+            className={navLinkClass('smart-lights', 'smart-lights')}
           >
-            <span className={navLabelClass('smart-living', 'smart-living')}>SMART LIVING</span>
+            <span className={navLabelClass('smart-lights', 'smart-lights')}>SMART LIGHTS</span>
+          </Link>
+
+          <Link
+            href={ROUTES.homeAutomation}
+            onMouseEnter={() => setActiveDropdown(null)}
+            onClick={() => setActiveDropdown(null)}
+            className={navLinkClass('home-automation')}
+          >
+            <span className={navLabelClass('home-automation')}>HOME AUTOMATION</span>
           </Link>
 
           <Link
@@ -262,15 +263,7 @@ export function Navbar() {
             onMouseEnter={() => setActiveDropdown('about')}
             className={navLinkClass('about', 'about')}
           >
-            <span className={navLabelClass('about', 'about')}>ABOUT</span>
-          </Link>
-
-          <Link
-            href={ROUTES.projects}
-            onMouseEnter={() => setActiveDropdown('inspire')}
-            className={navLinkClass('projects', 'inspire')}
-          >
-            <span className={navLabelClass('projects', 'inspire')}>INSPIRE</span>
+            <span className={navLabelClass('about', 'about')}>ABOUT US</span>
           </Link>
         </nav>
 
@@ -399,10 +392,10 @@ export function Navbar() {
           className="absolute left-0 right-0 top-full bg-surface border-b border-border shadow-xl z-50 animate-fade-in py-10 px-8 transition-all duration-300"
           onMouseEnter={() => setActiveDropdown(activeDropdown)}
         >
-          <div className="max-w-7xl mx-auto grid grid-cols-12 gap-8 items-start">
+          <div className="max-w-7xl mx-auto grid grid-cols-12 gap-8 items-stretch">
             
             {/* Left 7 Columns: Specific structured catalog layout list */}
-            <div className="col-span-7 grid grid-cols-3 gap-6">
+            <div className="col-span-7 grid h-full grid-cols-3 gap-6">
               
               {/* DROPDOWN SCHEMA - ABOUT (Exactly styled like David Hunt photo) */}
               {activeDropdown === 'about' && (
@@ -452,7 +445,7 @@ export function Navbar() {
                 <>
                   <div className="flex flex-col gap-2.5">
                     <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
-                      Indoor Core
+                      Indoor Lights
                     </span>
                     <Link href={categoryPath(CATEGORY_SLUGS.cobSpotlight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
                       COB Spotlights
@@ -472,48 +465,56 @@ export function Navbar() {
                     <Link href={categoryPath(CATEGORY_SLUGS.surface)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
                       Surface Downlights
                     </Link>
-                  </div>
-
-                  <div className="flex flex-col gap-2.5 border-l border-border/60 pl-6">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
-                      Outdoor Spectrum
-                    </span>
-                    <Link href={categoryPath(CATEGORY_SLUGS.gardenLight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Garden Light / Spikes
-                    </Link>
-                    <Link href={categoryPath(CATEGORY_SLUGS.wallLight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Up-Down Wall washers
-                    </Link>
-                    <Link href={categoryPath(CATEGORY_SLUGS.floodLight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Asymmetrical Flood Lights
-                    </Link>
-                  </div>
-
-                  <div className="flex flex-col gap-2.5 border-l border-border/60 pl-6">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
-                      Custom Adjustables
-                    </span>
                     <Link href={categoryPath(CATEGORY_SLUGS.tracklight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
                       Track Light
                     </Link>
-                    <Link href={ROUTES.products} onClick={() => setActiveDropdown(null)} className={`${dropdownLinkClassMedium} flex items-center gap-1.5`}>
-                      <span>Explore Catalog</span>
+                  </div>
+
+                  <div className="flex flex-col gap-2.5 border-l border-border/60 pl-6">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
+                      Inspire Gallery
+                    </span>
+                    <Link href={ROUTES.projects} onClick={() => setActiveDropdown(null)} className={`${dropdownLinkClassMedium} flex items-center gap-1.5`}>
+                      <span>View All Projects</span>
                       <ArrowRight className="w-3 h-3 text-gold" />
+                    </Link>
+                    <Link href={`${ROUTES.projects}?category=RESIDENTIAL`} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
+                      Residential
+                    </Link>
+                    <Link href={`${ROUTES.projects}?category=HOSPITALITY`} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
+                      Hospitality
+                    </Link>
+                    <Link href={`${ROUTES.projects}?category=OFFICES`} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
+                      Offices
+                    </Link>
+                    <Link href={`${ROUTES.projects}?category=RETAIL`} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
+                      Retail
+                    </Link>
+                  </div>
+
+                  <div className="flex h-full flex-col border-l border-border/60 pl-6">
+                    <Link
+                      href={ROUTES.products}
+                      onClick={() => setActiveDropdown(null)}
+                      className="mt-auto inline-flex w-full items-center justify-center gap-2 bg-gold text-void-dark hover:bg-cream px-4 py-3 font-mono text-[11px] uppercase tracking-[0.15em] font-bold transition-all duration-300 rounded-sm"
+                    >
+                      <span>View All Products</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
                 </>
               )}
 
-              {activeDropdown === 'smart-living' && (
+              {activeDropdown === 'smart-lights' && (
                 <>
                   <div className="flex flex-col gap-2.5">
                     <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
                       Tuning Controls
                     </span>
-                    <Link href={ROUTES.smartLiving} onClick={() => setActiveDropdown(null)} className={dropdownLinkClassMedium}>
+                    <Link href={ROUTES.smartLights} onClick={() => setActiveDropdown(null)} className={dropdownLinkClassMedium}>
                       Kelvin Slider Core
                     </Link>
-                    <Link href={ROUTES.smartLiving} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
+                    <Link href={ROUTES.smartLights} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
                       Dim-to-Warm Emitter
                     </Link>
                   </div>
@@ -522,10 +523,10 @@ export function Navbar() {
                     <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
                       Protocols
                     </span>
-                    <Link href={ROUTES.smartLiving} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
+                    <Link href={ROUTES.smartLights} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
                       Casambi Bluetooth Setup
                     </Link>
-                    <Link href={ROUTES.smartLiving} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
+                    <Link href={ROUTES.smartLights} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
                       DALI Integration
                     </Link>
                   </div>
@@ -541,52 +542,11 @@ export function Navbar() {
                 </>
               )}
 
-              {activeDropdown === 'inspire' && (
-                <>
-                  <div className="flex flex-col gap-2.5">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
-                      Residential Projects
-                    </span>
-                    <Link href={ROUTES.projects} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Luxury Duplex Villas
-                    </Link>
-                    <Link href={ROUTES.projects} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Contemporary Art Gallerias
-                    </Link>
-                  </div>
-
-                  <div className="flex flex-col gap-2.5 border-l border-border/60 pl-6">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
-                      Commercial Showcase
-                    </span>
-                    <Link href={ROUTES.projects} onClick={() => setActiveDropdown(null)} className={`${dropdownLinkClassMedium} hover:underline`}>
-                      Boutique Hotel Lobbies
-                    </Link>
-                    <Link href={ROUTES.projects} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Minimalist Design Labs
-                    </Link>
-                  </div>
-
-                  <div className="flex flex-col gap-2.5 border-l border-border/60 pl-6">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
-                      Calculation Maps
-                    </span>
-                    <Link href={ROUTES.contact} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Request IES Data
-                    </Link>
-                    <Link href={ROUTES.projects} onClick={() => setActiveDropdown(null)} className={`${dropdownLinkClassMedium} flex items-center gap-1`}>
-                      <span>Showcase Gallery</span>
-                      <ArrowRight className="w-3.5 h-3.5 text-gold" />
-                    </Link>
-                  </div>
-                </>
-              )}
-
             </div>
 
             <div className="col-span-5 flex gap-4">
               <Link
-                href={ROUTES.smartLiving}
+                href={ROUTES.smartLights}
                 onClick={() => setActiveDropdown(null)}
                 className="relative flex-1 aspect-[1.12/1] bg-[#121214] border border-border/35 overflow-hidden cursor-pointer group block"
               >
@@ -610,7 +570,7 @@ export function Navbar() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent pointer-events-none" />
                 <div className="absolute bottom-4 left-4 z-10">
                   <span className="font-serif text-[15px] italic text-[#f3f4f6] tracking-wide font-light">
-                    Smart Living
+                    Smart Lights
                   </span>
                 </div>
               </Link>
@@ -667,18 +627,8 @@ export function Navbar() {
 
           <ul className="flex flex-col gap-4 font-sans text-xs uppercase tracking-[0.16em] text-text-dim font-semibold">
             <li>
-              <Link href={ROUTES.home} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('home') ? 'text-gold border-gold' : 'border-transparent'}`}>
-                home
-              </Link>
-            </li>
-            <li>
               <Link href={ROUTES.products} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('products') ? 'text-gold border-gold' : 'border-transparent'}`}>
-                architectural products
-              </Link>
-            </li>
-            <li>
-              <Link href={ROUTES.smartLiving} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('smart-living') ? 'text-gold border-gold' : 'border-transparent'}`}>
-                smart living / smart cct
+                products
               </Link>
             </li>
             <li>
@@ -687,8 +637,18 @@ export function Navbar() {
               </Link>
             </li>
             <li>
+              <Link href={ROUTES.smartLights} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('smart-lights') ? 'text-gold border-gold' : 'border-transparent'}`}>
+                smart lights / smart cct
+              </Link>
+            </li>
+            <li>
+              <Link href={ROUTES.homeAutomation} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('home-automation') ? 'text-gold border-gold' : 'border-transparent'}`}>
+                home automation
+              </Link>
+            </li>
+            <li>
               <Link href={ROUTES.about} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('about') ? 'text-gold border-gold' : 'border-transparent'}`}>
-                about workshop
+                about us
               </Link>
             </li>
           </ul>

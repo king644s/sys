@@ -53,7 +53,7 @@ export function Home() {
               <Button variant="primary" href={ROUTES.products}>
                 Explore Collections
               </Button>
-              <Button variant="secondary" href={ROUTES.smartLiving}>
+              <Button variant="secondary" href={ROUTES.smartLights}>
                 Interactive CCT Demo
               </Button>
             </div>
@@ -202,7 +202,7 @@ export function Home() {
               </div>
             </div>
 
-            <Button variant="primary" className="self-start mt-2" href={ROUTES.smartLiving}>
+            <Button variant="primary" className="self-start mt-2" href={ROUTES.smartLights}>
               Command Spectrum Orb
             </Button>
           </div>

@@ -24,11 +24,12 @@ npm start
 | Path | Page |
 |------|------|
 | `/` | Home |
-| `/about` | About |
+| `/about-us` | About Us |
 | `/products` | Products hub |
 | `/products/[category]` | Category listing |
 | `/products/[category]/[product]` | Product detail |
-| `/smart-living` | Smart Living (CCT demo) |
+| `/smart-lights` | Smart Lights (CCT demo) |
+| `/home-automation` | Home Automation |
 | `/projects` | Projects gallery |
 | `/contact` | Contact |
 

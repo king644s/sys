@@ -1,15 +1,46 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { PROJECTS } from '../data';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
-import { MapPin, Building, Home as HomeIcon } from 'lucide-react';
+import { MapPin, Building } from 'lucide-react';
 
 type ProjectCategoryFilter = 'ALL' | 'RESIDENTIAL' | 'HOSPITALITY' | 'OFFICES' | 'RETAIL';
 
+const PROJECT_FILTERS: ProjectCategoryFilter[] = ['ALL', 'RESIDENTIAL', 'HOSPITALITY', 'OFFICES', 'RETAIL'];
+
+function parseCategoryFilter(value: string | null): ProjectCategoryFilter {
+  if (value && PROJECT_FILTERS.includes(value as ProjectCategoryFilter)) {
+    return value as ProjectCategoryFilter;
+  }
+  return 'ALL';
+}
+
 export function Projects() {
-  const [activeFilter, setActiveFilter] = useState<ProjectCategoryFilter>('ALL');
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [activeFilter, setActiveFilter] = useState<ProjectCategoryFilter>(() =>
+    parseCategoryFilter(searchParams.get('category'))
+  );
+
+  useEffect(() => {
+    setActiveFilter(parseCategoryFilter(searchParams.get('category')));
+  }, [searchParams]);
+
+  const handleFilterChange = (filter: ProjectCategoryFilter) => {
+    setActiveFilter(filter);
+    const params = new URLSearchParams(searchParams.toString());
+    if (filter === 'ALL') {
+      params.delete('category');
+    } else {
+      params.set('category', filter);
+    }
+    const query = params.toString();
+    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+  };
 
   const filteredProjects = PROJECTS.filter((proj) => {
     if (activeFilter === 'ALL') return true;
@@ -38,10 +69,10 @@ export function Projects() {
       <section className="max-w-7xl mx-auto px-6 mb-12 flex justify-center">
         <ScrollReveal direction="up" delay={0.1}>
           <div className="flex flex-wrap gap-2 justify-center border border-border p-1.5 bg-surface-alt">
-            {(['ALL', 'RESIDENTIAL', 'HOSPITALITY', 'OFFICES', 'RETAIL'] as ProjectCategoryFilter[]).map((filter) => (
+            {PROJECT_FILTERS.map((filter) => (
               <button
                 key={filter}
-                onClick={() => setActiveFilter(filter)}
+                onClick={() => handleFilterChange(filter)}
                 className={`px-5 py-2 font-mono text-[11px] uppercase tracking-[0.15em] transition-all duration-300 cursor-pointer ${
                   activeFilter === filter
                     ? 'bg-gold text-void-dark font-bold shadow-glow-sm'

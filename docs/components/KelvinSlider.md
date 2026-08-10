@@ -4,7 +4,7 @@
 The `KelvinSlider` provides an interactive color temperature range controller (from 2700K to 6500K). It updates global lighting state variables (Kelvin values and profile labels) used in other CCT simulation modules.
 
 ## When to Use
-- Smart Living and CCT customizer showcases.
+- Smart Lights and CCT customizer showcases.
 - Control dashboards representing warm/cool lighting changes.
 
 ## When Not to Use
@@ -28,7 +28,7 @@ The `KelvinSlider` provides an interactive color temperature range controller (f
 ```tsx
 import { KelvinSlider } from '@/components/ui/KelvinSlider';
 
-export default function SmartLivingView() {
+export default function SmartLightsView() {
   return (
     <div className="p-8 bg-surface rounded-md">
       <KelvinSlider />

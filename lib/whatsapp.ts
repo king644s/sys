@@ -1,7 +1,7 @@
 import { Product } from '@/types';
 import { getProductCodeDisplay } from '@/utils/productCodes';
 
-export const WHATSAPP_NUMBER = '919820004966';
+export const WHATSAPP_NUMBER = '919820281588';
 
 export function buildWhatsAppUrl(message: string): string {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;

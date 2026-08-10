@@ -80,8 +80,8 @@ export function About() {
               Who We Are
             </span>
             <h1 className="font-serif text-4xl md:text-6xl text-cream font-light tracking-tight leading-tight">
-              Crafting Light. <br />
-              <span className="italic font-serif text-gold font-normal">Creating Impact.</span>
+              Designed to disappear,<br />
+              <span className="italic font-serif text-gold font-normal">engineered to perform</span>
             </h1>
             <p className="font-sans text-sm text-text-dim max-w-xl mx-auto mt-6 leading-relaxed">
               SYSlight is a premium LED lighting brand built on three decades of manufacturing
@@ -235,7 +235,7 @@ export function About() {
 
         <SectionDivider label="Beyond Lighting" />
 
-        {/* Block 6 — Smart Living */}
+        {/* Block 6 — Smart Lights */}
         <section className="max-w-7xl mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
             <div className="md:col-span-7 flex flex-col gap-5">
@@ -253,10 +253,10 @@ export function About() {
                   or an empty home that looks lived-in. Simple to control, easy to live with.
                 </p>
                 <Link
-                  href={ROUTES.smartLiving}
+                  href={ROUTES.smartLights}
                   className="font-mono text-xs text-gold flex items-center gap-2 tracking-[0.2em] uppercase hover:underline cursor-pointer group self-start mt-4"
                 >
-                  <span>Explore Smart Living</span>
+                  <span>Explore Smart Lights</span>
                   <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 duration-300" />
                 </Link>
               </ScrollReveal>

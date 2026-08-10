@@ -39,7 +39,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
         <div className="absolute inset-0 bg-void/30 backdrop-blur-[1.5px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
           <span className="border border-gold text-gold font-mono text-xs tracking-[0.15em] uppercase px-5 py-2.5 bg-void/95 rounded-sm shadow-card transform translate-y-3 group-hover:translate-y-0 transition-transform duration-500 ease-luxury">
-            View Specifications
+            View Product
           </span>
         </div>
 
@@ -52,21 +52,29 @@ export function ProductCard({ product }: ProductCardProps) {
 
       <div className="p-card-md flex flex-1 flex-col border-t border-border/50">
         {productCodes && (
-          <span className="mb-1.5 min-h-[1.125rem] font-mono text-xs uppercase tracking-[0.15em] text-gold-muted line-clamp-1">
+          <span className="mb-0.5 min-h-[1.125rem] font-mono text-xs uppercase tracking-[0.15em] text-gold-muted line-clamp-1">
             {productCodes}
           </span>
         )}
 
-        <h3 className="mb-2 min-h-[4rem] font-serif text-2xl font-semibold text-cream line-clamp-2 group-hover:text-gold transition-colors duration-300">
+        <h3 className="mb-3 font-serif text-2xl font-semibold leading-tight text-cream line-clamp-2 group-hover:text-gold transition-colors duration-300">
           {product.name}
         </h3>
 
-        <p className="mb-4 min-h-[2.75rem] flex-1 font-sans text-sm leading-relaxed text-text-dim line-clamp-2">
-          {wattage || '\u00A0'}
+        <p className="mb-2 min-h-[1.5rem] flex-1 font-sans text-sm leading-snug text-text-dim">
+          {wattage ? (
+            <>
+              Available in
+              <br />
+              {wattage}
+            </>
+          ) : (
+            '\u00A0'
+          )}
         </p>
 
-        <span className="mt-auto self-start text-xs font-mono uppercase tracking-[0.15em] text-cream group-hover:text-gold group-hover:translate-x-1 duration-300 inline-flex items-center gap-1">
-          <span>Examine Fixture</span>
+        <span className="mt-auto self-start text-xs font-mono capitalize tracking-[0.15em] text-cream group-hover:text-gold group-hover:translate-x-1 duration-300 inline-flex items-center gap-1">
+          <span>View Product</span>
           <ArrowUpRight className="w-3.5 h-3.5" />
         </span>
       </div>

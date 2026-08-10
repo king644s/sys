@@ -5,7 +5,6 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { CATEGORIES, PRODUCTS } from '../data';
 import { CATALOG_FAMILIES } from '../data/productCatalog';
 import { ProductCard } from '../components/ui/ProductCard';
-import { ScrollReveal } from '../components/ui/ScrollReveal';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { 
   SlidersHorizontal, 
@@ -15,7 +14,6 @@ import {
   ChevronRight, 
   RotateCcw, 
   Award, 
-  Compass,
   Check
 } from 'lucide-react';
 
@@ -166,7 +164,7 @@ export function ProductsHub() {
   };
 
   const renderSidebarContent = () => (
-    <div className="flex flex-col gap-6 text-cream animate-page-enter">
+    <div className="flex flex-col gap-6 text-cream">
       <div className="flex items-center justify-between border-b border-border/45 pb-4">
         <div className="flex items-center gap-1.5 md:gap-2">
           <SlidersHorizontal className="w-4 h-4 text-gold-muted" />
@@ -357,20 +355,11 @@ export function ProductsHub() {
           </span>
         </label>
       </div>
-
-      <div className="border border-border/40 p-3.5 bg-surface-alt/40 mt-2">
-        <div className="flex gap-2 items-start">
-          <Compass className="w-4 h-4 text-gold-muted shrink-0 mt-0.5" />
-          <p className="font-sans text-xs text-text-dim leading-relaxed">
-            Configure filters to drill down directly into the Mumbai manufacture catalog. For custom Dialux calculations, reach out to the design team.
-          </p>
-        </div>
-      </div>
     </div>
   );
 
   return (
-    <div className="transition-page-enter min-h-screen bg-void text-cream">
+    <div className="min-h-screen bg-void text-cream">
       <Breadcrumbs />
       <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col lg:flex-row gap-8 items-start relative">
         
@@ -381,17 +370,11 @@ export function ProductsHub() {
         <div className="grow w-full min-w-0">
           <div className="-mx-6 px-6 pt-2 pb-4 mb-8 bg-void/95 backdrop-blur-md border-b border-border/40">
           <div className="pb-6">
-            <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-2 block">
-              02 / COMPREHENSIVE ARCHITECTURAL CATALOG
-            </span>
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
               <div>
                 <h1 className="font-serif text-3xl md:text-5xl text-cream font-light tracking-tight">
                   Premium <span className="italic font-serif text-gold font-normal">Collections</span>
                 </h1>
-                <p className="font-sans text-sm md:text-base text-text-dim max-w-2xl mt-3 leading-relaxed">
-                  Browse our certified, precision-engineered luminaires configured with high CRI chips, gold baffles, IP66 path protection, and optimal thermal management.
-                </p>
               </div>
 
               <button
@@ -405,7 +388,7 @@ export function ProductsHub() {
           </div>
 
           {hasActiveFilters && (
-            <div className="flex flex-wrap items-center gap-2 mb-6 p-3 bg-surface-alt border border-border/40 rounded-md animate-page-enter">
+            <div className="flex flex-wrap items-center gap-2 mb-6 p-3 bg-surface-alt border border-border/40 rounded-md">
               <span className="font-mono text-xs text-text-ghost uppercase tracking-[0.15em] mr-1">
                 Active Indices:
               </span>
@@ -451,11 +434,9 @@ export function ProductsHub() {
 
           {filteredProducts.length > 0 ? (
             <div className="grid grid-cols-1 items-stretch md:grid-cols-2 xl:grid-cols-3 gap-8">
-              {filteredProducts.map((prod, idx) => (
+              {filteredProducts.map((prod) => (
                 <div key={prod.id} className="h-full">
-                  <ScrollReveal direction="up" delay={idx * 0.05} className="h-full">
-                    <ProductCard product={prod} />
-                  </ScrollReveal>
+                  <ProductCard product={prod} />
                 </div>
               ))}
             </div>
@@ -514,7 +495,6 @@ export function ProductsHub() {
       )}
 
       <section className="max-w-7xl mx-auto px-6 mt-16 pb-12 pt-12 border-t border-border/30">
-        <ScrollReveal direction="up">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="flex flex-col gap-2">
               <span className="font-mono text-xs text-gold uppercase tracking-[0.15em]">CRI 92+ Guarantee</span>
@@ -535,7 +515,6 @@ export function ProductsHub() {
               </p>
             </div>
           </div>
-        </ScrollReveal>
       </section>
     </div>
   );

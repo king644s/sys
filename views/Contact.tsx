@@ -113,7 +113,7 @@ export function Contact() {
                 <Phone className="w-5 h-5 text-gold shrink-0 mt-0.5" />
                 <div>
                   <strong className="text-cream block font-mono text-[11px] tracking-[0.15em] uppercase mb-1">DIRECT TELEPHONE</strong>
-                  <span>+91 98200 04966</span>
+                  <span>+91 98202 81588</span>
                 </div>
               </div>
               <div className="flex items-start gap-3">

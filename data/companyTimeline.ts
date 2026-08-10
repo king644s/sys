@@ -53,9 +53,9 @@ export const companyTimeline: TimelineEntry[] = [
     year: 'Today',
     period: '05 / Present',
     title: 'Partners in Design',
-    subtitle: 'Experience Center & Smart Living',
+    subtitle: 'Experience Center & Smart Lights',
     description:
-      'SYSlight partners with architects and interior designers, backed by an Experience Center and a growing smart-living range — lighting specified with intent.',
+      'SYSlight partners with architects and interior designers, backed by an Experience Center and a growing smart lights range — lighting specified with intent.',
     metric: '30+',
     metricLabel: 'Years of manufacturing heritage',
   },
