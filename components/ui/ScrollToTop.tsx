@@ -1,20 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ChevronUp } from 'lucide-react';
+import { useLenis } from 'lenis/react';
 
 export function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setIsVisible(window.scrollY > 400);
-
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  const lenis = useLenis((instance) => {
+    setIsVisible(instance.scroll > 400);
+  });
 
   const scrollToTop = () => {
+    if (lenis) {
+      lenis.scrollTo(0, { duration: 1.2 });
+      return;
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 

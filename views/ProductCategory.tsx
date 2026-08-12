@@ -472,7 +472,10 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
             className="fixed inset-0 bg-void/80 backdrop-blur-sm"
             onClick={() => setIsMobileFiltersOpen(false)}
           />
-          <div className="fixed inset-y-0 left-0 w-full max-w-xs bg-void border-r border-border p-6 shadow-2xl flex flex-col h-full overflow-y-auto">
+          <div
+            data-lenis-prevent
+            className="fixed inset-y-0 left-0 w-full max-w-xs bg-void border-r border-border p-6 shadow-2xl flex flex-col h-full overflow-y-auto"
+          >
             <div className="flex items-center justify-between mb-4 pb-2 border-b border-border/40">
               <span className="font-mono text-xs uppercase tracking-widest text-gold font-bold">
                 LUMINAIRE FILTERS

@@ -403,7 +403,6 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
     background-color: var(--color-void);
     color: var(--color-cream);
     font-family: var(--font-sans);
@@ -472,5 +471,158 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Running LED border — home automation status cards */
+.ha-status-card {
+  isolation: isolate;
+}
+
+.ha-status-card__led {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.ha-status-card__led::before {
+  content: "";
+  position: absolute;
+  inset: -120%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 250deg,
+    rgba(143, 141, 240, 0.15) 280deg,
+    rgba(143, 141, 240, 0.55) 310deg,
+    #8f8df0 330deg,
+    #ffffff 348deg,
+    #8f8df0 360deg
+  );
+  animation: ha-led-spin 12s linear infinite;
+}
+
+.ha-status-card__led::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 0 18px -4px rgba(143, 141, 240, 0.35);
+  pointer-events: none;
+}
+
+@keyframes ha-led-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ha-status-card__led::before {
+    animation: none;
+    background: linear-gradient(
+      135deg,
+      rgba(143, 141, 240, 0.45),
+      rgba(255, 255, 255, 0.35),
+      rgba(143, 141, 240, 0.45)
+    );
+  }
+}
+
+/* Intelligent ecosystem orbit */
+@keyframes ecosystem-orbit-fade {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes ecosystem-ring-draw {
+  from {
+    stroke-dashoffset: 280;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.ecosystem-orbit-node {
+  opacity: 0;
+  animation: ecosystem-orbit-fade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.ecosystem-orbit-node__icon {
+  transition:
+    transform 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ecosystem-orbit-node__glyph {
+  transition:
+    color 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ecosystem-orbit-node__label {
+  transition:
+    color 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ecosystem-orbit-node.is-active .ecosystem-orbit-node__icon {
+  transform: scale(1.14);
+  border-color: var(--color-gold-light);
+  background-color: var(--color-gold);
+  box-shadow:
+    0 0 0 6px color-mix(in srgb, var(--color-gold) 14%, transparent),
+    0 10px 28px -8px color-mix(in srgb, var(--color-gold) 45%, transparent);
+}
+
+.ecosystem-orbit-node.is-active .ecosystem-orbit-node__glyph {
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.ecosystem-orbit-node.is-active .ecosystem-orbit-node__label {
+  color: var(--color-gold);
+  opacity: 1;
+  transform: scale(1.08);
+  transform-origin: center top;
+}
+
+.ecosystem-orbit-ring {
+  stroke-dasharray: 280;
+  stroke-dashoffset: 280;
+  animation: ecosystem-ring-draw 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ecosystem-orbit-node {
+    animation: none;
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  .ecosystem-orbit-node__icon,
+  .ecosystem-orbit-node__glyph,
+  .ecosystem-orbit-node__label {
+    transition: none;
+  }
+
+  .ecosystem-orbit-ring {
+    animation: none;
+    stroke-dashoffset: 0;
   }
 }

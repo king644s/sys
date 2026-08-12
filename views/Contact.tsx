@@ -81,9 +81,6 @@ export function Contact() {
     <div className="transition-page-enter">
       <Breadcrumbs />
       <section className="max-w-4xl mx-auto px-6 text-center py-8">
-        <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-3 block">
-          05 / secure consultation
-        </span>
         <h1 className="font-serif text-4xl md:text-6xl text-cream font-light tracking-tight">
           Request Quotation <span className="italic font-serif text-gold font-normal">& Layouts</span>
         </h1>

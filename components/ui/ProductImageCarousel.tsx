@@ -8,6 +8,7 @@ import {
   ZoomIn,
   X,
 } from 'lucide-react';
+import { useLenis } from 'lenis/react';
 import { ProductImagePair } from '@/utils/productAssets';
 import { ProgressiveImage } from './ProgressiveImage';
 
@@ -30,6 +31,7 @@ export function ProductImageCarousel({
   thumbnailZoomClass = DEFAULT_THUMBNAIL_ZOOM,
 }: ProductImageCarouselProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
+  const lenis = useLenis();
 
   const slides = useMemo(() => {
     const source = images.filter((img) => img.thumbnail || img.full);
@@ -53,8 +55,9 @@ export function ProductImageCarousel({
   useEffect(() => {
     return () => {
       document.body.style.overflow = '';
+      lenis?.start();
     };
-  }, []);
+  }, [lenis]);
 
   const canNavigate = slides.length > 1;
   const canEnlarge = Boolean(slides[activeIndex]?.full || slides[activeIndex]?.thumbnail);
@@ -95,13 +98,15 @@ export function ProductImageCarousel({
     };
 
     document.body.style.overflow = 'hidden';
+    lenis?.stop();
     window.addEventListener('keydown', onKeyDown);
 
     return () => {
       document.body.style.overflow = '';
+      lenis?.start();
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [isZoomOpen, closeZoom, goPrev, goNext]);
+  }, [isZoomOpen, closeZoom, goPrev, goNext, lenis]);
 
   const handleViewportMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!canNavigate) return;

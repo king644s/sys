@@ -79,9 +79,6 @@ export function Home() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
           <ScrollReveal direction="left">
             <div>
-              <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-2 block">
-                01 / Portfolio
-              </span>
               <h2 className="font-serif text-3xl md:text-5xl font-light text-cream tracking-tight">
                 Architectural <span className="italic font-serif text-gold">Classifications</span>
               </h2>
@@ -230,9 +227,6 @@ export function Home() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
           <ScrollReveal direction="left">
             <div>
-              <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-2 block">
-                02 / Spotlights
-              </span>
               <h2 className="font-serif text-3xl md:text-5xl font-light text-cream tracking-tight">
                 Featured <span className="italic font-serif text-gold">Luminaires</span>
               </h2>
@@ -264,9 +258,6 @@ export function Home() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
           <ScrollReveal direction="left">
             <div>
-              <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-2 block">
-                03 / Spaces
-              </span>
               <h2 className="font-serif text-3xl md:text-5xl font-light text-cream tracking-tight">
                 Sculpted <span className="italic font-serif text-gold">Environments</span>
               </h2>

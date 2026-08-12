@@ -46,8 +46,7 @@ export const CONTROL_MODES: ControlMode[] = [
     id: 'voice',
     title: 'Voice Control',
     description: 'Works with Alexa, Google Assistant & Siri.',
-    image:
-      'https://images.unsplash.com/photo-1543512214-318c7553f230?q=80&w=600&auto=format&fit=crop',
+    image: '/images/home-automation/third-section/alexa.webp',
     icon: Mic2,
   },
   {

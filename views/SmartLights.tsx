@@ -18,9 +18,6 @@ export function SmartLights() {
       {/* Page Header */}
       <section className="max-w-4xl mx-auto px-6 text-center py-12">
         <ScrollReveal direction="up">
-          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-3 block">
-            03 / Dynamic Spectrum
-          </span>
           <h1 className="font-serif text-4xl md:text-6xl text-cream font-light tracking-tight leading-tight">
             Next-Gen Smart <br />
             <span className="italic font-serif text-gold font-normal">Thermal Tunings.</span>

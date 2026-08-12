@@ -21,7 +21,7 @@ export function Footer() {
 
   const getLinkClass = (viewType: string, extraParam?: string) => {
     const active = isActive(viewType, extraParam);
-    return `inline-flex items-center gap-1.5 transition-colors duration-200 cursor-pointer text-left py-0.5 text-[13px] ${
+    return `inline-flex items-center transition-colors duration-200 cursor-pointer text-left py-0.5 text-[13px] ${
       active
         ? 'text-gold font-bold'
         : 'text-text-dim hover:text-black dark:hover:text-white'
@@ -39,37 +39,36 @@ export function Footer() {
             <ul className="flex flex-col gap-3 font-sans">
               <li>
                 <Link href={ROUTES.home} className={getLinkClass('home')}>
-                  {isActive('home') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 animate-pulse-glow" />}
                   Home
                 </Link>
               </li>
               <li>
                 <Link href={ROUTES.products} className={getLinkClass('products')}>
-                  {isActive('products') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 animate-pulse-glow" />}
-                  Products Hub
+                  Products
                 </Link>
               </li>
               <li>
                 <Link href={ROUTES.smartLights} className={getLinkClass('smart-lights')}>
-                  {isActive('smart-lights') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 animate-pulse-glow" />}
-                  Smart Lights & Smart CCT
+                  Smart Lights
+                </Link>
+              </li>
+              <li>
+                <Link href={ROUTES.homeAutomation} className={getLinkClass('home-automation')}>
+                  Home Automation
                 </Link>
               </li>
               <li>
                 <Link href={ROUTES.projects} className={getLinkClass('projects')}>
-                  {isActive('projects') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 animate-pulse-glow" />}
                   Inspire Gallery
                 </Link>
               </li>
               <li>
                 <Link href={ROUTES.about} className={getLinkClass('about')}>
-                  {isActive('about') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 animate-pulse-glow" />}
                   About Us
                 </Link>
               </li>
               <li>
                 <Link href={ROUTES.contact} className={getLinkClass('contact')}>
-                  {isActive('contact') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 animate-pulse-glow" />}
                   Contact Us
                 </Link>
               </li>
@@ -78,49 +77,42 @@ export function Footer() {
 
           <div className="flex flex-col gap-5">
             <h4 className="font-sans text-[11px] font-bold uppercase tracking-[0.25em] text-cream">
-              INDOOR CORES
+              INDOOR LIGHTS
             </h4>
             <ul className="flex flex-col gap-3 font-sans">
               <li>
                 <Link href={categoryPath(CATEGORY_SLUGS.cobSpotlight)} className={getLinkClass('product-category', CATEGORY_SLUGS.cobSpotlight)}>
-                  {isActive('product-category', CATEGORY_SLUGS.cobSpotlight) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
                   COB Spotlights
                 </Link>
               </li>
               <li>
                 <Link href={categoryPath(CATEGORY_SLUGS.magneticTrack)} className={getLinkClass('product-category', CATEGORY_SLUGS.magneticTrack)}>
-                  {isActive('product-category', CATEGORY_SLUGS.magneticTrack) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
-                  Magnetic Track Lights
+                  Magnetic Track Light
                 </Link>
               </li>
               <li>
                 <Link href={categoryPath(CATEGORY_SLUGS.downlightPanel)} className={getLinkClass('product-category', CATEGORY_SLUGS.downlightPanel)}>
-                  {isActive('product-category', CATEGORY_SLUGS.downlightPanel) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
                   Downlight &amp; Panel Light
                 </Link>
               </li>
               <li>
                 <Link href={categoryPath(CATEGORY_SLUGS.profileLight)} className={getLinkClass('product-category', CATEGORY_SLUGS.profileLight)}>
-                  {isActive('product-category', CATEGORY_SLUGS.profileLight) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
                   Profile Light
                 </Link>
               </li>
               <li>
                 <Link href={categoryPath(CATEGORY_SLUGS.hangingProfileLight)} className={getLinkClass('product-category', CATEGORY_SLUGS.hangingProfileLight)}>
-                  {isActive('product-category', CATEGORY_SLUGS.hangingProfileLight) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
                   Hanging Profile Light
                 </Link>
               </li>
               <li>
                 <Link href={categoryPath(CATEGORY_SLUGS.surface)} className={getLinkClass('product-category', CATEGORY_SLUGS.surface)}>
-                  {isActive('product-category', CATEGORY_SLUGS.surface) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
                   Surface Downlights
                 </Link>
               </li>
               <li>
                 <Link href={categoryPath(CATEGORY_SLUGS.tracklight)} className={getLinkClass('product-category', CATEGORY_SLUGS.tracklight)}>
-                  {isActive('product-category', CATEGORY_SLUGS.tracklight) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
-                  Tracklight Spotlights
+                  Track Light
                 </Link>
               </li>
             </ul>
@@ -128,31 +120,32 @@ export function Footer() {
 
           <div className="flex flex-col gap-5">
             <h4 className="font-sans text-[11px] font-bold uppercase tracking-[0.25em] text-cream">
-              OUTDOOR & PATHS
+              INSPIRE GALLERY
             </h4>
             <ul className="flex flex-col gap-3 font-sans">
               <li>
-                <Link href={categoryPath(CATEGORY_SLUGS.floodLight)} className={getLinkClass('product-category', CATEGORY_SLUGS.floodLight)}>
-                  {isActive('product-category', CATEGORY_SLUGS.floodLight) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
-                  Asymmetrical Flood Lights
+                <Link href={ROUTES.projects} className={getLinkClass('projects')}>
+                  View All Projects
                 </Link>
               </li>
               <li>
-                <Link href={categoryPath(CATEGORY_SLUGS.gardenLight)} className={getLinkClass('product-category', CATEGORY_SLUGS.gardenLight)}>
-                  {isActive('product-category', CATEGORY_SLUGS.gardenLight) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
-                  Garden Light & Spikes
+                <Link href={`${ROUTES.projects}?category=RESIDENTIAL`} className={getLinkClass('projects')}>
+                  Residential
                 </Link>
               </li>
               <li>
-                <Link href={categoryPath(CATEGORY_SLUGS.wallLight)} className={getLinkClass('product-category', CATEGORY_SLUGS.wallLight)}>
-                  {isActive('product-category', CATEGORY_SLUGS.wallLight) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
-                  Up-Down Wall Washers
+                <Link href={`${ROUTES.projects}?category=HOSPITALITY`} className={getLinkClass('projects')}>
+                  Hospitality
                 </Link>
               </li>
               <li>
-                <Link href={categoryPath(CATEGORY_SLUGS.gateLight)} className={getLinkClass('product-category', CATEGORY_SLUGS.gateLight)}>
-                  {isActive('product-category', CATEGORY_SLUGS.gateLight) && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
-                  Monolithic Gate Lights
+                <Link href={`${ROUTES.projects}?category=OFFICES`} className={getLinkClass('projects')}>
+                  Offices
+                </Link>
+              </li>
+              <li>
+                <Link href={`${ROUTES.projects}?category=RETAIL`} className={getLinkClass('projects')}>
+                  Retail
                 </Link>
               </li>
             </ul>
@@ -160,25 +153,32 @@ export function Footer() {
 
           <div className="flex flex-col gap-5">
             <h4 className="font-sans text-[11px] font-bold uppercase tracking-[0.25em] text-cream">
-              STUDIO PORTFOLIO
+              SMART LIGHTS
             </h4>
             <ul className="flex flex-col gap-3 font-sans">
               <li>
                 <Link href={ROUTES.smartLights} className={getLinkClass('smart-lights')}>
-                  {isActive('smart-lights') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
                   Kelvin Slider Core
                 </Link>
               </li>
               <li>
-                <Link href={ROUTES.projects} className={getLinkClass('projects')}>
-                  {isActive('projects') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
-                  Completed Projects
+                <Link href={ROUTES.smartLights} className={getLinkClass('smart-lights')}>
+                  Dim-to-Warm Emitter
+                </Link>
+              </li>
+              <li>
+                <Link href={ROUTES.smartLights} className={getLinkClass('smart-lights')}>
+                  Casambi Bluetooth Setup
+                </Link>
+              </li>
+              <li>
+                <Link href={ROUTES.smartLights} className={getLinkClass('smart-lights')}>
+                  DALI Integration
                 </Link>
               </li>
               <li>
                 <Link href={ROUTES.contact} className={getLinkClass('contact')}>
-                  {isActive('contact') && <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />}
-                  Find a Stockist
+                  Bespoke Sand-Gold Cores
                 </Link>
               </li>
               <li className="pt-4">
