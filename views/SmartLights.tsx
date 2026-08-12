@@ -5,8 +5,6 @@ import { KelvinSlider } from '../components/ui/KelvinSlider';
 import { SectionDivider } from '../components/ui/SectionDivider';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
 import { TripleImageCompare } from '../components/ui/TripleImageCompare';
-import { ControlModesShowcase } from '../components/ui/ControlModesShowcase';
-import { SmartSolutionsShowcase } from '../components/ui/SmartSolutionsShowcase';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { LIGHTING_COMPARISONS } from '../data/lightingComparisons';
 import { Sliders, Sun, ShieldCheck, Zap, Laptop, Command } from 'lucide-react';
@@ -123,9 +121,6 @@ export function SmartLights() {
           </p>
         </ScrollReveal>
       </section>
-
-      <ControlModesShowcase />
-      <SmartSolutionsShowcase />
 
       {/* Smart lighting deployment explanation */}
       <section className="max-w-5xl mx-auto px-6 py-16 border-t border-border mt-12 text-center">
