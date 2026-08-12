@@ -40,3 +40,4 @@ npm start
 - `components/` — UI, layout, 3D components
 - `data/` — Product catalog data
 - `public/assets/` — Product images and logo
+# mayur-uniquoters-2
