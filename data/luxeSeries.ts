@@ -1,7 +1,7 @@
 import { Product } from '../types';
 import { PRODUCT_IMAGE_URIS } from '../utils/productImages';
 
-const LUXE_SECTION = 'Generic COB Spotlight';
+const LUXE_SECTION = 'COB Spotlight';
 const LUXE_SERIES = 'Luxe';
 const LUXE_SKU = 'SL-GN';
 
@@ -17,13 +17,13 @@ export const LUXE_PRODUCTS: Product[] = [
     section: LUXE_SECTION,
     skuPrefix: LUXE_SKU,
     subcategory: LUXE_SECTION,
-    shortSpec: '8W / 12W • Generic COB • White Finish',
+    shortSpec: '8W / 12W • COB • White Finish',
     description:
       'Crest is a compact recessed COB spotlight for clean architectural ceilings. It is available in 8W and 12W variants with a white fixture finish and stable single-CCT output.',
     price: 450,
     specs: {
       Type: 'Normal COB',
-      Classification: 'Generic COB',
+      Classification: 'COB',
       'CCT Options': '3K/4K/5K/6K/Tuneable',
       'Fixture Color': 'WH',
       'Product Codes': 'SL-GN-CT-08 / SL-GN-CT-12',
@@ -71,7 +71,7 @@ export const LUXE_PRODUCTS: Product[] = [
     price: 325,
     specs: {
       Type: 'Normal COB',
-      Classification: 'Generic COB',
+      Classification: 'COB',
       'CCT Options': '3K/4K/5K/6K/Tuneable',
       'Fixture Color': 'WH / BK / WH + BK',
       'Product Codes': 'SL-GN-VO-12 / SL-GN-VO-18',
@@ -119,7 +119,7 @@ export const LUXE_PRODUCTS: Product[] = [
     price: 225,
     specs: {
       Type: 'Normal COB',
-      Classification: 'Generic COB',
+      Classification: 'COB',
       'CCT Options': '3K/4K/5K/6K/Tuneable',
       'Fixture Color': 'WH + BK',
       'Product Codes': 'SL-GN-AL-08 / SL-GN-AL-12 / SL-GN-AL-18',
@@ -178,7 +178,7 @@ export const LUXE_PRODUCTS: Product[] = [
     price: 265,
     specs: {
       Type: 'Normal COB - Golf Look W/O Pattern',
-      Classification: 'Generic COB',
+      Classification: 'COB',
       'CCT Options': '3K/4K/5K/6K/Tuneable',
       'Fixture Color': 'White / Gunmetal Black / Black',
       'Product Codes': 'SL-GN-PR-07 / SL-GN-PR-12 / SL-GN-PR-15 / SL-GN-PR-18',
@@ -248,7 +248,7 @@ export const LUXE_PRODUCTS: Product[] = [
     price: 265,
     specs: {
       Type: 'Normal COB - Golf Design',
-      Classification: 'Generic COB',
+      Classification: 'COB',
       'CCT Options': '3K/4K/5K/6K/Tuneable',
       'Fixture Color': 'White / Black / Golden',
       'Product Codes': 'SL-GN-LM-07 / SL-GN-LM-12 / SL-GN-LM-15 / SL-GN-LM-18',

@@ -1,4 +1,5 @@
 import { Product } from '../types';
+import { isHangingProfileProduct } from './hangingProfileProduct';
 import {
   PRODUCT_ASSET_MANIFEST,
   ProductAssetEntry,
@@ -80,6 +81,12 @@ const PRODUCT_IMAGE_ZOOM_CLASSES: Record<string, Record<ZoomVariant, string>> = 
     thumbnail: 'scale-[1.4]',
     feature: 'scale-[1.4] hover:scale-[1.47]',
   },
+  'Hanging Profile Lights': {
+    card: 'scale-[0.96] group-hover:scale-[1.01]',
+    carousel: 'scale-[1.6] group-hover:scale-[1.632]',
+    thumbnail: 'scale-[1.6]',
+    feature: 'scale-[1.6] hover:scale-[1.68]',
+  },
 };
 
 const DEFAULT_PRODUCT_IMAGE_ZOOM_CLASSES: Record<ZoomVariant, string> = {
@@ -90,10 +97,11 @@ const DEFAULT_PRODUCT_IMAGE_ZOOM_CLASSES: Record<ZoomVariant, string> = {
 };
 
 function getProductSectionKey(product: Product): string {
+  if (isHangingProfileProduct(product)) return 'Hanging Profile Lights';
   return product.section ?? product.subcategory ?? product.specs?.Classification ?? '';
 }
 
-/** Default 60%; Dual Spotlight 30%; Commercial / High Wattage 40%. */
+/** Default 60%; Dual Spotlight 30%; Commercial / High Wattage 40%; hanging listing 40% smaller. */
 export function getProductImageZoomClass(
   product: Product,
   variant: ZoomVariant,

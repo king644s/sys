@@ -95,7 +95,7 @@ export function Breadcrumbs() {
 
     case 'projects':
       crumbs.push({
-        label: 'Inspire Gallery',
+        label: 'Projects',
         href: ROUTES.projects,
         isLast: true,
       });
@@ -103,7 +103,7 @@ export function Breadcrumbs() {
 
     case 'contact':
       crumbs.push({
-        label: 'Contact Sales',
+        label: 'Contact Us',
         href: ROUTES.contact,
         isLast: true,
       });

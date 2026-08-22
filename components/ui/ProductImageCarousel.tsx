@@ -246,11 +246,12 @@ export function ProductImageCarousel({
           onMouseLeave={handleViewportMouseLeave}
           className="group relative flex-1 aspect-square border border-border rounded-[2px] overflow-hidden bg-gold/5 dark:bg-surface-alt"
         >
+          <div className="product-image-halo product-image-halo--lg" aria-hidden />
           <button
             type="button"
             onClick={openZoom}
             disabled={!canEnlarge}
-            className="absolute inset-0 flex items-center justify-center p-6 md:p-10 cursor-zoom-in disabled:cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-inset"
+            className="absolute inset-0 z-[1] flex items-center justify-center p-6 md:p-10 cursor-zoom-in disabled:cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-inset"
             aria-label={`Enlarge ${productName} image`}
           >
             <ProgressiveImage

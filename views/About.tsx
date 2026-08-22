@@ -8,16 +8,18 @@ import { TestimonialsCarousel } from '../components/ui/TestimonialsCarousel';
 import { ROUTES } from '@/lib/routes';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { TimelineCardStack } from '../components/ui/TimelineCardStack';
+import { ExperienceCenterPhoto } from '../components/ui/ExperienceCenterPhoto';
+import { ResponsiveLightOrb } from '../components/ui/ResponsiveLightOrb';
 import { TESTIMONIALS } from '../data';
 import {
   ArrowRight,
   Factory,
   Compass,
   Sparkles,
-  ShieldCheck,
-  Handshake,
-  PencilRuler,
-  Smartphone,
+  Award,
+  Route,
+  DraftingCompass,
+  SunMoon,
   MapPin,
 } from 'lucide-react';
 
@@ -46,22 +48,26 @@ const BELIEFS = [
 
 const WHY_CHOOSE = [
   {
-    icon: ShieldCheck,
+    icon: Award,
+    index: '01',
     title: 'Quality You Can Trust',
     body: 'Built on 30+ years of manufacturing discipline, every fixture is made to perform and last.',
   },
   {
-    icon: Handshake,
+    icon: Route,
+    index: '02',
     title: 'Guidance, Not Just Products',
     body: 'From first consultation to final layout, our team supports you at every step.',
   },
   {
-    icon: PencilRuler,
+    icon: DraftingCompass,
+    index: '03',
     title: 'Tailored to Your Project',
     body: 'Custom lighting options shaped around your specific requirements, not a fixed menu.',
   },
   {
-    icon: Smartphone,
+    icon: SunMoon,
+    index: '04',
     title: 'Smart by Design',
     body: 'App and voice-ready fixtures that let you personalise light effortlessly.',
   },
@@ -178,10 +184,10 @@ export function About() {
 
         {/* Block 5 — Experience Center */}
         <section className="max-w-7xl mx-auto px-6 py-12">
-          <div className="bg-surface-alt border border-border rounded-md p-8 md:p-14 overflow-hidden relative grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
+          <div className="bg-surface-alt border border-border rounded-md p-8 md:p-14 overflow-hidden relative grid grid-cols-1 md:grid-cols-12 gap-10 items-stretch">
             <div className="absolute right-0 top-0 w-80 h-80 rounded-full blur-[100px] bg-gold/5 opacity-25 pointer-events-none" />
 
-            <div className="md:col-span-7 flex flex-col gap-6 z-10">
+            <div className="md:col-span-6 flex flex-col gap-6 z-10">
               <ScrollReveal direction="up">
                 <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold">
                   See It In Person
@@ -197,36 +203,29 @@ export function About() {
                   understand how the right light changes a space, before a single fixture is
                   specified.
                 </p>
-                <p className="font-sans text-sm text-text-dim leading-relaxed max-w-xl mt-2">
-                  We host structured, personal walkthroughs for architects, designers, and their
-                  clients.
-                </p>
+                <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <span className="font-sans text-sm text-text-dim">Open for appointments</span>
+                  <span className="font-sans text-sm text-cream">Architects · Designers · Clients</span>
+                </div>
                 <Button variant="primary" className="self-start mt-4" href={ROUTES.contact}>
                   Book a Visit
                 </Button>
               </ScrollReveal>
             </div>
 
-            <div className="md:col-span-5 flex justify-center relative z-10">
-              <ScrollReveal direction="up" delay={0.2}>
-                <div className="relative border border-border bg-void p-8 md:p-10 w-full max-w-sm">
-                  <MapPin className="w-8 h-8 text-gold mb-5" />
-                  <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold block mb-2">
-                    Location
-                  </span>
-                  <h3 className="font-serif text-2xl text-cream font-light tracking-tight mb-3">
+            <div className="md:col-span-6 flex justify-center relative z-10">
+              <ScrollReveal direction="up" delay={0.2} className="w-full h-full">
+                <div className="relative border border-border bg-void p-6 md:p-8 w-full h-full flex flex-col">
+                  <ExperienceCenterPhoto />
+                  <div className="flex items-center gap-2.5 mb-2">
+                    <MapPin className="w-4 h-4 text-gold shrink-0" />
+                    <span className="font-mono text-sm uppercase tracking-[0.25em] text-gold">
+                      Location
+                    </span>
+                  </div>
+                  <h3 className="font-serif text-2xl md:text-3xl text-cream font-light tracking-tight">
                     Goregaon West, Mumbai
                   </h3>
-                  <p className="font-sans text-sm text-text-dim leading-relaxed">
-                    Curated ceiling setups. Live warm-to-cool demos. Personal walkthroughs for
-                    specifier teams and their clients.
-                  </p>
-                  <div className="mt-6 pt-5 border-t border-border/50 flex flex-col gap-1.5">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim">
-                      Open for appointments
-                    </span>
-                    <span className="font-sans text-sm text-cream">Architects · Designers · Clients</span>
-                  </div>
                 </div>
               </ScrollReveal>
             </div>
@@ -264,23 +263,7 @@ export function About() {
 
             <div className="md:col-span-5">
               <ScrollReveal direction="right">
-                <div className="relative border-2 border-border p-6 rounded-full aspect-square w-64 md:w-72 mx-auto flex items-center justify-center bg-void shadow-inner">
-                  <div
-                    className="absolute inset-2 rounded-full border border-border-mid/30 animate-pulse-glow"
-                    style={{ boxShadow: '0 0 30px rgba(201,169,110,0.1)' }}
-                  />
-                  <div className="flex flex-col items-center text-center px-4">
-                    <Smartphone className="w-7 h-7 text-gold mb-3" />
-                    <span className="font-serif text-2xl text-cream font-light">App · Voice</span>
-                    <span className="font-mono text-[11px] text-gold uppercase tracking-widest mt-2">
-                      Smart Switches
-                    </span>
-                    <span className="font-mono text-text-dim text-[11px] uppercase tracking-[0.2em] mt-3">
-                      Control the moment
-                    </span>
-                  </div>
-                  <div className="absolute inset-0 bg-gold/5 blur-[50px] rounded-full scale-75 -z-10" />
-                </div>
+                <ResponsiveLightOrb />
               </ScrollReveal>
             </div>
           </div>
@@ -294,17 +277,36 @@ export function About() {
             const Icon = card.icon;
             return (
               <ScrollReveal key={card.title} direction="up" delay={0.1 * (idx + 1)}>
-                <div className="bg-surface border border-border p-7 h-full flex flex-col">
-                  <Icon className="w-7 h-7 text-gold mb-4" />
-                  <h3 className="font-serif text-lg font-semibold text-cream mb-2">{card.title}</h3>
-                  <p className="font-sans text-sm text-text-dim leading-relaxed">{card.body}</p>
+                <div className="group relative overflow-hidden bg-surface border border-border p-7 h-full flex flex-col min-h-[248px] transition-colors duration-700 ease-luxury hover:border-gold/40">
+                  <div className="absolute -right-6 -bottom-8 w-36 h-36 rounded-full bg-gold/5 blur-2xl opacity-0 pointer-events-none transition-opacity duration-700 ease-luxury group-hover:opacity-100" />
+                  <Icon
+                    aria-hidden
+                    strokeWidth={0.85}
+                    className="absolute -bottom-4 -right-3 w-32 h-32 text-gold/[0.11] pointer-events-none select-none transition-[color,transform] duration-700 ease-luxury group-hover:text-gold/[0.18] group-hover:scale-[1.04]"
+                  />
+
+                  <div className="relative z-10 flex items-center justify-between mb-8">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-gold">
+                      {card.index}
+                    </span>
+                    <span className="flex h-9 w-9 items-center justify-center border border-gold/35 text-gold transition-colors duration-500 ease-luxury group-hover:bg-gold group-hover:border-gold group-hover:text-white">
+                      <Icon className="w-4 h-4" strokeWidth={1.5} />
+                    </span>
+                  </div>
+
+                  <h3 className="relative z-10 font-serif text-xl font-light text-cream tracking-tight leading-snug mb-3">
+                    {card.title}
+                  </h3>
+                  <p className="relative z-10 font-sans text-sm text-text-dim leading-relaxed">
+                    {card.body}
+                  </p>
                 </div>
               </ScrollReveal>
             );
           })}
         </section>
 
-        <SectionDivider label="Collaborator feedback" />
+        <SectionDivider label="Collaborators & clients" />
 
         {/* Block 8 — Testimonials */}
         <section className="bg-surface-alt border-y border-border/40 py-20 px-6">

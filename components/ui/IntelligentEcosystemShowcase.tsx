@@ -2,28 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 import {
-  Lightbulb,
-  Blinds,
-  Lock,
-  Cctv,
-  Shield,
-  Leaf,
-  Music2,
-  Thermometer,
-  Mic,
-  Zap,
-  Fingerprint,
-  Atom,
-  type LucideIcon,
-} from 'lucide-react';
+  ECOSYSTEM_COPY,
+  ECOSYSTEM_FEATURES,
+  ECOSYSTEM_PILLARS,
+} from '@/data/smartEcosystem';
 import { ScrollReveal } from './ScrollReveal';
-
-const PILLARS: { id: string; label: string; icon: LucideIcon }[] = [
-  { id: 'integration', label: 'Seamless Integration', icon: Atom },
-  { id: 'control', label: 'Centralized Control', icon: Lightbulb },
-  { id: 'energy', label: 'Energy Efficiency', icon: Zap },
-  { id: 'scale', label: 'Scalable Solutions', icon: Fingerprint },
-];
 
 /** Ellipse geometry in % of the stage (matches the SVG viewBox 0–100). */
 const ORBIT = {
@@ -40,22 +23,7 @@ const ORBIT_ACTIVE_MS = 3200;
  * Clockwise from top. Angles in degrees where 0° = right, 90° = bottom
  * (CSS y-down), so -90° is top.
  */
-const ORBIT_FEATURES: {
-  id: string;
-  label: string;
-  icon: LucideIcon;
-  angle: number;
-}[] = [
-  { id: 'curtains', label: 'Smart Curtains', icon: Blinds, angle: -90 },
-  { id: 'locks', label: 'Smart Locks', icon: Lock, angle: -50 },
-  { id: 'cctv', label: 'CCTV Cameras', icon: Cctv, angle: -10 },
-  { id: 'alarm', label: 'Security Alarm', icon: Shield, angle: 30 },
-  { id: 'energy', label: 'Energy Management', icon: Leaf, angle: 70 },
-  { id: 'music', label: 'Music & Entertainment', icon: Music2, angle: 110 },
-  { id: 'climate', label: 'Climate Control', icon: Thermometer, angle: 150 },
-  { id: 'voice', label: 'Voice Control', icon: Mic, angle: 190 },
-  { id: 'lighting', label: 'Smart Lighting', icon: Lightbulb, angle: 230 },
-];
+const ORBIT_FEATURES = ECOSYSTEM_FEATURES;
 
 function orbitPoint(angleDeg: number) {
   const rad = (angleDeg * Math.PI) / 180;
@@ -112,20 +80,19 @@ export function IntelligentEcosystemShowcase() {
           <div className="lg:col-span-5 flex flex-col gap-8 md:gap-10">
             <ScrollReveal direction="up">
               <h2 className="font-serif text-[2rem] sm:text-[2.35rem] md:text-[2.75rem] xl:text-[3rem] font-light tracking-tight leading-[1.12] text-cream max-w-md">
-                Everything Works Beautifully Together
+                {ECOSYSTEM_COPY.title}
               </h2>
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={0.06}>
               <p className="font-sans text-sm md:text-[15px] text-text-dim leading-relaxed max-w-sm">
-                All your smart devices and systems are designed to connect,
-                communicate and create the perfect experience for you.
+                {ECOSYSTEM_COPY.body}
               </p>
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={0.1}>
               <ul className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 pt-2">
-                {PILLARS.map((pillar) => {
+                {ECOSYSTEM_PILLARS.map((pillar) => {
                   const Icon = pillar.icon;
                   return (
                     <li

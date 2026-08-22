@@ -317,7 +317,7 @@ export function Home() {
         </div>
       </section>
 
-      <SectionDivider label="Collaborator feedback" />
+      <SectionDivider label="Collaborators & clients" />
 
       {/* 8. Testimonials Section */}
       <section className="bg-surface-alt border-y border-border/40 py-20 px-6">

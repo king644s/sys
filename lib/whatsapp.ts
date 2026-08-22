@@ -13,7 +13,7 @@ export function buildProductInquiryMessage(product: Product): string {
   const lines = [
     'Hello SYSlight,',
     '',
-    'I would like to inquire about the following luminaire:',
+    'I would like to inquire about the following Light / LED light:',
     '',
     `Product: ${product.name}`,
   ];
@@ -26,16 +26,7 @@ export function buildProductInquiryMessage(product: Product): string {
     lines.push(`Vendor Code: ${product.vendorCode}`);
   }
 
-  if (product.shortSpec) {
-    lines.push(`Specification: ${product.shortSpec}`);
-  }
-
-  lines.push(
-    '',
-    'Please share pricing, availability, lead times, and any additional technical details.',
-    '',
-    'Thank you.'
-  );
+  lines.push('', 'Thank you.');
 
   return lines.join('\n');
 }

@@ -59,7 +59,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href={ROUTES.projects} className={getLinkClass('projects')}>
-                  Inspire Gallery
+                  Projects
                 </Link>
               </li>
               <li>
@@ -120,7 +120,7 @@ export function Footer() {
 
           <div className="flex flex-col gap-5">
             <h4 className="font-sans text-[11px] font-bold uppercase tracking-[0.25em] text-cream">
-              INSPIRE GALLERY
+              Projects
             </h4>
             <ul className="flex flex-col gap-3 font-sans">
               <li>

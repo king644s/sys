@@ -20,7 +20,7 @@ export const CATALOG_FAMILIES: CatalogFamily[] = [
     name: 'COB Spotlight',
     type: 'indoor',
     entries: [
-      { section: 'Generic COB Spotlight', seriesName: 'Luxe', skuPrefix: 'SL-GN' },
+      { section: 'COB Spotlight', seriesName: 'Luxe', skuPrefix: 'SL-GN' },
       { section: 'Antiglare Spotlight', seriesName: 'Veil', skuPrefix: 'SL-AG' },
       { section: 'Front Removable Spotlight', seriesName: 'Latch', skuPrefix: 'SL-FR' },
       { section: 'Concealed Moveable Spotlight', seriesName: 'Orbit', skuPrefix: 'SL-CM' },

@@ -5,6 +5,8 @@ import { ControlModesShowcase } from '../components/ui/ControlModesShowcase';
 import { SmartSolutionsShowcase } from '../components/ui/SmartSolutionsShowcase';
 import { HomeAutomationHero } from '../components/ui/HomeAutomationHero';
 import { IntelligentEcosystemShowcase } from '../components/ui/IntelligentEcosystemShowcase';
+import { EcosystemPhotonMesh } from '../components/ui/EcosystemPhotonMesh';
+import { EcosystemLuminousSpectrum } from '../components/ui/EcosystemLuminousSpectrum';
 import { Command } from 'lucide-react';
 
 export function HomeAutomation() {
@@ -12,6 +14,26 @@ export function HomeAutomation() {
     <div className="transition-page-enter">
       <HomeAutomationHero />
       <IntelligentEcosystemShowcase />
+
+      <div className="bg-[#050508] border-t border-white/[0.06] px-6 py-8 md:py-10">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-gold-light">
+              Design studies
+            </p>
+            <p className="font-serif text-xl md:text-2xl text-white font-light tracking-tight mt-2">
+              Same ecosystem. Two spatial models.
+            </p>
+          </div>
+          <p className="font-sans text-sm text-white/40 max-w-sm">
+            Identical copy, pillars, and nine systems — redrawn as a radial
+            HUD, then as a luminous spectrum installation.
+          </p>
+        </div>
+      </div>
+
+      <EcosystemPhotonMesh />
+      <EcosystemLuminousSpectrum />
       <ControlModesShowcase />
       <SmartSolutionsShowcase />
 

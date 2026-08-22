@@ -5,14 +5,19 @@ import {
   PanelTop,
   ToggleLeft,
   Lightbulb,
-  LayoutGrid,
   Shield,
-  Sofa,
-  Building2,
   Sun,
   Radio,
-  TreePine,
   Zap,
+  Blinds,
+  Lock,
+  Cctv,
+  Leaf,
+  Music2,
+  Thermometer,
+  Mic,
+  Atom,
+  Fingerprint,
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 
@@ -92,46 +97,17 @@ export const SMART_SOLUTIONS: SmartSolution[] = [
     id: 'switches',
     title: 'Smart Switches',
     subtitle: 'NOVA & VERO Series',
-    image:
-      'https://images.unsplash.com/photo-1565538810844-1e1194826736?q=80&w=600&auto=format&fit=crop',
+    image: '/toggle/toggle-2.webp',
     icon: Lightbulb,
-    href: ROUTES.products,
-  },
-  {
-    id: 'panels',
-    title: 'Smart Panels',
-    subtitle: 'AURIS LCD',
-    image:
-      'https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=600&auto=format&fit=crop',
-    icon: LayoutGrid,
     href: ROUTES.products,
   },
   {
     id: 'security',
     title: 'Smart Security',
     subtitle: 'Locks, CCTV, Alarm',
-    image:
-      'https://images.unsplash.com/photo-1558003409-0e6fcdeb5885?q=80&w=600&auto=format&fit=crop',
+    image: '/images/home-automation/solutions/smart-lock.jpg',
     icon: Shield,
     href: ROUTES.products,
-  },
-  {
-    id: 'comfort',
-    title: 'Smart Comfort',
-    subtitle: 'Curtains, Aroma, Music',
-    image:
-      'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=600&auto=format&fit=crop',
-    icon: Sofa,
-    href: ROUTES.products,
-  },
-  {
-    id: 'hospitality',
-    title: 'Smart Hospitality',
-    subtitle: 'Hotel Automation',
-    image:
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=600&auto=format&fit=crop',
-    icon: Building2,
-    href: ROUTES.projects,
   },
   {
     id: 'lighting',
@@ -151,22 +127,46 @@ export const SMART_SOLUTIONS: SmartSolution[] = [
     icon: Radio,
     href: ROUTES.products,
   },
-  {
-    id: 'outdoor',
-    title: 'Smart Outdoor',
-    subtitle: 'Garden & Facade',
-    image:
-      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=600&auto=format&fit=crop',
-    icon: TreePine,
-    href: ROUTES.products,
-  },
-  {
-    id: 'automation',
-    title: 'Smart Automation',
-    subtitle: 'Scenes & Routines',
-    image:
-      'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=600&auto=format&fit=crop',
-    icon: Zap,
-    href: ROUTES.products,
-  },
+];
+
+export const ECOSYSTEM_CYCLE_MS = 3200;
+
+export const ECOSYSTEM_COPY = {
+  title: 'Everything Works Beautifully Together',
+  body: 'All your smart devices and systems are designed to connect, communicate and create the perfect experience for you.',
+} as const;
+
+export interface EcosystemPillar {
+  id: string;
+  label: string;
+  cue: string;
+  icon: LucideIcon;
+}
+
+export const ECOSYSTEM_PILLARS: EcosystemPillar[] = [
+  { id: 'integration', label: 'Seamless Integration', cue: 'One fabric', icon: Atom },
+  { id: 'control', label: 'Centralized Control', cue: 'One command', icon: Lightbulb },
+  { id: 'energy', label: 'Energy Efficiency', cue: 'Less wattage', icon: Zap },
+  { id: 'scale', label: 'Scalable Solutions', cue: 'Room to estate', icon: Fingerprint },
+];
+
+export interface EcosystemFeature {
+  id: string;
+  label: string;
+  cue: string;
+  icon: LucideIcon;
+  /** Clockwise from top. 0° = right, 90° = bottom (CSS y-down). */
+  angle: number;
+}
+
+export const ECOSYSTEM_FEATURES: EcosystemFeature[] = [
+  { id: 'curtains', label: 'Smart Curtains', cue: 'Daylight harvested', icon: Blinds, angle: -90 },
+  { id: 'locks', label: 'Smart Locks', cue: 'Access granted', icon: Lock, angle: -50 },
+  { id: 'cctv', label: 'CCTV Cameras', cue: 'Perimeter live', icon: Cctv, angle: -10 },
+  { id: 'alarm', label: 'Security Alarm', cue: 'System armed', icon: Shield, angle: 30 },
+  { id: 'energy', label: 'Energy Management', cue: 'Load balanced', icon: Leaf, angle: 70 },
+  { id: 'music', label: 'Music & Entertainment', cue: 'Rooms linked', icon: Music2, angle: 110 },
+  { id: 'climate', label: 'Climate Control', cue: '24°C · quiet', icon: Thermometer, angle: 150 },
+  { id: 'voice', label: 'Voice Control', cue: 'Listening', icon: Mic, angle: 190 },
+  { id: 'lighting', label: 'Smart Lighting', cue: '2700–6000K', icon: Lightbulb, angle: 230 },
 ];

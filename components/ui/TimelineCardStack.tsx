@@ -6,7 +6,7 @@ import { companyTimeline } from '@/data/companyTimeline';
 /** Matches Navbar `h-28` so sticky content sits below the nav. */
 const NAV_OFFSET = 112;
 /** Pixels of each prior card that stay visible in the stack. */
-const STACK_PEEK = 14;
+const STACK_PEEK = 6;
 
 export function TimelineCardStack() {
   const headerRef = useRef<HTMLElement>(null);
@@ -44,14 +44,14 @@ export function TimelineCardStack() {
             </h2>
           </div>
           <p className="font-sans text-sm text-text-dim max-w-xs leading-relaxed hidden md:block">
-            Scroll through the moments that matter to architects and designers — from 1991 to today.
+            Scroll through the moments that matter to architects and designers — from 1991 to 2026.
           </p>
         </div>
       </header>
 
       {companyTimeline.map((entry, index) => (
         <article
-          key={entry.year}
+          key={entry.period}
           className="tl-stack-card sticky w-full bg-surface border-t border-border"
           style={{
             top: cardsStickyTop + index * STACK_PEEK,
@@ -69,6 +69,11 @@ export function TimelineCardStack() {
               >
                 {entry.year}
               </span>
+              {entry.yearEnd ? (
+                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold-light">
+                  to {entry.yearEnd}
+                </span>
+              ) : null}
               <div className="w-8 h-px bg-gold mt-2" />
             </div>
 

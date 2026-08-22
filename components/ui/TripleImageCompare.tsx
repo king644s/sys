@@ -30,7 +30,7 @@ const CLIP_MOTION_CLASS =
 const LABEL_MOTION_CLASS =
   'transition-[left,max-width] duration-700 ease-luxury motion-reduce:transition-none';
 const PRIMARY_BUTTON_CLASS =
-  'inline-flex items-center justify-center rounded-sm border border-gold-muted bg-gold px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-cream transition-all duration-300 hover:bg-gold-light hover:border-gold-light';
+  'inline-flex items-center justify-center rounded-sm border border-gold-muted bg-gold px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-white dark:text-void transition-all duration-300 hover:bg-gold-light hover:border-gold-light';
 const RESET_BUTTON_CLASS =
   'inline-flex items-center gap-2 rounded-sm border border-border bg-surface px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-text-dim transition-all duration-300 hover:border-border-mid hover:text-cream disabled:cursor-default disabled:opacity-40 disabled:hover:border-border disabled:hover:text-text-dim';
 
@@ -125,7 +125,7 @@ export function TripleImageCompare({ images, className = '' }: TripleImageCompar
             aria-pressed={activePreset === 'first'}
             aria-label={`Show ${images[0].label} full width`}
           >
-            button 1
+            {images[0].label}
           </button>
           <button
             type="button"
@@ -134,7 +134,7 @@ export function TripleImageCompare({ images, className = '' }: TripleImageCompar
             aria-pressed={activePreset === 'second'}
             aria-label={`Show ${images[1].label} full width`}
           >
-            button 2
+            {images[1].label}
           </button>
           <button
             type="button"
@@ -143,7 +143,7 @@ export function TripleImageCompare({ images, className = '' }: TripleImageCompar
             aria-pressed={activePreset === 'third'}
             aria-label={`Show ${images[2].label} full width`}
           >
-            button 3
+            {images[2].label}
           </button>
         </div>
 

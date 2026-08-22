@@ -2,10 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import { CATEGORIES, PRODUCTS } from '../data';
 import { CATALOG_FAMILIES } from '../data/productCatalog';
 import { ProductCard } from '../components/ui/ProductCard';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
+import { useStickySidebarOffset } from '../hooks/useStickySidebarOffset';
 import { 
   SlidersHorizontal, 
   Search, 
@@ -17,6 +20,14 @@ import {
   Check
 } from 'lucide-react';
 
+gsap.registerPlugin(useGSAP);
+
+function splitListingHeading(heading: string) {
+  const parts = heading.trim().split(/\s+/);
+  const accent = parts.pop() ?? heading;
+  return { lead: parts.join(' '), accent };
+}
+
 const FILTER_CATALOG = CATALOG_FAMILIES.filter((family) => family.slug !== 'decorative').map((family) => ({
   slug: family.slug,
   name: family.name,
@@ -24,10 +35,40 @@ const FILTER_CATALOG = CATALOG_FAMILIES.filter((family) => family.slug !== 'deco
   subcategories: family.entries.map((entry) => entry.section),
 }));
 
-const INITIAL_OPEN_CATEGORIES = FILTER_CATALOG.map((c) => c.slug).reduce<Record<string, boolean>>((acc, slug) => {
-  acc[slug] = false;
-  return acc;
-}, {});
+function findFamilyForSection(sectionName: string) {
+  return FILTER_CATALOG.find((cat) => cat.subcategories.includes(sectionName));
+}
+
+function parseSelectedSections(searchParams: URLSearchParams): Record<string, string[]> {
+  const result: Record<string, string[]> = {};
+  const categoryHint = searchParams.get('category');
+
+  for (const raw of searchParams.getAll('section')) {
+    const sep = raw.indexOf('::');
+    const familySlug =
+      sep > 0
+        ? raw.slice(0, sep)
+        : findFamilyForSection(raw)?.slug ??
+          (categoryHint && FILTER_CATALOG.some((cat) => cat.slug === categoryHint && !cat.flat)
+            ? categoryHint
+            : undefined);
+    const sectionName = sep > 0 ? raw.slice(sep + 2) : raw;
+
+    if (!familySlug || !sectionName) continue;
+    if (!result[familySlug]) result[familySlug] = [];
+    if (!result[familySlug].includes(sectionName)) result[familySlug].push(sectionName);
+  }
+
+  return result;
+}
+
+function parseSelectedCategory(searchParams: URLSearchParams) {
+  const category = searchParams.get('category');
+  if (!category) return null;
+  const family = FILTER_CATALOG.find((cat) => cat.slug === category);
+  if (family && !family.flat) return null;
+  return category;
+}
 
 function isIndoorProduct(categorySlug: string) {
   return CATEGORIES.find((c) => c.slug === categorySlug)?.type === 'indoor';
@@ -39,12 +80,26 @@ export function ProductsHub() {
   const searchParams = useSearchParams();
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState(() => searchParams.get('search') ?? '');
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(() => searchParams.get('category'));
-  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(() => searchParams.get('section'));
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(() =>
+    parseSelectedCategory(searchParams),
+  );
+  const [selectedSectionsByFamily, setSelectedSectionsByFamily] = useState<Record<string, string[]>>(
+    () => parseSelectedSections(searchParams),
+  );
   const [onlyBestsellers, setOnlyBestsellers] = useState(() => searchParams.get('bestsellers') === '1');
   const hasMountedRef = useRef(false);
+  const sidebarRef = useStickySidebarOffset<HTMLElement>();
 
-  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>(INITIAL_OPEN_CATEGORIES);
+  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>(() =>
+    FILTER_CATALOG.reduce<Record<string, boolean>>((acc, cat) => {
+      acc[cat.slug] = Boolean(parseSelectedSections(searchParams)[cat.slug]?.length);
+      return acc;
+    }, {}),
+  );
+
+  const selectedSectionEntries = Object.entries(selectedSectionsByFamily).flatMap(
+    ([familySlug, sections]) => sections.map((section) => ({ familySlug, section })),
+  );
 
   useEffect(() => {
     if (!hasMountedRef.current) {
@@ -53,12 +108,27 @@ export function ProductsHub() {
     }
 
     const params = new URLSearchParams();
+    const familiesWithSections = Object.keys(selectedSectionsByFamily).filter(
+      (slug) => (selectedSectionsByFamily[slug] ?? []).length > 0,
+    );
 
     if (searchQuery) params.set('search', searchQuery);
 
-    if (selectedCategory) params.set('category', selectedCategory);
+    if (selectedCategory) {
+      params.set('category', selectedCategory);
+    } else if (familiesWithSections.length === 1) {
+      params.set('category', familiesWithSections[0]);
+    }
 
-    if (selectedSubcategory) params.set('section', selectedSubcategory);
+    for (const familySlug of familiesWithSections) {
+      for (const section of selectedSectionsByFamily[familySlug] ?? []) {
+        const encoded =
+          familiesWithSections.length === 1 && !selectedCategory
+            ? section
+            : `${familySlug}::${section}`;
+        params.append('section', encoded);
+      }
+    }
 
     if (onlyBestsellers) params.set('bestsellers', '1');
 
@@ -70,7 +140,7 @@ export function ProductsHub() {
   }, [
     searchQuery,
     selectedCategory,
-    selectedSubcategory,
+    selectedSectionsByFamily,
     onlyBestsellers,
     pathname,
     router,
@@ -108,49 +178,54 @@ export function ProductsHub() {
       if (!matchName && !matchSeries && !matchSection && !matchSku && !matchSpec && !matchDesc) return false;
     }
 
-    if (selectedCategory) {
+    if (selectedCategory || selectedSectionEntries.length > 0) {
       const prodFamily = prod.family ?? prod.category;
-      if (prodFamily !== selectedCategory) return false;
-    }
-
-    if (selectedSubcategory) {
       const prodSection = prod.section ?? prod.subcategory;
-      if (prodSection !== selectedSubcategory) return false;
+      const matchesFlatCategory = selectedCategory === prodFamily;
+      const matchesSection = selectedSectionEntries.some(
+        (entry) => entry.familySlug === prodFamily && entry.section === prodSection,
+      );
+      if (!matchesFlatCategory && !matchesSection) return false;
     }
 
     if (onlyBestsellers && !prod.isBestseller) return false;
 
     return true;
-  });
+  }).sort((a, b) => Number(Boolean(b.isBestseller)) - Number(Boolean(a.isBestseller)));
 
   const handleSelectCategory = (slug: string | null) => {
-    if (selectedCategory === slug) {
-      setSelectedCategory(null);
-      setSelectedSubcategory(null);
-    } else {
-      setSelectedCategory(slug);
-      setSelectedSubcategory(null);
-    }
+    setSelectedCategory((current) => (current === slug ? null : slug));
   };
 
   const handleSelectSubcategory = (catSlug: string, subName: string) => {
-    if (selectedCategory === catSlug && selectedSubcategory === subName) {
-      setSelectedCategory(null);
-      setSelectedSubcategory(null);
-    } else {
-      setSelectedCategory(catSlug);
-      setSelectedSubcategory(subName);
-    }
+    setSelectedSectionsByFamily((prev) => {
+      const current = prev[catSlug] ?? [];
+      const nextForCat = current.includes(subName)
+        ? current.filter((section) => section !== subName)
+        : [...current, subName];
+
+      if (nextForCat.length === 0) {
+        const { [catSlug]: _, ...rest } = prev;
+        return rest;
+      }
+
+      return { ...prev, [catSlug]: nextForCat };
+    });
+    setOpenCategories((prev) => ({ ...prev, [catSlug]: true }));
   };
 
   const handleResetFilters = () => {
     setSearchQuery('');
     setSelectedCategory(null);
-    setSelectedSubcategory(null);
+    setSelectedSectionsByFamily({});
     setOnlyBestsellers(false);
   };
 
-  const hasActiveFilters = searchQuery !== '' || selectedCategory !== null || selectedSubcategory !== null || onlyBestsellers;
+  const hasActiveFilters =
+    searchQuery !== '' ||
+    selectedCategory !== null ||
+    selectedSectionEntries.length > 0 ||
+    onlyBestsellers;
 
   const sidebarHoverText = 'hover:text-cream';
   const sidebarGroupHoverText = 'group-hover:text-cream';
@@ -163,13 +238,66 @@ export function ProductsHub() {
     );
   };
 
+  const familiesWithSections = Object.keys(selectedSectionsByFamily).filter(
+    (slug) => (selectedSectionsByFamily[slug] ?? []).length > 0,
+  );
+
+  const listingCategorySlug =
+    familiesWithSections.length === 1
+      ? familiesWithSections[0]
+      : familiesWithSections.length === 0
+        ? selectedCategory
+        : null;
+
+  const listingHeading = listingCategorySlug
+    ? getCategoryDisplayName(listingCategorySlug)
+    : 'Premium Collections';
+
+  const [visibleHeading, setVisibleHeading] = useState(listingHeading);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const headingReadyRef = useRef(false);
+  const { lead: listingHeadingLead, accent: listingHeadingAccent } =
+    splitListingHeading(visibleHeading);
+
+  useGSAP(
+    () => {
+      const el = headingRef.current;
+      if (!el) return;
+
+      if (!headingReadyRef.current) {
+        headingReadyRef.current = true;
+        gsap.set(el, { autoAlpha: 1, y: 0 });
+        return;
+      }
+
+      if (listingHeading === visibleHeading) return;
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) {
+        setVisibleHeading(listingHeading);
+        gsap.set(el, { autoAlpha: 1, y: 0 });
+        return;
+      }
+
+      const tl = gsap.timeline();
+      tl.to(el, { autoAlpha: 0, y: 12, duration: 0.28, ease: 'power2.in' });
+      tl.add(() => setVisibleHeading(listingHeading));
+      tl.to(el, { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power3.out' });
+
+      return () => {
+        tl.kill();
+      };
+    },
+    { dependencies: [listingHeading] },
+  );
+
   const renderSidebarContent = () => (
     <div className="flex flex-col gap-6 text-cream">
       <div className="flex items-center justify-between border-b border-border/45 pb-4">
         <div className="flex items-center gap-1.5 md:gap-2">
           <SlidersHorizontal className="w-4 h-4 text-gold-muted" />
           <span className="font-mono text-sm uppercase tracking-widest font-semibold">
-            SPECIFICATION INDICES
+            Filter Products
           </span>
         </div>
         {hasActiveFilters && (
@@ -206,13 +334,31 @@ export function ProductsHub() {
       </div>
 
       <div className="flex flex-col gap-4">
-        <span className="font-mono text-xs text-text-ghost uppercase tracking-[0.15em] block border-b border-border/20 pb-1.5">
-          Series &amp; Sections
-        </span>
+        <label className="flex items-center gap-2.5 cursor-pointer select-none py-1 group">
+          <input
+            type="checkbox"
+            checked={onlyBestsellers}
+            onChange={(e) => setOnlyBestsellers(e.target.checked)}
+            className="sr-only"
+          />
+          <span className={`w-4 h-4 border transition-colors duration-200 flex items-center justify-center rounded-sm ${
+            onlyBestsellers 
+              ? 'bg-gold border-gold text-white' 
+              : 'border-border/60 bg-surface-alt text-transparent group-hover:border-gold'
+          }`}>
+            <Award className="w-2.5 h-2.5" />
+          </span>
+          <span className={`font-mono text-xs uppercase tracking-[0.15em] text-text-dim ${sidebarGroupHoverText} transition-colors`}>
+            Highlight Bestsellers
+          </span>
+        </label>
 
         <div className="flex flex-col gap-3">
-            <span className="font-mono text-xs text-gold-muted uppercase tracking-[0.25em] font-bold">
-              Indoor Architectural ({getIndoorProductCount()} fixtures)
+            <span className="font-mono text-xs text-cream uppercase tracking-[0.25em] font-bold">
+              Indoor Architectural
+              <span className="block tracking-[0.15em] mt-0.5">
+                ({getIndoorProductCount()} fixtures)
+              </span>
             </span>
 
             <div className="flex flex-col gap-1.5 pl-1.5 border-l border-border/30">
@@ -247,6 +393,8 @@ export function ProductsHub() {
                   );
                 }
 
+                const selectedInFamily = selectedSectionsByFamily[cat.slug] ?? [];
+                const hasFamilySelection = selectedInFamily.length > 0;
                 const isExpanded = !!openCategories[cat.slug];
 
                 return (
@@ -255,12 +403,12 @@ export function ProductsHub() {
                       <button
                         onClick={() => toggleCategoryAccordion(cat.slug)}
                         className={`flex-1 text-left font-serif text-sm tracking-wide transition-colors duration-200 cursor-pointer flex items-center gap-1.5 pr-2 ${
-                          isExpanded 
-                            ? 'text-gold font-bold' 
+                          isExpanded || hasFamilySelection
+                            ? 'text-gold font-bold'
                             : `text-text-dim ${sidebarHoverText}`
                         }`}
                       >
-                        <span className={`w-1 h-3 bg-gold/50 rounded-sm transform transition-transform duration-300 ${isExpanded ? 'scale-y-120 bg-gold' : 'scale-y-0'}`} />
+                        <span className={`w-1 h-3 bg-gold/50 rounded-sm transform transition-transform duration-300 ${isExpanded || hasFamilySelection ? 'scale-y-120 bg-gold' : 'scale-y-0'}`} />
                         <span>{cat.name}</span>
                         <span className="font-mono text-xs text-text-ghost/85 font-normal ml-0.5">
                           ({matchCount})
@@ -281,20 +429,22 @@ export function ProductsHub() {
                     </div>
 
                     <div
-                      className={`grid transition-all duration-300 ease-out ${
-                        isExpanded ? 'grid-rows-[1fr] opacity-100 mt-0.5 mb-2' : 'grid-rows-[0fr] opacity-0 mt-0 mb-0'
+                      className={`grid transition-[grid-template-rows,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+                        isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
                       }`}
                     >
                       <div className="overflow-hidden">
-                        <div className="flex flex-col gap-1 pl-4 border-l border-gold-muted/20">
+                        <div className="flex flex-col gap-1 pl-4 pt-1 pb-2 border-l border-gold-muted/20">
                           {cat.subcategories.map(sub => {
-                            const isSubSelected = selectedSubcategory === sub;
+                            const isSubSelected = selectedInFamily.includes(sub);
                             const subCount = getSectionCount(cat.slug, sub);
                             const entry = catalogFamily?.entries.find(e => e.section === sub);
 
                             return (
                               <button
                                 key={sub}
+                                type="button"
+                                aria-pressed={isSubSelected}
                                 onClick={() => handleSelectSubcategory(cat.slug, sub)}
                                 className={`text-left font-sans text-xs py-1 transition-colors duration-200 cursor-pointer flex items-center justify-between gap-2 ${
                                   isSubSelected
@@ -331,30 +481,6 @@ export function ProductsHub() {
             </div>
           </div>
       </div>
-
-      <div className="flex flex-col gap-2 pt-2 border-t border-border/40">
-        <span className="font-mono text-xs text-text-ghost uppercase tracking-[0.15em] block mb-1">
-          Special Classifications
-        </span>
-        <label className="flex items-center gap-2.5 cursor-pointer select-none py-1 group">
-          <input
-            type="checkbox"
-            checked={onlyBestsellers}
-            onChange={(e) => setOnlyBestsellers(e.target.checked)}
-            className="sr-only"
-          />
-          <span className={`w-4 h-4 border transition-colors duration-200 flex items-center justify-center rounded-sm ${
-            onlyBestsellers 
-              ? 'bg-gold border-gold text-white' 
-              : 'border-border/60 bg-surface-alt text-transparent group-hover:border-gold'
-          }`}>
-            <Award className="w-2.5 h-2.5" />
-          </span>
-          <span className={`font-mono text-xs uppercase tracking-[0.15em] text-text-dim ${sidebarGroupHoverText} transition-colors`}>
-            Highlight Bestsellers
-          </span>
-        </label>
-      </div>
     </div>
   );
 
@@ -363,7 +489,10 @@ export function ProductsHub() {
       <Breadcrumbs />
       <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col lg:flex-row gap-8 items-start relative">
         
-        <aside className="hidden lg:block shrink-0 w-80 border border-border/40 bg-surface/50 p-6 shadow-sm rounded-md self-start sticky top-28">
+        <aside
+          ref={sidebarRef}
+          className="hidden lg:block shrink-0 w-80 border border-border/40 bg-surface/50 p-6 shadow-sm rounded-md self-start sticky top-28 z-10"
+        >
           {renderSidebarContent()}
         </aside>
 
@@ -371,9 +500,13 @@ export function ProductsHub() {
           <div className="-mx-6 px-6 pt-2 pb-4 mb-8 bg-void/95 backdrop-blur-md border-b border-border/40">
           <div className="pb-6">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-              <div>
-                <h1 className="font-serif text-3xl md:text-5xl text-cream font-light tracking-tight">
-                  Premium <span className="italic font-serif text-gold font-normal">Collections</span>
+              <div className="min-h-10 md:min-h-14 flex items-end">
+                <h1
+                  ref={headingRef}
+                  className="font-serif text-3xl md:text-5xl text-cream font-light tracking-tight"
+                >
+                  {listingHeadingLead ? `${listingHeadingLead} ` : null}
+                  <span className="italic font-serif text-gold font-normal">{listingHeadingAccent}</span>
                 </h1>
               </div>
 
@@ -387,7 +520,12 @@ export function ProductsHub() {
             </div>
           </div>
 
-          {hasActiveFilters && (
+          <div
+            className={`grid transition-[grid-template-rows,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+              hasActiveFilters ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0 pointer-events-none'
+            }`}
+          >
+            <div className="overflow-hidden">
             <div className="flex flex-wrap items-center gap-2 mb-6 p-3 bg-surface-alt border border-border/40 rounded-md">
               <span className="font-mono text-xs text-text-ghost uppercase tracking-[0.15em] mr-1">
                 Active Indices:
@@ -400,12 +538,20 @@ export function ProductsHub() {
                 </span>
               )}
 
-              {selectedSubcategory && (
-                <span className="inline-flex items-center gap-1.5 border border-gold/40 px-2.5 py-1 font-mono text-xs text-cream bg-gold/5 rounded-md">
-                  <span>SECTION: {selectedSubcategory.toUpperCase()}</span>
-                  <button onClick={() => setSelectedSubcategory(null)} className="hover:text-gold cursor-pointer"><X className="w-3 h-3" /></button>
+              {selectedSectionEntries.map(({ familySlug, section }) => (
+                <span
+                  key={`${familySlug}::${section}`}
+                  className="inline-flex items-center gap-1.5 border border-gold/40 px-2.5 py-1 font-mono text-xs text-cream bg-gold/5 rounded-md"
+                >
+                  <span>SECTION: {section.toUpperCase()}</span>
+                  <button
+                    onClick={() => handleSelectSubcategory(familySlug, section)}
+                    className="hover:text-gold cursor-pointer"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
                 </span>
-              )}
+              ))}
 
               {searchQuery && (
                 <span className="inline-flex items-center gap-1.5 bg-void border border-border/70 px-2.5 py-1 font-mono text-xs text-gold rounded-md">
@@ -428,7 +574,8 @@ export function ProductsHub() {
                 Clear All
               </button>
             </div>
-          )}
+            </div>
+          </div>
 
           </div>
 

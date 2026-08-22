@@ -9,6 +9,7 @@ import { ROUTES } from '@/lib/routes';
 import { ProductCard } from '../components/ui/ProductCard';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { getProductCodeDisplay } from '../utils/productCodes';
+import { useStickySidebarOffset } from '../hooks/useStickySidebarOffset';
 import {
   ArrowLeft,
   Award,
@@ -28,6 +29,7 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const hasMountedRef = useRef(false);
+  const sidebarRef = useStickySidebarOffset<HTMLElement>();
 
   const category = CATEGORIES.find((cat) => cat.slug === categorySlug);
   const catalogFamily = getCatalogFamily(categorySlug);
@@ -47,8 +49,8 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
   const sections = catalogSections.length > 0 ? catalogSections : productSections;
   const hasSectionFilters = !catalogFamily?.flat && sections.length > 0;
 
-  const [selectedSection, setSelectedSection] = useState<string | null>(() =>
-    searchParams.get('section'),
+  const [selectedSections, setSelectedSections] = useState<string[]>(() =>
+    searchParams.getAll('section').filter(Boolean),
   );
   const [searchQuery, setSearchQuery] = useState(() => searchParams.get('search') ?? '');
   const [onlyBestsellers, setOnlyBestsellers] = useState(
@@ -64,7 +66,7 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
 
     const params = new URLSearchParams();
     if (searchQuery) params.set('search', searchQuery);
-    if (selectedSection) params.set('section', selectedSection);
+    for (const section of selectedSections) params.append('section', section);
     if (onlyBestsellers) params.set('bestsellers', '1');
 
     const nextQuery = params.toString();
@@ -72,28 +74,32 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
     if (nextQuery !== currentQuery) {
       router.replace(nextQuery ? `${pathname}?${nextQuery}` : pathname, { scroll: false });
     }
-  }, [searchQuery, selectedSection, onlyBestsellers, pathname, router]);
+  }, [searchQuery, selectedSections, onlyBestsellers, pathname, router]);
 
   const getSectionCount = (sectionName: string) =>
     matchedProducts.filter((prod) => (prod.section ?? prod.subcategory) === sectionName).length;
 
   const handleSelectSection = (sectionName: string) => {
-    setSelectedSection((current) => (current === sectionName ? null : sectionName));
+    setSelectedSections((current) =>
+      current.includes(sectionName)
+        ? current.filter((section) => section !== sectionName)
+        : [...current, sectionName],
+    );
   };
 
   const handleResetFilters = () => {
-    setSelectedSection(null);
+    setSelectedSections([]);
     setSearchQuery('');
     setOnlyBestsellers(false);
   };
 
   const hasActiveFilters =
-    selectedSection !== null || searchQuery.trim() !== '' || onlyBestsellers;
+    selectedSections.length > 0 || searchQuery.trim() !== '' || onlyBestsellers;
 
   const filteredProducts = matchedProducts.filter((prod) => {
-    if (selectedSection) {
+    if (selectedSections.length > 0) {
       const prodSection = prod.section ?? prod.subcategory;
-      if (prodSection !== selectedSection) return false;
+      if (!prodSection || !selectedSections.includes(prodSection)) return false;
     }
 
     if (onlyBestsellers && !prod.isBestseller) return false;
@@ -117,7 +123,7 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
     }
 
     return true;
-  });
+  }).sort((a, b) => Number(Boolean(b.isBestseller)) - Number(Boolean(a.isBestseller)));
 
   const subcategoryGroups = filteredProducts.reduce<Record<string, typeof filteredProducts>>(
     (groups, product) => {
@@ -131,7 +137,7 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
 
   const showGrouped =
     hasSectionFilters &&
-    !selectedSection &&
+    selectedSections.length !== 1 &&
     !searchQuery.trim() &&
     Object.keys(subcategoryGroups).length > 1;
 
@@ -144,7 +150,7 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
         <div className="flex items-center gap-1.5 md:gap-2">
           <SlidersHorizontal className="w-4 h-4 text-gold-muted" />
           <span className="font-mono text-sm uppercase tracking-widest font-semibold">
-            SPECIFICATION INDICES
+            Filter Products
           </span>
         </div>
         {hasActiveFilters && (
@@ -180,6 +186,29 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
         )}
       </div>
 
+      <label className="flex items-center gap-2.5 cursor-pointer select-none py-1 group">
+        <input
+          type="checkbox"
+          checked={onlyBestsellers}
+          onChange={(e) => setOnlyBestsellers(e.target.checked)}
+          className="sr-only"
+        />
+        <span
+          className={`w-4 h-4 border transition-colors duration-200 flex items-center justify-center rounded-sm ${
+            onlyBestsellers
+              ? 'bg-gold border-gold text-white'
+              : 'border-border/60 bg-surface-alt text-transparent group-hover:border-gold'
+          }`}
+        >
+          <Award className="w-2.5 h-2.5" />
+        </span>
+        <span
+          className={`font-mono text-xs uppercase tracking-[0.15em] text-text-dim ${sidebarGroupHoverText} transition-colors`}
+        >
+          Highlight Bestsellers
+        </span>
+      </label>
+
       {hasSectionFilters && (
         <div className="flex flex-col gap-4">
           <span className="font-mono text-xs text-text-ghost uppercase tracking-[0.15em] block border-b border-border/20 pb-1.5">
@@ -188,16 +217,17 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
 
           <div className="flex flex-col gap-3">
             <button
-              onClick={() => setSelectedSection(null)}
+              type="button"
+              onClick={() => setSelectedSections([])}
               className={`text-left font-serif text-sm tracking-wide transition-colors duration-200 cursor-pointer flex items-center gap-1.5 ${
-                selectedSection === null
+                selectedSections.length === 0
                   ? 'text-gold font-bold'
                   : `text-text-dim ${sidebarHoverText}`
               }`}
             >
               <span
                 className={`w-1 h-3 bg-gold/50 rounded-sm transform transition-transform duration-300 ${
-                  selectedSection === null ? 'scale-y-120 bg-gold' : 'scale-y-0'
+                  selectedSections.length === 0 ? 'scale-y-120 bg-gold' : 'scale-y-0'
                 }`}
               />
               <span>All sections</span>
@@ -208,13 +238,15 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
 
             <div className="flex flex-col gap-1 pl-4 border-l border-gold-muted/20">
               {sections.map((section) => {
-                const isSelected = selectedSection === section;
+                const isSelected = selectedSections.includes(section);
                 const entry = catalogFamily?.entries.find((item) => item.section === section);
                 const subCount = getSectionCount(section);
 
                 return (
                   <button
                     key={section}
+                    type="button"
+                    aria-pressed={isSelected}
                     onClick={() => handleSelectSection(section)}
                     className={`text-left font-sans text-xs py-1 transition-colors duration-200 cursor-pointer flex items-center justify-between gap-2 ${
                       isSelected
@@ -246,34 +278,6 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
           </div>
         </div>
       )}
-
-      <div className="flex flex-col gap-2 pt-2 border-t border-border/40">
-        <span className="font-mono text-xs text-text-ghost uppercase tracking-[0.15em] block mb-1">
-          Special Classifications
-        </span>
-        <label className="flex items-center gap-2.5 cursor-pointer select-none py-1 group">
-          <input
-            type="checkbox"
-            checked={onlyBestsellers}
-            onChange={(e) => setOnlyBestsellers(e.target.checked)}
-            className="sr-only"
-          />
-          <span
-            className={`w-4 h-4 border transition-colors duration-200 flex items-center justify-center rounded-sm ${
-              onlyBestsellers
-                ? 'bg-gold border-gold text-white'
-                : 'border-border/60 bg-surface-alt text-transparent group-hover:border-gold'
-            }`}
-          >
-            <Award className="w-2.5 h-2.5" />
-          </span>
-          <span
-            className={`font-mono text-xs uppercase tracking-[0.15em] text-text-dim ${sidebarGroupHoverText} transition-colors`}
-          >
-            Highlight Bestsellers
-          </span>
-        </label>
-      </div>
     </div>
   );
 
@@ -296,7 +300,10 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
       <Breadcrumbs />
 
       <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col lg:flex-row gap-8 items-start relative">
-        <aside className="hidden lg:block shrink-0 w-80 border border-border/40 bg-surface/50 p-6 shadow-sm rounded-md self-start sticky top-28">
+        <aside
+          ref={sidebarRef}
+          className="hidden lg:block shrink-0 w-80 border border-border/40 bg-surface/50 p-6 shadow-sm rounded-md self-start sticky top-28 z-10"
+        >
           {renderSidebarContent()}
         </aside>
 
@@ -342,17 +349,20 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
                 <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mr-1">
                   Active:
                 </span>
-                {selectedSection && (
-                  <span className="inline-flex items-center gap-1.5 bg-void border border-border px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.1em] text-cream">
-                    <span>SECTION: {selectedSection.toUpperCase()}</span>
+                {selectedSections.map((section) => (
+                  <span
+                    key={section}
+                    className="inline-flex items-center gap-1.5 bg-void border border-border px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.1em] text-cream"
+                  >
+                    <span>SECTION: {section.toUpperCase()}</span>
                     <button
-                      onClick={() => setSelectedSection(null)}
+                      onClick={() => handleSelectSection(section)}
                       className="hover:text-gold cursor-pointer"
                     >
                       <X className="w-3 h-3" />
                     </button>
                   </span>
-                )}
+                ))}
                 {searchQuery.trim() && (
                   <span className="inline-flex items-center gap-1.5 bg-void border border-border px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.1em] text-cream">
                     <span>SEARCH: {searchQuery.trim()}</span>

@@ -438,6 +438,42 @@
   box-shadow: 0 0 60px rgba(77, 74, 157, 0.28), 0 0 120px rgba(77, 74, 157, 0.15);
 }
 
+/* Soft fixture halo behind product cutouts — dark mode only */
+.product-image-halo {
+  position: absolute;
+  inset: 16%;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  background: radial-gradient(
+    circle at 50% 46%,
+    color-mix(in srgb, var(--color-gold-light) 40%, white 8%) 0%,
+    color-mix(in srgb, var(--color-gold) 18%, transparent) 42%,
+    transparent 72%
+  );
+  filter: blur(28px);
+  transform: scale(0.94);
+  transition:
+    opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.dark .product-image-halo {
+  opacity: 0.85;
+  transform: scale(1);
+}
+
+.dark .group:hover .product-image-halo {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.product-image-halo--lg {
+  inset: 12%;
+  filter: blur(36px);
+}
+
 @keyframes beamTransition {
   0% { transform: scaleY(0); transform-origin: top; }
   100% { transform: scaleY(1); transform-origin: top; }
@@ -624,5 +660,1047 @@
   .ecosystem-orbit-ring {
     animation: none;
     stroke-dashoffset: 0;
+  }
+}
+
+/* Responsive light orb — About “Beyond Lighting” */
+@property --respond-core {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #8f8df0;
+}
+
+@property --respond-glow {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgba(143, 141, 240, 0.5);
+}
+
+@keyframes respond-orb-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes respond-orb-spin-rev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes respond-orb-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.88;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes respond-orb-echo {
+  0% {
+    transform: scale(0.72);
+    opacity: 0.42;
+  }
+  70% {
+    opacity: 0.12;
+  }
+  100% {
+    transform: scale(1.38);
+    opacity: 0;
+  }
+}
+
+@keyframes respond-orb-scene-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.respond-orb {
+  isolation: isolate;
+  overflow: visible;
+  transition:
+    --respond-core 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    --respond-glow 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.respond-orb__bloom {
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 48%,
+    var(--respond-glow) 0%,
+    color-mix(in srgb, var(--respond-core) 18%, transparent) 42%,
+    transparent 72%
+  );
+  filter: blur(18px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.respond-orb__echo {
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--respond-core) 38%, transparent);
+  box-shadow: 0 0 18px -8px var(--respond-glow);
+  animation: respond-orb-echo 4.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.respond-orb__echo--late {
+  animation-delay: 2.3s;
+}
+
+.respond-orb__scanner {
+  position: absolute;
+  inset: 2.5%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 300deg,
+    color-mix(in srgb, var(--respond-core) 12%, transparent) 328deg,
+    var(--color-gold-light) 348deg,
+    #ffffff 358deg,
+    var(--color-gold-light) 360deg
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 1.6px), #000 calc(100% - 1px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 1.6px), #000 calc(100% - 1px));
+  animation: respond-orb-spin 16s linear infinite;
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.respond-orb__track {
+  color: var(--color-border-mid);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: respond-orb-spin-rev 52s linear infinite;
+}
+
+.respond-orb__arc {
+  stroke: var(--color-gold-light);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: respond-orb-spin 22s linear infinite;
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--color-gold-light) 70%, transparent));
+}
+
+.respond-orb__core {
+  position: absolute;
+  inset: 27%;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+.respond-orb__core::before {
+  content: "";
+  position: absolute;
+  inset: 6%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-void) 72%, transparent) 0%,
+    transparent 74%
+  );
+  z-index: -1;
+}
+
+.respond-orb__scene {
+  animation: respond-orb-scene-in 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.respond-orb__fixture {
+  position: relative;
+  width: 3.15rem;
+  height: 3.15rem;
+  margin-bottom: 0.7rem;
+  display: grid;
+  place-items: center;
+}
+
+.respond-orb__fixture-lens {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 42% 36%, #ffffff 0%, var(--respond-core) 36%, transparent 70%);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--respond-core) 35%, transparent),
+    0 0 22px 4px var(--respond-glow),
+    0 0 56px 10px color-mix(in srgb, var(--respond-core) 28%, transparent);
+  animation: respond-orb-breathe 5.2s ease-in-out infinite;
+}
+
+.respond-orb__node {
+  position: absolute;
+  z-index: 5;
+  transform: translate(-50%, -50%);
+}
+
+.respond-orb__node-icon {
+  display: flex;
+  width: 2.15rem;
+  height: 2.15rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--color-border-mid);
+  background: color-mix(in srgb, var(--color-surface) 88%, var(--color-void));
+  box-shadow: 0 8px 20px -12px rgba(0, 0, 0, 0.55);
+  transition:
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.respond-orb__node-glyph {
+  color: var(--color-gold);
+  transition:
+    color 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.respond-orb__node-label {
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  white-space: nowrap;
+  opacity: 0.72;
+  transition:
+    color 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.respond-orb__node--north .respond-orb__node-label {
+  top: auto;
+  bottom: calc(100% + 7px);
+}
+
+.respond-orb__node.is-active .respond-orb__node-icon {
+  transform: scale(1.12);
+  border-color: var(--color-gold-light);
+  background: var(--color-gold);
+  box-shadow:
+    0 0 0 5px color-mix(in srgb, var(--color-gold) 16%, transparent),
+    0 0 22px -4px var(--respond-glow);
+}
+
+.respond-orb__node.is-active .respond-orb__node-glyph {
+  color: #ffffff;
+  transform: scale(1.04);
+}
+
+.respond-orb__node.is-active .respond-orb__node-label {
+  color: var(--color-gold);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .respond-orb__echo,
+  .respond-orb__echo--late,
+  .respond-orb__scanner,
+  .respond-orb__track,
+  .respond-orb__arc,
+  .respond-orb__fixture-lens,
+  .respond-orb__scene {
+    animation: none;
+  }
+
+  .respond-orb__echo,
+  .respond-orb__echo--late {
+    opacity: 0.2;
+    transform: scale(1.05);
+  }
+
+  .respond-orb__scanner {
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-gold-light) 45%, transparent),
+      rgba(255, 255, 255, 0.35),
+      color-mix(in srgb, var(--color-gold-light) 45%, transparent)
+    );
+  }
+}
+
+/* ─── Ecosystem Route 01 · Photon Mesh ─────────────────────────────── */
+.photon-mesh {
+  isolation: isolate;
+}
+
+.photon-mesh__frame {
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.photon-mesh__frame::before,
+.photon-mesh__frame::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 1px solid color-mix(in srgb, var(--color-gold-light) 70%, transparent);
+}
+
+.photon-mesh__frame::before {
+  top: -1px;
+  left: -1px;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.photon-mesh__frame::after {
+  bottom: -1px;
+  right: -1px;
+  border-left: 0;
+  border-top: 0;
+}
+
+.photon-mesh__corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 1px solid color-mix(in srgb, var(--color-gold-light) 70%, transparent);
+}
+
+.photon-mesh__corner--tr {
+  top: -1px;
+  right: -1px;
+  border-left: 0;
+  border-bottom: 0;
+}
+
+.photon-mesh__corner--bl {
+  bottom: -1px;
+  left: -1px;
+  border-right: 0;
+  border-top: 0;
+}
+
+.photon-mesh__hearth {
+  position: absolute;
+  inset: 22%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 186, 92, 0.28) 0%,
+    rgba(255, 186, 92, 0.08) 42%,
+    transparent 70%
+  );
+  filter: blur(12px);
+}
+
+.photon-mesh__scan {
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 210deg,
+    transparent 0deg,
+    transparent 330deg,
+    rgba(143, 141, 240, 0.08) 345deg,
+    rgba(255, 255, 255, 0.18) 356deg,
+    transparent 360deg
+  );
+  animation: photon-scan 22s linear infinite;
+  mask-image: radial-gradient(circle, transparent 36%, black 42%, black 72%, transparent 76%);
+}
+
+.photon-mesh__beam {
+  animation: photon-beam-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.photon-mesh__die {
+  width: 2.25rem;
+  height: 2.25rem;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.photon-mesh__die-core {
+  display: flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: var(--color-gold-light);
+  background: rgba(12, 12, 18, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 0 0 4px rgba(8, 8, 12, 0.55),
+    0 8px 20px -8px rgba(0, 0, 0, 0.55);
+  transition:
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.photon-mesh__die:hover:not(.is-active) .photon-mesh__die-core {
+  border-color: var(--color-gold-light);
+}
+
+.photon-mesh__die.is-active .photon-mesh__die-core {
+  color: #fff;
+  background: var(--color-gold);
+  border-color: #fff;
+  transform: scale(1.16);
+  box-shadow:
+    0 0 0 5px color-mix(in srgb, var(--color-gold-light) 22%, transparent),
+    0 0 28px 2px color-mix(in srgb, var(--color-gold-light) 55%, transparent),
+    0 0 48px color-mix(in srgb, #ffba5c 28%, transparent);
+}
+
+.photon-mesh__die:focus-visible {
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: 4px;
+  border-radius: 9999px;
+}
+
+.photon-mesh__readout-led {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.photon-mesh__readout-led::before {
+  content: "";
+  position: absolute;
+  inset: -140%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 300deg,
+    rgba(143, 141, 240, 0.12) 330deg,
+    rgba(255, 255, 255, 0.28) 348deg,
+    transparent 360deg
+  );
+  animation: ha-led-spin 10s linear infinite;
+}
+
+.photon-mesh__readout-led::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: #0a0a10;
+}
+
+@keyframes photon-scan {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes photon-beam-in {
+  from {
+    stroke-dasharray: 40;
+    stroke-dashoffset: 40;
+    opacity: 0;
+  }
+  to {
+    stroke-dasharray: 40;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* ─── Ecosystem Route 02 · Neural Constellation ────────────────────── */
+.neural-grid {
+  isolation: isolate;
+}
+
+.neural-grid__scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(143, 141, 240, 0.008) 2px,
+    rgba(143, 141, 240, 0.008) 4px
+  );
+}
+
+.neural-grid__corner {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(143, 141, 240, 0.25);
+  pointer-events: none;
+  z-index: 30;
+}
+
+.neural-grid__corner--tl {
+  top: 0;
+  left: 0;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.neural-grid__corner--tr {
+  top: 0;
+  right: 0;
+  border-left: 0;
+  border-bottom: 0;
+}
+
+.neural-grid__corner--bl {
+  bottom: 0;
+  left: 0;
+  border-right: 0;
+  border-top: 0;
+}
+
+.neural-grid__corner--br {
+  bottom: 0;
+  right: 0;
+  border-left: 0;
+  border-top: 0;
+}
+
+.neural-grid__hub-glow {
+  animation: neural-hub-pulse 4s ease-in-out infinite;
+}
+
+.neural-grid__hub-core {
+  fill: #8F8DF0;
+  filter: drop-shadow(0 0 6px rgba(143, 141, 240, 0.8));
+}
+
+.neural-grid__hub-ring {
+  stroke: rgba(143, 141, 240, 0.5);
+  animation: neural-hub-ring 8s linear infinite;
+}
+
+.neural-grid__synapse {
+  stroke: rgba(143, 141, 240, 0.12);
+  transition: stroke 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.neural-grid__synapse.is-active {
+  stroke: rgba(143, 141, 240, 0.35);
+}
+
+.neural-grid__pulse-line {
+  animation: neural-pulse 1.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.neural-grid__node {
+  width: 2.5rem;
+  height: 2.5rem;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.neural-grid__node-halo {
+  position: absolute;
+  inset: -8px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(143, 141, 240, 0.15) 0%, transparent 70%);
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.neural-grid__node.is-active .neural-grid__node-halo {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.neural-grid__node-core {
+  position: relative;
+  display: flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: var(--color-gold-light);
+  background: rgba(8, 8, 14, 0.95);
+  border: 1px solid rgba(143, 141, 240, 0.25);
+  box-shadow: 0 4px 20px -6px rgba(0, 0, 0, 0.6);
+  transition:
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.neural-grid__node:hover .neural-grid__node-core {
+  border-color: var(--color-gold-light);
+}
+
+.neural-grid__node.is-active .neural-grid__node-core {
+  color: #fff;
+  background: var(--color-gold);
+  border-color: #fff;
+  transform: scale(1.15);
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--color-gold) 20%, transparent),
+    0 0 32px rgba(143, 141, 240, 0.6),
+    0 0 48px rgba(143, 141, 240, 0.3);
+}
+
+.neural-grid__node-label {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.neural-grid__node.is-active .neural-grid__node-label {
+  opacity: 1;
+  color: var(--color-gold-light);
+}
+
+.neural-grid__readout {
+  position: relative;
+}
+
+.neural-grid__readout-scan {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.neural-grid__readout-scan::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(143, 141, 240, 0.06),
+    transparent
+  );
+  animation: neural-readout-scan 4s ease-in-out infinite;
+}
+
+.neural-grid__icon-ring {
+  background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-dark) 100%);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--color-gold) 15%, transparent),
+    0 0 28px rgba(143, 141, 240, 0.4);
+}
+
+.neural-grid__pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: #8F8DF0;
+  box-shadow: 0 0 8px rgba(143, 141, 240, 0.8);
+  animation: neural-dot-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes neural-hub-pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes neural-hub-ring {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes neural-pulse {
+  0% {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes neural-readout-scan {
+  0%, 100% {
+    left: -50%;
+  }
+  50% {
+    left: 100%;
+  }
+}
+
+@keyframes neural-dot-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photon-mesh__scan,
+  .photon-mesh__beam,
+  .photon-mesh__readout-led::before,
+  .neural-grid__hub-glow,
+  .neural-grid__hub-ring,
+  .neural-grid__pulse-line,
+  .neural-grid__readout-scan::before,
+  .neural-grid__pulse-dot {
+    animation: none;
+  }
+
+  .photon-mesh__scan {
+    opacity: 0.35;
+  }
+
+  .neural-grid__hub-glow {
+    opacity: 0.8;
+  }
+
+  .neural-grid__pulse-dot {
+    opacity: 1;
+  }
+}
+
+/* ─── Ecosystem Route 02 · Luminous Spectrum ───────────────────────── */
+.spectrum {
+  --spectrum-glow: rgba(143, 141, 240, 0.65);
+  --spectrum-warm: rgba(255, 186, 92, 0.5);
+}
+
+.spectrum__home {
+  position: relative;
+}
+
+.spectrum__home-glow {
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(
+    ellipse 70% 80% at 50% 70%,
+    rgba(255, 186, 92, 0.2) 0%,
+    rgba(143, 141, 240, 0.08) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.spectrum__beam {
+  position: absolute;
+  left: 50%;
+  bottom: -40px;
+  width: 2px;
+  height: 40px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to bottom,
+    rgba(143, 141, 240, 0.6),
+    rgba(143, 141, 240, 0.15)
+  );
+  box-shadow: 0 0 20px 4px rgba(143, 141, 240, 0.3);
+}
+
+.spectrum__bar {
+  position: relative;
+  padding: 0 1rem;
+}
+
+.spectrum__track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(143, 141, 240, 0.15) 10%,
+    rgba(143, 141, 240, 0.25) 50%,
+    rgba(143, 141, 240, 0.15) 90%,
+    transparent 100%
+  );
+  border-radius: 9999px;
+}
+
+.spectrum__track::before {
+  content: "";
+  position: absolute;
+  inset: -4px 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(143, 141, 240, 0.03) 15%,
+    rgba(143, 141, 240, 0.06) 50%,
+    rgba(143, 141, 240, 0.03) 85%,
+    transparent 100%
+  );
+  border-radius: 9999px;
+}
+
+.spectrum__active-glow {
+  position: absolute;
+  top: 50%;
+  width: 120px;
+  height: 60px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(143, 141, 240, 0.35) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  transition: left 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.spectrum__zones {
+  position: relative;
+  z-index: 10;
+}
+
+.spectrum__zone-wrapper {
+  min-width: 0;
+}
+
+.spectrum__zone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 0.25rem;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  width: 100%;
+}
+
+.spectrum__zone-beam {
+  position: absolute;
+  top: -3rem;
+  left: 50%;
+  width: 1px;
+  height: 3rem;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(143, 141, 240, 0.1)
+  );
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.spectrum__zone.is-active .spectrum__zone-beam,
+.spectrum__zone:hover .spectrum__zone-beam {
+  opacity: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(143, 141, 240, 0.5),
+    rgba(143, 141, 240, 0.15)
+  );
+}
+
+.spectrum__zone.is-active .spectrum__zone-beam {
+  box-shadow: 0 0 12px 2px rgba(143, 141, 240, 0.4);
+}
+
+.spectrum__zone-node {
+  position: relative;
+  display: flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: rgba(143, 141, 240, 0.7);
+  background: rgba(8, 8, 14, 0.9);
+  border: 1px solid rgba(143, 141, 240, 0.2);
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 640px) {
+  .spectrum__zone-node {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+.spectrum__zone:hover .spectrum__zone-node {
+  border-color: var(--color-gold-light);
+  color: var(--color-gold-light);
+}
+
+.spectrum__zone.is-active .spectrum__zone-node {
+  color: #fff;
+  background: var(--color-gold);
+  border-color: #fff;
+  transform: scale(1.1);
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--color-gold) 18%, transparent),
+    0 0 30px rgba(143, 141, 240, 0.5),
+    0 4px 20px -4px rgba(143, 141, 240, 0.4);
+}
+
+.spectrum__zone-label {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.25);
+  text-align: center;
+  line-height: 1.3;
+  max-width: 5rem;
+  transition: color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 640px) {
+  .spectrum__zone-label {
+    font-size: 10px;
+    max-width: 6rem;
+  }
+}
+
+.spectrum__zone:hover .spectrum__zone-label {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.spectrum__zone.is-active .spectrum__zone-label {
+  color: var(--color-gold-light);
+}
+
+.spectrum__zone-index {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.15);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.spectrum__zone:hover .spectrum__zone-index,
+.spectrum__zone.is-active .spectrum__zone-index {
+  opacity: 1;
+}
+
+.spectrum__zone:focus-visible {
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.spectrum__readout {
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding-top: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .spectrum__readout {
+    padding-top: 2rem;
+  }
+}
+
+.spectrum__active-display {
+  flex-shrink: 0;
+}
+
+.spectrum__active-icon {
+  display: flex;
+  width: 3.5rem;
+  height: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-dark) 100%);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--color-gold) 12%, transparent),
+    0 0 32px rgba(143, 141, 240, 0.35);
+}
+
+.spectrum__pillar {
+  transition: opacity 0.4s ease;
+}
+
+.spectrum__pillar:hover {
+  opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spectrum__active-glow,
+  .spectrum__zone-node,
+  .spectrum__zone-beam,
+  .spectrum__zone-label {
+    transition: none;
   }
 }

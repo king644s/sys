@@ -1,32 +1,30 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
-import { Mail, Phone, MapPin, CheckCircle2, Upload, Trash2, FileText, Send } from 'lucide-react';
+import React, { useState } from 'react';
+import { Mail, Phone, MapPin, CheckCircle2, Send } from 'lucide-react';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 export function Contact() {
   // Forms states
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [firmName, setFirmName] = useState('');
-  const [projectCity, setProjectCity] = useState('Mumbai');
+  const [phone, setPhone] = useState('');
+  const [location, setLocation] = useState('');
   const [message, setMessage] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // File Upload states (Supports Drag & Drop)
-  const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
-  const [isDragging, setIsDragging] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    if (!name.trim()) newErrors.name = "Full Name or Lead Architect represents is required";
+    if (!name.trim()) newErrors.name = "Name is required";
     if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = "Please supply a valid professional email address";
+      newErrors.email = "Please enter a valid email address";
     }
-    if (!firmName.trim()) newErrors.firm = "Establishment or architectural guild firm is required";
-    if (!message.trim()) newErrors.message = "Please list a brief synopsis of your lighting schedule";
+    if (!phone.trim() || phone.replace(/\D/g, '').length < 10) {
+      newErrors.phone = "Please enter a valid phone number";
+    }
+    if (!location.trim()) newErrors.location = "Location is required";
+    if (!message.trim()) newErrors.message = "Please enter a message";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -43,40 +41,6 @@ export function Contact() {
     }, 1500);
   };
 
-  // Drag-and-Drop Handlers
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = () => {
-    setIsDragging(false);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(false);
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      const filesArr = Array.from(e.dataTransfer.files);
-      setAttachedFiles(prev => [...prev, ...filesArr]);
-    }
-  };
-
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const filesArr = Array.from(e.target.files);
-      setAttachedFiles(prev => [...prev, ...filesArr]);
-    }
-  };
-
-  const triggerFileBrowser = () => {
-    fileInputRef.current?.click();
-  };
-
-  const removeFile = (idx: number) => {
-    setAttachedFiles(prev => prev.filter((_, i) => i !== idx));
-  };
-
   return (
     <div className="transition-page-enter">
       <Breadcrumbs />
@@ -84,9 +48,6 @@ export function Contact() {
         <h1 className="font-serif text-4xl md:text-6xl text-cream font-light tracking-tight">
           Request Quotation <span className="italic font-serif text-gold font-normal">& Layouts</span>
         </h1>
-        <p className="font-sans text-sm text-text-dim max-w-xl mx-auto mt-5 leading-relaxed">
-          Need a layout spec sheet, custom photometrics, or sample mockups? Send us your project bounds or DWG vectors. Our layout experts will assemble a complete specification index.
-        </p>
       </section>
 
       <section className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-16">
@@ -96,46 +57,34 @@ export function Contact() {
           
           {/* Mumbai HQ Location card */}
           <div className="bg-surface border border-border p-8 rounded-sm flex flex-col gap-6">
-            <h3 className="font-serif text-xl font-bold text-cream">Mumbai Headquarters</h3>
+            <h3 className="font-serif text-xl font-bold text-cream">Factory & Experience Center</h3>
             
-            <div className="flex flex-col gap-4 font-sans text-sm text-text-dim leading-relaxed">
+            <div className="flex flex-col gap-5 font-sans text-base text-text-dim leading-relaxed">
               <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-gold shrink-0 mt-0.5" />
+                <MapPin className="w-5 h-5 text-gold shrink-0 mt-1" />
                 <div>
-                  <strong className="text-cream block font-mono text-[11px] tracking-[0.15em] uppercase mb-1">FACTORY & STUDIO</strong>
+                  <strong className="text-cream block font-mono text-sm tracking-[0.12em] uppercase mb-1.5">Factory and Experience Studio</strong>
                   <span>Systems Creator, Mumbai, Maharashtra, India.</span>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Phone className="w-5 h-5 text-gold shrink-0 mt-0.5" />
+                <Phone className="w-5 h-5 text-gold shrink-0 mt-1" />
                 <div>
-                  <strong className="text-cream block font-mono text-[11px] tracking-[0.15em] uppercase mb-1">DIRECT TELEPHONE</strong>
-                  <span>+91 98202 81588</span>
+                  <strong className="text-cream block font-mono text-sm tracking-[0.12em] uppercase mb-1.5">Phone / WhatsApp</strong>
+                  <a href="tel:+919820281588" className="hover:text-gold hover:underline transition-colors">
+                    +91 98202 81588
+                  </a>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Mail className="w-5 h-5 text-gold shrink-0 mt-0.5" />
+                <Mail className="w-5 h-5 text-gold shrink-0 mt-1" />
                 <div>
-                  <strong className="text-cream block font-mono text-[11px] tracking-[0.15em] uppercase mb-1">EMAIL DIRECTORY</strong>
-                  <span>info@syslight.in</span>
+                  <strong className="text-cream block font-mono text-sm tracking-[0.12em] uppercase mb-1.5">EMAIL DIRECTORY</strong>
+                  <a href="mailto:sales@systemscreator.com" className="hover:text-gold hover:underline transition-colors">
+                    sales@systemscreator.com
+                  </a>
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Consultation readiness card */}
-          <div className="bg-surface-alt border border-border p-8 rounded-sm">
-            <h3 className="font-serif text-lg font-bold text-cream mb-4">Project Brief Checklist</h3>
-            <div className="border border-dashed border-border p-6 text-left flex flex-col gap-2.5">
-              <p className="font-sans text-sm text-text-dim leading-relaxed">
-                Share your project details directly in the form and our team will prepare a complete recommendation.
-              </p>
-              <ul className="font-sans text-[11px] text-text-dim leading-relaxed list-disc pl-4">
-                <li>Required fixture type and quantity range</li>
-                <li>Preferred beam angle or lighting effect</li>
-                <li>Control protocol (DALI, phase-cut, Casambi)</li>
-                <li>Drawings or reference files (optional)</li>
-              </ul>
             </div>
           </div>
         </div>
@@ -159,15 +108,14 @@ export function Contact() {
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-6">
               <div className="border-b border-border/50 pb-4">
-                <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-gold-muted block">FORM SECURE</span>
-                <h3 className="font-serif text-2xl font-bold text-cream">Consultation & Estimates</h3>
+                <h3 className="font-serif text-2xl font-bold text-cream">Tell Us About Your Project</h3>
               </div>
 
               {/* Grid block for inputs */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-1.5">
                   <label htmlFor="name-input" className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim font-bold">
-                    Lead Architect Name <span className="text-red-500">*</span>
+                    Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     id="name-input"
@@ -185,7 +133,7 @@ export function Contact() {
 
                 <div className="flex flex-col gap-1.5">
                   <label htmlFor="email-input" className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim font-bold">
-                    Professional Email <span className="text-red-500">*</span>
+                    Email <span className="text-red-500">*</span>
                   </label>
                   <input
                     id="email-input"
@@ -202,47 +150,46 @@ export function Contact() {
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="firm-input" className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim font-bold">
-                    Architectural Firm / Guild <span className="text-red-500">*</span>
+                  <label htmlFor="phone-input" className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim font-bold">
+                    Phone <span className="text-red-500">*</span>
                   </label>
                   <input
-                    id="firm-input"
-                    type="text"
+                    id="phone-input"
+                    type="tel"
                     required
                     aria-required="true"
-                    aria-describedby={errors.firm ? "firm-error" : undefined}
-                    value={firmName}
-                    onChange={(e) => { setFirmName(e.target.value); if (errors.firm) setErrors(prev => ({ ...prev, firm: '' })); }}
-                    placeholder="e.g. Systems Designs India"
+                    aria-describedby={errors.phone ? "phone-error" : undefined}
+                    value={phone}
+                    onChange={(e) => { setPhone(e.target.value); if (errors.phone) setErrors(prev => ({ ...prev, phone: '' })); }}
+                    placeholder="+91 98202 81588"
                     className="bg-void border border-border focus:border-gold/50 text-cream rounded-sm px-4 py-3 placeholder:text-text-ghost text-sm focus:outline-none transition-all focus-visible:ring-2 focus-visible:ring-gold"
                   />
-                  {errors.firm && <span id="firm-error" role="alert" className="font-mono text-xs text-red-400 uppercase">{errors.firm}</span>}
+                  {errors.phone && <span id="phone-error" role="alert" className="font-mono text-xs text-red-400 uppercase">{errors.phone}</span>}
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="location-select" className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim font-bold">
-                    Project City Location
+                  <label htmlFor="location-input" className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim font-bold">
+                    Location <span className="text-red-500">*</span>
                   </label>
-                  <select
-                    id="location-select"
-                    value={projectCity}
-                    onChange={(e) => setProjectCity(e.target.value)}
-                    className="bg-void border border-border focus:border-gold/50 text-cream rounded-sm px-4 py-3 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
-                  >
-                    <option value="Mumbai">Mumbai, MH</option>
-                    <option value="Pune">Pune, MH</option>
-                    <option value="Delhi">Delhi, NCR</option>
-                    <option value="Bengaluru">Bengaluru, KA</option>
-                    <option value="Alibaug">Alibaug Coastal</option>
-                    <option value="International">Outside India</option>
-                  </select>
+                  <input
+                    id="location-input"
+                    type="text"
+                    required
+                    aria-required="true"
+                    aria-describedby={errors.location ? "location-error" : undefined}
+                    value={location}
+                    onChange={(e) => { setLocation(e.target.value); if (errors.location) setErrors(prev => ({ ...prev, location: '' })); }}
+                    placeholder="City or project site"
+                    className="bg-void border border-border focus:border-gold/50 text-cream rounded-sm px-4 py-3 placeholder:text-text-ghost text-sm focus:outline-none transition-all focus-visible:ring-2 focus-visible:ring-gold"
+                  />
+                  {errors.location && <span id="location-error" role="alert" className="font-mono text-xs text-red-400 uppercase">{errors.location}</span>}
                 </div>
               </div>
 
               {/* Message box */}
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="message-input" className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim font-bold">
-                  Schedule / Requirement Synopsis <span className="text-red-500">*</span>
+                  Message <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   id="message-input"
@@ -258,64 +205,6 @@ export function Contact() {
                 {errors.message && <span id="message-error" role="alert" className="font-mono text-xs text-red-400 uppercase">{errors.message}</span>}
               </div>
 
-              {/* High fidelity Drag-and-Drop file attachment dropzone */}
-              <div className="flex flex-col gap-2">
-                <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim font-bold">
-                  Attach Design CAD / DWG / Layout PDF
-                </span>
-                
-                <div
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                  onDrop={handleDrop}
-                  onClick={triggerFileBrowser}
-                  className={`border border-dashed p-6 text-center cursor-pointer transition-all duration-300 rounded-sm flex flex-col items-center gap-2 ${
-                    isDragging 
-                      ? 'border-gold bg-gold/5 scale-[0.99] shadow-glow-sm' 
-                      : 'border-border-mid hover:border-gold/60 bg-void'
-                  }`}
-                  id="dwg-dropzone"
-                >
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleFileSelect}
-                    multiple
-                    className="hidden"
-                    accept=".dwg,.dxf,.pdf,.png,.jpg,.jpeg"
-                  />
-                  <Upload className="w-6 h-6 text-gold-muted animate-pulse" />
-                  <span className="font-sans text-xs text-cream">
-                    Drag and drop file here, or <span className="text-gold hover:underline">browse computer</span>
-                  </span>
-                  <span className="font-mono text-[11px] text-text-ghost uppercase tracking-[0.15em]">
-                    MAX 25MB • DWG, DXF, PDF, IMAGES ACCEPTABLE
-                  </span>
-                </div>
-
-                {/* Display list of attached files */}
-                {attachedFiles.length > 0 && (
-                  <div className="flex flex-col gap-2 mt-2">
-                    {attachedFiles.map((f, idx) => (
-                      <div key={idx} className="flex justify-between items-center bg-surface-alt border border-border px-3 py-2 text-xs">
-                        <div className="flex items-center gap-2 text-cream truncate max-w-xs">
-                          <FileText className="w-4 h-4 text-gold shrink-0" />
-                          <span className="truncate">{f.name}</span>
-                          <span className="text-text-ghost text-[11px] font-mono shrink-0">({(f.size/1024/1024).toFixed(2)} MB)</span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => removeFile(idx)}
-                          className="text-text-ghost hover:text-red-400 cursor-pointer"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
               {/* Submit button */}
               <button
                 type="submit"
@@ -327,16 +216,10 @@ export function Contact() {
                 ) : (
                   <>
                     <Send className="w-4 h-4" />
-                    <span>submit layout schematic</span>
+                    <span>Send Enquiry</span>
                   </>
                 )}
               </button>
-              
-              <div className="flex justify-center items-center gap-2 opacity-50 mt-1">
-                <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-ghost">
-                  🛡️ secure 256-bit automated encryption layer
-                </span>
-              </div>
             </form>
           )}
         </div>

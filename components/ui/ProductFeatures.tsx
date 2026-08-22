@@ -68,13 +68,14 @@ export function ProductFeatures({
 
             return (
               <div key={feature.title} className="flex flex-col gap-5">
-                <div className="aspect-[4/5] overflow-hidden rounded-[4px] border border-border/60 bg-surface-alt">
+                <div className="group relative aspect-[4/5] overflow-hidden rounded-[4px] border border-border/60 bg-surface-alt">
+                  <div className="product-image-halo" aria-hidden />
                   <ProgressiveImage
                     thumbnailSrc={thumbnailSrc}
                     fullSrc={fullSrc}
                     alt={`${productName} — ${feature.title}`}
                     loading="lazy"
-                    className={`w-full h-full object-contain object-center p-4 transition-transform duration-700 ease-out-expo ${imageZoomClass}`}
+                    className={`relative z-[1] w-full h-full object-contain object-center p-4 transition-transform duration-700 ease-out-expo ${imageZoomClass}`}
                   />
                 </div>
 

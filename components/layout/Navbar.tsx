@@ -230,8 +230,17 @@ export function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 h-28 md:h-28 flex items-center justify-between relative">
         
-        {/* Left Side: Navigation Links (PRODUCTS, SMART LIGHTS, HOME AUTOMATION, ABOUT US) */}
+        {/* Left Side: Navigation Links */}
         <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
+
+          <Link
+            href={ROUTES.home}
+            onMouseEnter={() => setActiveDropdown(null)}
+            onClick={() => setActiveDropdown(null)}
+            className={navLinkClass('home')}
+          >
+            <span className={navLabelClass('home')}>HOME</span>
+          </Link>
 
           <Link
             href={ROUTES.products}
@@ -256,14 +265,6 @@ export function Navbar() {
             className={navLinkClass('home-automation')}
           >
             <span className={navLabelClass('home-automation')}>HOME AUTOMATION</span>
-          </Link>
-
-          <Link
-            href={ROUTES.about}
-            onMouseEnter={() => setActiveDropdown('about')}
-            className={navLinkClass('about', 'about')}
-          >
-            <span className={navLabelClass('about', 'about')}>ABOUT US</span>
           </Link>
         </nav>
 
@@ -353,6 +354,21 @@ export function Navbar() {
               </div>
             )}
           </div>
+
+          {/* About Us — left of Contact Us */}
+          <Link
+            href={ROUTES.about}
+            onMouseEnter={() => setActiveDropdown('about')}
+            className={`hidden lg:inline-flex h-11 items-center ${navLinkClass('about', 'about')}`}
+          >
+            <span
+              className={`relative inline-block leading-none after:absolute after:left-0 after:right-0 after:-bottom-[5px] after:h-0.5 ${
+                isNavHighlighted('about', 'about') ? 'after:bg-gold' : 'after:bg-transparent'
+              }`}
+            >
+              ABOUT US
+            </span>
+          </Link>
 
           {/* Contact Us button */}
           <Link
@@ -472,7 +488,7 @@ export function Navbar() {
 
                   <div className="flex flex-col gap-2.5 border-l border-border/60 pl-6">
                     <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
-                      Inspire Gallery
+                      Projects
                     </span>
                     <Link href={ROUTES.projects} onClick={() => setActiveDropdown(null)} className={`${dropdownLinkClassMedium} flex items-center gap-1.5`}>
                       <span>View All Projects</span>
@@ -496,7 +512,7 @@ export function Navbar() {
                     <Link
                       href={ROUTES.products}
                       onClick={() => setActiveDropdown(null)}
-                      className="mt-auto inline-flex w-full items-center justify-center gap-2 bg-gold text-void-dark hover:bg-cream px-4 py-3 font-mono text-[11px] uppercase tracking-[0.15em] font-bold transition-all duration-300 rounded-sm"
+                      className="mt-auto inline-flex w-full items-center justify-center gap-2 bg-gold text-white hover:bg-cream hover:text-void-dark px-4 py-3 font-mono text-[11px] uppercase tracking-[0.15em] font-bold transition-all duration-300 rounded-sm"
                     >
                       <span>View All Products</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -576,7 +592,7 @@ export function Navbar() {
               </Link>
 
               <Link
-                href={ROUTES.products}
+                href={activeDropdown === 'products' ? ROUTES.homeAutomation : ROUTES.products}
                 onClick={() => setActiveDropdown(null)}
                 className="relative flex-1 aspect-[1.12/1] bg-[#161618] border border-border/35 overflow-hidden cursor-pointer group block"
               >
@@ -599,7 +615,7 @@ export function Navbar() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent pointer-events-none" />
                 <div className="absolute bottom-4 left-4 z-10">
                   <span className="font-serif text-[15px] italic text-[#f3f4f6] tracking-wide font-light">
-                    View our finishes
+                    {activeDropdown === 'products' ? 'Home Automation' : 'View our finishes'}
                   </span>
                 </div>
               </Link>
@@ -627,13 +643,18 @@ export function Navbar() {
 
           <ul className="flex flex-col gap-4 font-sans text-xs uppercase tracking-[0.16em] text-text-dim font-semibold">
             <li>
+              <Link href={ROUTES.home} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('home') ? 'text-gold border-gold' : 'border-transparent'}`}>
+                home
+              </Link>
+            </li>
+            <li>
               <Link href={ROUTES.products} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('products') ? 'text-gold border-gold' : 'border-transparent'}`}>
                 products
               </Link>
             </li>
             <li>
               <Link href={ROUTES.projects} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('projects') ? 'text-gold border-gold' : 'border-transparent'}`}>
-                inspire gallery
+                projects
               </Link>
             </li>
             <li>

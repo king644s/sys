@@ -32,15 +32,15 @@ export function SmartSolutionsShowcase() {
           </ScrollReveal>
         </div>
 
-        {/* 3×3 card grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* 2×2 card grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {SMART_SOLUTIONS.map((solution, idx) => {
             const Icon = solution.icon;
             return (
               <ScrollReveal
                 key={solution.id}
                 direction="up"
-                delay={(idx % 3) * 0.08}
+                delay={(idx % 2) * 0.08}
                 className="h-full"
               >
                 <Link

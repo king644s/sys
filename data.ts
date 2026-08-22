@@ -219,15 +219,51 @@ export const TESTIMONIALS = [
     rating: 5
   },
   {
-    quote: "With SYSLight, we have a Indian manufactured solution that consistently competes with Italian and German lighting giants. The CRI is genuinely over 93.",
+    quote: "A wonderful experience at SYSlight — an impressive collection of lighting to suit every style and budget. The team was courteous and patient, and helped me find exactly what I was looking for. Excellent product quality, fair pricing, and top-notch service. Highly recommend it to anyone looking to upgrade their lighting.",
+    author: "Shailey Shah",
+    firm: "Client",
+    rating: 5
+  },
+  {
+    quote: "We chose SYSlight for our office, and the difference has been remarkable. The team helped us find modern, comfortable lighting, while smart controls make it easy to adjust brightness and ambience throughout the day. Smooth installation, excellent quality, and a transformed workspace — highly recommended!",
+    author: "Yash Shah",
+    firm: "Client",
+    rating: 5
+  },
+  {
+    quote: "Genuine advice, reliable products, and complete customer satisfaction — that's exactly what SYSlight delivers. From the first conversation to the final installation, the guidance was honest and the products lived up to every promise. Highly recommend them to anyone who wants their lighting done right.",
     author: "Kalpesh Gala",
-    firm: "Gala & Associates Interior Design",
+    firm: "Gala Interior Designer",
+    rating: 5
+  },
+  {
+    quote: "SYSlight is a one-stop solution for all your lighting needs — they'll take you into a whole new world of automated lighting. The after-sales service is excellent too; I've experienced it firsthand. Highly recommend.",
+    author: "Dhrumil Thakkar",
+    firm: "Client",
+    rating: 5
+  },
+  {
+    quote: "A great range of premium products, and staff who are genuinely helpful and patient. Post-sales support has been just as good. Without a doubt, I'd keep recommending SYSlight.",
+    author: "Vaishnavi",
+    firm: "Client",
     rating: 5
   },
   {
     quote: "Their magnetic track system is beautifully minimalist. No visible flanges, dead-flush integration, and the warm Kelvin options match luxury residential specs perfectly.",
     author: "Atit Barbhaya",
-    firm: "A.B. Lighting Consultants",
+    firm: "Atit Interiors",
+    rating: 5
+  },
+  {
+    quote: "A lovely experience center with the latest products — smart, tunable, dimmable lights for every taste and application, perfect for setting the mood in any space. A must-visit to get the real experience.",
+    author: "Shobhan Savai",
+    firm: "Client",
+    rating: 5
+  },
+  {
+    quote: "Great experience with SYSlight — excellent collection, premium quality products, and genuinely helpful staff. Smooth all the way from selection to delivery. Highly recommend!",
+    author: "Kushal Raja",
+    firm: "Client",
     rating: 5
   }
 ];

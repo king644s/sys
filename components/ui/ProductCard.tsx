@@ -27,7 +27,8 @@ export function ProductCard({ product }: ProductCardProps) {
       id={`product-card-${product.id}`}
     >
       <div className="relative aspect-square w-full bg-gradient-to-b from-surface-alt to-void overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center p-6">
+        <div className="product-image-halo" aria-hidden />
+        <div className="absolute inset-0 z-[1] flex items-center justify-center p-6">
           <ProgressiveImage
             thumbnailSrc={listingImage.thumbnail}
             fullSrc={listingImage.full}
@@ -37,7 +38,7 @@ export function ProductCard({ product }: ProductCardProps) {
           />
         </div>
 
-        <div className="absolute inset-0 bg-void/30 backdrop-blur-[1.5px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+        <div className="absolute inset-0 z-10 bg-void/30 backdrop-blur-[1.5px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
           <span className="border border-gold text-gold font-mono text-xs tracking-[0.15em] uppercase px-5 py-2.5 bg-void/95 rounded-sm shadow-card transform translate-y-3 group-hover:translate-y-0 transition-transform duration-500 ease-luxury">
             View Product
           </span>
