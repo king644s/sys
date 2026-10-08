@@ -47,10 +47,12 @@ const NODE_MS = 2400;
 function orbitPoint(angleDeg: number, radius = 39) {
   const rad = (angleDeg * Math.PI) / 180;
   return {
-    left: `${50 + radius * Math.cos(rad)}%`,
-    top: `${50 + radius * Math.sin(rad)}%`,
+    left: `${round(50 + radius * Math.cos(rad))}%`,
+    top: `${round(50 + radius * Math.sin(rad))}%`,
   };
 }
+
+const round = (n: number) => Math.round(n * 1000) / 1000;
 
 function TickMarks() {
   const ticks = Array.from({ length: 72 }, (_, i) => {
@@ -61,10 +63,11 @@ function TickMarks() {
     return {
       key: i,
       major,
-      x1: 100 + inner * Math.cos(angle),
-      y1: 100 + inner * Math.sin(angle),
-      x2: 100 + outer * Math.cos(angle),
-      y2: 100 + outer * Math.sin(angle),
+      // Rounded so server and client render identical attribute strings.
+      x1: round(100 + inner * Math.cos(angle)),
+      y1: round(100 + inner * Math.sin(angle)),
+      x2: round(100 + outer * Math.cos(angle)),
+      y2: round(100 + outer * Math.sin(angle)),
     };
   });
 
@@ -198,10 +201,10 @@ export function ResponsiveLightOrb() {
           key={scene.id}
           className="respond-orb__scene flex flex-col items-center"
         >
-          <span className="font-serif text-lg md:text-xl text-cream font-light tracking-tight leading-none">
+          <span className="font-serif text-lg md:text-xl text-cream font-semibold tracking-tight leading-none">
             {scene.label}
           </span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-gold mt-1.5">
+          <span className="eyebrow mt-1.5">
             {scene.tone}
           </span>
         </span>

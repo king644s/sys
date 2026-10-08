@@ -23,13 +23,16 @@ import {
 } from '@/utils/productAssets';
 import { ProductCard } from '../components/ui/ProductCard';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
-import { SectionDivider } from '../components/ui/SectionDivider';
+import { SectionHeader } from '../components/ui/SectionHeader';
+import { ProductFAQ } from '../components/ui/ProductFAQ';
+import { buttonClasses } from '../components/ui/Button';
+import { quoteHref } from '@/lib/site';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { ProductSpecifications } from '../components/ui/ProductSpecifications';
 import { ProductFeatures } from '../components/ui/ProductFeatures';
 import { ProductImageCarousel } from '../components/ui/ProductImageCarousel';
 import { ProductFinish } from '../types';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowRight, Factory, FileText, Headset, ShieldCheck } from 'lucide-react';
 
 const DEFAULT_FINISHES: ProductFinish[] = [
   { id: 'white', label: 'White', swatch: '#F4F4F5', images: [] },
@@ -79,13 +82,11 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
 
   if (!product) {
     return (
-      <div className="text-center">
-        <h2 className="font-serif text-3xl text-cream">Fixture profile not found</h2>
-        <Link
-          href={ROUTES.products}
-          className="mt-6 font-mono text-xs text-gold uppercase tracking-widest hover:underline cursor-pointer inline-block"
-        >
-          Return to directory
+      <div className="container-page flex flex-col items-center py-24 text-center">
+        <h1 className="heading-2">Product not found</h1>
+        <p className="body mt-2">It may have been renamed or retired. Browse the full range instead.</p>
+        <Link href={ROUTES.products} className={`${buttonClasses('primary')} mt-6`}>
+          All products
         </Link>
       </div>
     );
@@ -115,30 +116,14 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
   const thumbnailZoomClass = getProductImageZoomClass(product, 'thumbnail');
   const featureZoomClass = getProductImageZoomClass(product, 'feature');
 
+  const quoteLabel = catalogId ? `${product.name} (${catalogId})` : product.name;
+
   return (
     <div className="transition-page-enter">
       <Breadcrumbs />
 
-      <section className="max-w-7xl mx-auto px-6 py-4">
-        <div className="flex justify-between items-center">
-          <Link
-            href={categoryPath(product.category)}
-            className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim hover:text-cream flex items-center gap-2 cursor-pointer"
-          >
-            <ArrowLeft className="w-4 h-4 text-gold-muted" />
-            <span>back to series</span>
-          </Link>
-
-          {catalogId && (
-            <span className="font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] hidden md:inline">
-              Product Code: {catalogId}
-            </span>
-          )}
-        </div>
-      </section>
-
-      <section className="max-w-7xl mx-auto px-6 py-4 grid grid-cols-1 lg:grid-cols-12 gap-12">
-        <div className="lg:col-span-6 lg:sticky lg:top-28 lg:self-start">
+      <section className="container-page grid grid-cols-1 gap-10 pb-16 pt-4 lg:grid-cols-12 lg:gap-14">
+        <div className="lg:col-span-6 lg:sticky lg:top-[calc(var(--header-height)+24px)] lg:self-start">
           <ProductImageCarousel
             key={`${selectedWattage ?? 'default'}-${selectedFinishId}`}
             images={displayImages}
@@ -148,125 +133,143 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
           />
         </div>
 
-        <div className="lg:col-span-6 flex min-w-0 flex-col gap-6">
+        <div className="flex min-w-0 flex-col gap-7 lg:col-span-6">
           <div>
-            <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-gold font-bold">
-              {product.seriesName && product.section
-                ? `${product.seriesName} — ${product.section}`
-                : 'Precision Architectural Series'}
-            </span>
-            <h1 className="font-serif text-3xl md:text-5xl text-cream tracking-tight mt-1 mb-2 font-light">
-              {product.name}
-            </h1>
-
-            {showWattSelector && (
-              <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1">
-                <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim leading-none">
-                  Select Wattage
-                </span>
-                {wattImageOptions.map((wattage) => (
-                  <button
-                    key={wattage}
-                    type="button"
-                    onClick={() => setSelectedWattage(wattage)}
-                    className={`inline-flex items-center px-2.5 py-1 font-mono text-[11px] font-medium tracking-wide rounded-md leading-none cursor-pointer transition-colors duration-300 ${
-                      selectedWattage === wattage
-                        ? 'bg-void/30 text-cream underline underline-offset-4 decoration-gold/80'
-                        : 'bg-void/30 text-gold/70 hover:text-gold/95'
-                    }`}
-                  >
-                    {wattage}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {(displayOnlyWattages.length > 0 || hangingWattageDisplay || hangingSizeDisplay) && (
-              <div className="mt-4 flex min-w-0 flex-col gap-3 rounded-md border border-border/60 bg-surface-alt/40 px-4 py-3.5">
-                {hangingWattageDisplay && (
-                  <div className="min-w-0">
-                    <span className="mb-1 block font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-cream/80">
-                      Available Wattage
-                    </span>
-                    <span className="font-mono text-xs font-semibold normal-case leading-relaxed tracking-wide text-gold wrap-break-word md:text-sm">
-                      {hangingWattageDisplay}
-                    </span>
-                  </div>
-                )}
-
-                {hangingSizeDisplay && (
-                  <div className="min-w-0">
-                    <span className="mb-1 block font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-cream/80">
-                      Available Size
-                    </span>
-                    <span className="font-mono text-xs font-semibold normal-case leading-relaxed tracking-wide text-gold wrap-break-word md:text-sm">
-                      {hangingSizeDisplay}
-                    </span>
-                  </div>
-                )}
-
-                {!hangingWattageDisplay && displayOnlyWattages.length > 0 && (
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                    <span className="font-mono text-xs uppercase tracking-[0.12em] text-cream/80 font-semibold leading-normal">
-                      Available Wattage
-                    </span>
-                    {displayOnlyWattages.map((wattage) => (
-                      <span
-                        key={wattage}
-                        className="inline-flex items-center px-2.5 py-1 bg-void/30 font-mono text-xs text-gold font-semibold tracking-wide rounded-md leading-normal"
-                      >
-                        {wattage}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="eyebrow">
+                {product.seriesName && product.section
+                  ? `${product.seriesName} · ${product.section}`
+                  : 'Architectural series'}
+              </span>
+              {product.isBestseller && <span className="chip chip-accent h-6">Bestseller</span>}
+            </div>
+            <h1 className="heading-1 mt-3">{product.name}</h1>
+            {catalogId && (
+              <p className="mt-2 font-mono text-sm text-text-dim">
+                <span className="text-text-ghost">Code </span>
+                {catalogId}
+              </p>
             )}
           </div>
 
-          <div className="h-px bg-border/50" />
+          <p className="lead">{product.description}</p>
 
-          <p className="font-sans text-sm text-cream leading-relaxed font-light">
-            {product.description}
-          </p>
+          {showWattSelector && (
+            <div>
+              <p className="field-label mb-2.5">
+                Wattage <span className="font-normal text-text-dim">— {selectedWattage}</span>
+              </p>
+              <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Select wattage">
+                {wattImageOptions.map((wattage) => {
+                  const active = selectedWattage === wattage;
+                  return (
+                    <button
+                      key={wattage}
+                      type="button"
+                      role="radio"
+                      aria-checked={active}
+                      onClick={() => setSelectedWattage(wattage)}
+                      className={`h-10 min-w-16 rounded-sm border px-4 text-sm font-medium transition-colors ${
+                        active
+                          ? 'border-gold bg-accent-soft text-gold'
+                          : 'border-border-mid text-cream hover:border-border-high'
+                      }`}
+                    >
+                      {wattage}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
-          <div className="h-px bg-border/50" />
+          {(displayOnlyWattages.length > 0 || hangingWattageDisplay || hangingSizeDisplay) && (
+            <dl className="grid grid-cols-1 divide-y divide-border overflow-hidden rounded-md border border-border">
+              {hangingWattageDisplay && (
+                <div className="grid grid-cols-3 gap-4 px-4 py-3 text-sm">
+                  <dt className="text-text-dim">Available wattage</dt>
+                  <dd className="col-span-2 font-medium text-cream break-words">{hangingWattageDisplay}</dd>
+                </div>
+              )}
+              {hangingSizeDisplay && (
+                <div className="grid grid-cols-3 gap-4 px-4 py-3 text-sm">
+                  <dt className="text-text-dim">Available size</dt>
+                  <dd className="col-span-2 font-medium text-cream break-words">{hangingSizeDisplay}</dd>
+                </div>
+              )}
+              {!hangingWattageDisplay && displayOnlyWattages.length > 0 && (
+                <div className="grid grid-cols-3 gap-4 px-4 py-3 text-sm">
+                  <dt className="text-text-dim">Available wattage</dt>
+                  <dd className="col-span-2 flex flex-wrap gap-1.5">
+                    {displayOnlyWattages.map((wattage) => (
+                      <span key={wattage} className="chip h-6">{wattage}</span>
+                    ))}
+                  </dd>
+                </div>
+              )}
+            </dl>
+          )}
 
           <div>
-            <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim block mb-3">
-              {isHangingProfile ? 'Body Finish' : 'Colour Option'} — {activeFinish.label}
-            </span>
+            <p className="field-label mb-2.5">
+              {isHangingProfile ? 'Body finish' : 'Colour'}{' '}
+              <span className="font-normal text-text-dim">— {activeFinish.label}</span>
+            </p>
             <div className="flex gap-3">
-              {finishOptions.map((finish) => (
-                <button
-                  key={finish.id}
-                  onClick={() => setSelectedFinishId(finish.id)}
-                  style={{ backgroundColor: finish.swatch }}
-                  className={`relative w-7 h-7 rounded-full cursor-pointer border-2 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:outline-none before:absolute before:-inset-2 before:content-[''] ${
-                    selectedFinishId === finish.id
-                      ? 'border-white scale-110 shadow-glow-sm'
-                      : 'border-transparent hover:scale-105'
-                  }`}
-                  title={finish.label}
-                  aria-label={`Select ${isHangingProfile ? 'body finish' : 'color'} option ${finish.label}`}
-                />
-              ))}
+              {finishOptions.map((finish) => {
+                const active = selectedFinishId === finish.id;
+                return (
+                  <button
+                    key={finish.id}
+                    onClick={() => setSelectedFinishId(finish.id)}
+                    title={finish.label}
+                    aria-label={`Select ${isHangingProfile ? 'body finish' : 'colour'} ${finish.label}`}
+                    aria-pressed={active}
+                    className={`flex h-10 w-10 items-center justify-center rounded-full border-2 transition-colors ${
+                      active ? 'border-gold' : 'border-transparent hover:border-border-high'
+                    }`}
+                  >
+                    <span
+                      className="block h-7 w-7 rounded-full border border-black/10"
+                      style={{ backgroundColor: finish.swatch }}
+                    />
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          <div className="mt-4">
-            <a
-              href={whatsAppInquiryUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full px-6 py-3.5 tracking-wider uppercase text-xs font-mono font-medium transition-all duration-300 ease-luxury focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 focus-visible:outline-none cursor-pointer rounded-sm inline-flex items-center justify-center gap-2 border border-[#25D366]/60 text-white bg-[#25D366] hover:bg-[#22c55e] hover:border-[#22c55e] active:bg-[#1da851]"
+          <div className="flex flex-col gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <Link href={quoteHref(quoteLabel)} className={buttonClasses('primary', 'lg', 'w-full')}>
+                Request a quote
+              </Link>
+              <a
+                href={whatsAppInquiryUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={buttonClasses('secondary', 'lg', 'w-full')}
+              >
+                <WhatsAppIcon className="h-4 w-4 text-[#25D366]" />
+                Ask on WhatsApp
+              </a>
+            </div>
+            <Link
+              href={`${ROUTES.contact}?topic=spec&product=${encodeURIComponent(quoteLabel)}`}
+              className="inline-flex items-center gap-2 self-start text-sm font-semibold text-gold hover:underline"
             >
-              <WhatsAppIcon className="w-4 h-4 shrink-0" />
-              <span>Inquire This Product</span>
-            </a>
+              <FileText className="h-4 w-4" />
+              Request spec sheet and IES file
+            </Link>
           </div>
 
-          <div className="pt-8">
+          <ul className="grid grid-cols-1 gap-3 rounded-md bg-surface-alt p-4 text-sm text-text-dim sm:grid-cols-3">
+            <li className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-gold" /> CRI 92+ chips</li>
+            <li className="flex items-center gap-2"><Factory className="h-4 w-4 text-gold" /> Made in India</li>
+            <li className="flex items-center gap-2"><Headset className="h-4 w-4 text-gold" /> Design desk support</li>
+          </ul>
+
+          <div className="pt-2">
             <ScrollReveal direction="up">
               <ProductSpecifications product={product} />
             </ScrollReveal>
@@ -280,29 +283,28 @@ export function ProductDetail({ productSlug }: ProductDetailProps) {
         imageZoomClass={featureZoomClass}
       />
 
-      <SectionDivider label="Related specifications" />
-
-      <section className="max-w-7xl mx-auto px-6 py-10 mb-12">
-        <h2 className="font-serif text-2xl md:text-4xl text-cream font-light tracking-tight mb-10">
-          More from this <span className="italic font-serif text-gold font-normal">Classification</span>
-        </h2>
-
-        {relatedProducts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {relatedProducts.map(prod => (
-              <div key={prod.id}>
-                <ProductCard product={prod} />
-              </div>
-            ))}
+      {relatedProducts.length > 0 && (
+        <section className="section border-t border-border bg-void-dark">
+          <div className="container-page">
+            <SectionHeader
+              eyebrow="Same family"
+              title="You may also like"
+              action={
+                <Link href={categoryPath(product.category)} className="link-arrow">
+                  View the full range <ArrowRight className="h-4 w-4" />
+                </Link>
+              }
+            />
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedProducts.map((prod) => (
+                <ProductCard key={prod.id} product={prod} />
+              ))}
+            </div>
           </div>
-        ) : (
-          <div className="border border-border p-12 text-center">
-            <span className="font-mono text-xs text-text-dim uppercase tracking-widest">
-              No secondary fixtures registered in this class.
-            </span>
-          </div>
-        )}
-      </section>
+        </section>
+      )}
+
+      <ProductFAQ />
     </div>
   );
 }

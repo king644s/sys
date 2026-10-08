@@ -12,7 +12,7 @@ import { ScrollReveal } from './ScrollReveal';
 
 const MESH = { cx: 50, cy: 50, r: 40 } as const;
 
-function polar(angleDeg: number, radius = MESH.r) {
+function polar(angleDeg: number, radius: number = MESH.r) {
   const rad = (angleDeg * Math.PI) / 180;
   return {
     x: Number((MESH.cx + radius * Math.cos(rad)).toFixed(3)),
@@ -77,9 +77,9 @@ export function EcosystemPhotonMesh() {
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_70%_50%_at_75%_50%,rgba(106,103,204,0.12),transparent_60%)]" />
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_50%_40%_at_20%_80%,rgba(255,186,92,0.06),transparent_55%)]" />
 
-      <div className="relative max-w-7xl mx-auto px-6 py-16 md:py-24 lg:py-28">
+      <div className="relative container-page py-16 md:py-24 lg:py-28">
         <ScrollReveal direction="up">
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-gold-light">
+          <p className="font-sans text-xs uppercase tracking-[0.08em] text-gold-light font-semibold">
             Route 01 · Photon Mesh
           </p>
           <p className="font-sans text-sm text-white/45 mt-2 max-w-md">
@@ -91,7 +91,7 @@ export function EcosystemPhotonMesh() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 xl:gap-14 items-center mt-10 md:mt-14">
           <div className="lg:col-span-5 flex flex-col gap-8 md:gap-10">
             <ScrollReveal direction="up">
-              <h2 className="font-serif text-[2rem] sm:text-[2.35rem] md:text-[2.75rem] xl:text-[3rem] font-light tracking-tight leading-[1.12] text-white max-w-md">
+              <h2 className="font-serif text-[2rem] sm:text-[2.35rem] md:text-[2.75rem] xl:text-[3rem] font-semibold tracking-tight leading-[1.12] text-white max-w-md">
                 {ECOSYSTEM_COPY.title}
               </h2>
             </ScrollReveal>
@@ -110,13 +110,13 @@ export function EcosystemPhotonMesh() {
                     <ActiveIcon className="w-5 h-5 text-white" strokeWidth={1.6} aria-hidden />
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-gold-light">
+                    <p className="font-sans text-xs uppercase tracking-[0.08em] text-gold-light font-semibold">
                       Cue {pad(index + 1)} / {pad(ECOSYSTEM_FEATURES.length)}
                     </p>
-                    <p className="font-serif text-2xl text-white font-light tracking-tight mt-1 leading-tight">
+                    <p className="font-serif text-2xl text-white font-semibold tracking-tight mt-1 leading-tight">
                       {active.label}
                     </p>
-                    <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/50 mt-1.5">
+                    <p className="font-sans text-xs uppercase tracking-[0.08em] text-white/50 mt-1.5 font-semibold">
                       {active.cue}
                     </p>
                   </div>
@@ -135,7 +135,7 @@ export function EcosystemPhotonMesh() {
                     >
                       <Icon className="w-4 h-4 text-gold-light shrink-0 mt-0.5" strokeWidth={1.5} aria-hidden />
                       <span className="flex flex-col gap-0.5 min-w-0">
-                        <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-gold-light">
+                        <span className="font-sans text-xs uppercase tracking-[0.08em] text-gold-light font-semibold">
                           {pillar.cue}
                         </span>
                         <span className="font-sans text-[11px] text-white/50 leading-snug">
@@ -164,10 +164,10 @@ export function EcosystemPhotonMesh() {
                 <div className="photon-mesh__hearth pointer-events-none" aria-hidden />
                 <div className="photon-mesh__scan pointer-events-none" aria-hidden />
 
-                <p className="absolute top-3 left-4 font-mono text-[9px] uppercase tracking-[0.22em] text-white/35 pointer-events-none">
+                <p className="absolute top-3 left-4 font-sans text-[9px] uppercase tracking-[0.08em] text-white/35 pointer-events-none font-semibold">
                   Ø 640 · {ECOSYSTEM_FEATURES.length} emitters
                 </p>
-                <p className="absolute top-3 right-4 font-mono text-[9px] uppercase tracking-[0.22em] text-white/35 pointer-events-none">
+                <p className="absolute top-3 right-4 font-sans text-[9px] uppercase tracking-[0.08em] text-white/35 pointer-events-none font-semibold">
                   2700–6000K
                 </p>
 

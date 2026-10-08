@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useNavigation } from '@/hooks/useNavigation';
 import { ROUTES, categoryPath, productPath } from '@/lib/routes';
 import { CATEGORIES, PRODUCTS } from '../../data';
-import { ChevronRight, Home as HomeIcon } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 export function Breadcrumbs() {
   const { currentView } = useNavigation();
@@ -31,7 +31,7 @@ export function Breadcrumbs() {
   switch (currentView.type) {
     case 'about':
       crumbs.push({
-        label: 'About Us',
+        label: 'About',
         href: ROUTES.about,
         isLast: true,
       });
@@ -79,7 +79,7 @@ export function Breadcrumbs() {
 
     case 'smart-lights':
       crumbs.push({
-        label: 'Smart Lights / Smart CCT',
+        label: 'Smart Lights',
         href: ROUTES.smartLights,
         isLast: true,
       });
@@ -101,9 +101,17 @@ export function Breadcrumbs() {
       });
       break;
 
+    case 'professionals':
+      crumbs.push({
+        label: 'For Professionals',
+        href: ROUTES.professionals,
+        isLast: true,
+      });
+      break;
+
     case 'contact':
       crumbs.push({
-        label: 'Contact Us',
+        label: 'Contact',
         href: ROUTES.contact,
         isLast: true,
       });
@@ -114,39 +122,25 @@ export function Breadcrumbs() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-5">
-      <div
-        id="navigation-breadcrumbs-bar"
-        className="bg-surface/90 backdrop-blur-md dark:bg-transparent dark:backdrop-blur-none rounded-[2px] transition-colors duration-300 py-4 px-5"
-      >
-        <nav aria-label="breadcrumb" className="w-full">
-          <ol className="flex flex-wrap items-center gap-1.5 md:gap-2.5 font-mono text-xs uppercase tracking-wider text-text-dim">
-            {crumbs.map((crumb, index) => {
-              const isFirst = index === 0;
-              return (
-                <li key={index} className="flex items-center gap-1.5 md:gap-2.5">
-                  {!isFirst && (
-                    <ChevronRight className="w-3.5 h-3.5 text-text-ghost/60 shrink-0" />
-                  )}
-                  {crumb.isLast ? (
-                    <span className="font-semibold text-gold" aria-current="page">
-                      {crumb.label}
-                    </span>
-                  ) : (
-                    <Link
-                      href={crumb.href}
-                      className="hover:text-gold hover:underline cursor-pointer flex items-center gap-1 text-cream transition-colors font-medium"
-                    >
-                      {isFirst && <HomeIcon className="w-3 h-3 text-gold/80" />}
-                      <span>{crumb.label}</span>
-                    </Link>
-                  )}
-                </li>
-              );
-            })}
-          </ol>
-        </nav>
-      </div>
+    <div className="container-page pt-6 pb-2">
+      <nav aria-label="Breadcrumb" id="navigation-breadcrumbs-bar">
+        <ol className="flex flex-wrap items-center gap-1.5 text-[13px] text-text-ghost">
+          {crumbs.map((crumb, index) => (
+            <li key={index} className="flex items-center gap-1.5">
+              {index > 0 && <ChevronRight className="h-3.5 w-3.5 shrink-0" />}
+              {crumb.isLast ? (
+                <span className="font-medium text-cream" aria-current="page">
+                  {crumb.label}
+                </span>
+              ) : (
+                <Link href={crumb.href} className="hover:text-cream transition-colors">
+                  {crumb.label}
+                </Link>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
     </div>
   );
 }

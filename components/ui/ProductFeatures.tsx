@@ -49,15 +49,15 @@ export function ProductFeatures({
   }, [images]);
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-16 md:py-20 border-t border-border/40">
+    <section className="container-page py-16 md:py-20 border-t border-border/40">
       <ScrollReveal direction="up">
         <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
-          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold font-bold block mb-3">
+          <span className="eyebrow block mb-3">
             The Glow of Thoughtful Living
           </span>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-cream font-light tracking-tight leading-tight">
+          <h2 className="heading-2">
             Lights Designed to Warm,{' '}
-            <span className="italic text-gold font-normal">Inspire and Endure</span>
+            <span className="text-gold">Inspire and Endure</span>
           </h2>
         </div>
 
@@ -83,7 +83,7 @@ export function ProductFeatures({
                   <h3 className="font-sans text-base md:text-lg text-cream font-semibold tracking-tight">
                     {feature.title}
                   </h3>
-                  <p className="font-sans text-sm text-text-dim leading-relaxed">
+                  <p className="body">
                     {feature.description}
                   </p>
                 </div>

@@ -30,9 +30,9 @@ const CLIP_MOTION_CLASS =
 const LABEL_MOTION_CLASS =
   'transition-[left,max-width] duration-700 ease-luxury motion-reduce:transition-none';
 const PRIMARY_BUTTON_CLASS =
-  'inline-flex items-center justify-center rounded-sm border border-gold-muted bg-gold px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-white dark:text-void transition-all duration-300 hover:bg-gold-light hover:border-gold-light';
+  'inline-flex items-center justify-center rounded-sm border border-gold-muted bg-gold h-10 px-4 text-sm font-semibold text-on-accent transition-all duration-300 hover:bg-gold-light hover:border-gold-light';
 const RESET_BUTTON_CLASS =
-  'inline-flex items-center gap-2 rounded-sm border border-border bg-surface px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-text-dim transition-all duration-300 hover:border-border-mid hover:text-cream disabled:cursor-default disabled:opacity-40 disabled:hover:border-border disabled:hover:text-text-dim';
+  'inline-flex items-center gap-2 rounded-sm border border-border bg-surface h-10 px-3 text-sm font-medium text-text-dim transition-all duration-300 hover:border-border-mid hover:text-cream disabled:cursor-default disabled:opacity-40 disabled:hover:border-border disabled:hover:text-text-dim';
 
 function getActivePreset(dividers: [number, number]): ComparePreset | null {
   if (dividers[0] === PRESETS.first[0] && dividers[1] === PRESETS.first[1]) return 'first';
@@ -161,7 +161,7 @@ export function TripleImageCompare({ images, className = '' }: TripleImageCompar
 
       <div
         ref={containerRef}
-        className="relative w-full aspect-video overflow-hidden border border-border rounded-[2px] bg-surface select-none touch-none"
+        className="relative w-full aspect-video overflow-hidden border border-border rounded-sm bg-surface select-none touch-none"
       >
       {/* Three side-by-side segments — always fills full width */}
       {images.map((image, index) => {
@@ -195,7 +195,7 @@ export function TripleImageCompare({ images, className = '' }: TripleImageCompar
         return (
           <span
             key={`label-${image.label}`}
-            className={`pointer-events-none absolute top-3 z-[1] rounded-sm bg-void/75 px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.15em] text-cream backdrop-blur-sm ${shouldAnimateDividers ? LABEL_MOTION_CLASS : ''}`}
+            className={`pointer-events-none absolute top-3 z-[1] rounded-sm bg-void/75 px-2.5 py-1 font-sans text-xs uppercase tracking-[0.08em] text-cream backdrop-blur-sm font-semibold ${shouldAnimateDividers ? LABEL_MOTION_CLASS : ''}`}
             style={{ left: `calc(${left}% + 8px)`, maxWidth: `calc(${width}% - 16px)` }}
           >
             {image.label}

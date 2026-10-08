@@ -7,6 +7,7 @@ export const ROUTES = {
   smartLights: '/smart-lights',
   homeAutomation: '/home-automation',
   projects: '/projects',
+  professionals: '/professionals',
   contact: '/contact',
 } as const;
 
@@ -44,6 +45,7 @@ export type PageView =
   | { type: 'smart-lights' }
   | { type: 'home-automation' }
   | { type: 'projects' }
+  | { type: 'professionals' }
   | { type: 'contact' };
 
 export function viewToPath(view: PageView): string {
@@ -69,6 +71,8 @@ export function viewToPath(view: PageView): string {
       return '/home-automation';
     case 'projects':
       return '/projects';
+    case 'professionals':
+      return '/professionals';
     case 'contact':
       return '/contact';
     default:
@@ -85,6 +89,7 @@ export function pathToView(pathname: string): PageView {
   if (path === '/smart-lights') return { type: 'smart-lights' };
   if (path === '/home-automation') return { type: 'home-automation' };
   if (path === '/projects') return { type: 'projects' };
+  if (path === '/professionals') return { type: 'professionals' };
   if (path === '/contact') return { type: 'contact' };
 
   const productsMatch = path.match(/^\/products\/([^/]+)(?:\/([^/]+))?$/);

@@ -4,82 +4,45 @@ import { useState, useEffect, useRef, FormEvent } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useNavigation } from '@/hooks/useNavigation';
-import { ROUTES, CATEGORY_SLUGS, categoryPath } from '@/lib/routes';
+import { ROUTES } from '@/lib/routes';
+import {
+  HEADER_SEARCH_EVENT,
+  PRODUCT_NAV,
+  PROJECT_NAV,
+  SMART_NAV,
+  brochureHref,
+  quoteHref,
+} from '@/lib/site';
 import Logo from '../common/Logo';
-import { 
-  Menu, 
-  X, 
-  Search, 
-  Sun, 
-  Moon, 
-  ChevronDown, 
+import { buttonClasses } from '../ui/Button';
+import {
+  Menu,
+  X,
+  Search,
+  Sun,
+  Moon,
+  ChevronDown,
   ArrowRight,
-  Type,
+  Download,
+  Lightbulb,
+  House,
 } from 'lucide-react';
 
-type FontTheme = 'default' | 'azo' | 'editorial';
-
-interface FontOption {
-  id: FontTheme;
-  label: string;
-  description: string;
-  sample: string;
-  stacks: { sans: string; serif: string; mono: string };
-}
-
-const FONT_OPTIONS: FontOption[] = [
-  {
-    id: 'default',
-    label: 'Default',
-    description: 'DM Sans · Cormorant Garamond · Space Mono',
-    sample: 'Aa',
-    stacks: {
-      sans: '"DM Sans", sans-serif',
-      serif: '"Cormorant Garamond", Georgia, serif',
-      mono: '"Space Mono", monospace',
-    },
-  },
-  {
-    id: 'azo',
-    label: 'Azo',
-    description: 'Azo Sans · Enra Sans Variable',
-    sample: 'Aa',
-    stacks: {
-      sans: '"Azo Sans", sans-serif',
-      serif: '"Enra Sans", "Azo Sans", sans-serif',
-      mono: '"Azo Sans", monospace',
-    },
-  },
-  {
-    id: 'editorial',
-    label: 'Editorial',
-    description: 'Raleway · Playfair Display · Fira Code',
-    sample: 'Aa',
-    stacks: {
-      sans: '"Raleway", sans-serif',
-      serif: '"Playfair Display", Georgia, serif',
-      mono: '"Fira Code", monospace',
-    },
-  },
-];
+type DropdownKey = 'products' | 'smart';
 
 export function Navbar() {
-  const { currentView } = useNavigation();
+  const { currentView, pathname } = useNavigation();
   const router = useRouter();
 
-  // States
-  const [isOpen, setIsOpen] = useState(false); // Mobile menu toggle
-  const [activeDropdown, setActiveDropdown] = useState<'products' | 'smart-lights' | 'about' | null>(null);
-  const [localSearch, setLocalSearch] = useState('');
-  
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<DropdownKey | null>(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
   // Default to light on server + first client render to avoid hydration mismatch.
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [isThemeReady, setIsThemeReady] = useState(false);
-
-  // Font theme
-  const [fontTheme, setFontTheme] = useState<FontTheme>('default');
-  const [isFontMenuOpen, setIsFontMenuOpen] = useState(false);
-  const fontMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem('syflight-theme');
@@ -92,603 +55,365 @@ export function Navbar() {
     setTheme(initial);
     setIsThemeReady(true);
 
-    const savedFont = localStorage.getItem('syflight-font') as FontTheme | null;
-    if (savedFont && ['default', 'azo', 'editorial'].includes(savedFont)) {
-      setFontTheme(savedFont);
-      applyFontTheme(savedFont);
-    }
+    // The typography switcher was retired; clear any stale selection.
+    localStorage.removeItem('syflight-font');
+    document.documentElement.removeAttribute('data-font');
+    document.getElementById('syflight-font-theme')?.remove();
   }, []);
 
   useEffect(() => {
     if (!isThemeReady) return;
-
-    const root = document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
+    document.documentElement.classList.toggle('dark', theme === 'dark');
     localStorage.setItem('syflight-theme', theme);
   }, [theme, isThemeReady]);
 
-  // Close font menu on outside click
+  // Close menus on route change (adjusting state during render, per React docs)
+  const [lastPathname, setLastPathname] = useState(pathname);
+  if (pathname !== lastPathname) {
+    setLastPathname(pathname);
+    setIsOpen(false);
+    setActiveDropdown(null);
+    setIsSearchOpen(false);
+  }
+
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (fontMenuRef.current && !fontMenuRef.current.contains(e.target as Node)) {
-        setIsFontMenuOpen(false);
+    if (isSearchOpen) searchInputRef.current?.focus();
+  }, [isSearchOpen]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setActiveDropdown(null);
+        setIsSearchOpen(false);
+        setIsOpen(false);
       }
     };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
   }, []);
 
-  function applyFontTheme(f: FontTheme) {
-    const root = document.documentElement;
-
-    // Remove any previously injected font theme style tag
-    document.getElementById('syflight-font-theme')?.remove();
-
-    if (f === 'default') {
-      root.removeAttribute('data-font');
-      return;
-    }
-
-    const option = FONT_OPTIONS.find((o) => o.id === f);
-    if (!option) return;
-
-    root.setAttribute('data-font', f);
-
-    // Inject a <style> tag into <head> — it appears last in the cascade so it
-    // wins over Tailwind's @layer theme variables regardless of specificity.
-    // html[data-font] has specificity [0,1,1] which beats :root [0,1,0].
-    const style = document.createElement('style');
-    style.id = 'syflight-font-theme';
-    style.textContent = `
-      html[data-font="${f}"] {
-        --font-sans: ${option.stacks.sans};
-        --font-serif: ${option.stacks.serif};
-        --font-mono: ${option.stacks.mono};
-        --default-font-family: ${option.stacks.sans};
-        --default-mono-font-family: ${option.stacks.mono};
-        font-family: ${option.stacks.sans};
-      }
-      html[data-font="${f}"] body,
-      html[data-font="${f}"] *:not(.font-serif):not(.font-mono) {
-        font-family: ${option.stacks.sans};
-      }
-      html[data-font="${f}"] .font-serif,
-      html[data-font="${f}"] [class*="font-serif"] {
-        font-family: ${option.stacks.serif} !important;
-      }
-      html[data-font="${f}"] .font-mono,
-      html[data-font="${f}"] [class*="font-mono"] {
-        font-family: ${option.stacks.mono} !important;
-      }
-      html[data-font="${f}"] .font-sans,
-      html[data-font="${f}"] [class*="font-sans"] {
-        font-family: ${option.stacks.sans} !important;
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  function handleFontChange(f: FontTheme) {
-    setFontTheme(f);
-    applyFontTheme(f);
-    localStorage.setItem('syflight-font', f);
-    setIsFontMenuOpen(false);
-  }
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   const isActive = (viewType: string) => {
     if (viewType === 'products') {
-      return currentView.type === 'products' || currentView.type === 'product-category' || currentView.type === 'product-detail';
+      return ['products', 'product-category', 'product-detail'].includes(currentView.type);
+    }
+    if (viewType === 'smart') {
+      return currentView.type === 'smart-lights' || currentView.type === 'home-automation';
     }
     return currentView.type === viewType;
   };
 
-  const isNavHighlighted = (
-    viewType: string,
-    dropdownKey?: 'products' | 'smart-lights' | 'about'
-  ) => isActive(viewType) || (dropdownKey != null && activeDropdown === dropdownKey);
-
-  const navLinkClass = (
-    viewType: string,
-    dropdownKey?: 'products' | 'smart-lights' | 'about',
-    extra = ''
-  ) =>
-    `font-sans text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 cursor-pointer ${
-      isNavHighlighted(viewType, dropdownKey)
-        ? 'text-cream font-bold'
-        : 'text-text-dim hover:text-gold'
-    } ${extra}`;
-
-  const navLabelClass = (
-    viewType: string,
-    dropdownKey?: 'products' | 'smart-lights' | 'about'
-  ) =>
-    `relative inline-block pb-1 border-b-2 ${
-      isNavHighlighted(viewType, dropdownKey) ? 'border-gold' : 'border-transparent'
-    }`;
-
   const handleSearchSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (localSearch.trim()) {
-      router.push(ROUTES.products);
-      setActiveDropdown(null);
-    }
+    const q = query.trim();
+    window.dispatchEvent(new CustomEvent(HEADER_SEARCH_EVENT, { detail: q }));
+    router.push(q ? `${ROUTES.products}?search=${encodeURIComponent(q)}` : ROUTES.products);
+    setIsSearchOpen(false);
+    setIsOpen(false);
+    setQuery('');
   };
 
-  const dropdownLinkClass =
-    'text-left font-sans text-xs tracking-wider text-text-dim hover:text-gold transition-colors cursor-pointer';
-  const dropdownLinkClassMedium = `${dropdownLinkClass} font-medium`;
+  const navItemClass = (key: string) =>
+    `relative inline-flex h-10 items-center gap-1 whitespace-nowrap rounded-sm px-2.5 xl:px-3 text-sm font-medium transition-colors duration-150 ${
+      isActive(key) || activeDropdown === key
+        ? 'text-cream'
+        : 'text-text-dim hover:text-cream'
+    }`;
+
+  const activeBar = (key: string) =>
+    isActive(key) ? (
+      <span className="absolute inset-x-2.5 xl:inset-x-3 -bottom-[15px] h-0.5 rounded-full bg-gold" aria-hidden />
+    ) : null;
+
+  const close = () => setActiveDropdown(null);
 
   return (
-    <header 
-      className="sticky top-0 z-50 bg-surface border-b border-border transition-colors duration-300"
-      id="elegant-luxury-header"
-      onMouseLeave={() => setActiveDropdown(null)}
+    <header
+      className="sticky top-0 z-50 border-b border-border bg-void/85 backdrop-blur-xl backdrop-saturate-150"
+      id="site-header"
+      onMouseLeave={close}
     >
-      <div className="max-w-7xl mx-auto px-6 h-28 md:h-28 flex items-center justify-between relative">
-        
-        {/* Left Side: Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
+      <div className="container-page flex h-[var(--header-height)] items-center gap-6">
+        <Link href={ROUTES.home} className="shrink-0" id="navbar-brand-logo" aria-label="SYSlight home">
+          <Logo size="md" className="!h-11" />
+        </Link>
 
-          <Link
-            href={ROUTES.home}
-            onMouseEnter={() => setActiveDropdown(null)}
-            onClick={() => setActiveDropdown(null)}
-            className={navLinkClass('home')}
-          >
-            <span className={navLabelClass('home')}>HOME</span>
-          </Link>
-
+        {/* Desktop navigation */}
+        <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 xl:ml-4" aria-label="Primary">
           <Link
             href={ROUTES.products}
             onMouseEnter={() => setActiveDropdown('products')}
-            className={navLinkClass('products', 'products')}
+            onFocus={() => setActiveDropdown('products')}
+            className={navItemClass('products')}
+            aria-expanded={activeDropdown === 'products'}
           >
-            <span className={navLabelClass('products', 'products')}>PRODUCTS</span>
+            Products
+            <ChevronDown className={`h-3.5 w-3.5 transition-transform ${activeDropdown === 'products' ? 'rotate-180' : ''}`} />
+            {activeBar('products')}
           </Link>
-
           <Link
             href={ROUTES.smartLights}
-            onMouseEnter={() => setActiveDropdown('smart-lights')}
-            className={navLinkClass('smart-lights', 'smart-lights')}
+            onMouseEnter={() => setActiveDropdown('smart')}
+            onFocus={() => setActiveDropdown('smart')}
+            className={navItemClass('smart')}
+            aria-expanded={activeDropdown === 'smart'}
           >
-            <span className={navLabelClass('smart-lights', 'smart-lights')}>SMART LIGHTS</span>
+            Smart Living
+            <ChevronDown className={`h-3.5 w-3.5 transition-transform ${activeDropdown === 'smart' ? 'rotate-180' : ''}`} />
+            {activeBar('smart')}
           </Link>
-
-          <Link
-            href={ROUTES.homeAutomation}
-            onMouseEnter={() => setActiveDropdown(null)}
-            onClick={() => setActiveDropdown(null)}
-            className={navLinkClass('home-automation')}
-          >
-            <span className={navLabelClass('home-automation')}>HOME AUTOMATION</span>
-          </Link>
+          {[
+            { key: 'projects', label: 'Projects', href: ROUTES.projects },
+            { key: 'professionals', label: 'For Professionals', href: ROUTES.professionals },
+            { key: 'about', label: 'About', href: ROUTES.about },
+          ].map((item) => (
+            <Link
+              key={item.key}
+              href={item.href}
+              onMouseEnter={close}
+              onFocus={close}
+              className={navItemClass(item.key)}
+            >
+              {item.label}
+              {activeBar(item.key)}
+            </Link>
+          ))}
         </nav>
 
-        {/* Centered Luxury stacked brand logo (Dynamic SYSlight Component) */}
-        <Link
-          href={ROUTES.home}
-          className="cursor-pointer select-none self-center absolute left-1/2 -translate-x-1/2 group"
-          id="navbar-brand-logo"
-        >
-          <Logo size="md" className="!h-[60px]" />
-        </Link>
-
-        {/* Right Side: Theme switcher + Contact + Download Brochure CTA */}
-        <div className="flex items-center gap-3 md:gap-4 ml-auto lg:ml-0">
-          
-          {/* Theme Switcher Toggle (Luxury sun/moon representation) */}
+        <div className="ml-auto flex items-center gap-1.5">
           <button
+            type="button"
+            onClick={() => setIsSearchOpen((v) => !v)}
+            className="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-sm text-text-dim hover:bg-surface-alt hover:text-cream transition-colors"
+            aria-label="Search products"
+            aria-expanded={isSearchOpen}
+          >
+            <Search className="h-[18px] w-[18px]" />
+          </button>
+
+          <button
+            type="button"
             onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-            className="w-11 h-11 flex items-center justify-center text-text-dim hover:text-gold transition-colors cursor-pointer rounded-full hover:bg-surface-alt focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
-            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-sm text-text-dim hover:bg-surface-alt hover:text-cream transition-colors"
             aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
           >
-            {theme === 'light' ? (
-              <Moon className="w-4.5 h-4.5 stroke-[1.5]" />
-            ) : (
-              <Sun className="w-4.5 h-4.5 text-gold stroke-[1.5] animate-pulse-glow" />
-            )}
+            {theme === 'light' ? <Moon className="h-[18px] w-[18px]" /> : <Sun className="h-[18px] w-[18px]" />}
           </button>
 
-          {/* Font Theme Switcher */}
-          <div ref={fontMenuRef} className="relative">
-            <button
-              onClick={() => setIsFontMenuOpen(!isFontMenuOpen)}
-              className={`w-11 h-11 flex items-center justify-center transition-colors cursor-pointer rounded-full hover:bg-surface-alt focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
-                fontTheme !== 'default' ? 'text-gold' : 'text-text-dim hover:text-gold'
-              }`}
-              title="Switch font theme"
-              aria-label="Switch typography theme"
-              aria-expanded={isFontMenuOpen}
-            >
-              <Type className="w-4 h-4 stroke-[1.5]" />
-            </button>
-
-            {isFontMenuOpen && (
-              <div className="absolute right-0 top-full mt-2 w-64 bg-surface border border-border shadow-xl z-60 animate-fade-in rounded-[2px] overflow-hidden">
-                <div className="px-4 pt-3 pb-2 border-b border-border">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim">
-                    Typography Theme
-                  </span>
-                </div>
-                {FONT_OPTIONS.map((opt) => (
-                  <button
-                    key={opt.id}
-                    onClick={() => handleFontChange(opt.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors cursor-pointer ${
-                      fontTheme === opt.id
-                        ? 'bg-surface-alt'
-                        : 'hover:bg-surface-alt'
-                    }`}
-                  >
-                    <span
-                      className={`shrink-0 w-9 h-9 flex items-center justify-center border text-sm font-bold rounded-sm transition-colors ${
-                        fontTheme === opt.id
-                          ? 'border-gold text-gold'
-                          : 'border-border text-text-dim'
-                      }`}
-                      style={{
-                        fontFamily: opt.stacks.serif,
-                        fontStyle: 'italic',
-                      }}
-                    >
-                      {opt.sample}
-                    </span>
-                    <div className="flex flex-col min-w-0">
-                      <span className={`font-sans text-xs font-semibold leading-tight ${fontTheme === opt.id ? 'text-cream' : 'text-text-dim'}`}>
-                        {opt.label}
-                        {fontTheme === opt.id && (
-                          <span className="ml-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-gold">active</span>
-                        )}
-                      </span>
-                      <span className="font-mono text-[11px] text-text-dim leading-tight truncate mt-0.5">
-                        {opt.description}
-                      </span>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* About Us — left of Contact Us */}
-          <Link
-            href={ROUTES.about}
-            onMouseEnter={() => setActiveDropdown('about')}
-            className={`hidden lg:inline-flex h-11 items-center ${navLinkClass('about', 'about')}`}
-          >
-            <span
-              className={`relative inline-block leading-none after:absolute after:left-0 after:right-0 after:-bottom-[5px] after:h-0.5 ${
-                isNavHighlighted('about', 'about') ? 'after:bg-gold' : 'after:bg-transparent'
-              }`}
-            >
-              ABOUT US
-            </span>
-          </Link>
-
-          {/* Contact Us button */}
           <Link
             href={ROUTES.contact}
-            className={`hidden md:inline-flex font-mono text-[11px] uppercase tracking-[0.15em] border px-3 md:px-4 py-2 transition-all duration-300 cursor-pointer rounded-sm font-bold ${
-              isActive('contact')
-                ? 'border-gold text-gold'
-                : 'border-border hover:border-gold hover:text-gold text-cream'
-            }`}
+            className={`max-md:hidden lg:max-xl:hidden ${buttonClasses('ghost', 'sm')} ${isActive('contact') ? 'text-gold' : ''}`}
           >
-            Contact Us
+            Contact
+          </Link>
+          <Link href={quoteHref()} className={`max-sm:hidden ${buttonClasses('primary', 'sm')}`}>
+            Get a quote
           </Link>
 
-          {/* Download Brochure CTA with blank link */}
-          <a
-            href="#"
-            onClick={(e) => e.preventDefault()}
-            className="hidden sm:inline-flex font-mono text-[11px] uppercase tracking-[0.15em] bg-cream hover:bg-gold hover:text-void text-surface px-3 md:px-4 py-2 transition-all duration-300 font-bold rounded-sm"
+          <button
+            type="button"
+            onClick={() => setIsOpen((v) => !v)}
+            className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-sm text-cream hover:bg-surface-alt"
+            aria-label={isOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isOpen}
           >
-            Download Brochure
-          </a>
-
-          {/* Mobile menu trigger */}
-          <button 
-            onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-1.5 text-text-dim hover:text-gold transition-colors rounded-full hover:bg-surface-alt"
-          >
-            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
-
         </div>
       </div>
 
-      {/* FULL-WIDTH SPECIFICATION DROP-DOWN PORTFOLIO SYSTEM */}
+      {/* Search bar */}
+      {isSearchOpen && (
+        <div className="absolute inset-x-0 top-full border-b border-border bg-void animate-fade-in">
+          <form onSubmit={handleSearchSubmit} className="container-page flex items-center gap-3 py-4">
+            <Search className="h-5 w-5 text-text-ghost shrink-0" />
+            <input
+              ref={searchInputRef}
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search by name, series or code — e.g. Snap, Latch, SL-FR"
+              className="flex-1 bg-transparent text-lg text-cream placeholder:text-text-ghost focus:outline-none"
+              aria-label="Search products"
+            />
+            <button type="submit" className={buttonClasses('primary', 'sm')}>
+              Search
+            </button>
+          </form>
+        </div>
+      )}
+
+      {/* Desktop mega menus */}
       {activeDropdown && (
-        <div 
-          className="absolute left-0 right-0 top-full bg-surface border-b border-border shadow-xl z-50 animate-fade-in py-10 px-8 transition-all duration-300"
+        <div
+          className="absolute inset-x-0 top-full hidden lg:block border-b border-border bg-void shadow-lifted animate-fade-in"
           onMouseEnter={() => setActiveDropdown(activeDropdown)}
         >
-          <div className="max-w-7xl mx-auto grid grid-cols-12 gap-8 items-stretch">
-            
-            {/* Left 7 Columns: Specific structured catalog layout list */}
-            <div className="col-span-7 grid h-full grid-cols-3 gap-6">
-              
-              {/* DROPDOWN SCHEMA - ABOUT (Exactly styled like David Hunt photo) */}
-              {activeDropdown === 'about' && (
-                <>
-                  <div className="flex flex-col gap-2.5">
-                    <Link href={ROUTES.about} onClick={() => setActiveDropdown(null)} className={dropdownLinkClassMedium}>
-                      Our Story
-                    </Link>
-                    <Link href={ROUTES.about} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      The team
-                    </Link>
-                    <Link href={ROUTES.contact} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Join us
-                    </Link>
-                    <Link href={ROUTES.contact} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Contact us
-                    </Link>
-                  </div>
-
-                  <div className="flex flex-col gap-2.5 border-l border-border/60 pl-6">
-                    <Link href={ROUTES.contact} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Find us
-                    </Link>
-                    <Link href={ROUTES.contact} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Find a stockist
-                    </Link>
-                    <Link href={ROUTES.contact} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Showroom
-                    </Link>
-                    <Link href={ROUTES.about} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Delivery times
-                    </Link>
-                  </div>
-
-                  <div className="flex flex-col gap-2.5 border-l border-border/60 pl-6">
-                    <Link href={ROUTES.projects} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Trade Partners
-                    </Link>
-                    <Link href={ROUTES.contact} onClick={() => setActiveDropdown(null)} className={dropdownLinkClassMedium}>
-                      FAQs
-                    </Link>
-                  </div>
-                </>
-              )}
-
-              {activeDropdown === 'products' && (
-                <>
-                  <div className="flex flex-col gap-2.5">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
-                      Indoor Lights
-                    </span>
-                    <Link href={categoryPath(CATEGORY_SLUGS.cobSpotlight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      COB Spotlights
-                    </Link>
-                    <Link href={categoryPath(CATEGORY_SLUGS.magneticTrack)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Magnetic Track Light
-                    </Link>
-                    <Link href={categoryPath(CATEGORY_SLUGS.downlightPanel)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Downlight &amp; Panel Light
-                    </Link>
-                    <Link href={categoryPath(CATEGORY_SLUGS.profileLight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Profile Light
-                    </Link>
-                    <Link href={categoryPath(CATEGORY_SLUGS.hangingProfileLight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Hanging Profile Light
-                    </Link>
-                    <Link href={categoryPath(CATEGORY_SLUGS.surface)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Surface Downlights
-                    </Link>
-                    <Link href={categoryPath(CATEGORY_SLUGS.tracklight)} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Track Light
-                    </Link>
-                  </div>
-
-                  <div className="flex flex-col gap-2.5 border-l border-border/60 pl-6">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
-                      Projects
-                    </span>
-                    <Link href={ROUTES.projects} onClick={() => setActiveDropdown(null)} className={`${dropdownLinkClassMedium} flex items-center gap-1.5`}>
-                      <span>View All Projects</span>
-                      <ArrowRight className="w-3 h-3 text-gold" />
-                    </Link>
-                    <Link href={`${ROUTES.projects}?category=RESIDENTIAL`} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Residential
-                    </Link>
-                    <Link href={`${ROUTES.projects}?category=HOSPITALITY`} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Hospitality
-                    </Link>
-                    <Link href={`${ROUTES.projects}?category=OFFICES`} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Offices
-                    </Link>
-                    <Link href={`${ROUTES.projects}?category=RETAIL`} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Retail
-                    </Link>
-                  </div>
-
-                  <div className="flex h-full flex-col border-l border-border/60 pl-6">
-                    <Link
-                      href={ROUTES.products}
-                      onClick={() => setActiveDropdown(null)}
-                      className="mt-auto inline-flex w-full items-center justify-center gap-2 bg-gold text-white hover:bg-cream hover:text-void-dark px-4 py-3 font-mono text-[11px] uppercase tracking-[0.15em] font-bold transition-all duration-300 rounded-sm"
-                    >
-                      <span>View All Products</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                </>
-              )}
-
-              {activeDropdown === 'smart-lights' && (
-                <>
-                  <div className="flex flex-col gap-2.5">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
-                      Tuning Controls
-                    </span>
-                    <Link href={ROUTES.smartLights} onClick={() => setActiveDropdown(null)} className={dropdownLinkClassMedium}>
-                      Kelvin Slider Core
-                    </Link>
-                    <Link href={ROUTES.smartLights} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Dim-to-Warm Emitter
-                    </Link>
-                  </div>
-
-                  <div className="flex flex-col gap-2.5 border-l border-border/60 pl-6">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
-                      Protocols
-                    </span>
-                    <Link href={ROUTES.smartLights} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Casambi Bluetooth Setup
-                    </Link>
-                    <Link href={ROUTES.smartLights} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      DALI Integration
-                    </Link>
-                  </div>
-
-                  <div className="flex flex-col gap-2.5 border-l border-border/60 pl-6">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mb-1">
-                      Custom Finishes
-                    </span>
-                    <Link href={ROUTES.contact} onClick={() => setActiveDropdown(null)} className={dropdownLinkClass}>
-                      Bespoke Sand-Gold Cores
-                    </Link>
-                  </div>
-                </>
-              )}
-
-            </div>
-
-            <div className="col-span-5 flex gap-4">
-              <Link
-                href={ROUTES.smartLights}
-                onClick={() => setActiveDropdown(null)}
-                className="relative flex-1 aspect-[1.12/1] bg-[#121214] border border-border/35 overflow-hidden cursor-pointer group block"
-              >
-                <div className="absolute inset-0 bg-[#121214]">
-                  <svg className="w-full h-full object-cover opacity-65 group-hover:scale-105 transition-transform duration-750 ease-out-expo" viewBox="0 0 200 180" fill="none">
-                    <defs>
-                      <radialGradient id="card-glow" cx="100" cy="50" r="80" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stopColor="#E6E5FF" stopOpacity="0.4" />
-                        <stop offset="50%" stopColor="#4D4A9D" stopOpacity="0.18" />
-                        <stop offset="100%" stopColor="#000" stopOpacity="0" />
-                      </radialGradient>
-                    </defs>
-                    <rect width="200" height="180" fill="#141416" />
-                    <circle cx="100" cy="50" r="100" fill="url(#card-glow)" />
-                    <line x1="100" y1="0" x2="100" y2="65" stroke="#fcf3e8" strokeWidth="0.75" opacity="0.5" />
-                    <path d="M 70,105 C 70,80 130,80 130,105 Z" fill="var(--color-gold)" opacity="0.9" />
-                    <circle cx="100" cy="103" r="5" fill="#ffd899" />
-                    <circle cx="100" cy="103" r="12" fill="#fff" filter="blur(3px)" opacity="0.4" />
-                  </svg>
+          <div className="container-page py-8">
+            {activeDropdown === 'products' && (
+              <div className="grid grid-cols-12 gap-8">
+                <div className="col-span-4">
+                  <p className="eyebrow mb-4 text-text-ghost">Indoor lighting</p>
+                  <ul className="grid gap-1">
+                    {PRODUCT_NAV.map((item) => (
+                      <li key={item.href}>
+                        <Link
+                          href={item.href}
+                          onClick={close}
+                          className="flex items-center justify-between rounded-sm px-3 py-2 -mx-3 text-sm text-cream hover:bg-surface-alt group"
+                        >
+                          {item.label}
+                          <ArrowRight className="h-3.5 w-3.5 text-text-ghost opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent pointer-events-none" />
-                <div className="absolute bottom-4 left-4 z-10">
-                  <span className="font-serif text-[15px] italic text-[#f3f4f6] tracking-wide font-light">
-                    Smart Lights
-                  </span>
+                <div className="col-span-3">
+                  <p className="eyebrow mb-4 text-text-ghost">Projects by sector</p>
+                  <ul className="grid gap-1">
+                    {PROJECT_NAV.map((item) => (
+                      <li key={item.href}>
+                        <Link
+                          href={item.href}
+                          onClick={close}
+                          className="block rounded-sm px-3 py-2 -mx-3 text-sm text-cream hover:bg-surface-alt"
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </Link>
+                <div className="col-span-5 grid grid-cols-2 gap-4">
+                  <Link
+                    href={ROUTES.products}
+                    onClick={close}
+                    className="group card card-interactive flex flex-col justify-between p-5 bg-accent-soft border-transparent"
+                  >
+                    <Lightbulb className="h-6 w-6 text-gold" />
+                    <div>
+                      <p className="heading-3 mt-8">All products</p>
+                      <p className="mt-1 text-sm text-text-dim">Filter the full catalogue by series, section and code.</p>
+                      <span className="link-arrow mt-4">
+                        Browse catalogue <ArrowRight className="h-4 w-4" />
+                      </span>
+                    </div>
+                  </Link>
+                  <Link
+                    href={brochureHref()}
+                    onClick={close}
+                    className="group card card-interactive flex flex-col justify-between p-5"
+                  >
+                    <Download className="h-6 w-6 text-gold" />
+                    <div>
+                      <p className="heading-3 mt-8">Brochure</p>
+                      <p className="mt-1 text-sm text-text-dim">The complete SYSlight range with specifications.</p>
+                      <span className="link-arrow mt-4">
+                        Get the brochure <ArrowRight className="h-4 w-4" />
+                      </span>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            )}
 
-              <Link
-                href={activeDropdown === 'products' ? ROUTES.homeAutomation : ROUTES.products}
-                onClick={() => setActiveDropdown(null)}
-                className="relative flex-1 aspect-[1.12/1] bg-[#161618] border border-border/35 overflow-hidden cursor-pointer group block"
-              >
-                <div className="absolute inset-0 bg-[#161618]">
-                  <svg className="w-full h-full object-cover opacity-65 group-hover:scale-105 transition-transform duration-750 ease-out-expo" viewBox="0 0 200 180" fill="none">
-                    <rect width="200" height="180" fill="#1a1a1c" />
-                    <g opacity="0.04" stroke="#fff" strokeWidth="0.5">
-                      <line x1="0" y1="45" x2="200" y2="45" />
-                      <line x1="0" y1="90" x2="200" y2="90" />
-                      <line x1="0" y1="135" x2="200" y2="135" />
-                      <line x1="66" y1="0" x2="66" y2="180" />
-                      <line x1="133" y1="0" x2="133" y2="180" />
-                    </g>
-                    <rect x="125" y="35" width="55" height="75" rx="2" fill="#242528" stroke="#37383c" strokeWidth="0.75" transform="rotate(7 150 72)" />
-                    <rect x="75" y="30" width="55" height="75" rx="2" fill="#d4af37" stroke="#edd36f" strokeWidth="0.75" transform="rotate(-6 102 67)" />
-                    <rect x="25" y="38" width="55" height="75" rx="2" fill="#c47855" stroke="#dda88d" strokeWidth="0.75" transform="rotate(14 52 75)" />
-                    <path d="M 60,30 L 140,110" stroke="#fff" strokeWidth="0.5" opacity="0.12" />
-                  </svg>
+            {activeDropdown === 'smart' && (
+              <div className="grid grid-cols-12 gap-8">
+                <div className="col-span-4">
+                  <p className="eyebrow mb-3 text-text-ghost">Smart Living</p>
+                  <p className="text-sm text-text-dim leading-relaxed max-w-xs">
+                    Tunable light and connected homes — designed, programmed and supported by our
+                    Mumbai team.
+                  </p>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent pointer-events-none" />
-                <div className="absolute bottom-4 left-4 z-10">
-                  <span className="font-serif text-[15px] italic text-[#f3f4f6] tracking-wide font-light">
-                    {activeDropdown === 'products' ? 'Home Automation' : 'View our finishes'}
-                  </span>
+                <div className="col-span-8 grid grid-cols-2 gap-4">
+                  {SMART_NAV.map((item, i) => {
+                    const Icon = i === 0 ? Lightbulb : House;
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={close}
+                        className="group card card-interactive flex gap-4 p-5"
+                      >
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-accent-soft text-gold">
+                          <Icon className="h-5 w-5" />
+                        </span>
+                        <span>
+                          <span className="heading-3 block">{item.label}</span>
+                          <span className="mt-1 block text-sm text-text-dim">{item.description}</span>
+                        </span>
+                      </Link>
+                    );
+                  })}
                 </div>
-              </Link>
-            </div>
-
+              </div>
+            )}
           </div>
         </div>
       )}
 
+      {/* Mobile drawer — absolute, not fixed: the header's backdrop-filter
+          makes it the containing block for fixed descendants. */}
       {isOpen && (
-        <div className="lg:hidden absolute inset-x-0 top-full bg-surface border-b border-border flex flex-col p-6 gap-6 z-50 shadow-2xl animate-page-enter">
-          <div className="flex flex-col gap-2 relative">
-            <span className="font-mono text-[11px] tracking-[0.15em] text-text-dim uppercase mb-1">Specifications search</span>
+        <div
+          className="lg:hidden absolute inset-x-0 top-full z-50 h-[calc(100dvh-var(--header-height))] overflow-y-auto bg-void animate-fade-in"
+          data-lenis-prevent
+        >
+          <div className="container-page flex flex-col gap-8 py-6">
             <form onSubmit={handleSearchSubmit} className="relative">
-              <Search className="absolute left-3 top-2.5 w-4 h-4 text-text-ghost" />
+              <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-text-ghost" />
               <input
-                type="text"
-                value={localSearch}
-                onChange={(e) => setLocalSearch(e.target.value)}
-                placeholder="Search catalog... (e.g. 12W, recessed)"
-                className="w-full bg-surface-alt border border-border px-3.5 py-2 pl-10 text-xs text-cream placeholder-text-text-ghost rounded-sm focus:outline-none focus:border-gold/60"
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search products"
+                className="field pl-10"
+                aria-label="Search products"
               />
             </form>
-          </div>
 
-          <ul className="flex flex-col gap-4 font-sans text-xs uppercase tracking-[0.16em] text-text-dim font-semibold">
-            <li>
-              <Link href={ROUTES.home} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('home') ? 'text-gold border-gold' : 'border-transparent'}`}>
-                home
-              </Link>
-            </li>
-            <li>
-              <Link href={ROUTES.products} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('products') ? 'text-gold border-gold' : 'border-transparent'}`}>
-                products
-              </Link>
-            </li>
-            <li>
-              <Link href={ROUTES.projects} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('projects') ? 'text-gold border-gold' : 'border-transparent'}`}>
-                projects
-              </Link>
-            </li>
-            <li>
-              <Link href={ROUTES.smartLights} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('smart-lights') ? 'text-gold border-gold' : 'border-transparent'}`}>
-                smart lights / smart cct
-              </Link>
-            </li>
-            <li>
-              <Link href={ROUTES.homeAutomation} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('home-automation') ? 'text-gold border-gold' : 'border-transparent'}`}>
-                home automation
-              </Link>
-            </li>
-            <li>
-              <Link href={ROUTES.about} onClick={() => setIsOpen(false)} className={`block w-full text-left py-1 cursor-pointer border-b-2 ${isActive('about') ? 'text-gold border-gold' : 'border-transparent'}`}>
-                about us
-              </Link>
-            </li>
-          </ul>
+            <ul className="flex flex-col divide-y divide-border border-y border-border">
+              {[
+                { key: 'home', label: 'Home', href: ROUTES.home },
+                { key: 'products', label: 'Products', href: ROUTES.products },
+                { key: 'smart-lights', label: 'Smart Lights', href: ROUTES.smartLights },
+                { key: 'home-automation', label: 'Home Automation', href: ROUTES.homeAutomation },
+                { key: 'projects', label: 'Projects', href: ROUTES.projects },
+                { key: 'professionals', label: 'For Professionals', href: ROUTES.professionals },
+                { key: 'about', label: 'About', href: ROUTES.about },
+                { key: 'contact', label: 'Contact', href: ROUTES.contact },
+              ].map((item) => (
+                <li key={item.key}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`flex items-center justify-between py-4 text-lg font-medium ${
+                      isActive(item.key) ? 'text-gold' : 'text-cream'
+                    }`}
+                  >
+                    {item.label}
+                    <ArrowRight className="h-4 w-4 text-text-ghost" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
 
-          <div className="border-t border-border pt-5 flex flex-col gap-3">
-            <Link
-              href={ROUTES.contact}
-              onClick={() => setIsOpen(false)}
-              className="text-center w-full py-3 text-xs font-mono uppercase bg-cream text-surface tracking-[0.16em] font-bold rounded-sm cursor-pointer block"
-            >
-              Contact Us
-            </Link>
-            <a
-              href="#"
-              onClick={(e) => { e.preventDefault(); setIsOpen(false); }}
-              className="text-center w-full py-3 text-xs font-mono uppercase border border-border text-cream tracking-[0.16em] font-bold rounded-sm block cursor-pointer"
-            >
-              Download Brochure
-            </a>
+            <div className="grid gap-3">
+              <Link href={quoteHref()} onClick={() => setIsOpen(false)} className={buttonClasses('primary', 'lg', 'w-full')}>
+                Get a quote
+              </Link>
+              <Link href={brochureHref()} onClick={() => setIsOpen(false)} className={buttonClasses('secondary', 'lg', 'w-full')}>
+                <Download className="h-4 w-4" /> Brochure
+              </Link>
+            </div>
           </div>
         </div>
       )}

@@ -1,145 +1,53 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Fira+Code:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
-/* ─── Azo Sans (local) ──────────────────────────────────────────────── */
-@font-face {
-  font-family: "Azo Sans";
-  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Thin.otf") format("opentype");
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Azo Sans";
-  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Thin_Italic.otf") format("opentype");
-  font-weight: 100;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Azo Sans";
-  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Light.otf") format("opentype");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Azo Sans";
-  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Light_Italic.otf") format("opentype");
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Azo Sans";
-  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Azo Sans";
-  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Italic.otf") format("opentype");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Azo Sans";
-  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Medium.otf") format("opentype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Azo Sans";
-  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Medium_Italic.otf") format("opentype");
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Azo Sans";
-  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Bold.otf") format("opentype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Azo Sans";
-  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Bold_Italic.otf") format("opentype");
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Azo Sans";
-  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Black.otf") format("opentype");
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Azo Sans";
-  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Black_Italic.otf") format("opentype");
-  font-weight: 900;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Azo Sans Uber";
-  src: url("/Fonts Azo Sans/fonts/fonnts.com-Azo_Sans_Uber_Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* ─── Enra Sans Variable (local) ────────────────────────────────────── */
-@font-face {
-  font-family: "Enra Sans";
-  src: url("/Fonts Enra Sans/fonts/fonnts.com-Enra_Sans_Variable.otf") format("opentype");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
+/*
+ * SYSlight — "Spec Studio" design system
+ * One accent (brand indigo), neutral ink/greys, Inter Tight for display,
+ * Inter for UI/body, JetBrains Mono only for product codes & data.
+ * Legacy token names (void, cream, gold…) are kept so every component
+ * shares the same palette; read them as:
+ *   void → page background · surface → card · cream → ink (primary text)
+ *   text-dim → secondary text · text-ghost → muted text · gold → accent
+ */
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   /* ─── Colors ──────────────────────────────────────────────────────── */
   --color-void: #FFFFFF;
-  --color-void-dark: #F5F5F7;
+  --color-void-dark: #F7F7F9;
   --color-surface: #FFFFFF;
-  --color-surface-alt: #F5F5F7;
-  --color-surface-high: #EBEBEF;
-  --color-cream: #010101;
-  --color-text-dim: #4B4B5E;
-  --color-text-ghost: #767589;
+  --color-surface-alt: #F5F5F8;
+  --color-surface-high: #ECECF2;
+  --color-cream: #111114;
+  --color-text-dim: #55556A;
+  --color-text-ghost: #81819A;
   --color-white: #FFFFFF;
   --color-gold: #4D4A9D;
-  --color-gold-light: #6C69C1;
-  --color-gold-muted: #333175;
-  --color-gold-dark: #2A2862;
-  --color-border: #E5E5E6;
-  --color-border-mid: #CCCCCC;
-  --color-border-high: #B0AFCC;
+  --color-gold-light: #5E5AC0;
+  --color-gold-muted: #3D3A85;
+  --color-gold-dark: #2E2B6B;
+  --color-accent-soft: #EFEEF9;
+  --color-on-accent: #FFFFFF;
+  --color-border: #E6E6EC;
+  --color-border-mid: #D5D5DF;
+  --color-border-high: #B9B8CC;
+  --color-success: #15803D;
+  --color-danger: #DC2626;
 
   /* ─── Active Preset Buttons (Light Mode) ────────────────────────── */
   --active-warm-bg: rgba(92, 77, 46, 0.08);
   --active-warm-border: #A99775;
   --active-warm-text: #5C4D2E;
-
-  /* Natural White Preset Active Styles */
   --active-natural-bg: rgba(75, 75, 94, 0.08);
   --active-natural-border: #767589;
   --active-natural-text: #4B4B5E;
-
-  /* Cool White Preset Active Styles */
   --active-cool-bg: rgba(31, 74, 94, 0.08);
   --active-cool-border: #8FB6C5;
   --active-cool-text: #1F4A5E;
 
-  /* ─── Spacing Grid ────────────────────────────────────────────────── */
+  /* ─── Spacing Grid (8pt) ──────────────────────────────────────────── */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -154,35 +62,35 @@
 
   /* ─── Corner Radii ────────────────────────────────────────────────── */
   --radius-none: 0px;
-  --radius-sm: 1px;
-  --radius-md: 2px;
-  --radius-lg: 4px;
-  --radius-xl: 8px;
-  --radius-2xl: 16px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-2xl: 24px;
   --radius-full: 9999px;
 
   /* ─── Elevation Shadows ───────────────────────────────────────────── */
   --shadow-none: none;
-  --shadow-subtle: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-card: 0 4px 16px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
-  --shadow-hover: 0 12px 30px -10px rgba(77,74,157,0.18);
-  --shadow-lifted: 0 20px 48px -12px rgba(77,74,157,0.28);
-  --shadow-glow: 0 0 45px rgba(106,103,204,0.15);
+  --shadow-subtle: 0 1px 2px rgba(17, 17, 20, 0.05);
+  --shadow-card: 0 1px 2px rgba(17, 17, 20, 0.04), 0 4px 12px rgba(17, 17, 20, 0.05);
+  --shadow-hover: 0 2px 4px rgba(17, 17, 20, 0.04), 0 12px 32px -8px rgba(17, 17, 20, 0.12);
+  --shadow-lifted: 0 24px 48px -16px rgba(17, 17, 20, 0.2);
+  --shadow-glow: 0 0 0 4px rgba(77, 74, 157, 0.12);
 
   /* ─── Typography Scales ───────────────────────────────────────────── */
-  --text-display-xxl: 6rem;
-  --text-display-xl: 4.5rem;
-  --text-display-lg: 3.75rem;
-  --text-h1: 3rem;
-  --text-h2: 2.5rem;
+  --text-display-xxl: 5rem;
+  --text-display-xl: 4rem;
+  --text-display-lg: 3.25rem;
+  --text-h1: 2.75rem;
+  --text-h2: 2.25rem;
   --text-h2-sm: 1.75rem;
   --text-h3: 1.25rem;
   --text-h4: 1.125rem;
   --text-body-lg: 1.125rem;
-  --text-body-md: 0.875rem;
-  --text-body-sm: 0.8125rem;
-  --text-caption: 0.75rem;
-  --text-label-ui: 0.6875rem;
+  --text-body-md: 0.9375rem;
+  --text-body-sm: 0.875rem;
+  --text-caption: 0.8125rem;
+  --text-label-ui: 0.75rem;
 
   /* ─── Opacity ─────────────────────────────────────────────────────── */
   --opacity-hover-img: 0.70;
@@ -193,10 +101,10 @@
   --opacity-ghost: 0.40;
 
   /* ─── Transitions & Ease ──────────────────────────────────────────── */
-  --duration-fast: 200ms;
-  --duration-standard: 300ms;
-  --duration-medium: 500ms;
-  --duration-luxury: 700ms;
+  --duration-fast: 150ms;
+  --duration-standard: 250ms;
+  --duration-medium: 400ms;
+  --duration-luxury: 600ms;
   --ease-luxury: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
@@ -218,69 +126,67 @@
   --container-text: 672px;
   --container-reading: 576px;
 
-  /* ─── Button Sizes ────────────────────────────────────────────────── */
+  /* ─── Component Sizes ─────────────────────────────────────────────── */
   --btn-height-sm: 36px;
   --btn-height-md: 44px;
-  --btn-height-lg: 48px;
+  --btn-height-lg: 52px;
   --btn-height-xl: 56px;
-
-  /* ─── Input Sizes ─────────────────────────────────────────────────── */
   --input-height-sm: 36px;
   --input-height-md: 44px;
   --input-height-lg: 52px;
-
-  /* ─── Table Sizes ─────────────────────────────────────────────────── */
   --table-row-compact: 36px;
   --table-row-default: 44px;
   --table-row-relaxed: 52px;
-
-  /* ─── Card Sizes ──────────────────────────────────────────────────── */
   --card-padding-xs: 12px;
   --card-padding-sm: 16px;
   --card-padding-md: 20px;
   --card-padding-lg: 24px;
   --card-padding-xl: 32px;
   --card-padding-2xl: 40px;
-
-  /* ─── Section Padding ─────────────────────────────────────────────── */
   --section-padding-xs: 32px;
   --section-padding-sm: 48px;
   --section-padding-md: 64px;
   --section-padding-lg: 80px;
   --section-padding-xl: 96px;
   --section-padding-2xl: 112px;
+
+  --header-height: 72px;
 }
 
 .dark {
-  /* ─── Colors ──────────────────────────────────────────────────────── */
-  --color-void: #010101;
-  --color-void-dark: #000000;
-  --color-surface: #0D0C15;
-  --color-surface-alt: #141321;
-  --color-surface-high: #1C1B2C;
-  --color-cream: #E5E5E6;
-  --color-text-dim: #9B99BB;
-  --color-text-ghost: #7D7B9B;
+  --color-void: #0B0B0F;
+  --color-void-dark: #07070A;
+  --color-surface: #131318;
+  --color-surface-alt: #18181F;
+  --color-surface-high: #202029;
+  --color-cream: #F2F2F5;
+  --color-text-dim: #A6A6B8;
+  --color-text-ghost: #76768C;
   --color-white: #FFFFFF;
-  --color-gold: #6A67CC;
-  --color-gold-light: #8F8DF0;
-  --color-gold-muted: #413F8C;
-  --color-gold-dark: #3A389F;
-  --color-border: #201F33;
-  --color-border-mid: #2E2D4A;
-  --color-border-high: #3C3A5E;
+  --color-gold: #8F8CEB;
+  --color-gold-light: #A7A4F2;
+  --color-gold-muted: #7370D0;
+  --color-gold-dark: #4D4A9D;
+  --color-accent-soft: rgba(143, 140, 235, 0.12);
+  --color-on-accent: #0B0B0F;
+  --color-border: #24242E;
+  --color-border-mid: #31313D;
+  --color-border-high: #474759;
+  --color-success: #4ADE80;
+  --color-danger: #F87171;
 
-  /* ─── Active Preset Buttons (Dark Mode) ─────────────────────────── */
+  --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.4), 0 16px 36px -8px rgba(0, 0, 0, 0.6);
+  --shadow-lifted: 0 24px 48px -16px rgba(0, 0, 0, 0.7);
+  --shadow-glow: 0 0 0 4px rgba(143, 140, 235, 0.18);
+
   --active-warm-bg: rgba(255, 249, 216, 0.1);
   --active-warm-border: #FFF9D8;
   --active-warm-text: #FFF9D8;
-
-  /* Natural White Preset Active Styles */
   --active-natural-bg: rgba(249, 247, 248, 0.1);
   --active-natural-border: #F9F7F8;
   --active-natural-text: #F9F7F8;
-
-  /* Cool White Preset Active Styles */
   --active-cool-bg: rgba(244, 253, 255, 0.1);
   --active-cool-border: #F4FDFF;
   --active-cool-text: #F4FDFF;
@@ -299,16 +205,20 @@
   --color-gold-light: var(--color-gold-light);
   --color-gold-muted: var(--color-gold-muted);
   --color-gold-dark: var(--color-gold-dark);
+  --color-accent-soft: var(--color-accent-soft);
+  --color-on-accent: var(--color-on-accent);
   --color-cream: var(--color-cream);
   --color-text-dim: var(--color-text-dim);
   --color-text-ghost: var(--color-text-ghost);
   --color-white: var(--color-white);
+  --color-success: var(--color-success);
+  --color-danger: var(--color-danger);
 
-  --font-serif: "Cormorant Garamond", Georgia, serif;
-  --font-sans: "DM Sans", sans-serif;
-  --font-mono: "Space Mono", monospace;
+  --font-display: "Inter Tight", "Inter", system-ui, sans-serif;
+  --font-serif: "Inter Tight", "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  /* Custom Spacings mapped to base system */
   --spacing-1: var(--space-1);
   --spacing-2: var(--space-2);
   --spacing-3: var(--space-3);
@@ -321,7 +231,6 @@
   --spacing-20: var(--space-20);
   --spacing-28: var(--space-28);
 
-  /* Card and section layout specifics */
   --spacing-card-xs: var(--card-padding-xs);
   --spacing-card-sm: var(--card-padding-sm);
   --spacing-card-md: var(--card-padding-md);
@@ -336,21 +245,19 @@
   --spacing-section-xl: var(--section-padding-xl);
   --spacing-section-xxl: var(--section-padding-2xl);
 
-  /* Border Radii */
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
   --radius-lg: var(--radius-lg);
   --radius-xl: var(--radius-xl);
   --radius-2xl: var(--radius-2xl);
 
-  /* Elevation Shadows */
   --shadow-subtle: var(--shadow-subtle);
   --shadow-card: var(--shadow-card);
   --shadow-hover: var(--shadow-hover);
   --shadow-lifted: var(--shadow-lifted);
   --shadow-glow: var(--shadow-glow);
+  --shadow-glow-sm: var(--shadow-glow);
 
-  /* Anim & Transitions */
   --ease-luxury: var(--ease-luxury);
   --ease-out-expo: var(--ease-out-expo);
   --duration-luxury: var(--duration-luxury);
@@ -358,7 +265,6 @@
   --duration-standard: var(--duration-standard);
   --duration-medium: var(--duration-medium);
 
-  /* Icon sizes */
   --width-icon-xs: var(--icon-xs);
   --width-icon-sm: var(--icon-sm);
   --width-icon-md: var(--icon-md);
@@ -367,7 +273,7 @@
   --width-icon-2xl: var(--icon-2xl);
   --width-icon-3xl: var(--icon-3xl);
   --width-icon-hero: var(--icon-hero);
-  
+
   --height-icon-xs: var(--icon-xs);
   --height-icon-sm: var(--icon-sm);
   --height-icon-md: var(--icon-md);
@@ -377,28 +283,11 @@
   --height-icon-3xl: var(--icon-3xl);
   --height-icon-hero: var(--icon-hero);
 
-  /* Breakpoints */
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
   --breakpoint-xxl: 1536px;
-}
-
-/* ─── Font Theme: Azo (local fonts) ─────────────────────────────────── */
-[data-font="azo"],
-[data-font="azo"] * {
-  --font-serif: "Enra Sans", "Azo Sans", sans-serif;
-  --font-sans: "Azo Sans", sans-serif;
-  --font-mono: "Azo Sans", monospace;
-}
-
-/* ─── Font Theme: Editorial (suggested) ─────────────────────────────── */
-[data-font="editorial"],
-[data-font="editorial"] * {
-  --font-serif: "Playfair Display", Georgia, serif;
-  --font-sans: "Raleway", sans-serif;
-  --font-mono: "Fira Code", monospace;
 }
 
 @layer base {
@@ -407,27 +296,210 @@
     color: var(--color-cream);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   body {
     background-color: var(--color-void);
     overflow-x: hidden;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-on-accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
   }
 
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
   }
   ::-webkit-scrollbar-track {
     background: var(--color-void);
   }
   ::-webkit-scrollbar-thumb {
     background: var(--color-border-mid);
-    border-radius: 3px;
+    border-radius: 8px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-gold-muted);
+    background: var(--color-border-high);
   }
+}
+
+/* ─── Spec Studio component primitives ─────────────────────────────── */
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-page { padding-inline: 2rem; }
+  }
+
+  .section {
+    padding-block: 4rem;
+  }
+  @media (min-width: 768px) {
+    .section { padding-block: 6rem; }
+  }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+
+  .display-1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    color: var(--color-cream);
+  }
+
+  .heading-1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    color: var(--color-cream);
+  }
+
+  .heading-2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: var(--color-cream);
+  }
+
+  .heading-3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    color: var(--color-cream);
+  }
+
+  .lead {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--color-text-dim);
+  }
+
+  .body {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-text-dim);
+  }
+
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+
+  .card-interactive {
+    transition:
+      border-color var(--duration-standard) var(--ease-luxury),
+      box-shadow var(--duration-standard) var(--ease-luxury),
+      transform var(--duration-standard) var(--ease-luxury);
+  }
+  .card-interactive:hover {
+    border-color: var(--color-border-mid);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    height: 1.75rem;
+    padding-inline: 0.625rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: var(--color-surface-alt);
+    color: var(--color-text-dim);
+    border: 1px solid var(--color-border);
+  }
+
+  .chip-accent {
+    background: var(--color-accent-soft);
+    color: var(--color-gold);
+    border-color: transparent;
+  }
+
+  .field {
+    width: 100%;
+    height: var(--input-height-md);
+    padding-inline: 0.875rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border-mid);
+    background: var(--color-surface);
+    color: var(--color-cream);
+    font-size: 0.9375rem;
+    transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
+  }
+  .field::placeholder { color: var(--color-text-ghost); }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-gold);
+    box-shadow: var(--shadow-glow);
+  }
+  textarea.field {
+    height: auto;
+    padding-block: 0.75rem;
+    resize: vertical;
+  }
+
+  .field-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-cream);
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--color-border);
+  }
+
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-gold);
+  }
+  .link-arrow svg { transition: transform var(--duration-standard) var(--ease-luxury); }
+  .link-arrow:hover svg { transform: translateX(3px); }
 }
 
 .glow-gold-subtle {

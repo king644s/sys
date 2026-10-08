@@ -9,14 +9,14 @@ import { ROUTES } from '@/lib/routes';
 export function SmartSolutionsShowcase() {
   return (
     <section id="smart-solutions" className="bg-surface-alt border-b border-border/40">
-      <div className="max-w-7xl mx-auto px-6 py-16 md:py-24 lg:py-28">
+      <div className="container-page py-16 md:py-24 lg:py-28">
         {/* Section header */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 md:mb-12">
           <ScrollReveal direction="left">
             <div className="flex flex-col gap-6">
-              <h2 className="font-serif text-[2rem] md:text-[2.5rem] xl:text-[2.75rem] text-cream font-light tracking-tight leading-[1.15]">
+              <h2 className="font-serif text-[2rem] md:text-[2.5rem] xl:text-[2.75rem] text-cream font-semibold tracking-tight leading-[1.15]">
                 Smart Solutions for{' '}
-                <span className="italic text-gold">Every Need</span>
+                <span className="text-gold">Every Need</span>
               </h2>
             </div>
           </ScrollReveal>
@@ -24,7 +24,7 @@ export function SmartSolutionsShowcase() {
           <ScrollReveal direction="right">
             <Link
               href={ROUTES.products}
-              className="font-mono text-[11px] uppercase tracking-[0.15em] text-gold flex items-center gap-2 hover:text-gold-light transition-colors group shrink-0"
+              className="eyebrow flex items-center gap-2 hover:text-gold-light transition-colors group shrink-0"
             >
               <span>View All Products</span>
               <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform duration-300" />

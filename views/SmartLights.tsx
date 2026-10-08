@@ -2,137 +2,133 @@
 
 import { KelvinOrb } from '../components/3d/KelvinOrb';
 import { KelvinSlider } from '../components/ui/KelvinSlider';
-import { SectionDivider } from '../components/ui/SectionDivider';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
 import { TripleImageCompare } from '../components/ui/TripleImageCompare';
+import { SectionHeader } from '../components/ui/SectionHeader';
+import { Button } from '../components/ui/Button';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { LIGHTING_COMPARISONS } from '../data/lightingComparisons';
-import { Sliders, Sun, ShieldCheck, Zap, Laptop, Command } from 'lucide-react';
+import { ROUTES } from '@/lib/routes';
+import { quoteHref } from '@/lib/site';
+import { Sun, Zap, Network, ArrowRight } from 'lucide-react';
+
+const FEATURES = [
+  {
+    icon: Zap,
+    title: 'Flicker-free dimming',
+    body: 'Ordinary LEDs flicker when dimmed, causing eye strain. SYSlight uses high-frequency, ripple-free drivers so light stays steady at every level.',
+  },
+  {
+    icon: Network,
+    title: 'DALI, Casambi and smart-home ready',
+    body: 'Compatible with DALI-2, 0–10V and Casambi Bluetooth mesh, and with Control4, Crestron and popular voice assistants.',
+  },
+  {
+    icon: Sun,
+    title: 'Dual-chip tunable cores',
+    body: 'Warm 2200K and cool 6500K chips share one micro-lens, so colour stays even across the beam while you tune between them.',
+  },
+] as const;
 
 export function SmartLights() {
   return (
     <div className="transition-page-enter">
       <Breadcrumbs />
-      {/* Page Header */}
-      <section className="max-w-4xl mx-auto px-6 text-center py-12">
-        <ScrollReveal direction="up">
-          <h1 className="font-serif text-4xl md:text-6xl text-cream font-light tracking-tight leading-tight">
-            Next-Gen Smart <br />
-            <span className="italic font-serif text-gold font-normal">Thermal Tunings.</span>
-          </h1>
-          <p className="font-sans text-sm text-text-dim max-w-xl mx-auto mt-6 leading-relaxed">
-            Unleash biological lighting synchronization directly in critical residential, hospitality, and display centers. Command precise color warmth settings dynamically.
-          </p>
-        </ScrollReveal>
+
+      <section className="container-page pb-4 pt-4">
+        <SectionHeader
+          as="h1"
+          eyebrow="Smart lights"
+          title="Tune the light to the moment"
+          description="Tunable-white fixtures that move from warm evening glow to crisp daylight — for homes, hotels and workplaces."
+          action={
+            <Button variant="primary" href={quoteHref('Smart lighting')}>
+              Plan smart lighting <ArrowRight className="h-4 w-4" />
+            </Button>
+          }
+        />
       </section>
 
-      {/* Main interactive 3D WebGL space + control slider */}
-      <section className="max-w-7xl mx-auto px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Left: 3D interactive core lamp orb */}
-        <div className="lg:col-span-6 flex justify-center items-center h-[500px]">
-          <KelvinOrb />
-        </div>
-
-        {/* Right: Controller sliders and explanatory parameters */}
-        <div className="lg:col-span-6 flex flex-col gap-8">
-          <ScrollReveal direction="right">
-            <div className="flex flex-col gap-4">
-              <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold">
-                tunable white spectrum simulator
-              </span>
-              <h2 className="font-serif text-3xl md:text-4xl text-cream tracking-tight font-light">
-                Absolute Temperature Control
-              </h2>
-              <p className="font-sans text-sm leading-relaxed text-text-dim max-w-lg">
-                Drag the specialized color spectrum track tool below to interactively test how our LED emitters translate thermal inputs in real-time. Feel the shift from cozy golden embers to medical task daylight.
+      {/* Interactive simulator */}
+      <section className="container-page">
+        <div className="card grid grid-cols-1 items-center gap-8 overflow-hidden p-6 md:p-10 lg:grid-cols-12 lg:gap-12">
+          <div className="flex h-[360px] items-center justify-center md:h-[440px] lg:col-span-6">
+            <KelvinOrb />
+          </div>
+          <div className="flex flex-col gap-6 lg:col-span-6">
+            <div>
+              <span className="eyebrow">Try it</span>
+              <h2 className="heading-2 mt-2">Colour temperature simulator</h2>
+              <p className="body mt-3 max-w-lg">
+                Drag the slider to see how one fixture shifts from cosy amber to focused daylight in
+                real time.
               </p>
             </div>
-          </ScrollReveal>
-
-          {/* Slider trigger */}
-          <ScrollReveal direction="right" delay={0.15}>
-            <div className="bg-surface border border-border p-8 rounded-md">
+            <div className="rounded-lg border border-border bg-surface-alt p-6">
               <KelvinSlider />
             </div>
-          </ScrollReveal>
-        </div>
-      </section>
-
-      <SectionDivider label="Key Engineering parameters" />
-
-      {/* Feature showcase grid */}
-      <section className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="h-full">
-          <div className="border border-border p-8 bg-surface h-full">
-            <ScrollReveal direction="up" delay={0.1}>
-              <Zap className="w-8 h-8 text-gold mb-5" />
-              <h3 className="font-serif text-xl font-bold text-cream mb-2">Casambi Bluetooth Setup</h3>
-              <p className="font-sans text-sm text-text-dim leading-relaxed">
-                Standard commercial LEDs flicker during dimmed cycles, creating optic strain and migraine triggers. SYSLight uses high-frequency ripple-free digital drivers for perfect eye protection.
-              </p>
-            </ScrollReveal>
-          </div>
-        </div>
-
-        <div className="h-full">
-          <div className="border border-border p-8 bg-surface h-full">
-            <ScrollReveal direction="up" delay={0.2}>
-              <Laptop className="w-8 h-8 text-gold mb-5" />
-              <h3 className="font-serif text-xl font-bold text-cream mb-2">DALI Integration</h3>
-              <p className="font-sans text-sm text-text-dim leading-relaxed">
-                Fully compatible with high-end bus structures including DALI-2, 0-10V, Casambi Bluetooth mesh networks, Control4, Crestron, and standard voice-activated smart links.
-              </p>
-            </ScrollReveal>
-          </div>
-        </div>
-
-        <div className="h-full">
-          <div className="border border-border p-8 bg-surface h-full">
-            <ScrollReveal direction="up" delay={0.3}>
-              <Sun className="w-8 h-8 text-gold mb-5" />
-              <h3 className="font-serif text-xl font-bold text-cream mb-2">Bespoke Sand-Gold Cores</h3>
-              <p className="font-sans text-sm text-text-dim leading-relaxed">
-                By pairing warm 2200K phosphor chips and cool 6500K chips under a single micro-lens grid, color outputs remain perfectly uniform even during dynamic change adjustments.
-              </p>
-            </ScrollReveal>
           </div>
         </div>
       </section>
 
-      {/* Before / After lighting comparison */}
-      <section className="max-w-7xl mx-auto px-6 py-12 w-full">
-        <ScrollReveal direction="up">
-          <div className="flex flex-col gap-4 text-center mb-8">
-            <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold">
-              atmospheric transformation
-            </span>
-            <h2 className="font-serif text-3xl md:text-4xl text-cream tracking-tight font-light">
-              Before <span className="italic text-gold">/</span> After
-            </h2>
-            <p className="font-sans text-sm text-text-dim max-w-lg mx-auto leading-relaxed">
-              Drag each handle to reveal a different space — all three scenarios in one view.
-            </p>
+      {/* Features */}
+      <section className="section">
+        <div className="container-page">
+          <SectionHeader eyebrow="Engineering" title="What makes it work" />
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+            {FEATURES.map(({ icon: Icon, title, body }, i) => (
+              <ScrollReveal key={title} direction="up" delay={i * 0.08}>
+                <div className="card h-full p-7">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-sm bg-accent-soft text-gold">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <h3 className="heading-3 mt-5">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-text-dim">{body}</p>
+                </div>
+              </ScrollReveal>
+            ))}
           </div>
+        </div>
+      </section>
 
+      {/* Before / after */}
+      <section className="section border-t border-border bg-void-dark">
+        <div className="container-page">
+          <SectionHeader
+            align="center"
+            eyebrow="Before and after"
+            title="Same room, different mood"
+            description="Drag each handle to compare three spaces under different light."
+          />
           <TripleImageCompare images={[...LIGHTING_COMPARISONS]} />
-
-          <p className="font-sans text-[11px] md:text-xs text-text-ghost max-w-2xl mx-auto mt-6 leading-relaxed text-center">
-            Tunable white LED systems preserve architectural lines, wall finishes, and window placement — transforming only the perceived warmth, depth, and ambience of the space.
+          <p className="mx-auto mt-6 max-w-2xl text-center text-[13px] text-text-ghost">
+            Tunable white keeps architecture, finishes and layout unchanged — only the warmth, depth and
+            atmosphere of the space shift.
           </p>
-        </ScrollReveal>
+        </div>
       </section>
 
-      {/* Smart lighting deployment explanation */}
-      <section className="max-w-5xl mx-auto px-6 py-16 border-t border-border mt-12 text-center">
-        <ScrollReveal direction="up">
-          <Command className="w-10 h-10 text-gold-muted/50 mb-4 mx-auto" />
-          <h2 className="font-serif text-2xl md:text-4xl text-cream font-light tracking-tight">
-            Integrated Custom Smart Layouts
-          </h2>
-          <p className="font-sans text-sm text-text-dim max-w-xl mx-auto mt-4 leading-relaxed">
-            Our Mumbai calibration laboratories custom program DALI drivers to work seamlessly with native building automation protocols. Contact our technical team during pre-wiring to select appropriate drivers.
-          </p>
-        </ScrollReveal>
+      {/* CTA */}
+      <section className="section">
+        <div className="container-page">
+          <div className="card flex flex-col gap-6 bg-surface-alt border-transparent p-8 md:flex-row md:items-center md:justify-between md:p-12">
+            <div className="max-w-xl">
+              <h2 className="heading-2">Planning smart controls?</h2>
+              <p className="body mt-2">
+                Our team programmes DALI drivers to work with your building automation. Talk to us during
+                pre-wiring so the right drivers are specified.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Button variant="primary" href={quoteHref('Smart lighting')}>
+                Talk to our team
+              </Button>
+              <Button variant="secondary" href={ROUTES.homeAutomation}>
+                Home automation
+              </Button>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   );

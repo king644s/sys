@@ -4,7 +4,7 @@ import React from 'react';
 import { getKelvinProfileLabel, useLightingStore, getKelvinHexColor } from '../../store/lightingStore';
 
 const presetButtonBase =
-  'py-2 px-3 tracking-[0.15em] font-mono text-[11px] uppercase transition-all duration-300 border border-border text-text-dim hover:text-cream hover:border-border-mid';
+  'h-10 px-3 rounded-sm text-[13px] font-medium transition-all duration-300 border border-border text-text-dim hover:text-cream hover:border-border-mid';
 
 export function KelvinSlider() {
   const { kelvin, setKelvin, activePreset, setPreset } = useLightingStore();
@@ -20,7 +20,7 @@ export function KelvinSlider() {
       {/* Current Selection Indicators */}
       <div className="flex justify-between items-end">
         <div className="flex flex-col">
-          <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim">
+          <span className="font-sans text-xs uppercase tracking-[0.08em] text-text-dim font-semibold">
             Active Profile
           </span>
           <span className="font-sans text-md font-medium text-cream">
@@ -60,7 +60,7 @@ export function KelvinSlider() {
       </div>
 
       {/* Human Labels */}
-      <div className="flex justify-between text-[11px] font-mono uppercase tracking-widest text-text-dim">
+      <div className="flex justify-between text-xs font-sans uppercase tracking-[0.08em] text-text-dim font-semibold">
         <span>Warm White (3000K)</span>
         <span>Cool White (6000K)</span>
       </div>
