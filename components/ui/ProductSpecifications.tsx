@@ -310,7 +310,7 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
         >
           <div className="border border-border/85 rounded-[6px] overflow-hidden shadow-sm">
             <div className="bg-gold-muted px-4 py-3 border-b border-border-mid/50">
-              <h4 className="font-mono text-[11px] font-bold tracking-wider text-white uppercase">
+              <h4 className="font-sans text-xs font-semibold tracking-[0.08em] text-white uppercase">
                 Dimensions
               </h4>
             </div>
@@ -320,17 +320,17 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
                 <thead>
                   <tr className="bg-surface-alt border-b border-border">
                     {hasVariants && (
-                      <th className="py-3 px-4 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold">
+                      <th className="py-3 px-4 font-sans text-xs text-text-dim uppercase tracking-[0.08em] font-semibold">
                         Wattage
                       </th>
                     )}
-                    <th className="py-3 px-4 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold text-center">
+                    <th className="py-3 px-4 font-sans text-xs text-text-dim uppercase tracking-[0.08em] font-semibold text-center">
                       Outer Diameter (mm)
                     </th>
-                    <th className="py-3 px-4 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold text-center">
+                    <th className="py-3 px-4 font-sans text-xs text-text-dim uppercase tracking-[0.08em] font-semibold text-center">
                       Height (mm)
                     </th>
-                    <th className="py-3 px-4 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold text-center">
+                    <th className="py-3 px-4 font-sans text-xs text-text-dim uppercase tracking-[0.08em] font-semibold text-center">
                       Cut Out (mm)
                     </th>
                   </tr>
@@ -365,7 +365,7 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
       >
         <div className="border border-border/85 rounded-xl overflow-hidden shadow-sm">
           <div className="bg-gold-muted px-4 py-3 border-b border-border-mid/50">
-            <h4 className="font-mono text-[11px] font-bold tracking-wider text-white uppercase">
+            <h4 className="font-sans text-xs font-semibold tracking-[0.08em] text-white uppercase">
               Technical Specifications
             </h4>
           </div>
@@ -378,7 +378,7 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
                     key={index}
                     className="border-b border-border/30 last:border-0 hover:bg-surface-alt/20 transition-colors"
                   >
-                    <td className="py-3.5 px-5 font-mono text-[11px] text-text-dim uppercase tracking-[0.15em] font-bold w-[35%] md:w-[30%]">
+                    <td className="py-3.5 px-5 font-sans text-xs text-text-dim uppercase tracking-[0.08em] font-semibold w-[35%] md:w-[30%]">
                       {spec.label}
                     </td>
                     <td

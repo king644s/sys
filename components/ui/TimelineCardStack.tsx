@@ -33,17 +33,17 @@ export function TimelineCardStack() {
         className="sticky z-30 bg-void border-b border-border"
         style={{ top: NAV_OFFSET }}
       >
-        <div className="max-w-7xl mx-auto px-6 py-10 md:py-14 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div className="container-page py-10 md:py-14 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <div>
-            <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold block mb-3">
+            <span className="eyebrow block mb-3">
               Our Journey
             </span>
-            <h2 className="font-serif text-3xl md:text-5xl font-light text-cream tracking-tight leading-tight">
+            <h2 className="heading-2">
               Milestones That<br />
-              <span className="italic font-serif text-gold font-normal">Shape the Brand.</span>
+              <span className="text-gold">Shape the Brand.</span>
             </h2>
           </div>
-          <p className="font-sans text-sm text-text-dim max-w-xs leading-relaxed hidden md:block">
+          <p className="body max-w-xs hidden md:block">
             Scroll through the moments that matter to architects and designers — from 1991 to 2026.
           </p>
         </div>
@@ -58,19 +58,19 @@ export function TimelineCardStack() {
             zIndex: index + 1,
           }}
         >
-          <div className="max-w-7xl mx-auto px-6 md:px-16 py-12 md:py-16 w-full grid grid-cols-1 md:grid-cols-[220px_1fr] gap-8 md:gap-16 items-start md:items-center">
+          <div className="container-page md:px-16 py-12 md:py-16 w-full grid grid-cols-1 md:grid-cols-[220px_1fr] gap-8 md:gap-16 items-start md:items-center">
             <div className="flex flex-col gap-3">
-              <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold">
+              <span className="eyebrow">
                 {entry.period}
               </span>
               <span
-                className="font-serif font-light leading-none text-gold select-none"
+                className="font-serif font-semibold leading-none text-gold select-none"
                 style={{ fontSize: 'clamp(3rem, 7vw, 6rem)' }}
               >
                 {entry.year}
               </span>
               {entry.yearEnd ? (
-                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold-light">
+                <span className="font-sans text-xs uppercase tracking-[0.08em] text-gold-light font-semibold">
                   to {entry.yearEnd}
                 </span>
               ) : null}
@@ -79,7 +79,7 @@ export function TimelineCardStack() {
 
             <div className="flex flex-col gap-4 md:border-l md:border-border md:pl-14">
               <div>
-                <h3 className="font-serif text-2xl md:text-[2.2rem] font-light text-cream tracking-tight leading-tight">
+                <h3 className="font-serif text-2xl md:text-[2.2rem] font-semibold text-cream tracking-tight leading-tight">
                   {entry.title}
                 </h3>
                 <span className="font-sans text-[13px] text-gold-light block mt-1.5 tracking-wide">
@@ -87,15 +87,15 @@ export function TimelineCardStack() {
                 </span>
               </div>
 
-              <p className="font-sans text-sm text-text-dim leading-relaxed max-w-2xl">
+              <p className="body max-w-2xl">
                 {entry.description}
               </p>
 
               <div className="flex items-baseline gap-4 pt-4 border-t border-border">
-                <span className="font-serif text-3xl md:text-4xl text-gold font-light leading-none">
+                <span className="font-serif text-3xl md:text-4xl text-gold font-semibold leading-none">
                   {entry.metric}
                 </span>
-                <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim">
+                <span className="font-sans text-xs uppercase tracking-[0.08em] text-text-dim font-semibold">
                   {entry.metricLabel}
                 </span>
               </div>

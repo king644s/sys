@@ -32,16 +32,16 @@ export function EcosystemLuminousSpectrum() {
 
       <div
         ref={ref}
-        className="relative max-w-7xl mx-auto px-6 pt-16 pb-8 md:pt-24 md:pb-12 lg:pt-28 lg:pb-16"
+        className="relative container-page pt-16 pb-8 md:pt-24 md:pb-12 lg:pt-28 lg:pb-16"
         onPointerEnter={pause}
         onPointerLeave={resume}
       >
         <div className="text-center mb-12 md:mb-16">
           <ScrollReveal direction="up">
-            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-gold-light mb-4">
+            <p className="font-sans text-xs uppercase tracking-[0.08em] text-gold-light mb-4 font-semibold">
               Route 02 · Luminous Spectrum
             </p>
-            <h2 className="font-serif text-[2rem] sm:text-[2.35rem] md:text-[2.75rem] xl:text-[3rem] font-light tracking-tight leading-[1.12] text-white max-w-2xl mx-auto">
+            <h2 className="font-serif text-[2rem] sm:text-[2.35rem] md:text-[2.75rem] xl:text-[3rem] font-semibold tracking-tight leading-[1.12] text-white max-w-2xl mx-auto">
               {ECOSYSTEM_COPY.title}
             </h2>
           </ScrollReveal>
@@ -109,13 +109,13 @@ export function EcosystemLuminousSpectrum() {
                     <ActiveIcon className="w-6 h-6 sm:w-7 sm:h-7 text-white" strokeWidth={1.3} aria-hidden />
                   </span>
                   <div className="min-w-0">
-                    <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-gold-light/70 mb-1">
+                    <p className="font-sans text-[9px] uppercase tracking-[0.08em] text-gold-light/70 mb-1 font-semibold">
                       Active zone · {pad(index + 1)}/{pad(ECOSYSTEM_FEATURES.length)}
                     </p>
-                    <p className="font-serif text-xl sm:text-2xl text-white font-light tracking-tight leading-tight">
+                    <p className="font-serif text-xl sm:text-2xl text-white font-semibold tracking-tight leading-tight">
                       {active.label}
                     </p>
-                    <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/40 mt-1">
+                    <p className="font-sans text-xs uppercase tracking-[0.14em] text-white/40 mt-1 font-semibold">
                       {active.cue}
                     </p>
                   </div>
@@ -129,7 +129,7 @@ export function EcosystemLuminousSpectrum() {
                     return (
                       <li key={pillar.id} className="spectrum__pillar flex items-center gap-2.5">
                         <Icon className="w-3.5 h-3.5 text-gold-light/60" strokeWidth={1.5} aria-hidden />
-                        <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-white/35">
+                        <span className="font-sans text-xs uppercase tracking-[0.08em] text-white/35 font-semibold">
                           {pillar.label}
                         </span>
                       </li>

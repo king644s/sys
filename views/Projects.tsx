@@ -5,7 +5,10 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { PROJECTS } from '../data';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
-import { MapPin, Building } from 'lucide-react';
+import { MapPin, Building, ArrowRight } from 'lucide-react';
+import { SectionHeader } from '../components/ui/SectionHeader';
+import { Button } from '../components/ui/Button';
+import { ROUTES } from '@/lib/routes';
 
 type ProjectCategoryFilter = 'ALL' | 'RESIDENTIAL' | 'HOSPITALITY' | 'OFFICES' | 'RETAIL';
 
@@ -47,107 +50,97 @@ export function Projects() {
     return proj.category === activeFilter;
   });
 
+  const counts = PROJECT_FILTERS.reduce<Record<string, number>>((acc, filter) => {
+    acc[filter] = filter === 'ALL' ? PROJECTS.length : PROJECTS.filter((p) => p.category === filter).length;
+    return acc;
+  }, {});
+
   return (
     <div className="transition-page-enter">
       <Breadcrumbs />
-      {/* Header section */}
-      <section className="max-w-4xl mx-auto px-6 text-center py-12 md:py-16">
-        <ScrollReveal direction="up">
-          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-3 block">
-            04 / architectural showcase
-          </span>
-          <h1 className="font-serif text-4xl md:text-6xl text-cream font-light tracking-tight leading-tight">
-            Sculpted <span className="italic font-serif text-gold font-normal">Completed Spaces.</span>
-          </h1>
-          <p className="font-sans text-sm text-text-dim max-w-xl mx-auto mt-5 leading-relaxed">
-            Witness how our lighting classifications sculpt atmospheres across India. From waterfront private residences to BKC consulate office lounges and hotel sanctuaries.
-          </p>
-        </ScrollReveal>
-      </section>
 
-      {/* Grid classification filters */}
-      <section className="max-w-7xl mx-auto px-6 mb-12 flex justify-center">
-        <ScrollReveal direction="up" delay={0.1}>
-          <div className="flex flex-wrap gap-2 justify-center border border-border p-1.5 bg-surface-alt">
-            {PROJECT_FILTERS.map((filter) => (
+      <section className="container-page pb-10 pt-4">
+        <SectionHeader
+          as="h1"
+          eyebrow="Projects"
+          title="Spaces we've lit"
+          description="Waterfront homes, hotel sanctuaries and corporate offices across India — lit with SYSlight fixtures."
+          className="!mb-8"
+        />
+
+        <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1" role="tablist" aria-label="Filter projects by sector">
+          {PROJECT_FILTERS.map((filter) => {
+            const active = activeFilter === filter;
+            return (
               <button
                 key={filter}
+                role="tab"
+                aria-selected={active}
                 onClick={() => handleFilterChange(filter)}
-                className={`px-5 py-2 font-mono text-[11px] uppercase tracking-[0.15em] transition-all duration-300 cursor-pointer ${
-                  activeFilter === filter
-                    ? 'bg-gold text-void-dark font-bold shadow-glow-sm'
-                    : 'text-text-dim hover:text-cream'
+                className={`inline-flex h-9 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-medium transition-colors ${
+                  active
+                    ? 'border-cream bg-cream text-void'
+                    : 'border-border-mid text-text-dim hover:border-border-high hover:text-cream'
                 }`}
               >
-                {filter.replace('_', ' ')}
+                {filter === 'ALL' ? 'All' : filter.charAt(0) + filter.slice(1).toLowerCase()}
+                <span className={`text-xs ${active ? 'opacity-70' : 'text-text-ghost'}`}>{counts[filter]}</span>
               </button>
-            ))}
-          </div>
-        </ScrollReveal>
+            );
+          })}
+        </div>
       </section>
 
-      {/* Projects Grid */}
-      <section className="max-w-7xl mx-auto px-6 py-4">
+      <section className="container-page pb-20">
         {filteredProjects.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {filteredProjects.map((project, idx) => (
-              <div key={project.slug}>
-                <ScrollReveal direction="up" delay={idx * 0.08}>
-                  <div 
-                    className="group relative h-[400px] bg-void overflow-hidden border border-border hover:border-gold/50 hover:shadow-hover hover:-translate-y-1 transition-all duration-500 rounded-md"
-                    id={`project-card-${project.slug}`}
-                  >
+              <ScrollReveal key={project.slug} direction="up" delay={idx * 0.06}>
+                <article className="group" id={`project-card-${project.slug}`}>
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-lg bg-surface-alt">
                     <img
                       src={project.image}
                       alt={project.name}
                       loading="lazy"
                       referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover opacity-70 group-hover:opacity-95 group-hover:scale-105 transition-all duration-700 ease-out-expo"
+                      className="h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-[1.04]"
                     />
-                    
-                    {/* Underlay bottom shadow gradients */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-void via-void/40 to-transparent" />
-
-                    {/* Top quick badges */}
-                    <div className="absolute top-6 left-6 bg-surface/90 border border-border px-3 py-1 font-mono text-[11px] uppercase tracking-[0.15em] text-gold-muted">
-                      {project.category}
-                    </div>
-
-                    {/* Core details at bottom */}
-                    <div className="absolute bottom-0 inset-x-0 p-6 flex flex-col justify-end">
-                      <h3 className="font-serif text-xl font-bold text-cream mb-1 group-hover:text-gold transition-colors duration-300">
-                        {project.name}
-                      </h3>
-                      <p className="font-sans text-sm text-text-dim flex items-center gap-1.5 mt-2">
-                        <MapPin className="w-3.5 h-3.5 text-gold-muted" />
-                        <span>{project.location}</span>
-                      </p>
-                    </div>
+                    <span className="chip absolute left-3 top-3 h-6 bg-surface">
+                      {project.category.charAt(0) + project.category.slice(1).toLowerCase()}
+                    </span>
                   </div>
-                </ScrollReveal>
-              </div>
+                  <h2 className="heading-3 mt-4">{project.name}</h2>
+                  <p className="mt-1 flex items-center gap-1.5 text-sm text-text-dim">
+                    <MapPin className="h-3.5 w-3.5" />
+                    {project.location}
+                  </p>
+                </article>
+              </ScrollReveal>
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 border border-dashed border-border mt-6">
-            <span className="font-mono text-xs text-text-dim uppercase tracking-widest">
-              No matching structural reference found.
-            </span>
+          <div className="card px-6 py-20 text-center">
+            <p className="body">No projects in this sector yet.</p>
           </div>
         )}
       </section>
 
-      {/* Submission CTA block */}
-      <section className="max-w-4xl mx-auto px-6 py-20 mt-16 text-center border-t border-border">
-        <ScrollReveal direction="up">
-          <Building className="w-10 h-10 text-gold-muted/50 mb-4 mx-auto" />
-          <h2 className="font-serif text-2xl md:text-3xl font-light text-cream tracking-tight">
-            Feature your Next Project Showcased
-          </h2>
-          <p className="font-sans text-sm text-text-dim max-w-md mx-auto mt-4 leading-relaxed">
-            We partner with architectural houses, publishing pristine reference case sheets and high-resolution professional footage profiles.
-          </p>
-        </ScrollReveal>
+      <section className="container-page pb-20">
+        <div className="card flex flex-col gap-6 bg-surface-alt border-transparent p-8 md:flex-row md:items-center md:justify-between md:p-12">
+          <div className="flex max-w-xl gap-5">
+            <Building className="mt-1 h-8 w-8 shrink-0 text-gold" />
+            <div>
+              <h2 className="heading-2">Feature your next project</h2>
+              <p className="body mt-2">
+                We partner with architecture and design studios to document finished spaces with
+                professional photography and case studies.
+              </p>
+            </div>
+          </div>
+          <Button variant="primary" href={ROUTES.professionals}>
+            Work with us <ArrowRight className="h-4 w-4" />
+          </Button>
+        </div>
       </section>
     </div>
   );

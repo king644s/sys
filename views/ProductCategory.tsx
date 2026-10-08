@@ -10,6 +10,8 @@ import { ProductCard } from '../components/ui/ProductCard';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { getProductCodeDisplay } from '../utils/productCodes';
 import { useStickySidebarOffset } from '../hooks/useStickySidebarOffset';
+import { buttonClasses } from '../components/ui/Button';
+import { quoteHref } from '@/lib/site';
 import {
   ArrowLeft,
   Award,
@@ -141,155 +143,133 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
     !searchQuery.trim() &&
     Object.keys(subcategoryGroups).length > 1;
 
-  const sidebarHoverText = 'hover:text-cream';
-  const sidebarGroupHoverText = 'group-hover:text-cream';
+  const checkboxClass = (checked: boolean) =>
+    `flex h-4 w-4 shrink-0 items-center justify-center rounded-[4px] border transition-colors ${
+      checked ? 'border-gold bg-gold text-on-accent' : 'border-border-high bg-surface text-transparent'
+    }`;
+
+  const activeChipClass =
+    'inline-flex h-8 items-center gap-1.5 rounded-full border border-border bg-surface pl-3 pr-2 text-[13px] text-cream';
+  const chipCloseClass = 'rounded-full p-0.5 text-text-ghost hover:bg-surface-alt hover:text-cream';
 
   const renderSidebarContent = () => (
     <div className="flex flex-col gap-6 text-cream">
-      <div className="flex items-center justify-between border-b border-border/45 pb-4">
-        <div className="flex items-center gap-1.5 md:gap-2">
-          <SlidersHorizontal className="w-4 h-4 text-gold-muted" />
-          <span className="font-mono text-sm uppercase tracking-widest font-semibold">
-            Filter Products
-          </span>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <SlidersHorizontal className="h-4 w-4 text-text-dim" />
+          <span className="text-sm font-semibold">Filters</span>
         </div>
         {hasActiveFilters && (
           <button
             onClick={handleResetFilters}
-            className={`font-mono text-xs uppercase tracking-[0.15em] text-gold ${sidebarHoverText} transition-colors duration-200 cursor-pointer flex items-center gap-1 border border-gold/20 px-2 py-1 rounded-sm bg-gold/5`}
-            title="Clear all active selection filters"
+            className="inline-flex items-center gap-1 text-[13px] font-medium text-gold hover:underline"
           >
-            <RotateCcw className="w-3 h-3" />
-            <span>RESET</span>
+            <RotateCcw className="h-3 w-3" />
+            Reset
           </button>
         )}
       </div>
 
       <div className="relative">
-        <span className="absolute inset-y-0 left-3 flex items-center pr-3 pointer-events-none">
-          <Search className="w-3.5 h-3.5 text-text-ghost" />
-        </span>
+        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-ghost" />
         <input
-          type="text"
+          type="search"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={`Search ${category?.name ?? 'series'}...`}
-          className="w-full bg-surface-alt border border-border px-3.5 py-2.5 pl-9 font-sans text-sm text-cream placeholder:text-text-ghost focus:border-gold/50 focus:outline-none transition-all rounded-sm"
+          placeholder={`Search ${category?.name ?? 'series'}`}
+          aria-label="Search this category"
+          className="field pl-9 pr-9"
         />
         {searchQuery && (
           <button
             onClick={() => setSearchQuery('')}
-            className={`absolute inset-y-0 right-3 flex items-center text-text-dim ${sidebarHoverText} cursor-pointer`}
+            aria-label="Clear search"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-text-ghost hover:text-cream"
           >
-            <X className="w-3 h-3" />
+            <X className="h-3.5 w-3.5" />
           </button>
         )}
       </div>
 
-      <label className="flex items-center gap-2.5 cursor-pointer select-none py-1 group">
+      <label className="flex cursor-pointer select-none items-center gap-2.5 text-sm text-text-dim hover:text-cream">
         <input
           type="checkbox"
           checked={onlyBestsellers}
           onChange={(e) => setOnlyBestsellers(e.target.checked)}
           className="sr-only"
         />
-        <span
-          className={`w-4 h-4 border transition-colors duration-200 flex items-center justify-center rounded-sm ${
-            onlyBestsellers
-              ? 'bg-gold border-gold text-white'
-              : 'border-border/60 bg-surface-alt text-transparent group-hover:border-gold'
-          }`}
-        >
-          <Award className="w-2.5 h-2.5" />
+        <span className={checkboxClass(onlyBestsellers)}>
+          <Award className="h-2.5 w-2.5" />
         </span>
-        <span
-          className={`font-mono text-xs uppercase tracking-[0.15em] text-text-dim ${sidebarGroupHoverText} transition-colors`}
-        >
-          Highlight Bestsellers
-        </span>
+        Bestsellers only
       </label>
 
       {hasSectionFilters && (
-        <div className="flex flex-col gap-4">
-          <span className="font-mono text-xs text-text-ghost uppercase tracking-[0.15em] block border-b border-border/20 pb-1.5">
-            Sections
-          </span>
+        <>
+          <div className="divider" />
+          <div className="flex flex-col gap-1">
+            <span className="mb-1 text-[13px] font-semibold text-cream">Sections</span>
 
-          <div className="flex flex-col gap-3">
             <button
               type="button"
               onClick={() => setSelectedSections([])}
-              className={`text-left font-serif text-sm tracking-wide transition-colors duration-200 cursor-pointer flex items-center gap-1.5 ${
+              className={`-mx-2 flex items-center justify-between rounded-sm px-2 py-2 text-left text-sm transition-colors ${
                 selectedSections.length === 0
-                  ? 'text-gold font-bold'
-                  : `text-text-dim ${sidebarHoverText}`
+                  ? 'bg-accent-soft font-semibold text-gold'
+                  : 'text-text-dim hover:bg-surface-alt hover:text-cream'
               }`}
             >
-              <span
-                className={`w-1 h-3 bg-gold/50 rounded-sm transform transition-transform duration-300 ${
-                  selectedSections.length === 0 ? 'scale-y-120 bg-gold' : 'scale-y-0'
-                }`}
-              />
               <span>All sections</span>
-              <span className="font-mono text-xs text-text-ghost/85 font-normal ml-0.5">
-                ({matchedProducts.length})
-              </span>
+              <span className="text-xs text-text-ghost">{matchedProducts.length}</span>
             </button>
 
-            <div className="flex flex-col gap-1 pl-4 border-l border-gold-muted/20">
-              {sections.map((section) => {
-                const isSelected = selectedSections.includes(section);
-                const entry = catalogFamily?.entries.find((item) => item.section === section);
-                const subCount = getSectionCount(section);
+            {sections.map((section) => {
+              const isSelected = selectedSections.includes(section);
+              const entry = catalogFamily?.entries.find((item) => item.section === section);
+              const subCount = getSectionCount(section);
 
-                return (
-                  <button
-                    key={section}
-                    type="button"
-                    aria-pressed={isSelected}
-                    onClick={() => handleSelectSection(section)}
-                    className={`text-left font-sans text-xs py-1 transition-colors duration-200 cursor-pointer flex items-center justify-between gap-2 ${
-                      isSelected
-                        ? 'text-gold font-semibold'
-                        : `text-text-dim/80 ${sidebarHoverText}`
-                    }`}
-                  >
-                    <span className="flex items-center gap-1.5 min-w-0">
-                      <span
-                        className={`w-3.5 h-3.5 border rounded-sm shrink-0 flex items-center justify-center transition-colors ${
-                          isSelected
-                            ? 'bg-gold border-gold text-white'
-                            : 'border-border/60 bg-surface-alt text-transparent'
-                        }`}
-                      >
-                        <Check className="w-2.5 h-2.5" />
-                      </span>
-                      <span className="truncate">
-                        {entry ? `${entry.seriesName} — ${section}` : section}
-                      </span>
+              return (
+                <button
+                  key={section}
+                  type="button"
+                  aria-pressed={isSelected}
+                  onClick={() => handleSelectSection(section)}
+                  className={`flex items-center justify-between gap-2 py-1.5 text-left text-[13px] transition-colors ${
+                    isSelected ? 'font-medium text-cream' : 'text-text-dim hover:text-cream'
+                  }`}
+                >
+                  <span className="flex min-w-0 items-center gap-2">
+                    <span className={checkboxClass(isSelected)}>
+                      <Check className="h-3 w-3" />
                     </span>
-                    <span className="font-mono text-xs text-text-ghost/60 shrink-0">
-                      [{subCount}]
+                    <span className="truncate">
+                      {entry ? (
+                        <>
+                          <span className="text-text-ghost">{entry.seriesName} · </span>
+                          {section}
+                        </>
+                      ) : (
+                        section
+                      )}
                     </span>
-                  </button>
-                );
-              })}
-            </div>
+                  </span>
+                  <span className="shrink-0 text-xs text-text-ghost">{subCount}</span>
+                </button>
+              );
+            })}
           </div>
-        </div>
+        </>
       )}
     </div>
   );
 
   if (!category) {
     return (
-      <div className="text-center">
-        <h2 className="font-serif text-3xl text-cream">Classification not found</h2>
-        <Link
-          href={ROUTES.products}
-          className="mt-6 font-mono text-xs text-gold uppercase tracking-widest hover:underline cursor-pointer inline-block"
-        >
-          Return to classifications
+      <div className="container-page flex flex-col items-center py-24 text-center">
+        <h1 className="heading-2">Category not found</h1>
+        <p className="body mt-2">This category may have moved. Browse the full range instead.</p>
+        <Link href={ROUTES.products} className={`${buttonClasses('primary')} mt-6`}>
+          All products
         </Link>
       </div>
     );
@@ -299,132 +279,98 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
     <div className="min-h-screen bg-void text-cream">
       <Breadcrumbs />
 
-      <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col lg:flex-row gap-8 items-start relative">
-        <aside
-          ref={sidebarRef}
-          className="hidden lg:block shrink-0 w-80 border border-border/40 bg-surface/50 p-6 shadow-sm rounded-md self-start sticky top-28 z-10"
-        >
-          {renderSidebarContent()}
-        </aside>
-
-        <div className="grow w-full min-w-0">
-          <div className="-mx-6 px-6 pt-2 pb-4 mb-8 bg-void/95 backdrop-blur-md border-b border-border/40">
-            <Link
-              href={ROUTES.products}
-              className="font-mono text-xs uppercase tracking-[0.15em] text-text-dim hover:text-cream flex items-center gap-2 mb-6 cursor-pointer"
-            >
-              <ArrowLeft className="w-4 h-4 text-gold-muted" />
-              <span>all classifications</span>
-            </Link>
-
-            <div className="pb-6">
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                <div>
-                  <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-1.5 block">
-                    {category.type === 'outdoor'
-                      ? 'Outdoor Architectural Spectrum'
-                      : 'Indoor Architectural Spectrum'}
-                  </span>
-                  <h1 className="font-serif text-3xl md:text-5xl text-cream font-light tracking-tight">
-                    {category.name}{' '}
-                    <span className="italic font-serif text-gold font-normal">series</span>
-                  </h1>
-                  <p className="font-sans text-sm text-text-dim max-w-xl mt-4 leading-relaxed">
-                    {category.description}
-                  </p>
-                </div>
-
-                <button
-                  onClick={() => setIsMobileFiltersOpen(true)}
-                  className="lg:hidden flex items-center gap-2 bg-gold text-white border border-gold px-4 py-2 font-mono text-xs uppercase tracking-[0.15em] font-bold transition-all duration-250 cursor-pointer"
-                >
-                  <SlidersHorizontal className="w-3.5 h-3.5" />
-                  <span>Specs ({hasActiveFilters ? 'Active' : 'All'})</span>
-                </button>
-              </div>
-            </div>
-
-            {hasActiveFilters && (
-              <div className="flex flex-wrap items-center gap-2 mb-6 p-3 bg-surface-alt border border-border/40 rounded-md">
-                <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim mr-1">
-                  Active:
-                </span>
-                {selectedSections.map((section) => (
-                  <span
-                    key={section}
-                    className="inline-flex items-center gap-1.5 bg-void border border-border px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.1em] text-cream"
-                  >
-                    <span>SECTION: {section.toUpperCase()}</span>
-                    <button
-                      onClick={() => handleSelectSection(section)}
-                      className="hover:text-gold cursor-pointer"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                ))}
-                {searchQuery.trim() && (
-                  <span className="inline-flex items-center gap-1.5 bg-void border border-border px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.1em] text-cream">
-                    <span>SEARCH: {searchQuery.trim()}</span>
-                    <button
-                      onClick={() => setSearchQuery('')}
-                      className="hover:text-gold cursor-pointer"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                )}
-                {onlyBestsellers && (
-                  <span className="inline-flex items-center gap-1.5 bg-void border border-border px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.1em] text-cream">
-                    <span>BESTSELLERS</span>
-                    <button
-                      onClick={() => setOnlyBestsellers(false)}
-                      className="hover:text-gold cursor-pointer"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                )}
-                <button
-                  onClick={handleResetFilters}
-                  className="ml-auto font-mono text-[11px] uppercase tracking-[0.15em] text-gold hover:text-cream cursor-pointer"
-                >
-                  Clear all
-                </button>
-              </div>
-            )}
-
-            <div className="flex items-center gap-2 text-text-dim pb-1">
-              <SlidersHorizontal className="w-3.5 h-3.5 text-gold-muted" />
-              <span className="font-mono text-xs uppercase tracking-[0.15em]">
-                Showing {filteredProducts.length} of {matchedProducts.length} specifications
-              </span>
-            </div>
+      <div className="container-page pb-6 pt-4">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div className="flex max-w-2xl flex-col gap-2">
+            <span className="eyebrow">
+              {category.type === 'outdoor' ? 'Outdoor lighting' : 'Indoor lighting'}
+            </span>
+            <h1 className="heading-1">{category.name}</h1>
+            <p className="lead mt-1">{category.description}</p>
           </div>
 
+          <button
+            onClick={() => setIsMobileFiltersOpen(true)}
+            className={buttonClasses('secondary', 'md', 'lg:hidden self-start')}
+          >
+            <SlidersHorizontal className="h-4 w-4" />
+            Filters{hasActiveFilters ? ' · active' : ''}
+          </button>
+        </div>
+
+        <div className="mt-6 flex flex-wrap items-center gap-2">
+          <span className="mr-2 text-sm text-text-dim">
+            Showing {filteredProducts.length} of {matchedProducts.length} fixtures
+          </span>
+          {selectedSections.map((section) => (
+            <span key={section} className={activeChipClass}>
+              {section}
+              <button onClick={() => handleSelectSection(section)} aria-label={`Remove ${section}`} className={chipCloseClass}>
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </span>
+          ))}
+          {searchQuery.trim() && (
+            <span className={activeChipClass}>
+              “{searchQuery.trim()}”
+              <button onClick={() => setSearchQuery('')} aria-label="Clear search" className={chipCloseClass}>
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </span>
+          )}
+          {onlyBestsellers && (
+            <span className={activeChipClass}>
+              Bestsellers
+              <button onClick={() => setOnlyBestsellers(false)} aria-label="Remove bestsellers filter" className={chipCloseClass}>
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </span>
+          )}
+          {hasActiveFilters && (
+            <button
+              onClick={handleResetFilters}
+              className="ml-1 text-[13px] font-medium text-text-dim underline-offset-4 hover:text-cream hover:underline"
+            >
+              Clear all
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="container-page relative flex flex-col items-start gap-8 pb-16 lg:flex-row lg:gap-10">
+        <aside
+          ref={sidebarRef}
+          className="card sticky top-[calc(var(--header-height)+24px)] z-10 hidden w-72 shrink-0 self-start p-5 lg:block"
+        >
+          {renderSidebarContent()}
+          <div className="divider my-5" />
+          <Link href={ROUTES.products} className="inline-flex items-center gap-1.5 text-[13px] font-medium text-text-dim hover:text-cream">
+            <ArrowLeft className="h-3.5 w-3.5" /> All categories
+          </Link>
+        </aside>
+
+        <div className="w-full min-w-0 grow">
           {matchedProducts.length > 0 ? (
             filteredProducts.length > 0 ? (
               showGrouped ? (
                 <div className="flex flex-col gap-14">
                   {Object.entries(subcategoryGroups).map(([subcategory, products]) => (
                     <div key={subcategory}>
-                      <div className="border-b border-border/40 pb-4 mb-8 flex items-end justify-between gap-4">
+                      <div className="mb-6 flex items-end justify-between gap-4 border-b border-border pb-4">
                         <div>
-                          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold-muted block mb-1">
-                            Section
-                          </span>
-                          <h2 className="font-serif text-2xl md:text-3xl text-cream font-light tracking-tight">
-                            {subcategory}
-                          </h2>
+                          <h2 className="heading-3 text-xl md:text-2xl">{subcategory}</h2>
+                          <p className="mt-1 text-sm text-text-ghost">
+                            {products.length} {products.length === 1 ? 'fixture' : 'fixtures'}
+                          </p>
                         </div>
                         <button
                           onClick={() => handleSelectSection(subcategory)}
-                          className="hidden sm:inline-flex font-mono text-[11px] uppercase tracking-[0.15em] text-gold hover:text-cream cursor-pointer"
+                          className="hidden text-[13px] font-semibold text-gold hover:underline sm:inline-flex"
                         >
-                          Filter section
+                          Show only this section
                         </button>
                       </div>
-                      <div className="grid grid-cols-1 items-stretch md:grid-cols-2 xl:grid-cols-3 gap-8">
+                      <div className="grid grid-cols-1 items-stretch gap-5 sm:grid-cols-2 xl:grid-cols-3">
                         {products.map((prod) => (
                           <div key={prod.id} className="h-full">
                             <ProductCard product={prod} />
@@ -435,7 +381,7 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
                   ))}
                 </div>
               ) : (
-                <div className="grid grid-cols-1 items-stretch md:grid-cols-2 xl:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 items-stretch gap-5 sm:grid-cols-2 xl:grid-cols-3">
                   {filteredProducts.map((prod) => (
                     <div key={prod.id} className="h-full">
                       <ProductCard product={prod} />
@@ -444,32 +390,23 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
                 </div>
               )
             ) : (
-              <div className="text-center py-20 border border-dashed border-border">
-                <span className="font-mono text-sm text-text-dim uppercase tracking-widest block mb-4">
-                  No matching fixtures in this series.
-                </span>
-                <button
-                  onClick={handleResetFilters}
-                  className="bg-gold text-void-dark font-mono text-xs uppercase tracking-[0.15em] font-bold px-5 py-3 cursor-pointer"
-                >
-                  Clear search filters
+              <div className="card flex flex-col items-center px-6 py-20 text-center">
+                <Search className="h-8 w-8 text-text-ghost" />
+                <h2 className="heading-3 mt-4">No fixtures match those filters</h2>
+                <button onClick={handleResetFilters} className={`${buttonClasses('primary')} mt-6`}>
+                  Clear filters
                 </button>
               </div>
             )
           ) : (
-            <div className="text-center py-20 border border-dashed border-border">
-              <span className="font-mono text-sm text-text-dim uppercase tracking-widest block mb-4">
-                Fixture list update in progress.
-              </span>
-              <p className="font-sans text-sm text-text-dim/70 max-w-sm mx-auto">
-                Our Mumbai testing crew is currently finalizing technical certification logs for this
-                series. Please request details from our design desk directly.
+            <div className="card flex flex-col items-center px-6 py-20 text-center">
+              <h2 className="heading-3">This range is being updated</h2>
+              <p className="body mt-2 max-w-sm">
+                We&apos;re finalising specifications for this series. Ask our design desk for details and
+                availability.
               </p>
-              <Link
-                href={ROUTES.contact}
-                className="mt-6 bg-gold text-void-dark font-bold font-mono text-xs uppercase tracking-[0.15em] px-6 py-3.5 inline-block"
-              >
-                Contact design desk
+              <Link href={quoteHref(category.name)} className={`${buttonClasses('primary')} mt-6`}>
+                Ask the design desk
               </Link>
             </div>
           )}
@@ -477,35 +414,34 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
       </div>
 
       {isMobileFiltersOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden" id="mobile-category-filter-drawer">
+        <div className="fixed inset-0 z-[60] lg:hidden" id="mobile-category-filter-drawer">
           <div
-            className="fixed inset-0 bg-void/80 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm"
             onClick={() => setIsMobileFiltersOpen(false)}
           />
           <div
             data-lenis-prevent
-            className="fixed inset-y-0 left-0 w-full max-w-xs bg-void border-r border-border p-6 shadow-2xl flex flex-col h-full overflow-y-auto"
+            className="fixed inset-y-0 left-0 flex h-full w-full max-w-sm flex-col overflow-y-auto bg-void shadow-lifted"
           >
-            <div className="flex items-center justify-between mb-4 pb-2 border-b border-border/40">
-              <span className="font-mono text-xs uppercase tracking-widest text-gold font-bold">
-                LUMINAIRE FILTERS
-              </span>
+            <div className="flex items-center justify-between border-b border-border px-5 py-4">
+              <span className="text-base font-semibold">Filters</span>
               <button
                 onClick={() => setIsMobileFiltersOpen(false)}
-                className="p-1 hover:text-gold cursor-pointer"
+                aria-label="Close filters"
+                className="rounded-sm p-1.5 hover:bg-surface-alt"
               >
-                <X className="w-5 h-5 text-cream" />
+                <X className="h-5 w-5" />
               </button>
             </div>
 
-            <div className="flex-1 pb-10">{renderSidebarContent()}</div>
+            <div className="flex-1 px-5 py-5">{renderSidebarContent()}</div>
 
-            <div className="sticky bottom-0 bg-void pt-3 border-t border-border">
+            <div className="sticky bottom-0 border-t border-border bg-void p-4">
               <button
                 onClick={() => setIsMobileFiltersOpen(false)}
-                className="w-full py-3 bg-gold text-white font-mono text-xs uppercase tracking-[0.15em] font-black text-center cursor-pointer"
+                className={buttonClasses('primary', 'lg', 'w-full')}
               >
-                View results ({filteredProducts.length})
+                Show {filteredProducts.length} results
               </button>
             </div>
           </div>

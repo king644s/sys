@@ -198,7 +198,7 @@ export function ProductImageCarousel({
               </>
             )}
 
-            <span className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-[11px] uppercase tracking-[0.15em] text-text-dim bg-surface/80 border border-border/60 px-3 py-1.5 rounded-[1px] backdrop-blur-sm pointer-events-none z-10">
+            <span className="absolute bottom-6 left-1/2 -translate-x-1/2 font-sans text-xs uppercase tracking-[0.08em] text-text-dim bg-surface/80 border border-border/60 px-3 py-1.5 rounded-sm backdrop-blur-sm pointer-events-none z-10 font-semibold">
               {activeIndex + 1} / {slides.length}
             </span>
 
@@ -223,7 +223,7 @@ export function ProductImageCarousel({
               key={index}
               type="button"
               onClick={() => setActiveIndex(index)}
-              className={`w-14 h-14 md:w-16 md:h-16 border rounded-[2px] overflow-hidden cursor-pointer transition-all duration-300 p-1.5 bg-gold/5 dark:bg-surface-alt ${
+              className={`w-14 h-14 md:w-16 md:h-16 border rounded-sm overflow-hidden cursor-pointer transition-all duration-300 p-1.5 bg-gold/5 dark:bg-surface-alt ${
                 activeIndex === index
                   ? 'border-gold shadow-[0_0_0_1px_var(--color-gold)]'
                   : 'border-border hover:border-border-mid'
@@ -244,7 +244,7 @@ export function ProductImageCarousel({
           ref={viewportRef}
           onMouseMove={handleViewportMouseMove}
           onMouseLeave={handleViewportMouseLeave}
-          className="group relative flex-1 aspect-square border border-border rounded-[2px] overflow-hidden bg-gold/5 dark:bg-surface-alt"
+          className="group relative flex-1 aspect-square border border-border rounded-sm overflow-hidden bg-gold/5 dark:bg-surface-alt"
         >
           <div className="product-image-halo product-image-halo--lg" aria-hidden />
           <button
@@ -311,7 +311,7 @@ export function ProductImageCarousel({
             <ZoomIn className="w-4 h-4" />
           </button>
 
-          <span className="absolute bottom-3 left-3 z-20 font-mono text-[11px] uppercase tracking-[0.15em] text-text-ghost bg-surface/80 border border-border/60 px-2 py-1 rounded-[1px] backdrop-blur-sm pointer-events-none">
+          <span className="absolute bottom-3 left-3 z-20 font-sans text-xs uppercase tracking-[0.08em] text-text-ghost bg-surface/80 border border-border/60 px-2 py-1 rounded-sm backdrop-blur-sm pointer-events-none font-semibold">
             {activeIndex + 1} / {slides.length}
           </span>
         </div>

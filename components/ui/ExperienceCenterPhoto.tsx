@@ -105,7 +105,7 @@ export function ExperienceCenterPhoto() {
                   <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />
                 )}
                 <div className="flex flex-col gap-0.5">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-gold">
+                  <span className="eyebrow">
                     {upgradeStatus === 'loading'
                       ? 'Loading high resolution'
                       : 'High resolution ready'}

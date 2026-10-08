@@ -1,330 +1,370 @@
 'use client';
 
+import Link from 'next/link';
 import { CategoryCard } from '../components/ui/CategoryCard';
 import { ProductCard } from '../components/ui/ProductCard';
-import { SectionDivider } from '../components/ui/SectionDivider';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
 import { TestimonialsCarousel } from '../components/ui/TestimonialsCarousel';
-import Link from 'next/link';
+import { SectionHeader } from '../components/ui/SectionHeader';
+import { ProductFAQ } from '../components/ui/ProductFAQ';
 import { Button } from '../components/ui/Button';
 import { CATEGORIES, PRODUCTS, PROJECTS, TESTIMONIALS } from '../data';
 import { ROUTES } from '@/lib/routes';
-import { ArrowRight, Sparkles, Sliders, Layers, CornerDownRight, Quote } from 'lucide-react';
+import { quoteHref } from '@/lib/site';
+import { buildWhatsAppUrl } from '@/lib/whatsapp';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Sliders,
+  Sparkles,
+  Layers,
+  MapPin,
+  House,
+  DraftingCompass,
+  Check,
+} from 'lucide-react';
+
+const STATS = [
+  { value: '30+', label: 'Years of engineering' },
+  { value: 'CRI 92+', label: 'True colour rendering' },
+  { value: '2700–6500K', label: 'Tunable white range' },
+  { value: '100%', label: 'Made in India' },
+];
+
+const AUDIENCES = [
+  {
+    icon: House,
+    eyebrow: 'For homeowners',
+    title: 'Light your home beautifully',
+    points: [
+      'Help choosing fixtures, room by room',
+      'Smart lights and home automation',
+      'See it working at our Mumbai experience centre',
+    ],
+    primary: { label: 'Explore smart living', href: ROUTES.smartLights },
+    secondary: {
+      label: 'Chat on WhatsApp',
+      href: buildWhatsAppUrl('Hello SYSlight, I would like help choosing lighting for my home.'),
+      external: true,
+    },
+  },
+  {
+    icon: DraftingCompass,
+    eyebrow: 'For architects and trade',
+    title: 'Specify with confidence',
+    points: [
+      'Spec sheets, IES files and Dialux support',
+      'Custom beam angles, finishes and drivers',
+      'Project pricing for contractors and dealers',
+    ],
+    primary: { label: 'For professionals', href: ROUTES.professionals },
+    secondary: { label: 'Request a quote', href: quoteHref(), external: false },
+  },
+] as const;
 
 export function Home() {
-  const bestsellers = PRODUCTS.filter(p => p.isBestseller);
+  const bestsellers = PRODUCTS.filter((p) => p.isBestseller).slice(0, 8);
   const featuredProjects = PROJECTS.slice(0, 3);
 
   return (
     <div className="transition-page-enter">
-      {/* 1. Hero Section */}
-      <section className="relative h-screen min-h-[700px] w-full bg-void flex items-center justify-center overflow-hidden">
-        {/* Beautiful luxury logo backdrop ambient glow (Zero animation, pure stable brand color) */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-gold/5 blur-[120px] rounded-full pointer-events-none" />
-        <div className="absolute top-[40%] left-[45%] w-[350px] h-[350px] bg-gold-light/4 blur-[100px] rounded-full pointer-events-none" />
-
-        {/* Ambient top & bottom gradients */}
-        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-void to-transparent pointer-events-none" />
-        <div className="absolute inset-x-0 bottom-0 h-60 bg-gradient-to-t from-void to-transparent pointer-events-none" />
-
-        {/* Content on top */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 text-center flex flex-col items-center">
-          <ScrollReveal direction="up" delay={0.2}>
-            <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mb-3.5 block font-bold">
-              SYSLight • Systems Creator Innovation
-            </span>
-          </ScrollReveal>
-
-          <ScrollReveal direction="up" delay={0.4}>
-            <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl tracking-tight leading-none text-cream max-w-4xl font-light">
-              Focused Brilliance <br />
-              <span className="italic font-normal font-serif text-gold">for Every Corner.</span>
-            </h1>
-          </ScrollReveal>
-
-          <ScrollReveal direction="up" delay={0.6}>
-            <p className="font-sans text-sm text-text-dim max-w-lg mx-auto mt-6 tracking-wide leading-relaxed">
-              Premium Indian-made architectural LED luminaires designed to outperform Western luxury benchmarks. Honed for architects and interior spaces.
-            </p>
-          </ScrollReveal>
-
-          <ScrollReveal direction="up" delay={0.8}>
-            <div className="flex flex-col sm:flex-row gap-4 mt-10 justify-center">
-              <Button variant="primary" href={ROUTES.products}>
-                Explore Collections
-              </Button>
-              <Button variant="secondary" href={ROUTES.smartLights}>
-                Interactive CCT Demo
-              </Button>
-            </div>
-          </ScrollReveal>
-        </div>
-
-        {/* Scroll cues */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 opacity-50">
-          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-text-dim">
-            scroll down
-          </span>
-          <div className="w-[1px] h-10 bg-gradient-to-b from-gold/50 to-transparent animate-pulse-glow" />
-        </div>
-      </section>
-
-      {/* 2. Scroll-Driven Light Beam Simulation vertical divider */}
-      <div className="w-full flex justify-center bg-void">
-        <div className="w-[1px] h-[150px] bg-gradient-to-b from-gold/40 via-gold/10 to-transparent" />
-      </div>
-
-      {/* 3. Product Category Showcase */}
-      <section className="max-w-7xl mx-auto px-6 py-12" id="home-collections-showcase">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
-          <ScrollReveal direction="left">
-            <div>
-              <h2 className="font-serif text-3xl md:text-5xl font-light text-cream tracking-tight">
-                Architectural <span className="italic font-serif text-gold">Classifications</span>
-              </h2>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal direction="right">
-            <p className="font-sans text-sm text-text-dim max-w-sm leading-relaxed">
-              Precision engineered fixtures meticulously categorized to serve diverse structural tasks, spotlight controls, and wall wash configurations.
-            </p>
-          </ScrollReveal>
-        </div>
-
-        {/* Dynamic masonry layout showcasing categories with 3D model render engines */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {CATEGORIES.slice(0, 6).map((category, idx) => (
-            <div key={category.slug}>
-              <ScrollReveal direction="up" delay={idx * 0.1}>
-                <CategoryCard category={category} />
-              </ScrollReveal>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex justify-center mt-12">
-          <Link
-            href={ROUTES.products}
-            className="font-mono text-xs text-gold flex items-center gap-2 tracking-[0.2em] uppercase hover:underline cursor-pointer group"
-          >
-            <span>See entire list including IP66 series</span>
-            <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 duration-300" />
-          </Link>
-        </div>
-      </section>
-
-      <SectionDivider label="Our Heritage & Statement" />
-
-      {/* 4. Brand Statement and Manufacturing Heritage */}
-      <section className="bg-surface py-20 px-6 border-y border-border/40">
-        <div className="max-w-5xl mx-auto text-center flex flex-col items-center">
-          <ScrollReveal direction="up">
-            <Quote className="w-12 h-12 text-gold-muted/50 mb-6 mx-auto" />
-          </ScrollReveal>
-
-          <ScrollReveal direction="up" delay={0.15}>
-            <blockquote className="font-serif text-2xl md:text-3xl text-cream tracking-tight max-w-3xl leading-relaxed font-light">
-              "We built <span className="text-cream font-semibold">SYSLight</span> with a singular obsessiveness: to manufacture in Mumbai a caliber of optical LED that outperforms any European import, backing it with 30 years of industrial mastery."
-            </blockquote>
-          </ScrollReveal>
-
-          <ScrollReveal direction="up" delay={0.3}>
-            <cite className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold mt-6 block not-italic">
-              — Systems Creator, Founder of SYSLight
-            </cite>
-          </ScrollReveal>
-
-          {/* Badges */}
-          <div className="grid grid-cols-3 gap-8 mt-16 max-w-3xl w-full border-t border-border/50 pt-10">
+      {/* 1. Hero */}
+      <section className="relative overflow-hidden border-b border-border">
+        <div className="container-page grid items-center gap-12 py-14 md:py-20 lg:grid-cols-12 lg:gap-16 lg:py-24">
+          <div className="lg:col-span-6 flex flex-col">
             <ScrollReveal direction="up" delay={0.1}>
-              <div className="flex flex-col items-center">
-                <span className="font-serif text-3xl font-bold text-gold">30+</span>
-                <span className="font-mono text-[11px] uppercase tracking-widest text-text-dim mt-2">
-                  Years Engineering
-                </span>
-              </div>
+              <span className="chip chip-accent self-start">
+                <span className="h-1.5 w-1.5 rounded-full bg-gold" />
+                Architectural LED lighting · Mumbai
+              </span>
             </ScrollReveal>
             <ScrollReveal direction="up" delay={0.2}>
-              <div className="flex flex-col items-center">
-                <span className="font-serif text-3xl font-bold text-gold">CRI 92+</span>
-                <span className="font-mono text-[11px] uppercase tracking-widest text-text-dim mt-2">
-                  True Colour Rendering
-                </span>
-              </div>
+              <h1 className="display-1 mt-6">
+                Focused brilliance <span className="text-gold">for every corner.</span>
+              </h1>
             </ScrollReveal>
             <ScrollReveal direction="up" delay={0.3}>
-              <div className="flex flex-col items-center">
-                <span className="font-serif text-3xl font-bold text-gold">100%</span>
-                <span className="font-mono text-[11px] uppercase tracking-widest text-text-dim mt-2">
-                  Manufactured in India
-                </span>
+              <p className="lead mt-6 max-w-lg">
+                Premium Indian-made LED luminaires for homes, hotels, offices and retail — engineered for
+                true colour, glare-free comfort and smart control.
+              </p>
+            </ScrollReveal>
+            <ScrollReveal direction="up" delay={0.4}>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button variant="primary" size="lg" href={ROUTES.products}>
+                  Browse products <ArrowRight className="h-4 w-4" />
+                </Button>
+                <Button variant="secondary" size="lg" href={quoteHref()}>
+                  Get a quote
+                </Button>
+              </div>
+            </ScrollReveal>
+          </div>
+
+          <div className="lg:col-span-6">
+            <ScrollReveal direction="up" delay={0.25}>
+              <div className="relative">
+                <div className="aspect-[4/3] overflow-hidden rounded-xl bg-surface-alt">
+                  <img
+                    src="/about-us/syslight-experience-center-highres.jpg"
+                    alt="SYSlight experience centre in Mumbai"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div className="card absolute -bottom-6 left-4 right-4 grid grid-cols-3 gap-4 p-4 shadow-lifted sm:left-auto sm:right-6 sm:w-[340px]">
+                  {[STATS[0], STATS[1], STATS[3]].map((s) => (
+                    <div key={s.label}>
+                      <p className="font-display text-lg font-semibold tracking-tight text-cream">{s.value}</p>
+                      <p className="text-xs text-text-dim leading-snug">{s.label}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </ScrollReveal>
           </div>
         </div>
       </section>
 
-      <SectionDivider label="Interactive smart solutions" />
+      {/* 2. Who it's for — B2C / B2B split */}
+      <section className="section pb-0">
+        <div className="container-page grid gap-5 md:grid-cols-2">
+          {AUDIENCES.map((a, idx) => {
+            const Icon = a.icon;
+            return (
+              <ScrollReveal key={a.eyebrow} direction="up" delay={idx * 0.1}>
+                <div className={`card h-full p-card-xl md:p-10 ${idx === 1 ? 'bg-surface-alt border-transparent' : ''}`}>
+                  <span className="flex h-11 w-11 items-center justify-center rounded-sm bg-accent-soft text-gold">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <p className="eyebrow mt-6">{a.eyebrow}</p>
+                  <h2 className="heading-2 mt-2">{a.title}</h2>
+                  <ul className="mt-6 flex flex-col gap-3">
+                    {a.points.map((p) => (
+                      <li key={p} className="flex items-start gap-3 text-[15px] text-text-dim">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-8 flex flex-wrap gap-3">
+                    <Button variant="primary" href={a.primary.href}>
+                      {a.primary.label} <ArrowRight className="h-4 w-4" />
+                    </Button>
+                    <Button variant="secondary" href={a.secondary.href} external={a.secondary.external}>
+                      {a.secondary.label}
+                    </Button>
+                  </div>
+                </div>
+              </ScrollReveal>
+            );
+          })}
+        </div>
+      </section>
 
-      {/* 5. Smart CCT Color Temperature Highlight Banner */}
-      <section className="max-w-7xl mx-auto px-6 py-12">
-        <div className="bg-surface-alt border border-border rounded-md p-8 md:p-14 overflow-hidden relative grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-          {/* Decorative side spotlight background glow */}
-          <div className="absolute right-0 top-0 w-80 h-80 rounded-full blur-[100px] bg-gold/5 opacity-25 pointer-events-none" />
-
-          <div className="md:col-span-7 flex flex-col gap-6 z-10">
-            <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold">
-              next-gen smart technology
-            </span>
-            <h2 className="font-serif text-3xl md:text-5xl font-light tracking-tight text-cream leading-tight">
-              Color Temperature <span className="italic font-serif text-gold">Transitions</span>
-            </h2>
-            <p className="font-sans text-sm text-text-dim leading-relaxed max-w-xl">
-              From stimulating crisp white focus light (6500K) to deep relaxing sunset glows (2700K). Command ambient feelings with absolute thermal efficiency and zero ripple dimming.
-            </p>
-
-            <div className="grid grid-cols-3 gap-4 border-y border-border/50 py-5 my-2 max-w-lg">
-              <div className="flex gap-2.5 items-center">
-                <Sliders className="w-4 h-4 text-gold shrink-0" />
-                <span className="font-mono text-[11px] text-cream uppercase">smooth slide</span>
-              </div>
-              <div className="flex gap-2.5 items-center">
-                <Sparkles className="w-4 h-4 text-gold shrink-0" />
-                <span className="font-mono text-[11px] text-cream uppercase">zero flicker</span>
-              </div>
-              <div className="flex gap-2.5 items-center">
-                <Layers className="w-4 h-4 text-gold shrink-0" />
-                <span className="font-mono text-[11px] text-cream uppercase">presets</span>
-              </div>
-            </div>
-
-            <Button variant="primary" className="self-start mt-2" href={ROUTES.smartLights}>
-              Command Spectrum Orb
-            </Button>
-          </div>
-
-          <div className="md:col-span-5 flex justify-center relative">
-            <div className="relative border-2 border-border p-6 rounded-full aspect-square w-72 md:w-80 flex items-center justify-center bg-void z-10 shadow-inner">
-              <div className="absolute inset-2 rounded-full border border-border-mid/30 animate-pulse-glow" style={{ boxShadow: '0 0 30px rgba(201,169,110,0.1)' }} />
-              <div className="flex flex-col items-center">
-                <span className="font-serif text-4xl text-cream font-semibold">2700K</span>
-                <span className="font-mono text-[11px] text-gold uppercase tracking-widest mt-1">To</span>
-                <span className="font-serif text-4xl text-cream font-semibold mt-1">6500K</span>
-                <span className="font-mono text-text-dim text-[11px] uppercase tracking-[0.2em] mt-3">Smart Control</span>
-              </div>
-            </div>
-            {/* Visual halo backing */}
-            <div className="absolute inset-0 bg-gold/5 blur-[50px] rounded-full scale-75" />
+      {/* 3. Categories */}
+      <section className="section" id="home-collections-showcase">
+        <div className="container-page">
+          <SectionHeader
+            eyebrow="Product range"
+            title="Shop by category"
+            description="Spotlights, tracks, downlights and linear profiles — each family engineered for a specific job in the room."
+            action={
+              <Link href={ROUTES.products} className="link-arrow">
+                View all products <ArrowRight className="h-4 w-4" />
+              </Link>
+            }
+          />
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {CATEGORIES.slice(0, 6).map((category, idx) => (
+              <ScrollReveal key={category.slug} direction="up" delay={idx * 0.06}>
+                <CategoryCard category={category} />
+              </ScrollReveal>
+            ))}
           </div>
         </div>
       </section>
 
-      <SectionDivider label="Bestselling engineering" />
-
-      {/* 6. Featured Products Section */}
-      <section className="max-w-7xl mx-auto px-6 py-12">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
-          <ScrollReveal direction="left">
-            <div>
-              <h2 className="font-serif text-3xl md:text-5xl font-light text-cream tracking-tight">
-                Featured <span className="italic font-serif text-gold">Luminaires</span>
-              </h2>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal direction="right">
-            <p className="font-sans text-sm text-text-dim max-w-sm leading-relaxed">
-              Bestselling architectural selections admired by designers for absolute optic clarity, precise geometric cutoffs, and durable brass housings.
-            </p>
-          </ScrollReveal>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {bestsellers.map((product, idx) => (
-            <div key={product.id}>
-              <ScrollReveal direction="up" delay={idx * 0.1}>
+      {/* 4. Bestsellers */}
+      <section className="section bg-void-dark border-y border-border">
+        <div className="container-page">
+          <SectionHeader
+            eyebrow="Bestsellers"
+            title="Most specified fixtures"
+            description="Chosen again and again by designers for clean optics, precise cut-off and solid aluminium housings."
+            action={
+              <Link href={`${ROUTES.products}?bestsellers=1`} className="link-arrow">
+                All bestsellers <ArrowRight className="h-4 w-4" />
+              </Link>
+            }
+          />
+          <div
+            className={`grid grid-cols-1 gap-5 sm:grid-cols-2 ${
+              bestsellers.length % 3 === 0 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'
+            }`}
+          >
+            {bestsellers.map((product, idx) => (
+              <ScrollReveal key={product.id} direction="up" delay={idx * 0.05}>
                 <ProductCard product={product} />
               </ScrollReveal>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
-      <SectionDivider label="Architectural Spaces" />
-
-      {/* 7. Completed Commercial & Residential Projects */}
-      <section className="max-w-7xl mx-auto px-6 py-12" id="home-spaces-showcase">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
-          <ScrollReveal direction="left">
-            <div>
-              <h2 className="font-serif text-3xl md:text-5xl font-light text-cream tracking-tight">
-                Sculpted <span className="italic font-serif text-gold">Environments</span>
-              </h2>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal direction="right">
-            <p className="font-sans text-sm text-text-dim max-w-sm leading-relaxed">
-              Witness how our fixtures shape luxury residential cliff villas, high-density hotel lobbies, and global consulates alike across India.
-            </p>
-          </ScrollReveal>
-        </div>
-
-        {/* Selected Project Grid cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {featuredProjects.map((project, idx) => (
-            <div key={project.slug}>
-              <ScrollReveal direction="up" delay={idx * 0.1}>
+      {/* 5. Smart CCT */}
+      <section className="section">
+        <div className="container-page">
+          <div className="grid items-center gap-10 overflow-hidden rounded-xl bg-[#111114] p-8 text-white md:p-14 lg:grid-cols-12">
+            <div className="flex flex-col gap-5 lg:col-span-6">
+              <span className="eyebrow text-[#A7A4F2]">Smart lighting</span>
+              <h2 className="heading-2 text-white">One fixture. Every mood from 2700K to 6500K.</h2>
+              <p className="text-[15px] leading-relaxed text-white/65 max-w-lg">
+                Shift from crisp daylight for focus to a warm evening glow — with flicker-free dimming,
+                saved scenes and app or voice control.
+              </p>
+              <ul className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                {[
+                  { icon: Sliders, label: 'Smooth tuning' },
+                  { icon: Sparkles, label: 'Flicker-free' },
+                  { icon: Layers, label: 'Saved scenes' },
+                ].map(({ icon: Icon, label }) => (
+                  <li key={label} className="flex items-center gap-2.5 text-sm text-white/85">
+                    <Icon className="h-4 w-4 text-[#A7A4F2]" />
+                    {label}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-2 flex flex-wrap gap-3">
+                <Button variant="inverse" href={ROUTES.smartLights}>
+                  Try the CCT demo <ArrowRight className="h-4 w-4" />
+                </Button>
                 <Link
-                  href={ROUTES.projects}
-                  className="group relative h-[380px] bg-void overflow-hidden border border-border hover:border-gold/50 hover:shadow-hover hover:-translate-y-1 transition-all duration-500 rounded-md cursor-pointer block"
+                  href={ROUTES.homeAutomation}
+                  className="inline-flex h-11 items-center gap-2 rounded-sm px-4 text-sm font-semibold text-white/85 hover:bg-white/10"
                 >
-                  <img
-                    src={project.image}
-                    alt={project.name}
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover opacity-70 group-hover:opacity-95 group-hover:scale-105 transition-all duration-700 ease-out-expo"
-                  />
-                  
-                  {/* Visual underlay mask */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-void via-void/40 to-transparent" />
+                  Home automation
+                </Link>
+              </div>
+            </div>
 
-                  {/* Info Overlay */}
-                  <div className="absolute bottom-0 inset-x-0 p-6 flex flex-col justify-end">
-                    <span className="font-mono text-[11px] text-gold tracking-[0.2em] uppercase mb-1">
-                      {project.category}
-                    </span>
-                    <h3 className="font-serif text-xl font-bold text-cream mb-1 group-hover:text-gold transition-colors duration-300">
-                      {project.name}
-                    </h3>
-                    <p className="font-sans text-xs text-text-dim flex items-center gap-1.5 mt-2">
-                      <CornerDownRight className="w-3.5 h-3.5 text-gold-muted" />
-                      <span>{project.location}</span>
-                    </p>
+            <div className="lg:col-span-6">
+              <div className="rounded-lg border border-white/10 bg-white/[0.03] p-6 md:p-8">
+                <div className="flex justify-between text-sm text-white/60">
+                  <span>Warm</span>
+                  <span>Neutral</span>
+                  <span>Daylight</span>
+                </div>
+                <div
+                  className="mt-3 h-3 rounded-full"
+                  style={{ background: 'linear-gradient(90deg,#FFB46B 0%,#FFE4C2 45%,#F4F7FF 75%,#CFE0FF 100%)' }}
+                />
+                <div className="mt-3 flex justify-between font-mono text-xs text-white/50">
+                  <span>2700K</span>
+                  <span>4000K</span>
+                  <span>6500K</span>
+                </div>
+                <div className="mt-8 grid grid-cols-3 gap-3">
+                  {[
+                    { k: '2700K', c: '#FFB46B', l: 'Evening' },
+                    { k: '4000K', c: '#FFF1DE', l: 'Living' },
+                    { k: '6500K', c: '#DCE8FF', l: 'Focus' },
+                  ].map((s) => (
+                    <div key={s.k} className="rounded-md border border-white/10 p-4">
+                      <span
+                        className="block h-8 w-8 rounded-full"
+                        style={{ background: s.c, boxShadow: `0 0 24px 4px ${s.c}55` }}
+                      />
+                      <p className="mt-4 text-sm font-semibold">{s.l}</p>
+                      <p className="font-mono text-xs text-white/50">{s.k}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Heritage statement */}
+      <section className="section border-t border-border">
+        <div className="container-page grid gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <span className="eyebrow">Our story</span>
+            <blockquote className="heading-2 mt-4 font-medium leading-snug">
+              “We built SYSlight to manufacture in Mumbai a calibre of LED lighting that outperforms any
+              import — backed by 30 years of industrial engineering.”
+            </blockquote>
+            <p className="mt-5 text-sm text-text-dim">— Systems Creator, founders of SYSlight</p>
+            <Link href={ROUTES.about} className="link-arrow mt-8">
+              About SYSlight <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 gap-px self-start overflow-hidden rounded-lg border border-border bg-border lg:col-span-5">
+            {STATS.map((s) => (
+              <div key={s.label} className="bg-surface p-6">
+                <p className="font-display text-3xl font-semibold tracking-tight text-cream">{s.value}</p>
+                <p className="mt-1 text-sm text-text-dim">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7. Projects */}
+      <section className="section bg-void-dark border-y border-border" id="home-spaces-showcase">
+        <div className="container-page">
+          <SectionHeader
+            eyebrow="Projects"
+            title="Where our light lives"
+            description="Cliff-side villas, hotel lobbies and corporate offices across India."
+            action={
+              <Link href={ROUTES.projects} className="link-arrow">
+                All projects <ArrowRight className="h-4 w-4" />
+              </Link>
+            }
+          />
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+            {featuredProjects.map((project, idx) => (
+              <ScrollReveal key={project.slug} direction="up" delay={idx * 0.08}>
+                <Link
+                  href={`${ROUTES.projects}?category=${project.category}`}
+                  className="group block overflow-hidden rounded-lg"
+                >
+                  <div className="aspect-[4/5] overflow-hidden rounded-lg bg-surface-alt">
+                    <img
+                      src={project.image}
+                      alt={project.name}
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                      className="h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-[1.04]"
+                    />
+                  </div>
+                  <div className="flex items-start justify-between gap-4 pt-4">
+                    <div>
+                      <p className="eyebrow text-text-ghost">{project.category.toLowerCase()}</p>
+                      <h3 className="heading-3 mt-1 group-hover:text-gold transition-colors">{project.name}</h3>
+                      <p className="mt-1 flex items-center gap-1.5 text-sm text-text-dim">
+                        <MapPin className="h-3.5 w-3.5" /> {project.location}
+                      </p>
+                    </div>
+                    <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-text-ghost group-hover:text-gold transition-colors" />
                   </div>
                 </Link>
               </ScrollReveal>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex justify-center mt-12">
-          <Button variant="gold-outline" href={ROUTES.projects}>
-            Explore all Completed Projects
-          </Button>
+            ))}
+          </div>
         </div>
       </section>
 
-      <SectionDivider label="Collaborators & clients" />
-
-      {/* 8. Testimonials Section */}
-      <section className="bg-surface-alt border-y border-border/40 py-20 px-6">
-        <div className="max-w-6xl mx-auto">
+      {/* 8. Testimonials */}
+      <section className="section">
+        <div className="container-page">
           <TestimonialsCarousel testimonials={TESTIMONIALS} />
         </div>
       </section>
+
+      {/* 9. FAQ */}
+      <ProductFAQ />
 
     </div>
   );

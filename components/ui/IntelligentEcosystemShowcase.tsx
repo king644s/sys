@@ -74,18 +74,18 @@ export function IntelligentEcosystemShowcase() {
 
   return (
     <section className="relative bg-surface-alt text-cream overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 py-16 md:py-24 lg:py-28">
+      <div className="container-page py-16 md:py-24 lg:py-28">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 xl:gap-14 items-center">
           {/* Left — copy + pillars */}
           <div className="lg:col-span-5 flex flex-col gap-8 md:gap-10">
             <ScrollReveal direction="up">
-              <h2 className="font-serif text-[2rem] sm:text-[2.35rem] md:text-[2.75rem] xl:text-[3rem] font-light tracking-tight leading-[1.12] text-cream max-w-md">
+              <h2 className="font-serif text-[2rem] sm:text-[2.35rem] md:text-[2.75rem] xl:text-[3rem] font-semibold tracking-tight leading-[1.12] text-cream max-w-md">
                 {ECOSYSTEM_COPY.title}
               </h2>
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={0.06}>
-              <p className="font-sans text-sm md:text-[15px] text-text-dim leading-relaxed max-w-sm">
+              <p className="body md:text-[15px] max-w-sm">
                 {ECOSYSTEM_COPY.body}
               </p>
             </ScrollReveal>

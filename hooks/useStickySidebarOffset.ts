@@ -3,8 +3,8 @@
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 
-/** Matches Navbar `h-28` so a short sidebar sits below the nav. */
-const NAV_OFFSET_PX = 112;
+/** Header height (--header-height, 72px) + 24px breathing room. */
+const NAV_OFFSET_PX = 96;
 const BOTTOM_GAP_PX = 24;
 
 /**

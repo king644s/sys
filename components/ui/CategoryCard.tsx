@@ -37,46 +37,35 @@ export function CategoryCard({ category }: CategoryCardProps) {
       href={categoryPath(category.slug)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group bg-surface-alt border border-border hover:border-gold/50 hover:shadow-hover transition-all duration-500 rounded-md overflow-hidden flex flex-col cursor-pointer transform hover:-translate-y-1"
+      className="group card card-interactive flex h-full flex-col overflow-hidden"
       id={`category-card-${category.slug}`}
     >
-      <div className="relative h-[240px] bg-void overflow-hidden border-b border-border/40">
+      <div className="relative m-2 mb-0 h-[220px] overflow-hidden rounded-md bg-surface-alt">
         {category.has3D ? (
           <div className="absolute inset-0 flex items-center justify-center">
             <ProductOrbit shape={getShape()} isHovered={isHovered} />
           </div>
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center p-6">
+          <div className="absolute inset-0 flex items-center justify-center p-8">
             <img
               src={category.image}
               alt={category.name}
               loading="lazy"
               referrerPolicy="no-referrer"
-              className="max-h-full max-w-full h-auto w-auto object-contain object-center opacity-75 group-hover:scale-105 group-hover:opacity-100 group-hover:brightness-110 transition-all duration-700 ease-out-expo"
+              className="max-h-full max-w-full h-auto w-auto object-contain object-center transition-transform duration-700 ease-out-expo group-hover:scale-105"
             />
           </div>
         )}
 
-        <div className="absolute top-4 right-4 bg-void/80 border border-border px-2.5 py-1">
-          <span className="font-mono text-xs text-gold font-semibold tracking-[0.15em]">
-            {category.count} FIXTURES
-          </span>
-        </div>
+        <span className="chip absolute right-3 top-3 h-6 bg-surface">{category.count} fixtures</span>
       </div>
 
-      <div className="p-card-lg flex flex-col flex-1 bg-surface-alt group-hover:bg-surface transition-colors duration-500">
-        <h3 className="font-serif text-xl font-bold text-cream mb-2 group-hover:text-gold transition-colors duration-300">
-          {category.name}
-        </h3>
-
-        <p className="font-sans text-sm text-text-dim leading-relaxed mb-4 flex-1">
-          {category.description}
-        </p>
-
-        <div className="mt-auto flex justify-between items-center text-xs font-mono uppercase tracking-[0.15em] text-text-dim group-hover:text-gold transition-all duration-300">
-          <span>Explore collections</span>
-          <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 duration-300" />
-        </div>
+      <div className="flex flex-1 flex-col gap-2 p-card-lg">
+        <h3 className="heading-3 group-hover:text-gold transition-colors">{category.name}</h3>
+        <p className="flex-1 text-sm leading-relaxed text-text-dim">{category.description}</p>
+        <span className="link-arrow mt-3">
+          View range <ArrowRight className="h-4 w-4" />
+        </span>
       </div>
     </Link>
   );

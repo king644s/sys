@@ -246,7 +246,7 @@ export function KelvinOrb() {
       <div 
         ref={containerRef} 
         id="kelvin-webgl-orb" 
-        className="w-full h-full min-h-[400px] max-w-[560px] max-h-[560px] rounded-[2px] bg-transparent" 
+        className="w-full h-full min-h-[400px] max-w-[560px] max-h-[560px] rounded-sm bg-transparent" 
       />
 
       {/* Decorative Aura Overlay */}

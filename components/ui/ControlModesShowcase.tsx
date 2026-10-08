@@ -8,20 +8,20 @@ export function ControlModesShowcase() {
     <section className="relative bg-[#030303] text-white border-y border-white/[0.06] overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_20%_50%,rgba(106,103,204,0.06),transparent)] pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-6 py-16 md:py-24 lg:py-28">
+      <div className="relative container-page py-16 md:py-24 lg:py-28">
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,300px)_1fr] xl:grid-cols-[minmax(0,340px)_1fr] gap-10 lg:gap-10 xl:gap-12 items-stretch">
           {/* Left — intro copy */}
           <ScrollReveal direction="left" className="h-full">
             <div className="flex flex-col justify-between gap-10 lg:min-h-0 h-full">
               <div className="flex flex-col gap-6">
-                <h2 className="font-serif text-[2rem] md:text-[2.5rem] xl:text-[2.75rem] text-white font-light tracking-tight leading-[1.15]">
+                <h2 className="font-serif text-[2rem] md:text-[2.5rem] xl:text-[2.75rem] text-white font-semibold tracking-tight leading-[1.15]">
                   Control Your Home,{' '}
-                  <span className="italic text-gold-light">Your Way</span>
+                  <span className="text-gold-light">Your Way</span>
                 </h2>
               </div>
 
               <div className="flex flex-col gap-4">
-                <h3 className="font-serif text-xl md:text-2xl text-white font-light tracking-tight">
+                <h3 className="font-serif text-xl md:text-2xl text-white font-semibold tracking-tight">
                   Works with
                 </h3>
 

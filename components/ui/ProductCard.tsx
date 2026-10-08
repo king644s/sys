@@ -23,61 +23,45 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={href}
-      className="group flex h-full flex-col bg-surface border border-border hover:border-gold/50 hover:shadow-hover hover:-translate-y-1 transition-all duration-500 rounded-md overflow-hidden"
+      className="group card card-interactive flex h-full flex-col overflow-hidden"
       id={`product-card-${product.id}`}
     >
-      <div className="relative aspect-square w-full bg-gradient-to-b from-surface-alt to-void overflow-hidden">
+      <div className="relative m-2 mb-0 aspect-square overflow-hidden rounded-md bg-surface-alt">
         <div className="product-image-halo" aria-hidden />
-        <div className="absolute inset-0 z-[1] flex items-center justify-center p-6">
+        <div className="absolute inset-0 z-[1] flex items-center justify-center p-8">
           <ProgressiveImage
             thumbnailSrc={listingImage.thumbnail}
             fullSrc={listingImage.full}
             alt={product.name}
             loading="lazy"
-            className={`max-h-full max-w-full h-auto w-auto object-contain object-center opacity-100 transition-transform duration-700 ease-out-expo ${imageZoomClass}`}
+            className={`max-h-full max-w-full h-auto w-auto object-contain object-center transition-transform duration-700 ease-out-expo group-hover:scale-[1.04] ${imageZoomClass}`}
           />
         </div>
 
-        <div className="absolute inset-0 z-10 bg-void/30 backdrop-blur-[1.5px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <span className="border border-gold text-gold font-mono text-xs tracking-[0.15em] uppercase px-5 py-2.5 bg-void/95 rounded-sm shadow-card transform translate-y-3 group-hover:translate-y-0 transition-transform duration-500 ease-luxury">
-            View Product
-          </span>
-        </div>
-
         {product.isBestseller && (
-          <div className="absolute top-4 left-4 bg-gold text-white font-mono text-xs font-bold uppercase tracking-[0.15em] px-2.5 py-1 shadow-subtle z-10">
-            Bestseller
-          </div>
+          <span className="chip chip-accent absolute left-3 top-3 z-10 h-6 bg-surface">Bestseller</span>
         )}
+
+        <span className="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-surface text-cream opacity-0 shadow-subtle transition-all duration-300 group-hover:opacity-100">
+          <ArrowUpRight className="h-4 w-4" />
+        </span>
       </div>
 
-      <div className="p-card-md flex flex-1 flex-col border-t border-border/50">
+      <div className="flex flex-1 flex-col gap-1.5 p-card-md">
         {productCodes && (
-          <span className="mb-0.5 min-h-[1.125rem] font-mono text-xs uppercase tracking-[0.15em] text-gold-muted line-clamp-1">
-            {productCodes}
-          </span>
+          <span className="font-mono text-xs text-text-ghost line-clamp-1">{productCodes}</span>
         )}
-
-        <h3 className="mb-3 font-serif text-2xl font-semibold leading-tight text-cream line-clamp-2 group-hover:text-gold transition-colors duration-300">
-          {product.name}
-        </h3>
-
-        <p className="mb-2 min-h-[1.5rem] flex-1 font-sans text-sm leading-snug text-text-dim">
+        <h3 className="heading-3 line-clamp-2 group-hover:text-gold transition-colors">{product.name}</h3>
+        <p className="mt-auto pt-2 text-sm text-text-dim">
           {wattage ? (
             <>
-              Available in
-              <br />
+              <span className="text-text-ghost">Available in </span>
               {wattage}
             </>
           ) : (
-            '\u00A0'
+            ' '
           )}
         </p>
-
-        <span className="mt-auto self-start text-xs font-mono capitalize tracking-[0.15em] text-cream group-hover:text-gold group-hover:translate-x-1 duration-300 inline-flex items-center gap-1">
-          <span>View Product</span>
-          <ArrowUpRight className="w-3.5 h-3.5" />
-        </span>
       </div>
     </Link>
   );

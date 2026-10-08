@@ -21,12 +21,12 @@ export function WhatsAppCTA() {
       href={buildWhatsAppUrl('Hello SYSlight, I would like to inquire about your architectural lighting products.')}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] text-white px-5 py-3 rounded-full font-sans text-sm font-semibold tracking-wide border border-transparent shadow-[0_4px_20px_rgba(37,211,102,0.35)] hover:bg-[#22c55e] hover:scale-105 active:scale-95 dark:bg-[#128C7E] dark:border-[#25D366]/35 dark:shadow-[0_4px_28px_rgba(37,211,102,0.2),0_0_0_1px_rgba(37,211,102,0.12)] dark:hover:bg-[#0D7C66] transition-all duration-300 group"
+      className="fixed bottom-5 right-5 z-40 flex h-12 items-center gap-2 rounded-full bg-[#25D366] pl-4 pr-5 text-sm font-semibold text-white shadow-[0_8px_24px_-6px_rgba(37,211,102,0.55)] hover:bg-[#20bd5a] active:scale-95 transition-all duration-200"
       id="whatsapp-retention-pill"
     >
       <WhatsAppIcon className="w-5 h-5 shrink-0" />
-      <span>Chat with Us</span>
-      <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+      <span className="hidden sm:inline">Chat on WhatsApp</span>
+      <span className="sm:hidden">Chat</span>
     </a>
   );
 }

@@ -115,9 +115,9 @@ export function TestimonialsCarousel({
     >
       <div className="relative mb-16">
         <div className="text-center md:pr-20">
-          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold">testimonials</span>
-          <h2 className="font-serif text-3xl md:text-5xl font-light text-cream tracking-tight mt-2">
-            Praised by <span className="italic font-serif text-gold">Design Leaders</span>
+          <span className="eyebrow">testimonials</span>
+          <h2 className="heading-2 mt-2">
+            Praised by <span className="text-gold">Design Leaders</span>
           </h2>
         </div>
 
@@ -156,13 +156,13 @@ export function TestimonialsCarousel({
               style={{ width: slideWidth || `${100 / visibleCount}%` }}
             >
               <div className="flex-1 bg-surface border border-border p-8 rounded-sm flex flex-col">
-                <p className="font-sans text-sm text-text-dim leading-relaxed italic flex-1">
+                <p className="body italic flex-1">
                   &ldquo;{collab.quote}&rdquo;
                 </p>
 
                 <div className="mt-8 border-t border-border/40 pt-5 shrink-0">
                   <span className="font-sans text-sm font-semibold text-cream">{collab.author}</span>
-                  <span className="block font-mono text-[11px] uppercase tracking-[0.15em] text-gold mt-1">
+                  <span className="eyebrow block mt-1">
                     {collab.firm}
                   </span>
                 </div>
