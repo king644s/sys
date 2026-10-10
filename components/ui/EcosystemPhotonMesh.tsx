@@ -12,7 +12,7 @@ import { ScrollReveal } from './ScrollReveal';
 
 const MESH = { cx: 50, cy: 50, r: 40 } as const;
 
-function polar(angleDeg: number, radius = MESH.r) {
+function polar(angleDeg: number, radius: number = MESH.r) {
   const rad = (angleDeg * Math.PI) / 180;
   return {
     x: Number((MESH.cx + radius * Math.cos(rad)).toFixed(3)),
