@@ -157,7 +157,7 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <SlidersHorizontal className="h-4 w-4 text-text-dim" />
-          <span className="text-sm font-semibold">Filters</span>
+          <span className="text-base font-semibold">Filters</span>
         </div>
         {hasActiveFilters && (
           <button
@@ -208,7 +208,7 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
         <>
           <div className="divider" />
           <div className="flex flex-col gap-1">
-            <span className="mb-1 text-[13px] font-semibold text-cream">Sections</span>
+            <span className="eyebrow mb-1 text-text-dim">Sections</span>
 
             <button
               type="button"
@@ -358,7 +358,7 @@ export function ProductCategory({ categorySlug }: ProductCategoryProps) {
                     <div key={subcategory}>
                       <div className="mb-6 flex items-end justify-between gap-4 border-b border-border pb-4">
                         <div>
-                          <h2 className="heading-3 text-xl md:text-2xl">{subcategory}</h2>
+                          <h2 className="heading-3 text-2xl md:text-[1.75rem]">{subcategory}</h2>
                           <p className="mt-1 text-sm text-text-ghost">
                             {products.length} {products.length === 1 ? 'fixture' : 'fixtures'}
                           </p>

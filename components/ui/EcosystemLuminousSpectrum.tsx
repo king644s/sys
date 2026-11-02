@@ -2,7 +2,7 @@
 
 import { useId } from 'react';
 import {
-  ECOSYSTEM_COPY,
+  ECOSYSTEM_SPECTRUM_COPY,
   ECOSYSTEM_CYCLE_MS,
   ECOSYSTEM_FEATURES,
   ECOSYSTEM_PILLARS,
@@ -38,16 +38,14 @@ export function EcosystemLuminousSpectrum() {
       >
         <div className="text-center mb-12 md:mb-16">
           <ScrollReveal direction="up">
-            <p className="font-sans text-xs uppercase tracking-[0.08em] text-gold-light mb-4 font-semibold">
-              Route 02 · Luminous Spectrum
-            </p>
-            <h2 className="font-serif text-[2rem] sm:text-[2.35rem] md:text-[2.75rem] xl:text-[3rem] font-semibold tracking-tight leading-[1.12] text-white max-w-2xl mx-auto">
-              {ECOSYSTEM_COPY.title}
+            <p className="eyebrow text-[#A7A4F2] mb-4">{ECOSYSTEM_SPECTRUM_COPY.eyebrow}</p>
+            <h2 className="heading-2 text-white max-w-2xl mx-auto">
+              {ECOSYSTEM_SPECTRUM_COPY.title}
             </h2>
           </ScrollReveal>
           <ScrollReveal direction="up" delay={0.06}>
-            <p className="font-sans text-sm md:text-[15px] text-white/50 leading-relaxed max-w-lg mx-auto mt-5">
-              {ECOSYSTEM_COPY.body}
+            <p className="body text-white/70 max-w-lg mx-auto mt-5">
+              {ECOSYSTEM_SPECTRUM_COPY.body}
             </p>
           </ScrollReveal>
         </div>
@@ -109,13 +107,13 @@ export function EcosystemLuminousSpectrum() {
                     <ActiveIcon className="w-6 h-6 sm:w-7 sm:h-7 text-white" strokeWidth={1.3} aria-hidden />
                   </span>
                   <div className="min-w-0">
-                    <p className="font-sans text-[9px] uppercase tracking-[0.08em] text-gold-light/70 mb-1 font-semibold">
+                    <p className="eyebrow text-[#A7A4F2] mb-1">
                       Active zone · {pad(index + 1)}/{pad(ECOSYSTEM_FEATURES.length)}
                     </p>
-                    <p className="font-serif text-xl sm:text-2xl text-white font-semibold tracking-tight leading-tight">
+                    <p className="font-display text-xl sm:text-2xl text-white font-semibold tracking-tight leading-tight">
                       {active.label}
                     </p>
-                    <p className="font-sans text-xs uppercase tracking-[0.14em] text-white/40 mt-1 font-semibold">
+                    <p className="eyebrow text-white/60 mt-1">
                       {active.cue}
                     </p>
                   </div>
@@ -128,8 +126,8 @@ export function EcosystemLuminousSpectrum() {
                     const Icon = pillar.icon;
                     return (
                       <li key={pillar.id} className="spectrum__pillar flex items-center gap-2.5">
-                        <Icon className="w-3.5 h-3.5 text-gold-light/60" strokeWidth={1.5} aria-hidden />
-                        <span className="font-sans text-xs uppercase tracking-[0.08em] text-white/35 font-semibold">
+                        <Icon className="w-3.5 h-3.5 text-[#A7A4F2]/60" strokeWidth={1.5} aria-hidden />
+                        <span className="eyebrow text-white/60">
                           {pillar.label}
                         </span>
                       </li>
@@ -142,8 +140,8 @@ export function EcosystemLuminousSpectrum() {
         </ScrollReveal>
 
         <ScrollReveal direction="up" delay={0.16}>
-          <p className="text-center font-sans text-[13px] text-white/25 mt-12 md:mt-16 max-w-md mx-auto">
-            Light as infrastructure. One continuous spectrum connecting every system in your home.
+          <p className="text-center font-sans text-[13px] text-white/60 mt-12 md:mt-16 max-w-md mx-auto">
+            {ECOSYSTEM_SPECTRUM_COPY.footnote}
           </p>
         </ScrollReveal>
       </div>

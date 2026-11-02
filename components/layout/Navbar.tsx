@@ -103,6 +103,9 @@ export function Navbar() {
     if (viewType === 'products') {
       return ['products', 'product-category', 'product-detail'].includes(currentView.type);
     }
+    if (viewType === 'projects') {
+      return currentView.type === 'projects' || currentView.type === 'project-detail';
+    }
     if (viewType === 'smart') {
       return currentView.type === 'smart-lights' || currentView.type === 'home-automation';
     }

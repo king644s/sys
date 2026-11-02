@@ -18,7 +18,7 @@ const COMPANY_NAV = [
 function FooterColumn({ title, links }: { title: string; links: ReadonlyArray<{ label: string; href: string }> }) {
   return (
     <div className="flex flex-col gap-4">
-      <h4 className="text-[13px] font-semibold text-cream tracking-normal">{title}</h4>
+      <h2 className="font-sans text-sm font-semibold text-cream">{title}</h2>
       <ul className="flex flex-col gap-2.5">
         {links.map((link) => (
           <li key={link.href + link.label}>
@@ -39,8 +39,8 @@ export function Footer() {
       <div className="container-page">
         <div className="flex flex-col gap-6 border-b border-border py-12 md:flex-row md:items-center md:justify-between">
           <div className="max-w-xl">
-            <h3 className="heading-2">Planning a project?</h3>
-            <p className="lead mt-2">
+            <h2 className="heading-3 text-2xl">Planning a project?</h2>
+            <p className="body mt-2">
               Send us your drawings or a room list — we&apos;ll come back with a fixture schedule and quote.
             </p>
           </div>

@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { useNavigation } from '@/hooks/useNavigation';
-import { ROUTES, categoryPath, productPath } from '@/lib/routes';
-import { CATEGORIES, PRODUCTS } from '../../data';
+import { ROUTES, categoryPath, productPath, projectPath } from '@/lib/routes';
+import { CATEGORIES, PRODUCTS, PROJECTS } from '../../data';
 import { ChevronRight } from 'lucide-react';
 
 export function Breadcrumbs() {
@@ -100,6 +100,20 @@ export function Breadcrumbs() {
         isLast: true,
       });
       break;
+
+    case 'project-detail': {
+      const project = PROJECTS.find((p) => p.slug === currentView.projectSlug);
+      crumbs.push({
+        label: 'Projects',
+        href: ROUTES.projects,
+      });
+      crumbs.push({
+        label: project ? project.name : currentView.projectSlug,
+        href: projectPath(currentView.projectSlug),
+        isLast: true,
+      });
+      break;
+    }
 
     case 'professionals':
       crumbs.push({

@@ -59,14 +59,14 @@ export function HomeAutomationHero() {
           {/* Copy column */}
           <div className="lg:col-span-5 xl:col-span-5 flex flex-col gap-7 md:gap-8 max-w-xl">
             <ScrollReveal direction="up">
-              <h1 className="font-serif text-[2.5rem] sm:text-5xl md:text-[3.5rem] xl:text-[3.75rem] font-semibold tracking-tight leading-[1.08] text-white">
-                Control Every Corner of{' '}
-                <span className="text-gold-light">Your Home</span>
+              <h1 className="display-1 text-white">
+                Control every corner of{' '}
+                <span className="text-[#A7A4F2]">your home</span>
               </h1>
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={0.08}>
-              <p className="font-sans text-sm md:text-[15px] text-white/65 leading-relaxed max-w-md">
+              <p className="lead text-white/70 max-w-md">
                 Smart lighting, security, climate, entertainment, and automation —
                 unified into one seamless ecosystem designed for modern living.
               </p>
@@ -76,9 +76,9 @@ export function HomeAutomationHero() {
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-1">
                 <Link
                   href="#smart-solutions"
-                  className="group inline-flex h-12 items-center justify-between gap-4 rounded-full bg-gold hover:bg-gold-light text-white pl-5 pr-1.5 font-sans text-xs uppercase tracking-[0.14em] font-semibold transition-all duration-300 shadow-[0_8px_28px_-8px_rgba(77,74,157,0.55)] hover:-translate-y-0.5"
+                  className="group inline-flex h-12 items-center justify-between gap-4 rounded-full bg-gold hover:bg-gold-light text-white pl-5 pr-1.5 font-sans text-sm font-semibold transition-all duration-300 shadow-[0_8px_28px_-8px_rgba(77,74,157,0.55)] hover:-translate-y-0.5"
                 >
-                  <span>Explore Smart Solutions</span>
+                  <span>Explore smart solutions</span>
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-gold group-hover:scale-105 transition-transform duration-300">
                     <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.25} />
                   </span>
@@ -86,9 +86,9 @@ export function HomeAutomationHero() {
 
                 <Link
                   href={ROUTES.contact}
-                  className="group inline-flex h-12 items-center justify-center gap-2.5 rounded-full border border-white/35 hover:border-white/70 bg-transparent hover:bg-white/[0.06] text-white px-5 font-sans text-xs uppercase tracking-[0.14em] font-semibold transition-all duration-300"
+                  className="group inline-flex h-12 items-center justify-center gap-2.5 rounded-full border border-white/35 hover:border-white/70 bg-transparent hover:bg-white/[0.06] text-white px-5 font-sans text-sm font-semibold transition-all duration-300"
                 >
-                  <span>Book Consultation</span>
+                  <span>Book a consultation</span>
                   <ArrowRight
                     className="w-3.5 h-3.5 opacity-80 group-hover:translate-x-0.5 transition-transform duration-300"
                     strokeWidth={1.75}
@@ -146,7 +146,7 @@ export function HomeAutomationHero() {
                         <span className="font-sans text-[13px] font-semibold text-white">
                           {card.label}
                         </span>
-                        <span className="font-sans text-xs uppercase tracking-[0.08em] text-white/55 mt-0.5 font-semibold">
+                        <span className="eyebrow text-white/55 mt-0.5">
                           {card.status}
                         </span>
                       </div>

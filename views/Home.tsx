@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { CategoryCard } from '../components/ui/CategoryCard';
+import { ProjectCard } from '../components/ui/ProjectCard';
 import { ProductCard } from '../components/ui/ProductCard';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
 import { TestimonialsCarousel } from '../components/ui/TestimonialsCarousel';
@@ -14,11 +15,9 @@ import { quoteHref } from '@/lib/site';
 import { buildWhatsAppUrl } from '@/lib/whatsapp';
 import {
   ArrowRight,
-  ArrowUpRight,
   Sliders,
   Sparkles,
   Layers,
-  MapPin,
   House,
   DraftingCompass,
   Check,
@@ -114,8 +113,8 @@ export function Home() {
                 <div className="card absolute -bottom-6 left-4 right-4 grid grid-cols-3 gap-4 p-4 shadow-lifted sm:left-auto sm:right-6 sm:w-[340px]">
                   {[STATS[0], STATS[1], STATS[3]].map((s) => (
                     <div key={s.label}>
-                      <p className="font-display text-lg font-semibold tracking-tight text-cream">{s.value}</p>
-                      <p className="text-xs text-text-dim leading-snug">{s.label}</p>
+                      <p className="stat-value text-2xl">{s.value}</p>
+                      <p className="stat-label mt-1">{s.label}</p>
                     </div>
                   ))}
                 </div>
@@ -137,7 +136,7 @@ export function Home() {
                     <Icon className="h-5 w-5" />
                   </span>
                   <p className="eyebrow mt-6">{a.eyebrow}</p>
-                  <h2 className="heading-2 mt-2">{a.title}</h2>
+                  <h2 className="heading-2 mt-2 md:text-[2rem]">{a.title}</h2>
                   <ul className="mt-6 flex flex-col gap-3">
                     {a.points.map((p) => (
                       <li key={p} className="flex items-start gap-3 text-[15px] text-text-dim">
@@ -258,7 +257,7 @@ export function Home() {
                   className="mt-3 h-3 rounded-full"
                   style={{ background: 'linear-gradient(90deg,#FFB46B 0%,#FFE4C2 45%,#F4F7FF 75%,#CFE0FF 100%)' }}
                 />
-                <div className="mt-3 flex justify-between font-mono text-xs text-white/50">
+                <div className="mt-3 flex justify-between font-mono text-xs text-white/60">
                   <span>2700K</span>
                   <span>4000K</span>
                   <span>6500K</span>
@@ -275,7 +274,7 @@ export function Home() {
                         style={{ background: s.c, boxShadow: `0 0 24px 4px ${s.c}55` }}
                       />
                       <p className="mt-4 text-sm font-semibold">{s.l}</p>
-                      <p className="font-mono text-xs text-white/50">{s.k}</p>
+                      <p className="font-mono text-xs text-white/60">{s.k}</p>
                     </div>
                   ))}
                 </div>
@@ -302,8 +301,8 @@ export function Home() {
           <div className="grid grid-cols-2 gap-px self-start overflow-hidden rounded-lg border border-border bg-border lg:col-span-5">
             {STATS.map((s) => (
               <div key={s.label} className="bg-surface p-6">
-                <p className="font-display text-3xl font-semibold tracking-tight text-cream">{s.value}</p>
-                <p className="mt-1 text-sm text-text-dim">{s.label}</p>
+                <p className="stat-value">{s.value}</p>
+                <p className="stat-label mt-1">{s.label}</p>
               </div>
             ))}
           </div>
@@ -326,30 +325,7 @@ export function Home() {
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
             {featuredProjects.map((project, idx) => (
               <ScrollReveal key={project.slug} direction="up" delay={idx * 0.08}>
-                <Link
-                  href={`${ROUTES.projects}?category=${project.category}`}
-                  className="group block overflow-hidden rounded-lg"
-                >
-                  <div className="aspect-[4/5] overflow-hidden rounded-lg bg-surface-alt">
-                    <img
-                      src={project.image}
-                      alt={project.name}
-                      loading="lazy"
-                      referrerPolicy="no-referrer"
-                      className="h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-[1.04]"
-                    />
-                  </div>
-                  <div className="flex items-start justify-between gap-4 pt-4">
-                    <div>
-                      <p className="eyebrow text-text-ghost">{project.category.toLowerCase()}</p>
-                      <h3 className="heading-3 mt-1 group-hover:text-gold transition-colors">{project.name}</h3>
-                      <p className="mt-1 flex items-center gap-1.5 text-sm text-text-dim">
-                        <MapPin className="h-3.5 w-3.5" /> {project.location}
-                      </p>
-                    </div>
-                    <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-text-ghost group-hover:text-gold transition-colors" />
-                  </div>
-                </Link>
+                <ProjectCard project={project} />
               </ScrollReveal>
             ))}
           </div>

@@ -36,44 +36,42 @@ export const theme = {
       borderHigh: '#B0AFCC',
     }
   },
+  // Mirrors docs/typography.md and the classes in app/globals.css.
   typography: {
     families: {
-      serif: '"Cormorant Garamond", Georgia, serif',
-      sans: '"DM Sans", sans-serif',
-      mono: '"Space Mono", monospace'
+      display: '"Inter Tight", "Inter", system-ui, sans-serif',
+      sans: '"Inter", system-ui, sans-serif',
+      mono: '"JetBrains Mono", ui-monospace, monospace'
     },
     sizes: {
-      displayXxl: '96px',     // 6.0rem
-      displayXl: '72px',      // 4.5rem
-      displayLg: '60px',      // 3.75rem
-      h1: '48px',             // 3.0rem
-      h2: '40px',             // 2.5rem
-      h2Sm: '28px',           // 1.75rem
-      h3: '20px',             // 1.25rem
-      h4: '18px',             // 1.125rem
-      bodyLg: '16px',         // 1.0rem
-      bodyMd: '14px',         // 0.875rem (primary body copy)
-      bodySm: '13px',         // 0.8125rem
-      caption: '12px',        // 0.75rem
-      labelUi: '11px'         // 0.6875rem (absolute floor)
+      display: 'clamp(2.5rem, 6vw, 4.5rem)',   // 40 → 72px  .display-1
+      h1: 'clamp(2rem, 4.5vw, 3.25rem)',        // 32 → 52px  .heading-1
+      h2: 'clamp(1.75rem, 3.2vw, 2.5rem)',      // 28 → 40px  .heading-2
+      h3: '20px',                               // .heading-3
+      cardTitle: '18px',                        // .card-title
+      stat: '28px',                             // .stat-value
+      lead: '17px',                             // .lead
+      body: '15px',                             // .body
+      bodySm: '14px',                           // card body, table values
+      meta: '13px',                             // helper text, captions
+      label: '12px'                             // .eyebrow — absolute floor
     },
     lineHeights: {
-      display: '1.0',
-      hero: '1.05',
-      heading: '1.15',
-      subheading: '1.3',
+      display: '1.02',
+      h1: '1.06',
+      h2: '1.1',
+      h3: '1.25',
+      cardTitle: '1.35',
       body: '1.65',
-      ui: '1.4',
-      caption: '1.5',
       label: '1.3'
     },
     letterSpacing: {
-      tight: '-0.025em',
-      snug: '-0.01em',
+      display: '-0.035em',
+      h1: '-0.03em',
+      h2: '-0.025em',
+      h3: '-0.015em',
       normal: '0em',
-      label: '0.15em',
-      overline: '0.25em',
-      widest: '0.35em'
+      label: '0.08em'
     }
   },
   spacing: {

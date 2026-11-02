@@ -14,9 +14,9 @@ export function SmartSolutionsShowcase() {
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 md:mb-12">
           <ScrollReveal direction="left">
             <div className="flex flex-col gap-6">
-              <h2 className="font-serif text-[2rem] md:text-[2.5rem] xl:text-[2.75rem] text-cream font-semibold tracking-tight leading-[1.15]">
-                Smart Solutions for{' '}
-                <span className="text-gold">Every Need</span>
+              <h2 className="heading-2">
+                Smart solutions for{' '}
+                <span className="text-gold">every need</span>
               </h2>
             </div>
           </ScrollReveal>
@@ -24,10 +24,10 @@ export function SmartSolutionsShowcase() {
           <ScrollReveal direction="right">
             <Link
               href={ROUTES.products}
-              className="eyebrow flex items-center gap-2 hover:text-gold-light transition-colors group shrink-0"
+              className="link-arrow group shrink-0"
             >
-              <span>View All Products</span>
-              <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform duration-300" />
+              <span>View all products</span>
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </ScrollReveal>
         </div>
@@ -64,10 +64,10 @@ export function SmartSolutionsShowcase() {
                         <Icon className="w-[15px] h-[15px] text-white" strokeWidth={1.75} />
                       </div>
                       <div className="flex flex-col gap-1 min-w-0 pt-0.5">
-                        <h3 className="font-serif text-[15px] sm:text-base font-semibold text-black dark:text-white leading-snug group-hover:text-gold dark:group-hover:text-gold-light transition-colors duration-300">
+                        <h3 className="card-title text-base text-black dark:text-white leading-snug group-hover:text-gold dark:group-hover:text-gold-light transition-colors duration-300">
                           {solution.title}
                         </h3>
-                        <p className="font-sans text-[11px] text-black/60 dark:text-white/55 leading-snug">
+                        <p className="font-sans text-[13px] text-black/70 dark:text-white/55 leading-snug">
                           {solution.subtitle}
                         </p>
                       </div>

@@ -6,17 +6,17 @@ import { ProgressiveImage } from './ProgressiveImage';
 
 const FEATURE_COPY = [
   {
-    title: 'Warmth You Can See',
+    title: 'Warmth you can see',
     description:
       'Gentle illumination that softens spaces and moods, creating an inviting calm in every corner.',
   },
   {
-    title: 'Crafted with Intention',
+    title: 'Crafted with intention',
     description:
       'Each form balances design and function — a quiet sculpture by day, a warm companion by night.',
   },
   {
-    title: 'Made to Last, Made to Glow',
+    title: 'Made to last, made to glow',
     description:
       'Built from enduring materials that age beautifully, radiating comfort for years to come.',
   },
@@ -53,11 +53,11 @@ export function ProductFeatures({
       <ScrollReveal direction="up">
         <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
           <span className="eyebrow block mb-3">
-            The Glow of Thoughtful Living
+            The glow of thoughtful living
           </span>
           <h2 className="heading-2">
-            Lights Designed to Warm,{' '}
-            <span className="text-gold">Inspire and Endure</span>
+            Lights designed to warm,{' '}
+            <span className="text-gold">inspire and endure</span>
           </h2>
         </div>
 
@@ -80,7 +80,7 @@ export function ProductFeatures({
                 </div>
 
                 <div className="flex flex-col gap-2.5">
-                  <h3 className="font-sans text-base md:text-lg text-cream font-semibold tracking-tight">
+                  <h3 className="card-title">
                     {feature.title}
                   </h3>
                   <p className="body">

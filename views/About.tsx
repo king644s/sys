@@ -10,6 +10,7 @@ import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { TimelineCardStack } from '../components/ui/TimelineCardStack';
 import { ExperienceCenterPhoto } from '../components/ui/ExperienceCenterPhoto';
 import { ResponsiveLightOrb } from '../components/ui/ResponsiveLightOrb';
+import { TeamSection } from '../components/ui/TeamSection';
 import { TESTIMONIALS } from '../data';
 import {
   ArrowRight,
@@ -28,19 +29,19 @@ const SYSTEMS_CREATOR_ABOUT = 'https://systemscreator.com/about-us/';
 const BELIEFS = [
   {
     icon: Factory,
-    title: 'Made In-House',
+    title: 'Made in-house',
     body: 'Our drivers and fixtures are developed under one roof by Systems Creator. This control over engineering lets us maintain consistency across a project and support you long after installation.',
     label: 'Pillar 01 / Engineering Control',
   },
   {
     icon: Compass,
-    title: 'Designed for Specifiers',
+    title: 'Designed for specifiers',
     body: 'We speak the language of architects and interior designers. From beam direction to colour temperature to dimming, our range is built to be specified with intent, not picked off a shelf.',
     label: 'Pillar 02 / Specifier-First',
   },
   {
     icon: Sparkles,
-    title: 'Built to Adapt',
+    title: 'Built to adapt',
     body: 'Warm to cool, bright to intimate, manual to app-controlled. SYSlight fixtures are made to shift with the mood of a room and the needs of the people in it.',
     label: 'Pillar 03 / Adaptive Light',
   },
@@ -50,25 +51,25 @@ const WHY_CHOOSE = [
   {
     icon: Award,
     index: '01',
-    title: 'Quality You Can Trust',
+    title: 'Quality you can trust',
     body: 'Built on 30+ years of manufacturing discipline, every fixture is made to perform and last.',
   },
   {
     icon: Route,
     index: '02',
-    title: 'Guidance, Not Just Products',
+    title: 'Guidance, not just products',
     body: 'From first consultation to final layout, our team supports you at every step.',
   },
   {
     icon: DraftingCompass,
     index: '03',
-    title: 'Tailored to Your Project',
+    title: 'Tailored to your project',
     body: 'Custom lighting options shaped around your specific requirements, not a fixed menu.',
   },
   {
     icon: SunMoon,
     index: '04',
-    title: 'Smart by Design',
+    title: 'Smart by design',
     body: 'App and voice-ready fixtures that let you personalise light effortlessly.',
   },
 ] as const;
@@ -137,7 +138,7 @@ export function About() {
                   href={SYSTEMS_CREATOR_ABOUT}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="eyebrow flex items-center gap-2 hover:underline cursor-pointer group self-start mt-2"
+                  className="link-arrow self-start mt-2"
                 >
                   Explore the Systems Creator story
                   <ArrowRight className="h-4 w-4" />
@@ -156,12 +157,12 @@ export function About() {
                 <div className="card p-8 h-full flex flex-col justify-between">
                   <div>
                     <Icon className="w-8 h-8 text-gold mb-5" />
-                    <h3 className="font-serif text-xl font-semibold text-cream mb-2">
+                    <h3 className="heading-3 mb-2">
                       {pillar.title}
                     </h3>
                     <p className="body">{pillar.body}</p>
                   </div>
-                  <span className="font-sans text-xs text-text-dim mt-8 block tracking-[0.08em] uppercase font-semibold">
+                  <span className="eyebrow text-text-dim mt-8 block">
                     {pillar.label}
                   </span>
                 </div>
@@ -176,7 +177,10 @@ export function About() {
 
       <div className="transition-page-enter">
 
-        {/* Block 5 — Experience Center */}
+        {/* Block 5 — Our Team */}
+        <TeamSection />
+
+        {/* Block 6 — Experience Center */}
         <section className="container-page section">
           <div className="rounded-xl bg-surface-alt p-8 md:p-14 overflow-hidden relative grid grid-cols-1 md:grid-cols-12 gap-10 items-stretch">
             
@@ -187,10 +191,10 @@ export function About() {
                 </span>
                 <h2 className="heading-2 mt-2">
                   The SYSlight{' '}
-                  <span className="text-gold">Experience Center</span>
+                  <span className="text-gold">experience centre</span>
                 </h2>
                 <p className="body max-w-xl mt-4">
-                  Lighting is difficult to judge on a spec sheet. At our Experience Center in
+                  Lighting is difficult to judge on a spec sheet. At our experience centre in
                   Goregaon West, Mumbai, you can see it work. Walk through curated ceiling setups
                   covering every fixture type, watch a room shift from warm to cool at a touch, and
                   understand how the right light changes a space, before a single fixture is
@@ -212,11 +216,11 @@ export function About() {
                   <ExperienceCenterPhoto />
                   <div className="flex items-center gap-2.5 mb-2">
                     <MapPin className="w-4 h-4 text-gold shrink-0" />
-                    <span className="font-sans text-sm uppercase tracking-[0.08em] text-gold font-semibold">
+                    <span className="eyebrow">
                       Location
                     </span>
                   </div>
-                  <h3 className="font-serif text-2xl md:text-3xl text-cream font-semibold tracking-tight">
+                  <h3 className="heading-3 text-2xl">
                     Goregaon West, Mumbai
                   </h3>
                 </div>
@@ -225,7 +229,7 @@ export function About() {
           </div>
         </section>
 
-        {/* Block 6 — Smart Lights */}
+        {/* Block 7 — Smart Lights */}
         <section className="container-page section">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
             <div className="md:col-span-7 flex flex-col gap-5">
@@ -234,8 +238,8 @@ export function About() {
                   Beyond Lighting
                 </span>
                 <h2 className="heading-2 mt-2">
-                  Light That{' '}
-                  <span className="text-gold">Responds to You</span>
+                  Light that{' '}
+                  <span className="text-gold">responds to you</span>
                 </h2>
                 <p className="body max-w-xl mt-4">
                   SYSlight goes beyond fixtures. Through app control, voice, and smart switches, we
@@ -244,7 +248,7 @@ export function About() {
                 </p>
                 <Link
                   href={ROUTES.smartLights}
-                  className="eyebrow flex items-center gap-2 hover:underline cursor-pointer group self-start mt-4"
+                  className="link-arrow self-start mt-4"
                 >
                   Explore smart lights
                   <ArrowRight className="h-4 w-4" />
@@ -260,7 +264,7 @@ export function About() {
           </div>
         </section>
 
-        {/* Block 7 — Why Choose */}
+        {/* Block 8 — Why Choose */}
         <section className="container-page section grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {WHY_CHOOSE.map((card, idx) => {
             const Icon = card.icon;
@@ -283,7 +287,7 @@ export function About() {
                     </span>
                   </div>
 
-                  <h3 className="relative z-10 font-serif text-xl font-semibold text-cream tracking-tight leading-snug mb-3">
+                  <h3 className="heading-3 relative z-10 mb-3">
                     {card.title}
                   </h3>
                   <p className="body relative z-10">
@@ -295,14 +299,14 @@ export function About() {
           })}
         </section>
 
-        {/* Block 8 — Testimonials */}
+        {/* Block 9 — Testimonials */}
         <section className="section bg-void-dark border-y border-border">
           <div className="container-page">
             <TestimonialsCarousel testimonials={TESTIMONIALS} />
           </div>
         </section>
 
-        {/* Block 9 — Closing CTA */}
+        {/* Block 10 — Closing CTA */}
         <section className="section text-center">
           <div className="max-w-4xl mx-auto flex flex-col items-center">
             <ScrollReveal direction="up">
@@ -310,8 +314,8 @@ export function About() {
                 Next Step
               </span>
               <h2 className="heading-2">
-                Let&apos;s Light Your{' '}
-                <span className="text-gold">Next Project</span>
+                Let&apos;s light your{' '}
+                <span className="text-gold">next project</span>
               </h2>
               <p className="body max-w-lg mx-auto mt-6">
                 Share your layout, your vision, or just a question. Whether you&apos;re specifying

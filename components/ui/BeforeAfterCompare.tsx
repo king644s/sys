@@ -69,10 +69,10 @@ export function BeforeAfterCompare({
       </div>
 
       {/* Labels */}
-      <span className="pointer-events-none absolute top-3 left-3 z-[1] rounded-sm bg-void/75 px-2.5 py-1 font-sans text-xs uppercase tracking-[0.08em] text-cream backdrop-blur-sm font-semibold">
+      <span className="eyebrow pointer-events-none absolute top-3 left-3 z-[1] rounded-sm bg-void/75 px-2.5 py-1 text-cream backdrop-blur-sm">
         {beforeLabel}
       </span>
-      <span className="pointer-events-none absolute top-3 right-3 z-[1] rounded-sm bg-void/75 px-2.5 py-1 font-sans text-xs uppercase tracking-[0.08em] text-cream backdrop-blur-sm font-semibold">
+      <span className="eyebrow pointer-events-none absolute top-3 right-3 z-[1] rounded-sm bg-void/75 px-2.5 py-1 text-cream backdrop-blur-sm">
         {afterLabel}
       </span>
 

@@ -301,7 +301,7 @@ export function ProductsHub() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <SlidersHorizontal className="h-4 w-4 text-text-dim" />
-          <span className="text-sm font-semibold">Filters</span>
+          <span className="text-base font-semibold">Filters</span>
         </div>
         {hasActiveFilters && (
           <button
@@ -352,7 +352,7 @@ export function ProductsHub() {
 
       <div className="flex flex-col gap-2">
         <div className="mb-1 flex items-baseline justify-between">
-          <span className="text-[13px] font-semibold text-cream">Indoor lighting</span>
+          <span className="eyebrow text-text-dim">Indoor lighting</span>
           <span className="text-xs text-text-ghost">{getIndoorProductCount()} fixtures</span>
         </div>
 
@@ -639,7 +639,7 @@ export function ProductsHub() {
                 <Icon className="h-5 w-5" />
               </span>
               <div>
-                <h3 className="text-[15px] font-semibold text-cream">{title}</h3>
+                <h3 className="card-title">{title}</h3>
                 <p className="mt-1 text-sm leading-relaxed text-text-dim">{body}</p>
               </div>
             </div>

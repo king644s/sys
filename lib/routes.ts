@@ -32,6 +32,10 @@ export function categoryPath(categorySlug: string): string {
   return `${ROUTES.products}/${categorySlug}`;
 }
 
+export function projectPath(projectSlug: string): string {
+  return `${ROUTES.projects}/${projectSlug}`;
+}
+
 export function productPath(productSlug: string): string {
   return viewToPath({ type: 'product-detail', productSlug });
 }
@@ -45,6 +49,7 @@ export type PageView =
   | { type: 'smart-lights' }
   | { type: 'home-automation' }
   | { type: 'projects' }
+  | { type: 'project-detail'; projectSlug: string }
   | { type: 'professionals' }
   | { type: 'contact' };
 
@@ -71,6 +76,8 @@ export function viewToPath(view: PageView): string {
       return '/home-automation';
     case 'projects':
       return '/projects';
+    case 'project-detail':
+      return projectPath(view.projectSlug);
     case 'professionals':
       return '/professionals';
     case 'contact':
@@ -91,6 +98,9 @@ export function pathToView(pathname: string): PageView {
   if (path === '/projects') return { type: 'projects' };
   if (path === '/professionals') return { type: 'professionals' };
   if (path === '/contact') return { type: 'contact' };
+
+  const projectMatch = path.match(/^\/projects\/([^/]+)$/);
+  if (projectMatch) return { type: 'project-detail', projectSlug: projectMatch[1] };
 
   const productsMatch = path.match(/^\/products\/([^/]+)(?:\/([^/]+))?$/);
   if (productsMatch) {

@@ -134,8 +134,8 @@ export function Professionals() {
               { v: 'Mumbai', l: 'Design desk and factory' },
             ].map((s) => (
               <div key={s.l} className="bg-surface p-5">
-                <p className="font-display text-2xl font-semibold tracking-tight text-cream">{s.v}</p>
-                <p className="mt-1 text-sm text-text-dim">{s.l}</p>
+                <p className="stat-value">{s.v}</p>
+                <p className="stat-label mt-1">{s.l}</p>
               </div>
             ))}
           </div>
@@ -153,7 +153,7 @@ export function Professionals() {
                   <span className="flex h-10 w-10 items-center justify-center rounded-sm bg-accent-soft text-gold">
                     <Icon className="h-5 w-5" />
                   </span>
-                  <h3 className="heading-3 mt-5 text-lg">{title}</h3>
+                  <h3 className="card-title mt-5">{title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-text-dim">{body}</p>
                 </div>
               </ScrollReveal>
@@ -180,7 +180,7 @@ export function Professionals() {
             {SERVICES.map(({ icon: Icon, title, body }) => (
               <div key={title} className="bg-surface p-7">
                 <Icon className="h-5 w-5 text-gold" />
-                <h3 className="heading-3 mt-4 text-lg">{title}</h3>
+                <h3 className="card-title mt-4">{title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-text-dim">{body}</p>
               </div>
             ))}
@@ -197,7 +197,7 @@ export function Professionals() {
               <li key={step.title} className="relative border-t-2 border-border pt-6">
                 <span className="absolute -top-0.5 left-0 h-0.5 w-12 bg-gold" aria-hidden />
                 <span className="font-mono text-sm text-gold">0{i + 1}</span>
-                <h3 className="heading-3 mt-2 text-lg">{step.title}</h3>
+                <h3 className="card-title mt-2">{step.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-text-dim">{step.body}</p>
               </li>
             ))}

@@ -198,7 +198,7 @@ export function ProductImageCarousel({
               </>
             )}
 
-            <span className="absolute bottom-6 left-1/2 -translate-x-1/2 font-sans text-xs uppercase tracking-[0.08em] text-text-dim bg-surface/80 border border-border/60 px-3 py-1.5 rounded-sm backdrop-blur-sm pointer-events-none z-10 font-semibold">
+            <span className="eyebrow absolute bottom-6 left-1/2 -translate-x-1/2 text-text-dim bg-surface/80 border border-border/60 px-3 py-1.5 rounded-sm backdrop-blur-sm pointer-events-none z-10">
               {activeIndex + 1} / {slides.length}
             </span>
 
@@ -311,7 +311,7 @@ export function ProductImageCarousel({
             <ZoomIn className="w-4 h-4" />
           </button>
 
-          <span className="absolute bottom-3 left-3 z-20 font-sans text-xs uppercase tracking-[0.08em] text-text-ghost bg-surface/80 border border-border/60 px-2 py-1 rounded-sm backdrop-blur-sm pointer-events-none font-semibold">
+          <span className="eyebrow absolute bottom-3 left-3 z-20 text-text-ghost bg-surface/80 border border-border/60 px-2 py-1 rounded-sm backdrop-blur-sm pointer-events-none">
             {activeIndex + 1} / {slides.length}
           </span>
         </div>

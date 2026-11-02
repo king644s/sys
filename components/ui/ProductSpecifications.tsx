@@ -24,20 +24,22 @@ interface AccordionSectionProps {
 function AccordionSection({ title, isOpen, onToggle, children }: AccordionSectionProps) {
   return (
     <div className="border border-border rounded-lg bg-surface-alt/20">
-      <button
-        onClick={onToggle}
-        className={`w-full flex items-center gap-3.5 px-6 py-4 text-left bg-surface-alt/70 hover:bg-surface-alt/90 text-cream transition-colors duration-300 focus:outline-none cursor-pointer ${
-          isOpen ? 'border-b border-border/40' : ''
-        }`}
-        aria-expanded={isOpen}
-      >
-        <ChevronDown
-          className={`w-4 h-4 text-gold shrink-0 transition-transform duration-500 ease-out-expo ${
-            isOpen ? 'rotate-180' : 'rotate-0'
+      <h2>
+        <button
+          onClick={onToggle}
+          className={`w-full flex items-center gap-3.5 px-6 py-4 text-left bg-surface-alt/70 hover:bg-surface-alt/90 text-cream transition-colors duration-300 focus:outline-none cursor-pointer ${
+            isOpen ? 'border-b border-border/40' : ''
           }`}
-        />
-        <span className="font-serif text-lg tracking-wide font-medium text-cream">{title}</span>
-      </button>
+          aria-expanded={isOpen}
+        >
+          <ChevronDown
+            className={`w-4 h-4 text-gold shrink-0 transition-transform duration-500 ease-out-expo ${
+              isOpen ? 'rotate-180' : 'rotate-0'
+            }`}
+          />
+          <span className="heading-3 text-lg">{title}</span>
+        </button>
+      </h2>
 
       <div
         className={`grid transition-[grid-template-rows] duration-500 ease-out-expo ${
@@ -310,27 +312,27 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
         >
           <div className="border border-border/85 rounded-[6px] overflow-hidden shadow-sm">
             <div className="bg-gold-muted px-4 py-3 border-b border-border-mid/50">
-              <h4 className="font-sans text-xs font-semibold tracking-[0.08em] text-white uppercase">
+              <h3 className="eyebrow text-white">
                 Dimensions
-              </h4>
+              </h3>
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs font-sans">
+              <table className="w-full text-left text-sm font-sans">
                 <thead>
                   <tr className="bg-surface-alt border-b border-border">
                     {hasVariants && (
-                      <th className="py-3 px-4 font-sans text-xs text-text-dim uppercase tracking-[0.08em] font-semibold">
+                      <th className="eyebrow py-3 px-4 text-text-dim">
                         Wattage
                       </th>
                     )}
-                    <th className="py-3 px-4 font-sans text-xs text-text-dim uppercase tracking-[0.08em] font-semibold text-center">
+                    <th className="eyebrow py-3 px-4 text-text-dim text-center">
                       Outer Diameter (mm)
                     </th>
-                    <th className="py-3 px-4 font-sans text-xs text-text-dim uppercase tracking-[0.08em] font-semibold text-center">
+                    <th className="eyebrow py-3 px-4 text-text-dim text-center">
                       Height (mm)
                     </th>
-                    <th className="py-3 px-4 font-sans text-xs text-text-dim uppercase tracking-[0.08em] font-semibold text-center">
+                    <th className="eyebrow py-3 px-4 text-text-dim text-center">
                       Cut Out (mm)
                     </th>
                   </tr>
@@ -342,13 +344,13 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
                       className="border-b border-border/30 last:border-0 hover:bg-surface-alt/20 transition-colors"
                     >
                       {hasVariants && (
-                        <td className="py-3.5 px-4 font-medium text-gold font-mono text-xs">
+                        <td className="py-3.5 px-4 font-medium text-gold font-mono">
                           {row.wattage}
                         </td>
                       )}
-                      <td className="py-3.5 px-4 text-center text-text-dim font-mono">{row.outerDiameter}</td>
-                      <td className="py-3.5 px-4 text-center text-text-dim font-mono">{row.height}</td>
-                      <td className="py-3.5 px-4 text-center text-text-dim font-mono">{row.cutOut}</td>
+                      <td className="py-3.5 px-4 text-center text-cream font-mono">{row.outerDiameter}</td>
+                      <td className="py-3.5 px-4 text-center text-cream font-mono">{row.height}</td>
+                      <td className="py-3.5 px-4 text-center text-cream font-mono">{row.cutOut}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -359,31 +361,25 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
       )}
 
       <AccordionSection
-        title="Technical Specification"
+        title="Technical specification"
         isOpen={isOpenTech}
         onToggle={() => setIsOpenTech((prev) => !prev)}
       >
         <div className="border border-border/85 rounded-xl overflow-hidden shadow-sm">
-          <div className="bg-gold-muted px-4 py-3 border-b border-border-mid/50">
-            <h4 className="font-sans text-xs font-semibold tracking-[0.08em] text-white uppercase">
-              Technical Specifications
-            </h4>
-          </div>
-
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs font-sans">
+            <table className="w-full text-left text-sm font-sans">
               <tbody>
                 {techSpecs.map((spec, index) => (
                   <tr
                     key={index}
                     className="border-b border-border/30 last:border-0 hover:bg-surface-alt/20 transition-colors"
                   >
-                    <td className="py-3.5 px-5 font-sans text-xs text-text-dim uppercase tracking-[0.08em] font-semibold w-[35%] md:w-[30%]">
+                    <td className="eyebrow py-3.5 px-5 text-text-dim w-[35%] md:w-[30%]">
                       {spec.label}
                     </td>
                     <td
                       className={`py-3.5 px-5 text-cream font-medium ${
-                        isHangingProfile ? 'uppercase tracking-wide' : 'normal-case'
+                        isHangingProfile ? 'uppercase' : 'normal-case'
                       }`}
                     >
                       {formatTechSpecDisplay(spec.label, spec.value)}

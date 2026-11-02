@@ -49,7 +49,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
       <div className="flex flex-1 flex-col gap-1.5 p-card-md">
         {productCodes && (
-          <span className="font-mono text-xs text-text-ghost line-clamp-1">{productCodes}</span>
+          <span className="font-mono text-xs text-text-dim line-clamp-1">{productCodes}</span>
         )}
         <h3 className="heading-3 line-clamp-2 group-hover:text-gold transition-colors">{product.name}</h3>
         <p className="mt-auto pt-2 text-sm text-text-dim">

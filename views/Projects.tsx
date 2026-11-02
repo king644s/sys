@@ -8,7 +8,8 @@ import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { MapPin, Building, ArrowRight } from 'lucide-react';
 import { SectionHeader } from '../components/ui/SectionHeader';
 import { Button } from '../components/ui/Button';
-import { ROUTES } from '@/lib/routes';
+import Link from 'next/link';
+import { ROUTES, projectPath } from '@/lib/routes';
 
 type ProjectCategoryFilter = 'ALL' | 'RESIDENTIAL' | 'HOSPITALITY' | 'OFFICES' | 'RETAIL';
 
@@ -96,7 +97,7 @@ export function Projects() {
           <div className="grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {filteredProjects.map((project, idx) => (
               <ScrollReveal key={project.slug} direction="up" delay={idx * 0.06}>
-                <article className="group" id={`project-card-${project.slug}`}>
+                <Link href={projectPath(project.slug)} className="group block" id={`project-card-${project.slug}`}>
                   <div className="relative aspect-[4/5] overflow-hidden rounded-lg bg-surface-alt">
                     <img
                       src={project.image}
@@ -109,12 +110,12 @@ export function Projects() {
                       {project.category.charAt(0) + project.category.slice(1).toLowerCase()}
                     </span>
                   </div>
-                  <h2 className="heading-3 mt-4">{project.name}</h2>
+                  <h2 className="heading-3 mt-4 group-hover:text-gold transition-colors">{project.name}</h2>
                   <p className="mt-1 flex items-center gap-1.5 text-sm text-text-dim">
                     <MapPin className="h-3.5 w-3.5" />
                     {project.location}
                   </p>
-                </article>
+                </Link>
               </ScrollReveal>
             ))}
           </div>

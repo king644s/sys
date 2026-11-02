@@ -15,11 +15,11 @@
 ## Text Size Minimums
 
 ### The Absolute Rule
-**11px is the minimum for any text rendered to the screen.**
+**12px is the minimum for any text rendered to the screen**, and 12px is only for uppercase labels and mono codes.
 
 This is derived from:
 - WCAG 2.2 SC 1.4.4 (Resize Text): text must be readable at 200% zoom
-- APCA (Advanced Perceptual Contrast): text below 11px cannot achieve sufficient contrast at any color
+- APCA (Advanced Perceptual Contrast): text below 12px struggles to achieve sufficient contrast at any color
 - Apple HIG: 11pt minimum
 - Google Material Design: 10sp minimum for captions
 
@@ -27,23 +27,21 @@ This is derived from:
 |------|-------------|-------------|
 | Body copy | **14px** | 16px |
 | Secondary body | **13px** | 14px |
-| UI labels | **11px** | 12px |
-| Overlines | **11px** | 11px |
-| Badges / chips | **11px** | 11px |
-| Table headers | **11px** | 11px |
-| Table cells | **12px** | 13px |
-| Breadcrumbs | **11px** | 11px |
-| Form labels | **11px** | 11px |
+| UI labels | **12px** | 12px |
+| Overlines | **12px** | 12px |
+| Badges / chips | **12px** | 12px |
+| Table headers | **12px** | 12px |
+| Table cells | **14px** | 14px |
+| Breadcrumbs | **13px** | 13px |
+| Form labels | **13px** | 13px |
 | Form input text | **14px** | 14px |
 | Error messages | **12px** | 12px |
 | Tooltips | **12px** | 12px |
 | Footer links | **13px** | 13px |
 | Footer copyright | **12px** | 12px |
 
-### Current Violations (Tracked for Remediation)
-- `text-[8px]` — ProductCard bestseller badge, About pillar labels, form hints → raise to 11px
-- `text-[9px]` — All section overlines → raise to 11px
-- `text-[10px]` — Navbar CTA buttons, breadcrumbs → raise to 11px
+### Current Violations
+None as of the November 2026 typography audit (`docs/typography-audit-2026-11.md`).
 
 ---
 

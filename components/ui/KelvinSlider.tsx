@@ -20,15 +20,15 @@ export function KelvinSlider() {
       {/* Current Selection Indicators */}
       <div className="flex justify-between items-end">
         <div className="flex flex-col">
-          <span className="font-sans text-xs uppercase tracking-[0.08em] text-text-dim font-semibold">
+          <span className="eyebrow text-text-dim">
             Active Profile
           </span>
-          <span className="font-sans text-md font-medium text-cream">
+          <span className="font-sans text-base font-medium text-cream">
             {getKelvinProfileLabel(kelvin)}
           </span>
         </div>
         <div className="flex items-baseline gap-1 bg-surface-alt border border-border px-3 py-1.5">
-          <span className="font-mono text-lg font-bold text-gold">{kelvin}</span>
+          <span className="font-mono text-lg font-semibold text-gold">{kelvin}</span>
           <span className="font-mono text-xs text-text-dim">K</span>
         </div>
       </div>
@@ -60,7 +60,7 @@ export function KelvinSlider() {
       </div>
 
       {/* Human Labels */}
-      <div className="flex justify-between text-xs font-sans uppercase tracking-[0.08em] text-text-dim font-semibold">
+      <div className="eyebrow flex justify-between text-text-dim">
         <span>Warm White (3000K)</span>
         <span>Cool White (6000K)</span>
       </div>

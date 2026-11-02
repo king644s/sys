@@ -33,11 +33,9 @@ Brand:            SYSLight by Systems Creator
 Category:         Premium Architectural LED Lighting
 Audience:         Architects, interior designers, specification engineers
 
-Serif Font:       Cormorant Garamond (Google) — headings, display, quotes
-Sans Font:        DM Sans (Google) — body, UI, forms
-Mono Font:        Space Mono (Google) — labels, codes, specs, buttons
-
-Font Themes:      Default (Cormorant+DM+SpaceMono), Azo, Editorial
+Display Font:     Inter Tight (next/font) — headings, stats, card titles
+Sans Font:        Inter (next/font) — body, UI, forms, buttons, labels
+Mono Font:        JetBrains Mono (next/font) — product codes, Kelvin, dimensions
 Color Modes:      Dark (default), Light
 
 Primary Accent:   --color-gold (#6A67CC dark / #4D4A9D light)
@@ -45,8 +43,8 @@ Page Background:  --color-void (#010101 dark / #FFFFFF light)
 Primary Text:     --color-cream (#E5E5E6 dark / #010101 light)
 
 Spacing Base:     8px grid
-Min Text Size:    11px (absolute floor — no exceptions)
-Body Copy Size:   14px (text-sm)
+Min Text Size:    12px (uppercase labels / codes only; sentences ≥13px)
+Body Copy Size:   15px (.body), 14px in cards
 WCAG Target:      2.2 Level AA
 
 Container Max:    max-w-7xl (1280px)
@@ -59,7 +57,7 @@ Showcase Style:   Soft-edged (rounded-2xl = 16px)
 
 ## The Minimum Size Rule
 
-> **11px is the absolute minimum for any text rendered to the screen.**  
+> **12px is the absolute minimum for any text rendered to the screen.**  
 > This is the single most important rule in the entire design system.  
 > It applies to all components, all states, all themes, all modes.
 
@@ -79,7 +77,7 @@ Showcase Style:   Soft-edged (rounded-2xl = 16px)
 | `--color-border` | `#201F33` | Separator |
 
 ### Current Contrast Issues (Track)
-- `text-text-ghost` on all backgrounds: fails 4.5:1 — **decorative use only**
+- `text-text-ghost` darkened Nov 2026 (#6B6B80 light / #8A8AA0 dark) — now passes 4.5:1
 - `text-gold` on light white: 3.1:1 — **large text only in light mode**
 
 ---
@@ -88,10 +86,10 @@ Showcase Style:   Soft-edged (rounded-2xl = 16px)
 
 ### The Scale Floor
 ```
-Label / overline minimum: 11px  → font-mono text-[11px]
-Caption minimum:          12px  → text-xs
-Secondary body minimum:   13px  → text-[13px]
-Primary body minimum:     14px  → text-sm
+Label / overline minimum: 12px  → .eyebrow
+Meta / helper minimum:    13px  → text-[13px]
+Card body minimum:        14px  → text-sm
+Section body:             15px  → .body
 ```
 
 ### The Signature Heading Style
@@ -111,11 +109,11 @@ This Design System was built from a full codebase audit completed July 2026:
 - **12 letter-spacing variants** reduced to **5 semantic tokens**
 - **8 button typography variants** standardized to **1**
 - **3 overline tracking variants** standardized to **1** (0.25em)
-- **8px text** (accessibility violation) raised to **11px minimum**
+- **8–11px text** (accessibility violation) raised to **12px minimum** (Nov 2026)
 - **Ghost color contrast failures** identified and corrected tokens specified
 - **Body copy at 12px** flagged — standard raised to **14px**
 
-Reference audit: [`../typography-design-audit.txt`](../typography-design-audit.txt)
+Reference audit: [`typography-audit-2026-11.md`](./typography-audit-2026-11.md)
 
 ---
 

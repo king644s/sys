@@ -41,7 +41,7 @@ export interface SmartSolution {
 export const CONTROL_MODES: ControlMode[] = [
   {
     id: 'app',
-    title: 'App Control',
+    title: 'App control',
     description: 'Control from anywhere using the Smartlife App.',
     image:
       'https://images.unsplash.com/photo-1556656793-08538906a9f8?q=80&w=600&auto=format&fit=crop',
@@ -49,14 +49,14 @@ export const CONTROL_MODES: ControlMode[] = [
   },
   {
     id: 'voice',
-    title: 'Voice Control',
+    title: 'Voice control',
     description: 'Works with Alexa, Google Assistant & Siri.',
     image: '/images/home-automation/third-section/alexa.webp',
     icon: Mic2,
   },
   {
     id: 'touch',
-    title: 'Touch Panels',
+    title: 'Touch panels',
     description: 'Elegant touch panels for smart control.',
     image:
       'https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=600&auto=format&fit=crop',
@@ -64,7 +64,7 @@ export const CONTROL_MODES: ControlMode[] = [
   },
   {
     id: 'switches',
-    title: 'Traditional Switches',
+    title: 'Traditional switches',
     description: 'Works with regular switches & bell switches.',
     image: '/toggle/toggle-2.webp',
     icon: ToggleLeft,
@@ -95,7 +95,7 @@ export const VOICE_INTEGRATIONS = [
 export const SMART_SOLUTIONS: SmartSolution[] = [
   {
     id: 'switches',
-    title: 'Smart Switches',
+    title: 'Smart switches',
     subtitle: 'NOVA & VERO Series',
     image: '/toggle/toggle-2.webp',
     icon: Lightbulb,
@@ -103,16 +103,16 @@ export const SMART_SOLUTIONS: SmartSolution[] = [
   },
   {
     id: 'security',
-    title: 'Smart Security',
-    subtitle: 'Locks, CCTV, Alarm',
+    title: 'Smart security',
+    subtitle: 'Locks, CCTV, alarm',
     image: '/images/home-automation/solutions/smart-lock.jpg',
     icon: Shield,
     href: ROUTES.products,
   },
   {
     id: 'lighting',
-    title: 'Smart Lights',
-    subtitle: 'Tunable CCT & Dimming',
+    title: 'Smart lights',
+    subtitle: 'Tunable CCT & dimming',
     image:
       'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=600&auto=format&fit=crop',
     icon: Sun,
@@ -120,8 +120,8 @@ export const SMART_SOLUTIONS: SmartSolution[] = [
   },
   {
     id: 'sensors',
-    title: 'Smart Sensors',
-    subtitle: 'Motion & Presence',
+    title: 'Smart sensors',
+    subtitle: 'Motion & presence',
     image:
       'https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=600&auto=format&fit=crop',
     icon: Radio,
@@ -132,8 +132,22 @@ export const SMART_SOLUTIONS: SmartSolution[] = [
 export const ECOSYSTEM_CYCLE_MS = 3200;
 
 export const ECOSYSTEM_COPY = {
-  title: 'Everything Works Beautifully Together',
+  title: 'Everything works beautifully together',
   body: 'All your smart devices and systems are designed to connect, communicate and create the perfect experience for you.',
+} as const;
+
+export const ECOSYSTEM_MESH_COPY = {
+  eyebrow: 'Connected devices',
+  title: 'Every device, one network',
+  intro: 'Lights, locks, cameras and climate share one hub — so a single tap or voice command reaches every room.',
+  body: 'Each device talks to the others, so scenes, schedules and sensors work together instead of in separate apps.',
+} as const;
+
+export const ECOSYSTEM_SPECTRUM_COPY = {
+  eyebrow: 'Smart features',
+  title: 'Nine systems, one seamless home',
+  body: 'From curtains to climate, every system responds to the same scenes and schedules — no separate apps to juggle.',
+  footnote: 'One continuous system connecting everything in your home.',
 } as const;
 
 export interface EcosystemPillar {
@@ -144,10 +158,10 @@ export interface EcosystemPillar {
 }
 
 export const ECOSYSTEM_PILLARS: EcosystemPillar[] = [
-  { id: 'integration', label: 'Seamless Integration', cue: 'One fabric', icon: Atom },
-  { id: 'control', label: 'Centralized Control', cue: 'One command', icon: Lightbulb },
-  { id: 'energy', label: 'Energy Efficiency', cue: 'Less wattage', icon: Zap },
-  { id: 'scale', label: 'Scalable Solutions', cue: 'Room to estate', icon: Fingerprint },
+  { id: 'integration', label: 'Seamless integration', cue: 'One fabric', icon: Atom },
+  { id: 'control', label: 'Centralised control', cue: 'One command', icon: Lightbulb },
+  { id: 'energy', label: 'Energy efficiency', cue: 'Less wattage', icon: Zap },
+  { id: 'scale', label: 'Scalable solutions', cue: 'Room to estate', icon: Fingerprint },
 ];
 
 export interface EcosystemFeature {
@@ -160,13 +174,13 @@ export interface EcosystemFeature {
 }
 
 export const ECOSYSTEM_FEATURES: EcosystemFeature[] = [
-  { id: 'curtains', label: 'Smart Curtains', cue: 'Daylight harvested', icon: Blinds, angle: -90 },
-  { id: 'locks', label: 'Smart Locks', cue: 'Access granted', icon: Lock, angle: -50 },
-  { id: 'cctv', label: 'CCTV Cameras', cue: 'Perimeter live', icon: Cctv, angle: -10 },
-  { id: 'alarm', label: 'Security Alarm', cue: 'System armed', icon: Shield, angle: 30 },
-  { id: 'energy', label: 'Energy Management', cue: 'Load balanced', icon: Leaf, angle: 70 },
-  { id: 'music', label: 'Music & Entertainment', cue: 'Rooms linked', icon: Music2, angle: 110 },
-  { id: 'climate', label: 'Climate Control', cue: '24°C · quiet', icon: Thermometer, angle: 150 },
-  { id: 'voice', label: 'Voice Control', cue: 'Listening', icon: Mic, angle: 190 },
-  { id: 'lighting', label: 'Smart Lighting', cue: '2700–6000K', icon: Lightbulb, angle: 230 },
+  { id: 'curtains', label: 'Smart curtains', cue: 'Daylight harvested', icon: Blinds, angle: -90 },
+  { id: 'locks', label: 'Smart locks', cue: 'Access granted', icon: Lock, angle: -50 },
+  { id: 'cctv', label: 'CCTV cameras', cue: 'Perimeter live', icon: Cctv, angle: -10 },
+  { id: 'alarm', label: 'Security alarm', cue: 'System armed', icon: Shield, angle: 30 },
+  { id: 'energy', label: 'Energy management', cue: 'Load balanced', icon: Leaf, angle: 70 },
+  { id: 'music', label: 'Music & entertainment', cue: 'Rooms linked', icon: Music2, angle: 110 },
+  { id: 'climate', label: 'Climate control', cue: '24°C · quiet', icon: Thermometer, angle: 150 },
+  { id: 'voice', label: 'Voice control', cue: 'Listening', icon: Mic, angle: 190 },
+  { id: 'lighting', label: 'Smart lighting', cue: '2700–6000K', icon: Lightbulb, angle: 230 },
 ];

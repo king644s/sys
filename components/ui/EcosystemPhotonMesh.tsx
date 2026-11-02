@@ -2,7 +2,7 @@
 
 import { useId } from 'react';
 import {
-  ECOSYSTEM_COPY,
+  ECOSYSTEM_MESH_COPY,
   ECOSYSTEM_CYCLE_MS,
   ECOSYSTEM_FEATURES,
   ECOSYSTEM_PILLARS,
@@ -79,26 +79,21 @@ export function EcosystemPhotonMesh() {
 
       <div className="relative container-page py-16 md:py-24 lg:py-28">
         <ScrollReveal direction="up">
-          <p className="font-sans text-xs uppercase tracking-[0.08em] text-gold-light font-semibold">
-            Route 01 · Photon Mesh
-          </p>
-          <p className="font-sans text-sm text-white/45 mt-2 max-w-md">
-            Light as particle. Systems sit as LED dies around the house — the
-            source. A cue beam fires the active emitter.
-          </p>
+          <p className="eyebrow text-[#A7A4F2]">{ECOSYSTEM_MESH_COPY.eyebrow}</p>
+          <p className="font-sans text-sm text-white/65 mt-2 max-w-md">{ECOSYSTEM_MESH_COPY.intro}</p>
         </ScrollReveal>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 xl:gap-14 items-center mt-10 md:mt-14">
           <div className="lg:col-span-5 flex flex-col gap-8 md:gap-10">
             <ScrollReveal direction="up">
-              <h2 className="font-serif text-[2rem] sm:text-[2.35rem] md:text-[2.75rem] xl:text-[3rem] font-semibold tracking-tight leading-[1.12] text-white max-w-md">
-                {ECOSYSTEM_COPY.title}
+              <h2 className="heading-2 text-white max-w-md">
+                {ECOSYSTEM_MESH_COPY.title}
               </h2>
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={0.06}>
-              <p className="font-sans text-sm md:text-[15px] text-white/55 leading-relaxed max-w-sm">
-                {ECOSYSTEM_COPY.body}
+              <p className="body text-white/70 max-w-sm">
+                {ECOSYSTEM_MESH_COPY.body}
               </p>
             </ScrollReveal>
 
@@ -110,13 +105,13 @@ export function EcosystemPhotonMesh() {
                     <ActiveIcon className="w-5 h-5 text-white" strokeWidth={1.6} aria-hidden />
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="font-sans text-xs uppercase tracking-[0.08em] text-gold-light font-semibold">
+                    <p className="eyebrow text-[#A7A4F2]">
                       Cue {pad(index + 1)} / {pad(ECOSYSTEM_FEATURES.length)}
                     </p>
-                    <p className="font-serif text-2xl text-white font-semibold tracking-tight mt-1 leading-tight">
+                    <p className="font-display text-2xl text-white font-semibold tracking-tight mt-1 leading-tight">
                       {active.label}
                     </p>
-                    <p className="font-sans text-xs uppercase tracking-[0.08em] text-white/50 mt-1.5 font-semibold">
+                    <p className="eyebrow text-white/65 mt-1.5">
                       {active.cue}
                     </p>
                   </div>
@@ -133,12 +128,12 @@ export function EcosystemPhotonMesh() {
                       key={pillar.id}
                       className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-3"
                     >
-                      <Icon className="w-4 h-4 text-gold-light shrink-0 mt-0.5" strokeWidth={1.5} aria-hidden />
+                      <Icon className="w-4 h-4 text-[#A7A4F2] shrink-0 mt-0.5" strokeWidth={1.5} aria-hidden />
                       <span className="flex flex-col gap-0.5 min-w-0">
-                        <span className="font-sans text-xs uppercase tracking-[0.08em] text-gold-light font-semibold">
+                        <span className="eyebrow text-[#A7A4F2]">
                           {pillar.cue}
                         </span>
-                        <span className="font-sans text-[11px] text-white/50 leading-snug">
+                        <span className="font-sans text-[13px] text-white/65 leading-snug">
                           {pillar.label}
                         </span>
                       </span>
@@ -164,10 +159,10 @@ export function EcosystemPhotonMesh() {
                 <div className="photon-mesh__hearth pointer-events-none" aria-hidden />
                 <div className="photon-mesh__scan pointer-events-none" aria-hidden />
 
-                <p className="absolute top-3 left-4 font-sans text-[9px] uppercase tracking-[0.08em] text-white/35 pointer-events-none font-semibold">
+                <p className="eyebrow absolute top-3 left-4 text-white/60 pointer-events-none">
                   Ø 640 · {ECOSYSTEM_FEATURES.length} emitters
                 </p>
-                <p className="absolute top-3 right-4 font-sans text-[9px] uppercase tracking-[0.08em] text-white/35 pointer-events-none font-semibold">
+                <p className="eyebrow absolute top-3 right-4 text-white/60 pointer-events-none">
                   2700–6000K
                 </p>
 

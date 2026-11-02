@@ -29,12 +29,13 @@ Before generating ANY UI for this project, you must:
 ```
 text-[8px]     ← NEVER
 text-[9px]     ← NEVER
-text-[10px]    ← NEVER (11px is the absolute floor)
+text-[10px]    ← NEVER
+text-[11px]    ← NEVER (12px is the absolute floor)
 ```
 
 ### Minimum Sizes (Enforce Always)
 ```
-Any visible text:         text-[11px]   (0.6875rem)
+Any visible text:         text-xs       (0.75rem = 12px, labels/codes only)
 Body/descriptive copy:    text-sm       (0.875rem = 14px)
 Supporting text:          text-[13px]   (0.8125rem = 13px)
 Captions / footnotes:     text-xs       (0.75rem = 12px)
@@ -357,7 +358,7 @@ When a user request conflicts with the Design System:
 
 > **User**: "Make the overline text smaller, like 8px"
 >
-> **Correct Response**: "The Design System (typography.md, Minimum Size Rule) sets 11px as the absolute floor for any visible text. Using 8px would violate WCAG 2.2 accessibility requirements and the established design standard. Instead, I can reduce visual weight using `font-normal` weight or `text-text-ghost` color for the overline, which achieves a quieter appearance while staying within the 11px minimum."
+> **Correct Response**: "The Design System (typography.md, Minimum Size Rule) sets 12px as the absolute floor for any visible text. Using 8px would violate WCAG 2.2 accessibility requirements and the established design standard. Instead, I can reduce visual weight using `font-normal` weight or `text-text-ghost` color for the overline, which achieves a quieter appearance while staying within the 12px minimum."
 
 ---
 

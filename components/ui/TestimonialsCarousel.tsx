@@ -117,7 +117,7 @@ export function TestimonialsCarousel({
         <div className="text-center md:pr-20">
           <span className="eyebrow">testimonials</span>
           <h2 className="heading-2 mt-2">
-            Praised by <span className="text-gold">Design Leaders</span>
+            Praised by <span className="text-gold">design leaders</span>
           </h2>
         </div>
 

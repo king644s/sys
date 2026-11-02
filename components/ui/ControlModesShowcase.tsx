@@ -14,14 +14,14 @@ export function ControlModesShowcase() {
           <ScrollReveal direction="left" className="h-full">
             <div className="flex flex-col justify-between gap-10 lg:min-h-0 h-full">
               <div className="flex flex-col gap-6">
-                <h2 className="font-serif text-[2rem] md:text-[2.5rem] xl:text-[2.75rem] text-white font-semibold tracking-tight leading-[1.15]">
-                  Control Your Home,{' '}
-                  <span className="text-gold-light">Your Way</span>
+                <h2 className="heading-2 text-white">
+                  Control your home,{' '}
+                  <span className="text-[#A7A4F2]">your way</span>
                 </h2>
               </div>
 
               <div className="flex flex-col gap-4">
-                <h3 className="font-serif text-xl md:text-2xl text-white font-semibold tracking-tight">
+                <h3 className="heading-3 text-white">
                   Works with
                 </h3>
 
@@ -42,7 +42,7 @@ export function ControlModesShowcase() {
                           aria-hidden
                         />
                       </div>
-                      <span className="font-serif text-[13px] font-semibold text-white leading-snug">
+                      <span className="font-sans text-[13px] font-semibold text-white leading-snug">
                         {integration.title}
                       </span>
                     </div>
@@ -82,10 +82,10 @@ export function ControlModesShowcase() {
                       </div>
 
                       <div className="p-3.5 pt-0 mt-auto flex flex-col gap-1.5">
-                        <h3 className="font-serif text-[15px] font-semibold text-white leading-snug group-hover:text-gold-light transition-colors duration-300">
+                        <h3 className="card-title text-base text-white leading-snug group-hover:text-[#A7A4F2] transition-colors duration-300">
                           {mode.title}
                         </h3>
-                        <p className="font-sans text-[11px] text-white/50 leading-snug">
+                        <p className="font-sans text-[13px] text-white/65 leading-snug">
                           {mode.description}
                         </p>
                       </div>

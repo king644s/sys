@@ -79,13 +79,13 @@ export function IntelligentEcosystemShowcase() {
           {/* Left — copy + pillars */}
           <div className="lg:col-span-5 flex flex-col gap-8 md:gap-10">
             <ScrollReveal direction="up">
-              <h2 className="font-serif text-[2rem] sm:text-[2.35rem] md:text-[2.75rem] xl:text-[3rem] font-semibold tracking-tight leading-[1.12] text-cream max-w-md">
+              <h2 className="heading-2 max-w-md">
                 {ECOSYSTEM_COPY.title}
               </h2>
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={0.06}>
-              <p className="body md:text-[15px] max-w-sm">
+              <p className="body max-w-sm">
                 {ECOSYSTEM_COPY.body}
               </p>
             </ScrollReveal>
@@ -106,7 +106,7 @@ export function IntelligentEcosystemShowcase() {
                           aria-hidden
                         />
                       </span>
-                      <span className="font-sans text-[11px] text-text-dim leading-snug min-h-[2.6em] flex items-start justify-center">
+                      <span className="font-sans text-xs text-text-dim leading-snug min-h-[2.6em] flex items-start justify-center">
                         {pillar.label}
                       </span>
                     </li>
@@ -175,7 +175,7 @@ export function IntelligentEcosystemShowcase() {
                             aria-hidden
                           />
                         </div>
-                        <span className="ecosystem-orbit-node__label absolute top-[calc(100%+12px)] left-1/2 w-[4.75rem] sm:w-[5.5rem] -ml-[2.375rem] sm:-ml-[2.75rem] font-sans text-[10px] sm:text-[11px] text-center text-text-dim leading-tight pointer-events-none">
+                        <span className="ecosystem-orbit-node__label absolute top-[calc(100%+12px)] left-1/2 w-[5.5rem] -ml-[2.75rem] font-sans text-xs text-center text-text-dim leading-tight pointer-events-none">
                           {feature.label}
                         </span>
                       </div>

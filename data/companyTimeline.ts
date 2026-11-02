@@ -13,7 +13,7 @@ export const companyTimeline: TimelineEntry[] = [
   {
     year: '1991',
     period: '01 / Foundation',
-    title: 'Systems Creator Begins',
+    title: 'Systems Creator begins',
     subtitle: 'Printer-sharing to SYSGUARD',
     description:
       'Systems Creator begins its journey — starting with printer-sharing devices and printing solutions, before expanding into power electronics with the SYSGUARD brand of voltage stabilizers and spike guards. The first step in a three-decade engineering story.',
@@ -23,7 +23,7 @@ export const companyTimeline: TimelineEntry[] = [
   {
     year: '1993',
     period: '02 / Recognition',
-    title: 'A Trusted Name',
+    title: 'A trusted name',
     subtitle: 'Computer assembly & after-sales',
     description:
       'Establishes itself as a trusted name in computer assembly, built on consistent product quality and dependable after-sales service — values that would carry through every brand built since.',
@@ -33,7 +33,7 @@ export const companyTimeline: TimelineEntry[] = [
   {
     year: '1997',
     period: '03 / Expansion',
-    title: 'UPS Systems & Inverters',
+    title: 'UPS systems & inverters',
     subtitle: 'SYSPOWER and SYSGEN',
     description:
       'Diversifies into UPS systems and inverters under the SYSPOWER and SYSGEN brands, deepening its expertise in power electronics and reliability engineering.',
@@ -43,7 +43,7 @@ export const companyTimeline: TimelineEntry[] = [
   {
     year: '2005',
     period: '04 / Innovation',
-    title: 'Entering the LED Market',
+    title: 'Entering the LED market',
     subtitle: 'Proprietary LED drivers',
     description:
       'Enters the LED market, developing proprietary LED drivers ranging from 1W to 60W for indoor and outdoor lighting — the technical foundation that would go on to define every SYSlight fixture.',
@@ -64,7 +64,7 @@ export const companyTimeline: TimelineEntry[] = [
     year: '2013',
     yearEnd: '2018',
     period: '06 / Trusted OEM',
-    title: 'Major OEM Partner',
+    title: 'Major OEM partner',
     subtitle: 'Drivers for leading lighting brands',
     description:
       'Becomes a major OEM partner for drivers, manufacturing for several leading lighting brands and scaling deep expertise in reliability and quality at volume.',
@@ -74,7 +74,7 @@ export const companyTimeline: TimelineEntry[] = [
   {
     year: '2018',
     period: '07 / Going Smart',
-    title: 'Connected Lighting',
+    title: 'Connected lighting',
     subtitle: 'Bluetooth & Wi-Fi control',
     description:
       'Ventures into smart lighting with Bluetooth and Wi-Fi based control systems, marking the shift toward connected, intelligent lighting built for adaptive, modern spaces.',
@@ -85,7 +85,7 @@ export const companyTimeline: TimelineEntry[] = [
     year: '2022',
     yearEnd: '2024',
     period: '08 / Industry Recognition',
-    title: 'A Recognised Name',
+    title: 'A recognised name',
     subtitle: 'Partnerships, institutions & government',
     description:
       'SYSlight emerges as a recognized name in the lighting industry — expanding its smart lighting portfolio and forming strategic partnerships with interior designers, architects, and lighting professionals, while taking on large institutional and government projects that cement its reputation for scale and reliability.',
@@ -95,7 +95,7 @@ export const companyTimeline: TimelineEntry[] = [
   {
     year: '2024',
     period: '09 / Home Automation',
-    title: 'Zigbee & Connected Spaces',
+    title: 'Zigbee & connected spaces',
     subtitle: 'Complete home automation',
     description:
       "Introduces Zigbee-based lighting solutions and complete home automation setups, extending SYSlight's ecosystem beyond individual fixtures into fully connected spaces.",
@@ -105,7 +105,7 @@ export const companyTimeline: TimelineEntry[] = [
   {
     year: '2026',
     period: '10 / Experience Redefined',
-    title: 'The Mumbai Experience Center',
+    title: 'The Mumbai experience centre',
     subtitle: 'Where heritage becomes something you can walk through',
     description:
       "Opens SYSlight's first Experience Center in Mumbai — a space thoughtfully designed for architects and interior designers to experience lighting solutions firsthand, explore real-world applications, understand product performance, and discuss project requirements in detail. Featuring 120+ varieties of fixtures and over 400 products, with the entire showroom running on smart, tunable, dimmable lighting — it's where three decades of engineering heritage becomes something you can walk through.",

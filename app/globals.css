@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 /*
@@ -22,7 +21,7 @@
   --color-surface-high: #ECECF2;
   --color-cream: #111114;
   --color-text-dim: #55556A;
-  --color-text-ghost: #81819A;
+  --color-text-ghost: #6B6B80;
   --color-white: #FFFFFF;
   --color-gold: #4D4A9D;
   --color-gold-light: #5E5AC0;
@@ -77,20 +76,21 @@
   --shadow-lifted: 0 24px 48px -16px rgba(17, 17, 20, 0.2);
   --shadow-glow: 0 0 0 4px rgba(77, 74, 157, 0.12);
 
-  /* ─── Typography Scales ───────────────────────────────────────────── */
-  --text-display-xxl: 5rem;
-  --text-display-xl: 4rem;
-  --text-display-lg: 3.25rem;
-  --text-h1: 2.75rem;
-  --text-h2: 2.25rem;
-  --text-h2-sm: 1.75rem;
+  /* ─── Typography Scales ─────────────────────────────────────────────
+     Reference values only — components use the semantic classes below
+     (.display-1, .heading-1/2/3, .card-title, .lead, .body, .eyebrow…).
+     See docs/typography.md. */
+  --text-display: clamp(2.5rem, 6vw, 4.5rem);
+  --text-h1: clamp(2rem, 4.5vw, 3.25rem);
+  --text-h2: clamp(1.75rem, 3.2vw, 2.5rem);
   --text-h3: 1.25rem;
-  --text-h4: 1.125rem;
-  --text-body-lg: 1.125rem;
-  --text-body-md: 0.9375rem;
+  --text-card-title: 1.125rem;
+  --text-stat: 1.75rem;
+  --text-lead: 1.0625rem;
+  --text-body: 0.9375rem;
   --text-body-sm: 0.875rem;
-  --text-caption: 0.8125rem;
-  --text-label-ui: 0.75rem;
+  --text-meta: 0.8125rem;
+  --text-label: 0.75rem;
 
   /* ─── Opacity ─────────────────────────────────────────────────────── */
   --opacity-hover-img: 0.70;
@@ -161,7 +161,7 @@
   --color-surface-high: #202029;
   --color-cream: #F2F2F5;
   --color-text-dim: #A6A6B8;
-  --color-text-ghost: #76768C;
+  --color-text-ghost: #8A8AA0;
   --color-white: #FFFFFF;
   --color-gold: #8F8CEB;
   --color-gold-light: #A7A4F2;
@@ -214,10 +214,12 @@
   --color-success: var(--color-success);
   --color-danger: var(--color-danger);
 
-  --font-display: "Inter Tight", "Inter", system-ui, sans-serif;
-  --font-serif: "Inter Tight", "Inter", system-ui, sans-serif;
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  /* Faces are self-hosted by next/font in app/layout.tsx. `serif` is a legacy
+     alias of `display` kept so older markup keeps the heading face. */
+  --font-display: var(--font-inter-tight), var(--font-inter), system-ui, sans-serif;
+  --font-serif: var(--font-inter-tight), var(--font-inter), system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 
   --spacing-1: var(--space-1);
   --spacing-2: var(--space-2);
@@ -308,6 +310,7 @@
 
   h1, h2, h3, h4 {
     font-family: var(--font-display);
+    line-height: 1.25;
     letter-spacing: -0.02em;
     text-wrap: balance;
   }
@@ -415,6 +418,31 @@
   .body {
     font-size: 0.9375rem;
     line-height: 1.65;
+    color: var(--color-text-dim);
+  }
+
+  /* Titles in dense 3–4 column grids — one step below .heading-3 */
+  .card-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.125rem;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--color-cream);
+  }
+
+  .stat-value {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.75rem;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: var(--color-cream);
+  }
+
+  .stat-label {
+    font-size: 0.8125rem;
+    line-height: 1.4;
     color: var(--color-text-dim);
   }
 
@@ -957,13 +985,13 @@
   top: calc(100% + 7px);
   left: 50%;
   transform: translateX(-50%);
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.22em;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-text-dim);
   white-space: nowrap;
-  opacity: 0.72;
   transition:
     color 0.8s cubic-bezier(0.16, 1, 0.3, 1),
     opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1365,8 +1393,8 @@
   transform: translateX(-50%);
   white-space: nowrap;
   font-family: var(--font-sans);
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.35);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1685,10 +1713,9 @@
 
 .spectrum__zone-label {
   font-family: var(--font-sans);
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.25);
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
   text-align: center;
   line-height: 1.3;
   max-width: 5rem;
@@ -1697,17 +1724,16 @@
 
 @media (min-width: 640px) {
   .spectrum__zone-label {
-    font-size: 10px;
     max-width: 6rem;
   }
 }
 
 .spectrum__zone:hover .spectrum__zone-label {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .spectrum__zone.is-active .spectrum__zone-label {
-  color: var(--color-gold-light);
+  color: #A7A4F2; /* section is always dark — use the dark-theme accent */
 }
 
 .spectrum__zone-index {
@@ -1715,8 +1741,8 @@
   top: 0.5rem;
   right: 0.25rem;
   font-family: var(--font-mono);
-  font-size: 8px;
-  color: rgba(255, 255, 255, 0.15);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
   opacity: 0;
   transition: opacity 0.4s ease;
 }

@@ -201,7 +201,7 @@ export function ResponsiveLightOrb() {
           key={scene.id}
           className="respond-orb__scene flex flex-col items-center"
         >
-          <span className="font-serif text-lg md:text-xl text-cream font-semibold tracking-tight leading-none">
+          <span className="font-display text-lg md:text-xl text-cream font-semibold tracking-tight leading-none">
             {scene.label}
           </span>
           <span className="eyebrow mt-1.5">
